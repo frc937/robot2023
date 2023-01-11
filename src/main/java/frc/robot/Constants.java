@@ -17,7 +17,11 @@ public final class Constants {
         public static final int kDriverControllerPort = 0;
     }
 
+    /**
+     * General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}.
+     */
     public static class DriveConstants {
+        /* CAN IDs for the drivetrain motor controllers */
         public static final int ID_TALON_FRONT_LEFT = 0;
         public static final int ID_TALON_FRONT_RIGHT = 1;
         public static final int ID_TALON_REAR_LEFT = 2;
