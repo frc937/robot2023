@@ -2,13 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package BalanceAuto;
+package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drive;
 
-public class BalanceAuto extends CommandBase {
+public class Balance extends CommandBase {
   /** Creates a new BalanceAuto. */
-  public BalanceAuto() {
+  private final Drive drive; 
+  static final double kOffBalanceAngleThresholdDegrees = 10;
+  static final double kOonBalanceAngleThresholdDegrees  = 5;
+  public Balance(Drive drive) {
+    this.drive = drive;
+    addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
