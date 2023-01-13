@@ -27,6 +27,18 @@ public final class Constants {
         public static final int ID_TALON_REAR_LEFT = 2;
         public static final int ID_TALON_REAR_RIGHT = 3;
     }
+    public static class ContollerButtons{
+        public static final int A_NUMBER = 1;
+        public static final int B_NUMBER = 2;
+        public static final int X_NUMBER = 3;
+        public static final int Y_NUMBER = 4;
+        public static final int LEFT_BUMPER_NUMBER = 5;
+        public static final int RIGHT_BUMPER_NUMBER = 6;
+        public static final int BACK_NUMBER = 7;
+        public static final int START_NUMBER = 8;
+        public static final int LEFT_STICK_NUMBER = 9;
+        public static final int RIGHT_STICK_NUMBER = 10;
+    }
     /**
      * General constants for the balance command. Primarily used by {@link frc.robot.commands.Balance}.
      */
