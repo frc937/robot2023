@@ -27,8 +27,12 @@ public final class Constants {
         public static final int ID_TALON_REAR_LEFT = 2;
         public static final int ID_TALON_REAR_RIGHT = 3;
     }
+    /**
+     * General constants for the balance command. Primarily used by {@link frc.robot.commands.Balance}.
+     */
     public static class BalanceConstants {
-        public static final double OFF_BALANCE_ANGLE_THRESHOLD = 10; 
-        public static final double ON_BALANCE_ANGLE_THRESHOLD  = 5;
+        /* Angle threshholds for when the bot is considered balanced and not */
+        public static final double OFF_ANGLE_THRESHOLD = 10; 
+        public static final double ON_ANGLE_THRESHOLD  = 5;
     }
 }
