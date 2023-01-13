@@ -27,4 +27,8 @@ public final class Constants {
         public static final int ID_TALON_REAR_LEFT = 2;
         public static final int ID_TALON_REAR_RIGHT = 3;
     }
+    public static class BalanceConstants {
+        public static final double OFF_BALANCE_ANGLE_THRESHOLD = 10; 
+        public static final double ON_BALANCE_ANGLE_THRESHOLD  = 5;
+    }
 }
