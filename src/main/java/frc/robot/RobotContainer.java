@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -59,7 +60,10 @@ public class RobotContainer {
     JoystickButton startButton = new JoystickButton(controller, Constants.ContollerButtons.START_NUMBER);
     JoystickButton leftStick = new JoystickButton(controller, Constants.ContollerButtons.LEFT_STICK_NUMBER);
     JoystickButton rightStick = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_STICK_NUMBER);
-
+    POVButton dPadUp = new POVButton(controller, 0);
+    POVButton dPadRight= new POVButton(controller, 90);        
+    POVButton dPadDown = new POVButton(controller, 180);
+    POVButton dPadLeft = new POVButton(controller, 270);
 
   }
 
