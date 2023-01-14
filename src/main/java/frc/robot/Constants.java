@@ -14,7 +14,7 @@ package frc.robot;
  */
 public final class Constants {
     public static class OperatorConstants {
-        public static final int kDriverControllerPort = 0;
+        public static final int CONTROLLER_NUMBER = 0;
     }
 
     /**
@@ -27,6 +27,9 @@ public final class Constants {
         public static final int ID_TALON_REAR_LEFT = 2;
         public static final int ID_TALON_REAR_RIGHT = 3;
     }
+    /**
+     * IDs for the controller buttons.
+     */
     public static class ContollerButtons{
         public static final int A_NUMBER = 1;
         public static final int B_NUMBER = 2;
