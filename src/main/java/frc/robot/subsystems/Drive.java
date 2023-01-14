@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.SPI;
@@ -33,10 +34,10 @@ public class Drive extends SubsystemBase {
     /** Creates a new drivetrain using IDs from {@link Constants.DriveConstants}. */
     public Drive() {
         /* Instantiates the motor controllers for each mecanum wheel. */
-        frontLeft = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_FRONT_LEFT);
-        frontRight = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_FRONT_RIGHT);
-        rearLeft = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_REAR_LEFT);
-        rearRight = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_REAR_RIGHT);
+        frontLeft = configTalon(Constants.DriveConstants.ID_TALON_FRONT_LEFT);
+        frontRight = configTalon(Constants.DriveConstants.ID_TALON_FRONT_RIGHT);
+        rearLeft = configTalon(Constants.DriveConstants.ID_TALON_REAR_LEFT);
+        rearRight = configTalon(Constants.DriveConstants.ID_TALON_REAR_RIGHT);
 
         /* "Makes the robot not go whee-whee" - Quinn */
         /* In actuality this inverts the right side of the drivetrain, since WPIlib doesn't do that for us anymore. 
@@ -58,6 +59,29 @@ public class Drive extends SubsystemBase {
 
         /* Instantiates the gyroscope. */
         gyroscope = new AHRS(SPI.Port.kMXP);
+    }
+
+    private WPI_TalonSRX configTalon(int id) {
+        WPI_TalonSRX talon = new WPI_TalonSRX(id);
+
+        talon.configFactoryDefault();
+
+        talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
+        /* add one to the ID cause the arr is off by one (see Constants.java) */
+        talon.setSensorPhase(Constants.DriveConstants.DRIVE_SENSOR_PHASE[id + 1]);
+
+        talon.setInverted(Constants.DriveConstants.DRIVE_INVERTED[id + 1]);
+
+        /* Phoenix examples has peak output, nominal output, and close-loop error config here. I don't really know what those do, so I'm not worrying about them for now. */
+
+        /* PIDF gains. Loop will always just be the default one, since we aren't using any of the other loops. */
+        talon.config_kP(0, Constants.DriveConstants.DRIVE_GAINS[0]);
+        talon.config_kI(0, Constants.DriveConstants.DRIVE_GAINS[1]);
+        talon.config_kD(0, Constants.DriveConstants.DRIVE_GAINS[2]);
+        talon.config_kF(0, Constants.DriveConstants.DRIVE_GAINS[3]);
+
+        return talon;
     }
 
     /**
