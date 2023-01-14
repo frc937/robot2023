@@ -26,6 +26,14 @@ public final class Constants {
         public static final int ID_TALON_FRONT_RIGHT = 1;
         public static final int ID_TALON_REAR_LEFT = 2;
         public static final int ID_TALON_REAR_RIGHT = 3;
+
+        public static class PID {
+            /*TODO: THESE NEED TO BE TUNED */
+            public static final double DRIVE_P = 1;
+            public static final double DRIVE_I = 0;
+            public static final double DRIVE_D = 0;
+            public static final double DRIVE_FF= 0.000245;
+        }
     }
     /**
      * IDs for the controller buttons.
