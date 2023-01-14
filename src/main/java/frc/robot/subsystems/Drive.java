@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -108,6 +109,39 @@ public class Drive extends SubsystemBase {
      */
     public void moveMecanumField(double y, double x, double z) {
         drivetrain.driveCartesian(y, x, z,  Rotation2d.fromDegrees(gyroscope.getAngle()));
+    }
+        /**
+     * Position PID move method. Params are in inches of movement on that axis, so movePositionPID(1.0, 0.0, 0.0); would move the bot 1 inch to the right.
+     * @param y Y setpoint. Positive is right.
+     * @param x X setpoint. Positive is forward.
+     * @param z Z setpoint. Positive is clockwise (I THINK).
+     */
+    public void movePositionPID(double y, double x, double z) {
+        /* multiply vars so 1 input = 1 inch of movement */
+        x = (x * 4096) / (8 * Math.PI);
+        y = (y * 4096) / (8 * Math.PI);
+        z = (z * 4096) / (8 * Math.PI);
+        frontLeft.set(ControlMode.Position, (x-y-z));
+        rearLeft.set(ControlMode.Position, (-x-y-z));
+        frontRight.set(ControlMode.Position, (x+y+z));
+        rearRight.set(ControlMode.Position, (-x+y+z));
+    }
+
+    /**
+     * Velocity PID move method. Params are between -1 and 1, standard joystick notation things.
+     * @param y Y setpoint. Between -1 and 1. Positive is right.
+     * @param x X setpoint. Between -1 and 1. Positive is forward.
+     * @param z Z setpoint. Between -1 and 1. Positive is clockwise (I THINK).
+     */
+    public void moveVelocityPID(double y, double x, double z) {
+        /* multiply vars so -1 to +1 as input works */
+        y = y * Constants.DriveConstants.DRIVE_VELOCITY_PID_MAX_SPEED * 4096 / 600;
+        x = x * Constants.DriveConstants.DRIVE_VELOCITY_PID_MAX_SPEED * 4096 / 600;
+        z = z * Constants.DriveConstants.DRIVE_VELOCITY_PID_MAX_SPEED * 4096 / 600;
+        frontLeft.set(ControlMode.Velocity, (x-y-z));
+        rearLeft.set(ControlMode.Velocity, (-x-y-z));
+        frontRight.set(ControlMode.Velocity, (x+y+z));
+        rearRight.set(ControlMode.Velocity, (-x+y+z));
     }
 
     /**
