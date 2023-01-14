@@ -27,4 +27,17 @@ public final class Constants {
         public static final int ID_TALON_REAR_LEFT = 2;
         public static final int ID_TALON_REAR_RIGHT = 3;
     }
+    
+    public static class ArmConstants {
+        public static final int ID_TALON_ARM_SHOULDER = 4;
+        public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = false;
+        public static final boolean INVERTED_TALON_ARM_SHOULDER = false;
+        public static class PID {
+            public static final double kP = 0.0;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
+            public static final double kFF = 0.0;
+            
+        }
+    }
 }
