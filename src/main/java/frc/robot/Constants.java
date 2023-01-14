@@ -27,8 +27,9 @@ public final class Constants {
         public static final int ID_TALON_REAR_LEFT = 2;
         public static final int ID_TALON_REAR_RIGHT = 3;
     }
-    
+
     public static class ArmConstants {
+        public static final double BASE_TO_SHOULDER_LENGTH = -1.0;
         public static final int ID_TALON_ARM_SHOULDER = 4;
         public static final int ID_TALON_ARM_WINCH = 5;
 
@@ -50,6 +51,10 @@ public final class Constants {
             public static final double kI = 0.0;
             public static final double kD = 0.0;
             public static final double kFF = 0.0;
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/arm
         }
     }
 }
