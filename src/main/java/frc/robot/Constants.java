@@ -42,4 +42,12 @@ public final class Constants {
         public static final int LEFT_STICK_NUMBER = 9;
         public static final int RIGHT_STICK_NUMBER = 10;
     }
+    /**
+     * General constants for the balance command. Primarily used by {@link frc.robot.commands.Balance}.
+     */
+    public static class BalanceConstants {
+        /* Angle threshholds for when the bot is considered balanced and not */
+        public static final double OFF_ANGLE_THRESHOLD = 10; 
+        public static final double ON_ANGLE_THRESHOLD  = 5;
+    }
 }
