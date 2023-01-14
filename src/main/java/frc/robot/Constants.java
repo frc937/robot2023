@@ -30,14 +30,26 @@ public final class Constants {
     
     public static class ArmConstants {
         public static final int ID_TALON_ARM_SHOULDER = 4;
+        public static final int ID_TALON_ARM_WINCH = 5;
+
         public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = false;
+        public static final boolean INVERTED_TALON_SENSOR_ARM_EXTENSION = false;
+
         public static final boolean INVERTED_TALON_ARM_SHOULDER = false;
-        public static class PID {
+        public static final boolean INVERTED_TALON_ARM_EXTENSION = false;
+
+        public static class ShoulderPID {
             public static final double kP = 0.0;
             public static final double kI = 0.0;
             public static final double kD = 0.0;
             public static final double kFF = 0.0;
-            
+        }
+
+        public static class ExtensionPID {
+            public static final double kP = 0.0;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
+            public static final double kFF = 0.0;
         }
     }
 }
