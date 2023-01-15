@@ -1,4 +1,6 @@
-package frc.robot;
+package frc.robot.positioning;
+
+import frc.robot.Constants.ArmConstants;
 
 /**
  * Kinematics class contains forward and inverse kinematics functions for the
@@ -17,7 +19,7 @@ public final class ArmKinematics {
    * @return arm base rotation
    */
   public static double getArmExtension(final double x, final double y, final double z) {
-    final double h = Constants.ArmConstants.BASE_TO_SHOULDER_LENGTH;
+    final double h = ArmConstants.BASE_TO_SHOULDER_LENGTH;
 
     return Math.sqrt(x * x + y * y + z * z + h * h - 2 * h * z);
   }
@@ -40,7 +42,7 @@ public final class ArmKinematics {
    */
   public static double getShoulderRotation(final double x, final double y, final double z) {
     final double distance = Math.sqrt(x * x + y * y);
-    final double heightDiff = z - Constants.ArmConstants.BASE_TO_SHOULDER_LENGTH;
+    final double heightDiff = z - ArmConstants.BASE_TO_SHOULDER_LENGTH;
 
     return Math.atan2(distance, heightDiff);
   }
@@ -89,6 +91,6 @@ public final class ArmKinematics {
   public static double getZ(final double baseRotation, final double shoulderRotation, final double armExtension) {
     final double cosShoulder = Math.cos(Math.toRadians(shoulderRotation));
 
-    return armExtension * cosShoulder + Constants.ArmConstants.BASE_TO_SHOULDER_LENGTH;
+    return armExtension * cosShoulder + ArmConstants.BASE_TO_SHOULDER_LENGTH;
   }
 }
