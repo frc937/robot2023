@@ -86,9 +86,9 @@ public final class ArmKinematics {
    * @param z up/down offset from the arm base
    * @return arm base rotation
    */
-  public static double getarmExtension(final double x, final double y, final double z) {
+  public static double getArmExtension(final double x, final double y, final double z) {
     final double h = Constants.ArmConstants.BASE_TO_SHOULDER_LENGTH;
 
-    return Math.sqrt(x * x + y * y + z * z + h * h -2 * h * z);
+    return Math.sqrt(x * x + y * y + z * z + h * h - 2 * h * z);
   }
 }
