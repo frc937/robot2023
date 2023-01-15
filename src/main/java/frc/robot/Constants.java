@@ -29,6 +29,7 @@ public final class Constants {
     }
 
     public static class ArmConstants {
+        /** Length in inches from the base of the arm to the shoulder joint */
         public static final double BASE_TO_SHOULDER_LENGTH = -1.0;
         public static final int ID_TALON_ARM_SHOULDER = 4;
         public static final int ID_TALON_ARM_WINCH = 5;

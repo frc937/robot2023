@@ -57,4 +57,38 @@ public final class Kinematics {
     return armExtension * cosShoulder + Constants.ArmConstants.BASE_TO_SHOULDER_LENGTH;
   }
 
+  /**
+   * @param x right/left offset from the arm base
+   * @param y front/back offset from the arm base
+   * @param z up/down offset from the arm base
+   * @return arm base rotation
+   */
+  public static double getBaseRotation(final double x, final double y, final double z) {
+    return Math.atan2(x, y);
+  }
+
+  /**
+   * @param x right/left offset from the arm base
+   * @param y front/back offset from the arm base
+   * @param z up/down offset from the arm base
+   * @return arm base rotation
+   */
+  public static double getShoulderRotation(final double x, final double y, final double z) {
+    final double distance = Math.sqrt(x * x + y * y);
+    final double heightDiff = z - Constants.ArmConstants.BASE_TO_SHOULDER_LENGTH;
+
+    return Math.atan2(distance, heightDiff);
+  }
+
+  /**
+   * @param x right/left offset from the arm base
+   * @param y front/back offset from the arm base
+   * @param z up/down offset from the arm base
+   * @return arm base rotation
+   */
+  public static double getarmExtension(final double x, final double y, final double z) {
+    final double h = Constants.ArmConstants.BASE_TO_SHOULDER_LENGTH;
+
+    return Math.sqrt(x * x + y * y + z * z + h * h -2 * h * z);
+  }
 }
