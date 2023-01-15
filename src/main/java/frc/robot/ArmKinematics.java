@@ -9,7 +9,7 @@ package frc.robot;
  * https://motion.cs.illinois.edu/RoboticSystems/Kinematics.html
  * https://motion.cs.illinois.edu/RoboticSystems/InverseKinematics.html
  */
-public final class Kinematics {
+public final class ArmKinematics {
 
   /**
    * @param baseRotation counter clockwise rotation of the arm base zeroed
