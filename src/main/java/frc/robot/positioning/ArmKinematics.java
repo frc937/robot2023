@@ -1,5 +1,9 @@
 package frc.robot.positioning;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.Vector;
 import frc.robot.Constants.ArmConstants;
 
 /**
@@ -50,6 +54,32 @@ public final class ArmKinematics {
    */
   public static double getBaseRotation(final Pose target) {
 	return getBaseRotation(target.getX(), target.getY(), target.getZ());
+  }
+
+  /**
+   * Gets the orientation of the end effector. Keep in mind that Rotation3d uses
+   * radians instead of degrees.
+   * @param baseRotation counter clockwise rotation of the arm base zeroed
+   * on the Y axis in degrees
+   * @param shoulderRotation counter clockwise rotation of the shoulder about
+   * the X axis zeroed on the Z axis in degrees
+   * @param armExtension distance in inches from the shoulder joint to the
+   * end of the grabber arm
+   */
+  public static Rotation3d getOrientation(final double baseRotation, final double shoulderRotation, final double armExtension) {
+	// Since this is a simple enough arm design and the roll will always be 0,
+	// we can just treat the arm extension as an angle/axis orientation.
+	final double sinBase = Math.sin(Math.toRadians(baseRotation));
+    final double cosBase = Math.cos(Math.toRadians(baseRotation));
+    final double sinShoulder = Math.sin(Math.toRadians(shoulderRotation));
+	final double cosShoulder = Math.cos(Math.toRadians(shoulderRotation));
+
+    final double x = armExtension * sinBase * sinShoulder;
+    final double y = -1 * armExtension * cosBase * sinShoulder;
+	final double shoulderBasedZ = armExtension * cosShoulder;
+
+	final Vector<N3> vector = VecBuilder.fill(x, y, shoulderBasedZ);
+	return new Rotation3d(vector, 0.0);
   }
 
   /**
