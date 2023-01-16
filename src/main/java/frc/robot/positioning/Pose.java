@@ -11,10 +11,32 @@ import edu.wpi.first.math.geometry.Translation3d;
  */
 public class Pose extends Pose3d {
   /**
+   * Constructs a Pose at the origin with default orientation
+   */
+  public Pose() {
+    super();
+  }
+
+  /**
    * Constructs a Pose from a Pose3d
    */
   public Pose(final Pose3d rhs) {
     super(rhs.getTranslation(), rhs.getRotation());
+  }
+
+  /**
+   * Constructs a Pose at x,y,z with default orientation
+   */
+  public Pose(final double x, final double y, final double z) {
+    super(x, y, z, new Rotation3d());
+  }
+
+  /**
+   * Constructs a Pose at x,y,z with an orientation described by roll,pitch,yaw
+   * in degrees
+   */
+  public Pose(final double x, final double y, final double z, final Rotation3d rotation) {
+    super(x, y, z, rotation);
   }
 
   /**
@@ -23,7 +45,7 @@ public class Pose extends Pose3d {
    * information.
    */
   public Pose3d getPose3d() {
-	return new Pose3d(this.getTranslation(), this.getRotation());
+    return new Pose3d(this.getTranslation(), this.getRotation());
   }
 
   /**
