@@ -19,6 +19,49 @@ import frc.robot.Constants.RobotDimensions;
  */
 public final class ArmKinematics {
   /**
+   * Returns whether or not the arm is in danger of overextending.
+   * @param baseRotation counter clockwise rotation of the arm base zeroed
+   * on the Y axis in degrees
+   * @param shoulderRotation counter clockwise rotation of the shoulder about
+   * the X axis zeroed on the Z axis in degrees
+   * @param armExtension distance in inches from the shoulder joint to the
+   * end of the grabber arm
+   */
+  public static boolean isAlmostOverextended(final double baseRotation, final double shoulderRotation, final double armExtension) {
+    final double horizontalExt = getFrameExtension(baseRotation, shoulderRotation, armExtension);
+    final double verticalExt = getExtendedRobotHeight(baseRotation, shoulderRotation, armExtension);
+
+    final double dangerZone = Constants.Limits.OVEREXTENSION_DANGER_DISTANCE;
+    final double horizontal = horizontalExt + dangerZone;
+    final double vertical = verticalExt + dangerZone;
+
+    final double horizontalMax = Constants.Limits.MAX_FRAME_EXTENSION;
+    final double verticalMax = Constants.Limits.MAX_EXTENDED_HEIGHT;
+
+    return horizontal > horizontalMax || vertical > verticalMax;
+  }
+
+  /**
+   * Returns whether or not the arm is overextended. If this is the case, the
+   * robot MUST immediately retract the arm to avoid penalties.
+   * @param baseRotation counter clockwise rotation of the arm base zeroed
+   * on the Y axis in degrees
+   * @param shoulderRotation counter clockwise rotation of the shoulder about
+   * the X axis zeroed on the Z axis in degrees
+   * @param armExtension distance in inches from the shoulder joint to the
+   * end of the grabber arm
+   */
+  public static boolean isOverextended(final double baseRotation, final double shoulderRotation, final double armExtension) {
+    final double horizontal = getFrameExtension(baseRotation, shoulderRotation, armExtension);
+    final double vertical = getExtendedRobotHeight(baseRotation, shoulderRotation, armExtension);
+
+    final double horizontalMax = Constants.Limits.MAX_FRAME_EXTENSION;
+    final double verticalMax = Constants.Limits.MAX_EXTENDED_HEIGHT;
+
+    return horizontal > horizontalMax || vertical > verticalMax;
+  }
+
+  /**
    * @param x right/left offset from the arm base
    * @param y front/back offset from the arm base
    * @param z up/down offset from the arm base

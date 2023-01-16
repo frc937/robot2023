@@ -71,9 +71,12 @@ public final class Constants {
   }
 
   public static class Limits {
+    /** Maximum horizontal extension over the frame in inches */
     public static final double MAX_FRAME_EXTENSION = 48.0;
-    /** Maximum extended robot height */
+    /** Maximum extended robot height in inches */
     public static final double MAX_EXTENDED_HEIGHT = 78.0;
+    /** Minimum distance from overextending we want to keep in inches */
+    public static final double OVEREXTENSION_DANGER_DISTANCE = 2.0;
   }
 
 	/**
