@@ -6,6 +6,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.RobotDimensions;
 
 /**
  * Kinematics class contains forward and inverse kinematics functions for the
@@ -70,6 +71,89 @@ public final class ArmKinematics {
     final Pose pose = getPose(baseRotation, shoulderRotation, armExtension);
     final double height = pose.getWorldOriented(Constants.ArmConstants.BASE_POSE).getZ();
     return height + Constants.ArmConstants.BASE_DISTANCE_TO_FLOOR;
+  }
+
+  /**
+   * Calculates the height of the robot in inches for the purpose of not
+   * overextending. This math only works with vaguely rectangular robots.
+   * @param baseRotation counter clockwise rotation of the arm base zeroed
+   * on the Y axis in degrees
+   * @param shoulderRotation counter clockwise rotation of the shoulder about
+   * the X axis zeroed on the Z axis in degrees
+   * @param armExtension distance in inches from the shoulder joint to the
+   * end of the grabber arm
+   */
+  public static double getFrameExtension(final double baseRotation, final double shoulderRotation, final double armExtension) {
+    // Get end effector pose with respect to the robot center
+    final Pose armPose = getPose(baseRotation, shoulderRotation, armExtension);
+    final Pose robotPose = armPose.getWorldOriented(ArmConstants.BASE_POSE);
+    final Pose centerPose = robotPose.getWorldOriented(RobotDimensions.CENTER_POSE);
+
+    final double x = centerPose.getX();
+    final double y = centerPose.getY();
+    final double xFrame = RobotDimensions.FRAME_LENGTH / 2;
+    final double yFrame = RobotDimensions.FRAME_WIDTH / 2;
+
+    // Skip the math if the frame isn't extended
+    if(x < xFrame && x > -xFrame && y < yFrame && y > -yFrame) {
+      return 0.0;
+    }
+
+    // Figure out which intersection we care about
+    boolean isLeft = false;
+    boolean isFront = false;
+    boolean isRight = false;
+    boolean isBack = false;
+    final boolean isForward = centerPose.getX() > 0;
+
+    if(isForward) {
+      if(y / x > yFrame / xFrame) {
+        isLeft = true;
+      } else if(y / x > -yFrame / xFrame) {
+        isFront = true;
+      } else {
+        isRight = true;
+      }
+    } else {
+      if(y / x > yFrame / xFrame) {
+        isRight = true;
+      } else if(y / x > -yFrame / xFrame) {
+        isBack = true;
+      } else {
+        isLeft = true;
+      }
+    }
+
+    // Calculate frame plane intersection
+    double xIntercept = 0.0;
+    double yIntercept = 0.0;
+
+    if(isLeft) {
+      yIntercept = yFrame;
+      xIntercept = yFrame * x / y;
+    }
+
+    if(isFront) {
+      xIntercept = xFrame;
+      yIntercept = xFrame * y / x;
+    }
+
+    if(isRight) {
+      yIntercept = -yFrame;
+      xIntercept = yFrame * x / y;
+
+    }
+
+    if(isBack) {
+      xIntercept = -xFrame;
+      yIntercept = xFrame * y / x;
+    }
+
+    // Calculate frame extension
+    final double xDiff = x - xIntercept;
+    final double yDiff = y - yIntercept;
+
+    return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
   }
 
   /**
