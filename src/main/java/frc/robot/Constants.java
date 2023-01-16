@@ -55,4 +55,33 @@ public final class Constants {
 
         }
     }
+
+	/**
+	 * Holds constants for things not related to the robot
+	 */
+	public static class Game {
+		public static class Objects {
+			public static class Cone {
+				/** Height in inches */
+				public static final double HEIGHT = 12.8125;
+				/** Width of the square base in inches */
+				public static final double WIDTH = 8.375;
+				/** Diameter of the bottom of the cone */
+				public static final double BOTTOM_DIAMETER = 6.625;
+				/** Diameter of top bottom of the cone */
+				public static final double TOP_DIAMETER = 1.75;
+				/** Average diameter of the cone's grabbable area */
+				public static final double AVG_DIAMETER = 4.1875;
+				/** The pressure reading required to securely hold the cone */
+				public static final double PRESSURE_TO_HOLD = -1;
+			}
+
+			public static class Cube {
+				/** Side length of a properly inflated cube in inches */
+				public static final double LENGTH = 9.5;
+				/** The pressure reading required to securely hold the cone */
+				public static final double PRESSURE_TO_HOLD = -1;
+			}
+		}
+	}
 }
