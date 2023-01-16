@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import frc.robot.positioning.Pose;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -29,6 +31,8 @@ public final class Constants {
   }
 
   public static class ArmConstants {
+    /** The pose of the arm's base in robot oriented coordinates */
+    public static final Pose BASE_POSE = new Pose();
     /** Length in inches from the base of the arm to the shoulder joint */
     public static final double BASE_TO_SHOULDER_LENGTH = -1.0;
     public static final int ID_TALON_ARM_SHOULDER = 4;
