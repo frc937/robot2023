@@ -25,6 +25,15 @@ public final class ArmKinematics {
   }
 
   /**
+   * Gets the arm extension to achieve a given end effector pose based at the
+   * bottom of the arm. This doesn't take pose orientation into account.
+   * @param target the desired pose
+   */
+  public static double getArmExtension(final Pose target) {
+	return getArmExtension(target.getX(), target.getY(), target.getZ());
+  }
+
+  /**
    * @param x right/left offset from the arm base
    * @param y front/back offset from the arm base
    * @param z up/down offset from the arm base
@@ -32,6 +41,15 @@ public final class ArmKinematics {
    */
   public static double getBaseRotation(final double x, final double y, final double z) {
     return Math.atan2(x, y);
+  }
+
+  /**
+   * Gets the arm base rotation to achieve a given end effector pose based at the
+   * bottom of the arm. This doesn't take pose orientation into account.
+   * @param target the desired pose
+   */
+  public static double getBaseRotation(final Pose target) {
+	return getBaseRotation(target.getX(), target.getY(), target.getZ());
   }
 
   /**
@@ -45,6 +63,15 @@ public final class ArmKinematics {
     final double heightDiff = z - ArmConstants.BASE_TO_SHOULDER_LENGTH;
 
     return Math.atan2(distance, heightDiff);
+  }
+
+  /**
+   * Gets the shoulder rotation to achieve a given end effector pose based at the
+   * bottom of the arm. This doesn't take pose orientation into account.
+   * @param target the desired pose
+   */
+  public static double getShoulderRotation(final Pose target) {
+	return getShoulderRotation(target.getX(), target.getY(), target.getZ());
   }
 
   /**
