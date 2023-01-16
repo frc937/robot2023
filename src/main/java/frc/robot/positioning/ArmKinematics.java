@@ -35,7 +35,7 @@ public final class ArmKinematics {
    * @param target the desired pose
    */
   public static double getArmExtension(final Pose target) {
-	return getArmExtension(target.getX(), target.getY(), target.getZ());
+	  return getArmExtension(target.getX(), target.getY(), target.getZ());
   }
 
   /**
@@ -54,7 +54,7 @@ public final class ArmKinematics {
    * @param target the desired pose
    */
   public static double getBaseRotation(final Pose target) {
-	return getBaseRotation(target.getX(), target.getY(), target.getZ());
+	  return getBaseRotation(target.getX(), target.getY(), target.getZ());
   }
 
   /**
@@ -143,7 +143,7 @@ public final class ArmKinematics {
    * @param target the desired pose
    */
   public static double getShoulderRotation(final Pose target) {
-	return getShoulderRotation(target.getX(), target.getY(), target.getZ());
+	  return getShoulderRotation(target.getX(), target.getY(), target.getZ());
   }
 
   /**
