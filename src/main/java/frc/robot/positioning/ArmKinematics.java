@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmConstants;
 
 /**
@@ -54,6 +55,20 @@ public final class ArmKinematics {
    */
   public static double getBaseRotation(final Pose target) {
 	return getBaseRotation(target.getX(), target.getY(), target.getZ());
+  }
+
+  /**
+   * Calculates the height of the robot in inches for the purpose of not overextending
+   * @param baseRotation counter clockwise rotation of the arm base zeroed
+   * on the Y axis in degrees
+   * @param shoulderRotation counter clockwise rotation of the shoulder about
+   * the X axis zeroed on the Z axis in degrees
+   * @param armExtension distance in inches from the shoulder joint to the
+   * end of the grabber arm
+   */
+  public static double getExtendedRobotHeight(final double baseRotation, final double shoulderRotation, final double armExtension) {
+    final Pose pose = getPose(baseRotation, shoulderRotation, armExtension);
+    return pose.getWorldOriented(Constants.ArmConstants.BASE_POSE).getZ();
   }
 
   /**
