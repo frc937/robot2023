@@ -67,19 +67,19 @@ public final class ArmKinematics {
    * end of the grabber arm
    */
   public static Rotation3d getOrientation(final double baseRotation, final double shoulderRotation, final double armExtension) {
-	// Since this is a simple enough arm design and the roll will always be 0,
-	// we can just treat the arm extension as an angle/axis orientation.
-	final double sinBase = Math.sin(Math.toRadians(baseRotation));
+	  // Since this is a simple enough arm design and the roll will always be 0,
+	  // we can just treat the arm extension as an angle/axis orientation.
+	  final double sinBase = Math.sin(Math.toRadians(baseRotation));
     final double cosBase = Math.cos(Math.toRadians(baseRotation));
     final double sinShoulder = Math.sin(Math.toRadians(shoulderRotation));
-	final double cosShoulder = Math.cos(Math.toRadians(shoulderRotation));
+	  final double cosShoulder = Math.cos(Math.toRadians(shoulderRotation));
 
     final double x = armExtension * sinBase * sinShoulder;
     final double y = -1 * armExtension * cosBase * sinShoulder;
-	final double shoulderBasedZ = armExtension * cosShoulder;
+	  final double shoulderBasedZ = armExtension * cosShoulder;
 
-	final Vector<N3> vector = VecBuilder.fill(x, y, shoulderBasedZ);
-	return new Rotation3d(vector, 0.0);
+	  final Vector<N3> vector = VecBuilder.fill(x, y, shoulderBasedZ);
+	  return new Rotation3d(vector, 0.0);
   }
 
   /**
@@ -92,20 +92,20 @@ public final class ArmKinematics {
    * end of the grabber arm
    */
   public static Pose getPose(final double baseRotation, final double shoulderRotation, final double armExtension) {
-	final double sinBase = Math.sin(Math.toRadians(baseRotation));
+    final double sinBase = Math.sin(Math.toRadians(baseRotation));
     final double cosBase = Math.cos(Math.toRadians(baseRotation));
     final double sinShoulder = Math.sin(Math.toRadians(shoulderRotation));
-	final double cosShoulder = Math.cos(Math.toRadians(shoulderRotation));
+    final double cosShoulder = Math.cos(Math.toRadians(shoulderRotation));
 
-	final double x = armExtension * sinBase * sinShoulder;
+	  final double x = armExtension * sinBase * sinShoulder;
     final double y = -1 * armExtension * cosBase * sinShoulder;
-	final double shoulderBasedZ = armExtension * cosShoulder;
-	final double z = armExtension * cosShoulder + ArmConstants.BASE_TO_SHOULDER_LENGTH;
+	  final double shoulderBasedZ = armExtension * cosShoulder;
+	  final double z = armExtension * cosShoulder + ArmConstants.BASE_TO_SHOULDER_LENGTH;
 
-	final Vector<N3> vector = VecBuilder.fill(x, y, shoulderBasedZ);
-	final Rotation3d orientation = new Rotation3d(vector, 0.0);
+	  final Vector<N3> vector = VecBuilder.fill(x, y, shoulderBasedZ);
+	  final Rotation3d orientation = new Rotation3d(vector, 0.0);
 
-	return new Pose(x, y, z, orientation);
+	  return new Pose(x, y, z, orientation);
   }
 
   /**
@@ -173,7 +173,6 @@ public final class ArmKinematics {
    */
   public static double getZ(final double baseRotation, final double shoulderRotation, final double armExtension) {
     final double cosShoulder = Math.cos(Math.toRadians(shoulderRotation));
-
     return armExtension * cosShoulder + ArmConstants.BASE_TO_SHOULDER_LENGTH;
   }
 }
