@@ -13,48 +13,47 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static class OperatorConstants {
-        public static final int kDriverControllerPort = 0;
+  public static class OperatorConstants {
+    public static final int kDriverControllerPort = 0;
+  }
+
+  /**
+   * General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}.
+   */
+  public static class DriveConstants {
+    /* CAN IDs for the drivetrain motor controllers */
+    public static final int ID_TALON_FRONT_LEFT = 0;
+    public static final int ID_TALON_FRONT_RIGHT = 1;
+    public static final int ID_TALON_REAR_LEFT = 2;
+    public static final int ID_TALON_REAR_RIGHT = 3;
+  }
+
+  public static class ArmConstants {
+    /** Length in inches from the base of the arm to the shoulder joint */
+    public static final double BASE_TO_SHOULDER_LENGTH = -1.0;
+    public static final int ID_TALON_ARM_SHOULDER = 4;
+    public static final int ID_TALON_ARM_WINCH = 5;
+
+    public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = false;
+    public static final boolean INVERTED_TALON_SENSOR_ARM_EXTENSION = false;
+
+    public static final boolean INVERTED_TALON_ARM_SHOULDER = false;
+    public static final boolean INVERTED_TALON_ARM_EXTENSION = false;
+
+    public static class ShoulderPID {
+      public static final double kP = 0.0;
+      public static final double kI = 0.0;
+      public static final double kD = 0.0;
+      public static final double kFF = 0.0;
     }
 
-    /**
-     * General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}.
-     */
-    public static class DriveConstants {
-        /* CAN IDs for the drivetrain motor controllers */
-        public static final int ID_TALON_FRONT_LEFT = 0;
-        public static final int ID_TALON_FRONT_RIGHT = 1;
-        public static final int ID_TALON_REAR_LEFT = 2;
-        public static final int ID_TALON_REAR_RIGHT = 3;
+    public static class ExtensionPID {
+      public static final double kP = 0.0;
+      public static final double kI = 0.0;
+      public static final double kD = 0.0;
+      public static final double kFF = 0.0;
     }
-
-    public static class ArmConstants {
-        /** Length in inches from the base of the arm to the shoulder joint */
-        public static final double BASE_TO_SHOULDER_LENGTH = -1.0;
-        public static final int ID_TALON_ARM_SHOULDER = 4;
-        public static final int ID_TALON_ARM_WINCH = 5;
-
-        public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = false;
-        public static final boolean INVERTED_TALON_SENSOR_ARM_EXTENSION = false;
-
-        public static final boolean INVERTED_TALON_ARM_SHOULDER = false;
-        public static final boolean INVERTED_TALON_ARM_EXTENSION = false;
-
-        public static class ShoulderPID {
-            public static final double kP = 0.0;
-            public static final double kI = 0.0;
-            public static final double kD = 0.0;
-            public static final double kFF = 0.0;
-        }
-
-        public static class ExtensionPID {
-            public static final double kP = 0.0;
-            public static final double kI = 0.0;
-            public static final double kD = 0.0;
-            public static final double kFF = 0.0;
-
-        }
-    }
+  }
 
 	/**
 	 * Holds constants for things not related to the robot
