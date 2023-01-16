@@ -60,6 +60,50 @@ public final class Constants {
 	 * Holds constants for things not related to the robot
 	 */
 	public static class Game {
+    public static class Field {
+      public static class Grid {
+        public static class ConeNode {
+          public static class Top {
+            /** Height of the node in feet */
+            public static final double HEIGHT = 3.8333;
+            /** Horizontal distance from the bumper to the node in feet */
+            public static final double DISTANCE = 3.3125;
+            /** Height of the reflective tape off the ground in feet */
+            public static final double TAPE_HEIGHT = 3.4896;
+            /** The distance from the top of the tape to the top of the node */
+            public static final double ABOVE_TAPE = 0.0156;
+          }
+
+          public static class Middle {
+            /** Height of the node in feet */
+            public static final double HEIGHT = 2.8333;
+            /** Horizontal distance from the bumper to the node in feet */
+            public static final double DISTANCE = 1.8958;
+            /** Height of the reflective tape off the ground in feet */
+            public static final double TAPE_HEIGHT = 1.8438;
+            /** The distance from the top of the tape to the top of the node */
+            public static final double ABOVE_TAPE = 0.6667;
+          }
+        }
+
+        public static class CubeNode {
+          public static class Top {
+            /** Height of the node in feet */
+            public static final double HEIGHT = 2.9583;
+            /** Horizontal distance from the bumper to the middle of the node in feet */
+            public static final double DISTANCE = 3.3125;
+          }
+
+          public static class Middle {
+            /** Height of the node in feet */
+            public static final double HEIGHT = 1.9583;
+            /** Horizontal distance from the bumper to the middle of the node in feet */
+            public static final double DISTANCE = 1.8958;
+          }
+        }
+      }
+    }
+
 		public static class Objects {
 			public static class Cone {
 				/** Height in inches */
