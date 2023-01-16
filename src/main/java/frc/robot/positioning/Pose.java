@@ -41,11 +41,11 @@ public class Pose extends Pose3d {
    * @param origin the world pose describing the origin of this pose
    */
   public Pose getWorldOriented(final Pose origin) {
-	final Pose3d worldOrigin = new Pose3d();
-	final Pose3d poseOrigin = origin.getPose3d();
-	final Transform3d transformation = new Transform3d(poseOrigin, worldOrigin);
+	  final Pose3d worldOrigin = new Pose3d();
+	  final Pose3d poseOrigin = origin.getPose3d();
+	  final Transform3d transformation = new Transform3d(poseOrigin, worldOrigin);
 
-	return new Pose(this.transformBy(transformation));
+	  return new Pose(this.transformBy(transformation));
   }
 
   /**
