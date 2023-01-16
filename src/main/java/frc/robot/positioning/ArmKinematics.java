@@ -68,7 +68,8 @@ public final class ArmKinematics {
    */
   public static double getExtendedRobotHeight(final double baseRotation, final double shoulderRotation, final double armExtension) {
     final Pose pose = getPose(baseRotation, shoulderRotation, armExtension);
-    return pose.getWorldOriented(Constants.ArmConstants.BASE_POSE).getZ();
+    final double height = pose.getWorldOriented(Constants.ArmConstants.BASE_POSE).getZ();
+    return height + Constants.ArmConstants.BASE_DISTANCE_TO_FLOOR;
   }
 
   /**

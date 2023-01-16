@@ -41,7 +41,9 @@ public final class Constants {
 
   public static class ArmConstants {
     /** The pose of the arm's base in robot oriented coordinates */
-    public static final Pose BASE_POSE = new Pose(0, 0, 0/* This should be replaced its height off the ground */);
+    public static final Pose BASE_POSE = new Pose();
+    /** The distance between the floor and the arm base in inches */
+    public static final double BASE_DISTANCE_TO_FLOOR = 0.0; // Update this when decided
     /** Length in inches from the base of the arm to the shoulder joint */
     public static final double BASE_TO_SHOULDER_LENGTH = -1.0; // Update this when decided
     public static final int ID_TALON_ARM_SHOULDER = 4;
