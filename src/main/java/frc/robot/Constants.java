@@ -19,6 +19,15 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static class RobotDimensions {
+    /** The pose of the robot's center */
+    public static final Pose CENTER_POSE = new Pose();
+    /** The front/back length of the robot's frame in inches */
+    public static final double FRAME_LENGTH = 24.0; // Update this when decided
+    /** The left/right width of the robot's frame in inches */
+    public static final double FRAME_WIDTH = 24.0; // Update this when decided
+  }
+
   /**
    * General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}.
    */
@@ -32,9 +41,9 @@ public final class Constants {
 
   public static class ArmConstants {
     /** The pose of the arm's base in robot oriented coordinates */
-    public static final Pose BASE_POSE = new Pose();
+    public static final Pose BASE_POSE = new Pose(0, 0, 0/* This should be replaced its height off the ground */);
     /** Length in inches from the base of the arm to the shoulder joint */
-    public static final double BASE_TO_SHOULDER_LENGTH = -1.0;
+    public static final double BASE_TO_SHOULDER_LENGTH = -1.0; // Update this when decided
     public static final int ID_TALON_ARM_SHOULDER = 4;
     public static final int ID_TALON_ARM_WINCH = 5;
 
@@ -57,6 +66,12 @@ public final class Constants {
       public static final double kD = 0.0;
       public static final double kFF = 0.0;
     }
+  }
+
+  public static class Limits {
+    public static final double MAX_FRAME_EXTENSION = 48.0;
+    /** Maximum extended robot height */
+    public static final double MAX_EXTENDED_HEIGHT = 78.0;
   }
 
 	/**
