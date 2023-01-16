@@ -83,6 +83,32 @@ public final class ArmKinematics {
   }
 
   /**
+   * Gets the full pose of the end effector
+   * @param baseRotation counter clockwise rotation of the arm base zeroed
+   * on the Y axis in degrees
+   * @param shoulderRotation counter clockwise rotation of the shoulder about
+   * the X axis zeroed on the Z axis in degrees
+   * @param armExtension distance in inches from the shoulder joint to the
+   * end of the grabber arm
+   */
+  public static Pose getPose(final double baseRotation, final double shoulderRotation, final double armExtension) {
+	final double sinBase = Math.sin(Math.toRadians(baseRotation));
+    final double cosBase = Math.cos(Math.toRadians(baseRotation));
+    final double sinShoulder = Math.sin(Math.toRadians(shoulderRotation));
+	final double cosShoulder = Math.cos(Math.toRadians(shoulderRotation));
+
+	final double x = armExtension * sinBase * sinShoulder;
+    final double y = -1 * armExtension * cosBase * sinShoulder;
+	final double shoulderBasedZ = armExtension * cosShoulder;
+	final double z = armExtension * cosShoulder + ArmConstants.BASE_TO_SHOULDER_LENGTH;
+
+	final Vector<N3> vector = VecBuilder.fill(x, y, shoulderBasedZ);
+	final Rotation3d orientation = new Rotation3d(vector, 0.0);
+
+	return new Pose(x, y, z, orientation);
+  }
+
+  /**
    * @param x right/left offset from the arm base
    * @param y front/back offset from the arm base
    * @param z up/down offset from the arm base
