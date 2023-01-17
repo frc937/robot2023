@@ -48,6 +48,8 @@ public final class Constants {
         public static final double BASE_TO_SHOULDER_LENGTH = -1.0; // Update this when decided
         public static final int ID_TALON_ARM_SHOULDER = 4;
         public static final int ID_TALON_ARM_WINCH = 5;
+        public static final int ID_TALON_ARM_CLAW = 6;
+
 
         public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = false;
         public static final boolean INVERTED_TALON_SENSOR_ARM_EXTENSION = false;
@@ -61,6 +63,9 @@ public final class Constants {
         public static final double DONE_THRESHOLD_ARM_EXTENSION = 2.0;
 
         public static final double SPEED_WINCH_ARM_EXTENSION = 0.15;
+
+        public static final double SPEED_ARM_CLAW = 0.2;
+        
 
         public static class ShoulderPID {
             public static final double kP = 0.0;
