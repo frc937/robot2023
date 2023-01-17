@@ -18,29 +18,43 @@ public class ArmExtender extends SubsystemBase {
 
   private Rev2mDistanceSensor lengthSensor;
 
+  private double setpoint;
 
   /** Creates a new ArmExtender. */
   public ArmExtender() {
     winch = new WPI_TalonSRX(Constants.ArmConstants.ID_TALON_ARM_WINCH);
     lengthSensor = new Rev2mDistanceSensor(Port.kOnboard);
     lengthSensor.setAutomaticMode(true);
+    setpoint = Constants.ArmConstants.MIN_LENGTH_ARM_EXTENDER;
+
+
 
   }
 
-  /*private double getLength() {
+  private double getLength() {
     if (lengthSensor.isRangeValid()) {
       return lengthSensor.getRange();
 
+    } else {
+      throw new IllegalStateException("range is not valid");
+
     }
 
-  }*/
+  }
 
-  public void moveArm(float setpoint) {
-    //winch.set(Constants.)
+  public void set(double setpoint) {
+   this.setpoint = setpoint;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    if (Math.abs(setpoint - getLength()) >= Constants.ArmConstants.DONE_THRESHOLD_ARM_EXTENSION) {
+      if (getLength() > setpoint) {
+        winch.set(-1 * Constants.ArmConstants.SPEED_WINCH_ARM_EXTENSION);
+        
+      } else {
+        winch.set(Constants.ArmConstants.SPEED_WINCH_ARM_EXTENSION);
+      }
+    }
   }
 }

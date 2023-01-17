@@ -107,6 +107,21 @@ public final class Constants {
             /** The distance from the top of the tape to the top of the node */
             public static final double ABOVE_TAPE = 0.6667;
           }
+        //WARNING: CHANGE THIS BEFORE YOU USE THIS ON THE ACTUAL ROBOT
+        public static final double MIN_LENGTH_ARM_EXTENDER = 0.0;
+
+        public static final double DONE_THRESHOLD_ARM_EXTENSION = 2.0;
+
+        public static final double SPEED_WINCH_ARM_EXTENSION = 0.15;
+
+
+
+
+        public static class ShoulderPID {
+            public static final double kP = 0.0;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
+            public static final double kFF = 0.0;
         }
 
         public static class CubeNode {
