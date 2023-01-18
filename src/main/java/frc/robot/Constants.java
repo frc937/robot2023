@@ -49,13 +49,16 @@ public final class Constants {
         public static final int ID_TALON_ARM_SHOULDER = 4;
         public static final int ID_TALON_ARM_WINCH = 5;
         public static final int ID_TALON_ARM_CLAW = 6;
+        public static final int ID_TALON_ARM_BASE = 7;
 
 
         public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = false;
         public static final boolean INVERTED_TALON_SENSOR_ARM_EXTENSION = false;
+        public static final boolean INVERTED_TALON_SENSOR_ARM_BASE = false;
 
         public static final boolean INVERTED_TALON_ARM_SHOULDER = false;
         public static final boolean INVERTED_TALON_ARM_EXTENSION = false;
+        public static final boolean INVERTED_TALON_ARM_BASE = false;
 
         //WARNING: CHANGE THIS BEFORE YOU USE THIS ON THE ACTUAL ROBOT
         public static final double MIN_LENGTH_ARM_EXTENDER = 0.0;
@@ -80,6 +83,13 @@ public final class Constants {
             public static final double kI = 0.0;
             public static final double kD = 0.0;
             public static final double kFF = 0.0;
+        }
+
+        public static class BasePID {
+          public static final double kP = 0.0;
+          public static final double kI = 0.0;
+          public static final double kD = 0.0;
+          public static final double kFF = 0.0;
         }
     }
 
