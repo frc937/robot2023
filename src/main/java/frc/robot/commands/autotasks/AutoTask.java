@@ -5,7 +5,6 @@
 package frc.robot.commands.autotasks;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.autotasks.base.BotPos;
 
 public abstract class AutoTask extends CommandBase {
   /** Creates a new AutoTask. */
@@ -17,13 +16,33 @@ public abstract class AutoTask extends CommandBase {
   @Override
   public void initialize() {
   }
-
+/**
+ * Ran when the command is started. Allow basic movements before the PositionSystem moves the robot.
+ */
   public abstract void initTask(); 
+  /**
+   * Checks if the initTask method is finished. Return true when the method finishes.
+   * @return the state of the initTask method.
+   */
   public abstract boolean initFinished();
+  /**
+   * Ran when the AutoTask arrives at the defined position.
+   */
   public abstract void arrived();
+  /**
+   * Checks if the Arrived method has finished and allows the next queued command to run.
+   * @return the state of the arrived method
+   */
   public abstract boolean arrivedFinished();
+  /**
+   * Ran if the bot cant get to the position it needs.
+   * @param positions The bots current position.
+   */
+  public abstract void fallback(BotPos positions);
 
-  // Called every time the scheduler runs while the command is scheduled.
+  /**
+   * <strong>DONT OVERRIDE.</strong> Override update instead.
+   */
   @Override
   public void execute() {}
   
