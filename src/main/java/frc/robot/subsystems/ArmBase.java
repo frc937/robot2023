@@ -52,8 +52,7 @@ public class ArmBase extends SubsystemBase {
    * @param degrees The setpoint to move to in degrees.
    */
   public void moveBase(int degrees) {
-    /* 
-     * Takes the degree param and converts it to encoder ticks
+    /* Takes the degree param and converts it to encoder ticks
      * so the talon knows what we're talking about
      */
     degrees = (degrees / 360) * 4096;
