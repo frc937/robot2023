@@ -9,8 +9,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+/**
+ * Subsystem that represents the claw on the arm. Can open the claw or close it to a given pressure.
+ */
 public class ArmClaw extends SubsystemBase {
-
 
   private WPI_TalonSRX clawMotor;
   private Double setpoint;
@@ -21,16 +23,35 @@ public class ArmClaw extends SubsystemBase {
    */
   private double clawPressure;
 
-  /** Creates a new ArmClaw. */
-
+  /** 
+   * Creates a new ArmClaw. Should be called once from {@link frc.robot.RobotContainer}.
+   */
   public ArmClaw() {
     clawMotor = new WPI_TalonSRX(Constants.ArmConstants.ID_TALON_ARM_CLAW);
     setpoint = null;
   }
+
+  /**
+   * Opens the claw.
+   */
   public void openClaw() {
+    setpoint = null;
     clawMotor.set(Constants.ArmConstants.SPEED_ARM_CLAW);
-    
   }
+
+  /* TODO: Determine what the pressure sensor's gonna be from mechanical, and, therefore, what units it will use. */
+  /**
+   * Sets the pressure-based setpoint for the claw.
+   * @param setpoint How much pressure we want the claw to apply to whatever it's clamping onto. <b>(UNITS TBD)</b>
+   */
+  public void set(Double setpoint) {
+    this.setpoint = setpoint;
+  }
+
+  /**
+   * Subsystem periodic; called once per scheduler run.
+   * <p>Moves the claw to the current setpoint.
+   */
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
