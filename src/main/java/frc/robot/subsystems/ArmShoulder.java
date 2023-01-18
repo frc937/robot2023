@@ -11,14 +11,25 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+/**
+ * Subsystem that represents the "shoulder" of the arm; that is, the motor
+ * which will rotate the arm extender. Can rotate to a given setpoint.
+ */
 public class ArmShoulder extends SubsystemBase {
 
   WPI_TalonSRX armShoulderMotor;
 
-  /** Creates a new ArmShoulder. */
+  /** Creates a new ArmShoulder. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmShoulder() {
     armShoulderMotor = configTalon(Constants.ArmConstants.ID_TALON_ARM_SHOULDER);
   }
+
+  /* TODO: Consider moving this method to a static class. It's not super useful here or in the other arm classes. */
+  /**
+   * Configures the Talon SRX for this class with values supplied in {@link frc.robot.Constants.ArmConstants}.
+   * @param id The CAN ID of the Talon SRX
+   * @return The newly constructed Talon SRX, configured and ready for PID
+   */
   private WPI_TalonSRX configTalon(int id) {
     WPI_TalonSRX talon = new WPI_TalonSRX(id);
     //talon.configFactoryDefault();
@@ -31,23 +42,30 @@ public class ArmShoulder extends SubsystemBase {
     //talon.config_kF(0, Constants.ArmConstants.PID.kFF);
 
     return talon;
-
   }
 
+  /**
+   * Moves the shoulder to a given setpoint.
+   * @param degrees The setpoint to move to in degrees.
+   */
   public void moveShoulder(int degrees) {
     degrees = (degrees / 360) * 4096;
     armShoulderMotor.set(ControlMode.Position, degrees);
-
   }
 
+  /**
+   * Stops the shoulder from moving.
+   */
   public void stop() {
     armShoulderMotor.stopMotor();
-    
   }
 
+  /**
+   * Subsystem periodic; called every scheduler run.
+   * Not used in this subsystem.
+   */
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  } 
-
+  }
 }
