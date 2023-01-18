@@ -13,8 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 /**
- * This subsystem represents the ArmExtender on the robot
- * 
+ * This subsystem represents the climber in a box that extends the arm on the robot.
  */
 public class ArmExtender extends SubsystemBase {
 
@@ -24,45 +23,41 @@ public class ArmExtender extends SubsystemBase {
 
   private double setpoint;
 
-  /** Creates a new ArmExtender. 
-   * Should be called once from {@link frc.robot.RobotContainer}
-  */
+  /** 
+   * Creates a new ArmExtender. 
+   * Should be called once from {@link frc.robot.RobotContainer}.
+   */
   public ArmExtender() {
     winch = new WPI_TalonSRX(Constants.ArmConstants.ID_TALON_ARM_WINCH);
     lengthSensor = new Rev2mDistanceSensor(Port.kOnboard);
     lengthSensor.setAutomaticMode(true);
     setpoint = Constants.ArmConstants.MIN_LENGTH_ARM_EXTENDER;
-
-
-
   }
 
-  /** If the LengthSensor has a valid reading this method will return the length of the arm from the shoulder to the claw
-   * 
-   * @return the length of the arm from the shoulder to the claw in inches
+  /** 
+   * If the length sensor has a valid reading, this method will return the length of the arm from the shoulder to the claw.
+   * @return The length of the arm from the shoulder to the claw in inches.
    */
   public double getLength() {
     if (lengthSensor.isRangeValid()) {
       return lengthSensor.getRange();
-
     } else {
       throw new IllegalStateException("range is not valid");
-
     }
 
   }
 
   /**
-   * sets the setpoint for the arm extension
-   * @param setpoint how far we want the arm to extend in inches from the shoulder to the claw
+   * Sets the setpoint for the arm extension.
+   * @param setpoint How far we want the arm to extend in inches from the shoulder to the claw.
    */
   public void set(double setpoint) {
    this.setpoint = setpoint;
   }
 
   /**
-   * directs arm towards setpoint
-   * Since this is the periodic method, this is called every time the scheduler runs
+   * Directs arm towards setpoint.
+   * Since this is the periodic method, this is called every time the scheduler runs.
    */
   @Override
   public void periodic() {
