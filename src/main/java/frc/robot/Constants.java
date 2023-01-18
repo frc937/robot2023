@@ -61,6 +61,7 @@ public final class Constants {
         public static final double MIN_LENGTH_ARM_EXTENDER = 0.0;
 
         public static final double DONE_THRESHOLD_ARM_EXTENSION = 2.0;
+        public static final double DONE_THRESHOLD_ARM_CLAW = 1.0;
 
         public static final double SPEED_WINCH_ARM_EXTENSION = 0.15;
 
