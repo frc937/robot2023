@@ -31,6 +31,9 @@ public class ArmBase extends SubsystemBase {
    * @return The newly constructed Talon SRX, configured and ready for PID
    */
   private WPI_TalonSRX configTalon(int id) {
+    /* Comment the stuff in this method that's commented out back in
+     * when we have PID tuned and PID values are set in constants.
+     */
     WPI_TalonSRX talon = new WPI_TalonSRX(id);
     //talon.configFactoryDefault();
     talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
@@ -49,6 +52,10 @@ public class ArmBase extends SubsystemBase {
    * @param degrees The setpoint to move to in degrees.
    */
   public void moveBase(int degrees) {
+    /* 
+     * Takes the degree param and converts it to encoder ticks
+     * so the talon knows what we're talking about
+     */
     degrees = (degrees / 360) * 4096;
     armBaseMotor.set(ControlMode.Position, degrees);
   }

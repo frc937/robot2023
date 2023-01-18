@@ -19,6 +19,9 @@ public class ArmExtender extends SubsystemBase {
 
   private WPI_TalonSRX winch;
 
+  /* If VS Code thinks this library can't be found, it's probably wrong.
+   * Usually the code builds just fine even if VS Code thinks the library can't be found.
+   */
   private Rev2mDistanceSensor lengthSensor;
 
   private double setpoint;
@@ -42,7 +45,7 @@ public class ArmExtender extends SubsystemBase {
     if (lengthSensor.isRangeValid()) {
       return lengthSensor.getRange();
     } else {
-      throw new IllegalStateException("range is not valid");
+      throw new IllegalStateException("Length sensor does not have a valid reading!");
     }
 
   }
@@ -61,13 +64,15 @@ public class ArmExtender extends SubsystemBase {
    */
   @Override
   public void periodic() {
+    /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
     if (Math.abs(setpoint - getLength()) >= Constants.ArmConstants.DONE_THRESHOLD_ARM_EXTENSION) {
       if (getLength() > setpoint) {
         winch.set(-1 * Constants.ArmConstants.SPEED_WINCH_ARM_EXTENSION);
-        
       } else {
         winch.set(Constants.ArmConstants.SPEED_WINCH_ARM_EXTENSION);
       }
+    } else {
+      winch.stopMotor();
     }
   }
 }

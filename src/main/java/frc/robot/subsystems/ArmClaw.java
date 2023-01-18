@@ -17,7 +17,8 @@ public class ArmClaw extends SubsystemBase {
   private WPI_TalonSRX clawMotor;
   private Double setpoint;
 
-  /* *********************************************************************************
+  /* 
+   * *********************************************************************************
    * TODO: REPLACE THIS WITH A REAL PRESSURE SENSOR OBJECT BEFORE WE USE IT ON THE BOT
    * *********************************************************************************
    */
@@ -28,6 +29,7 @@ public class ArmClaw extends SubsystemBase {
    */
   public ArmClaw() {
     clawMotor = new WPI_TalonSRX(Constants.ArmConstants.ID_TALON_ARM_CLAW);
+    /* We set the setpoint to null when we want to disable the code that automagically moves the claw to the setpoint */
     setpoint = null;
   }
 
@@ -35,6 +37,7 @@ public class ArmClaw extends SubsystemBase {
    * Opens the claw.
    */
   public void openClaw() {
+    /* We set the setpoint to null when we want to disable the code that automagically moves the claw to the setpoint */
     setpoint = null;
     clawMotor.set(Constants.ArmConstants.SPEED_ARM_CLAW);
   }
@@ -54,10 +57,11 @@ public class ArmClaw extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    /* Allows us to have a way to make this code not run, so we can do things like open the claw. */
     if (setpoint.equals(null)) {
       return;
     } else {
+      /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
       if (Math.abs(setpoint - clawPressure) >= Constants.ArmConstants.DONE_THRESHOLD_ARM_CLAW) {
         if (clawPressure > setpoint) {
           clawMotor.set(-1 * Constants.ArmConstants.SPEED_ARM_CLAW);
