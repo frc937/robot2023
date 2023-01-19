@@ -39,31 +39,17 @@ public class CompilationArm extends SubsystemBase {
 
   /**
    * Returns whether or not the arm is in danger of overextending.
-   * Redoes the calculations to be sure it has the most current values. This can
-   * be optimized if it's really a problem.
    */
   private boolean isAlmostOverextended() {
-    final double baseRotation = armBase.getAngle();
-    final double sensedShoulderRotation = armShoulder.getAngle();
-    final double shoulderRotation = correctShoulderAngle(sensedShoulderRotation);
-    final double armExtension = armExtender.getLength();
-
-    return ArmKinematics.isAlmostOverextended(baseRotation, shoulderRotation, armExtension);
+    return ArmKinematics.isAlmostOverextended(armPose);
   }
 
   /**
    * Returns whether or not the arm is overextended. If this is the case, the
    * robot MUST immediately retract the arm to avoid penalties.
-   * Redoes the calculations to be sure it has the most current values. This can
-   * be optimized if it's really a problem.
    */
   private boolean isOverextended() {
-    final double baseRotation = armBase.getAngle();
-    final double sensedShoulderRotation = armShoulder.getAngle();
-    final double shoulderRotation = correctShoulderAngle(sensedShoulderRotation);
-    final double armExtension = armExtender.getLength();
-
-    return ArmKinematics.isOverextended(baseRotation, shoulderRotation, armExtension);
+    return ArmKinematics.isOverextended(armPose);
   }
 
   @Override

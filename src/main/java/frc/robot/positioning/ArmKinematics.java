@@ -27,8 +27,7 @@ public final class ArmKinematics {
    * @param armExtension distance in inches from the shoulder joint to the
    * end of the grabber arm
    */
-  public static boolean isAlmostOverextended(final double baseRotation, final double shoulderRotation, final double armExtension) {
-    final Pose armPose = getPose(baseRotation, shoulderRotation, armExtension);
+  public static boolean isAlmostOverextended(final Pose armPose) {
     final double horizontalExt = getFrameExtension(armPose);
     final double verticalExt = getExtendedRobotHeight(armPose);
 
@@ -45,15 +44,9 @@ public final class ArmKinematics {
   /**
    * Returns whether or not the arm is overextended. If this is the case, the
    * robot MUST immediately retract the arm to avoid penalties.
-   * @param baseRotation counter clockwise rotation of the arm base zeroed
-   * on the Y axis in degrees
-   * @param shoulderRotation counter clockwise rotation of the shoulder about
-   * the X axis zeroed on the Z axis in degrees
-   * @param armExtension distance in inches from the shoulder joint to the
-   * end of the grabber arm
+   * @param armPose the pose of the end effector
    */
-  public static boolean isOverextended(final double baseRotation, final double shoulderRotation, final double armExtension) {
-    final Pose armPose = getPose(baseRotation, shoulderRotation, armExtension);
+  public static boolean isOverextended(final Pose armPose) {
     final double horizontal = getFrameExtension(armPose);
     final double vertical = getExtendedRobotHeight(armPose);
 
