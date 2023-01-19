@@ -28,8 +28,9 @@ public final class ArmKinematics {
    * end of the grabber arm
    */
   public static boolean isAlmostOverextended(final double baseRotation, final double shoulderRotation, final double armExtension) {
-    final double horizontalExt = getFrameExtension(baseRotation, shoulderRotation, armExtension);
-    final double verticalExt = getExtendedRobotHeight(baseRotation, shoulderRotation, armExtension);
+    final Pose armPose = getPose(baseRotation, shoulderRotation, armExtension);
+    final double horizontalExt = getFrameExtension(armPose);
+    final double verticalExt = getExtendedRobotHeight(armPose);
 
     final double dangerZone = Constants.Limits.OVEREXTENSION_DANGER_DISTANCE;
     final double horizontal = horizontalExt + dangerZone;
@@ -52,8 +53,9 @@ public final class ArmKinematics {
    * end of the grabber arm
    */
   public static boolean isOverextended(final double baseRotation, final double shoulderRotation, final double armExtension) {
-    final double horizontal = getFrameExtension(baseRotation, shoulderRotation, armExtension);
-    final double vertical = getExtendedRobotHeight(baseRotation, shoulderRotation, armExtension);
+    final Pose armPose = getPose(baseRotation, shoulderRotation, armExtension);
+    final double horizontal = getFrameExtension(armPose);
+    final double vertical = getExtendedRobotHeight(armPose);
 
     final double horizontalMax = Constants.Limits.MAX_FRAME_EXTENSION;
     final double verticalMax = Constants.Limits.MAX_EXTENDED_HEIGHT;
@@ -103,32 +105,21 @@ public final class ArmKinematics {
 
   /**
    * Calculates the height of the robot in inches for the purpose of not overextending
-   * @param baseRotation counter clockwise rotation of the arm base zeroed
-   * on the Y axis in degrees
-   * @param shoulderRotation counter clockwise rotation of the shoulder about
-   * the X axis zeroed on the Z axis in degrees
-   * @param armExtension distance in inches from the shoulder joint to the
-   * end of the grabber arm
+   * @param armPose the end effector pose being checked
+   *
    */
-  public static double getExtendedRobotHeight(final double baseRotation, final double shoulderRotation, final double armExtension) {
-    final Pose pose = getPose(baseRotation, shoulderRotation, armExtension);
-    final double height = pose.getWorldOriented(Constants.ArmConstants.BASE_POSE).getZ();
+  public static double getExtendedRobotHeight(final Pose armPose) {
+    final double height = armPose.getWorldOriented(Constants.ArmConstants.BASE_POSE).getZ();
     return height + Constants.ArmConstants.BASE_DISTANCE_TO_FLOOR;
   }
 
   /**
    * Calculates the height of the robot in inches for the purpose of not
    * overextending. This math only works with vaguely rectangular robots.
-   * @param baseRotation counter clockwise rotation of the arm base zeroed
-   * on the Y axis in degrees
-   * @param shoulderRotation counter clockwise rotation of the shoulder about
-   * the X axis zeroed on the Z axis in degrees
-   * @param armExtension distance in inches from the shoulder joint to the
-   * end of the grabber arm
+   * @param armPose the end effector pose being checked
    */
-  public static double getFrameExtension(final double baseRotation, final double shoulderRotation, final double armExtension) {
+  public static double getFrameExtension(final Pose armPose) {
     // Get end effector pose with respect to the robot center
-    final Pose armPose = getPose(baseRotation, shoulderRotation, armExtension);
     final Pose robotPose = armPose.getWorldOriented(ArmConstants.BASE_POSE);
     final Pose centerPose = robotPose.getWorldOriented(RobotDimensions.CENTER_POSE);
 
