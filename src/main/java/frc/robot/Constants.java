@@ -46,6 +46,12 @@ public final class Constants {
         public static final double BASE_DISTANCE_TO_FLOOR = 0.0; // Update this when decided
         /** Length in inches from the base of the arm to the shoulder joint */
         public static final double BASE_TO_SHOULDER_LENGTH = -1.0; // Update this when decided
+        /**
+         * How high above the arm base should we keep the end effector to stop
+         * the arm from stabbing the robot? This only matters inside the frame
+         * perimeter. Distance in inches.
+         */
+        public static final double KEEP_OUT_HEIGHT = -1.0; // Update this when measured
         public static final int ID_TALON_ARM_SHOULDER = 4;
         public static final int ID_TALON_ARM_WINCH = 5;
         public static final int ID_TALON_ARM_CLAW = 6;
@@ -69,7 +75,7 @@ public final class Constants {
         public static final double SPEED_WINCH_ARM_EXTENSION = 0.15;
 
         public static final double SPEED_ARM_CLAW = 0.2;
-        
+
 
         public static class ShoulderPID {
             public static final double kP = 0.0;

@@ -58,6 +58,25 @@ public final class ArmKinematics {
   }
 
   /**
+   * Returns whether the robot is stabbing itself. Keep in mind, this isn't 100%
+   * accurate, there could be a last minute fix sticking up. How will you handle
+   * that? That sounds like a you problem, not a me problem.
+   * Why are you hitting yourself? Why are you hitting yourself?
+   * @param armPose the end effector pose being checked
+   */
+  public static boolean isStabbingSelf(final Pose armPose) {
+    final Optional<Pose> frameIntersection = getFramePlaneInstersection(armPose);
+
+    if(frameIntersection.isPresent()) {
+      // Outside the frame
+      return frameIntersection.get().getZ() < Constants.ArmConstants.KEEP_OUT_HEIGHT;
+    } else {
+      // Inside the frame
+      return armPose.getZ() < Constants.ArmConstants.KEEP_OUT_HEIGHT;
+    }
+  }
+
+  /**
    * @param x right/left offset from the arm base
    * @param y front/back offset from the arm base
    * @param z up/down offset from the arm base

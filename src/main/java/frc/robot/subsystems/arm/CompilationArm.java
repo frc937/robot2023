@@ -52,6 +52,15 @@ public class CompilationArm extends SubsystemBase {
     return ArmKinematics.isOverextended(armPose);
   }
 
+  /**
+   * Returns whether the robot is stabbing itself. Keep in mind, this only tests
+   * whether or not the end effector is stabbing the frame. If anything is built
+   * up above KEEP_OUT_HEIGHT, this will happily run into it.
+   */
+  private boolean isStabbingSelf() {
+    return ArmKinematics.isStabbingSelf(armPose);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
