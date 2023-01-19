@@ -48,6 +48,13 @@ public class ArmShoulder extends SubsystemBase {
   }
 
   /**
+   * Returns the angle of the shoulder in degrees
+   */
+  public double getAngle() {
+    return -1; // Someone who can test should implement this.
+  }
+
+  /**
    * Moves the shoulder to a given setpoint.
    * @param degrees The setpoint to move to in degrees.
    */

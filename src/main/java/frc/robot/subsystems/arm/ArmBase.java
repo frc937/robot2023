@@ -48,6 +48,13 @@ public class ArmBase extends SubsystemBase {
   }
 
   /**
+   * Returns the angle of the base CCW from forward in degrees
+   */
+  public double getAngle() {
+    return -1; // Someone who can test should implement this.
+  }
+
+  /**
    * Moves the base to a given setpoint.
    * @param degrees The setpoint to move to in degrees.
    */
