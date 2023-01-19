@@ -1,5 +1,6 @@
 package frc.robot.positioning;
 
+import java.util.Optional;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.VecBuilder;
@@ -112,18 +113,40 @@ public final class ArmKinematics {
    * @param armPose the end effector pose being checked
    */
   public static double getFrameExtension(final Pose armPose) {
+    final Pose robotPose = armPose.getWorldOriented(ArmConstants.BASE_POSE);
+    final Pose centerPose = robotPose.getWorldOriented(RobotDimensions.CENTER_POSE);
+    final Optional<Pose> frameIntersection = getFramePlaneInstersection(armPose);
+
+    if(frameIntersection.isPresent()) {
+      // Outside the frame
+      final double xDiff = centerPose.getX() - frameIntersection.get().getX();
+      final double yDiff = centerPose.getY() - frameIntersection.get().getY();
+
+      return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    } else {
+      // Inside the frame
+      return 0.0;
+    }
+  }
+
+  /**
+   * Finds the point at which the arm intersects the plane of the frame
+   * @param armPose the pose of the end effector
+   */
+  public static Optional<Pose> getFramePlaneInstersection(final Pose armPose) {
     // Get end effector pose with respect to the robot center
     final Pose robotPose = armPose.getWorldOriented(ArmConstants.BASE_POSE);
     final Pose centerPose = robotPose.getWorldOriented(RobotDimensions.CENTER_POSE);
 
     final double x = centerPose.getX();
     final double y = centerPose.getY();
+    final double z = centerPose.getZ();
     final double xFrame = RobotDimensions.FRAME_LENGTH / 2;
     final double yFrame = RobotDimensions.FRAME_WIDTH / 2;
 
     // Skip the math if the frame isn't extended
     if(x < xFrame && x > -xFrame && y < yFrame && y > -yFrame) {
-      return 0.0;
+      return Optional.empty();
     }
 
     // Figure out which intersection we care about
@@ -176,11 +199,9 @@ public final class ArmKinematics {
       yIntercept = xFrame * y / x;
     }
 
-    // Calculate frame extension
-    final double xDiff = x - xIntercept;
-    final double yDiff = y - yIntercept;
+    final double zIntercept = xFrame * z / x;
 
-    return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+    return Optional.of(new Pose(xIntercept, yIntercept, zIntercept));
   }
 
   /**
