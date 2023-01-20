@@ -23,9 +23,9 @@ public final class Constants {
         /** The pose of the robot's center */
         public static final Pose CENTER_POSE = new Pose();
         /** The front/back length of the robot's frame in inches */
-        public static final double FRAME_LENGTH = 24.0; // Update this when decided
+        public static final double FRAME_LENGTH = 29.0; // Update this when decided
         /** The left/right width of the robot's frame in inches */
-        public static final double FRAME_WIDTH = 24.0; // Update this when decided
+        public static final double FRAME_WIDTH = 29.0; // Update this when decided
     }
 
     /**
