@@ -5,7 +5,7 @@
 package frc.robot.commands.autotasks;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.positioning.Position;
 public abstract class AutoTask extends CommandBase {
   private boolean initialized = false;
   private Position taskPos;
@@ -41,9 +41,9 @@ public abstract class AutoTask extends CommandBase {
   public abstract boolean arrivedFinished();
   /**
    * Ran if the bot cant get to the position it needs.
-   * @param positions The bots current position.
+   * @param position The bots current position.
    */
-  public abstract void fallback(Position positions);
+  public abstract void fallback(Position position);
 
   /**
    * <strong>DONT OVERRIDE.</strong> Override update instead. Overriding this will cause the AutoTask to never start.
