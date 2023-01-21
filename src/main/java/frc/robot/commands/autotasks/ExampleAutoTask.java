@@ -1,5 +1,7 @@
 package frc.robot.commands.autotasks;
 
+import frc.robot.positioning.Position;
+
 public class ExampleAutoTask extends AutoTask{
     public ExampleAutoTask(){
         // TODO: Allow for adding commands to requirements.
@@ -9,7 +11,9 @@ public class ExampleAutoTask extends AutoTask{
     public boolean initFinished(){
         return true;
     }
-    public void arrived(){}
+    public void arrived(){
+        
+    }
     public boolean arrivedFinished(){
         return true;
     }
