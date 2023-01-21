@@ -5,6 +5,9 @@
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.positioning.ArmKinematics;
 import frc.robot.positioning.Pose;
@@ -87,7 +90,9 @@ public class CompilationArm extends SubsystemBase {
    * @return command that moves arm to a pose 
    */
   public Command moveToPoseCommand(Pose pose){
-    return this.runOnce(() -> moveToPose(pose)); 
+    return Commands.runOnce(() -> moveToPose(pose), 
+      /* Subsystem requirements */
+      this, armBase, armShoulder, armExtender);
   }
   @Override
   public void periodic() {
