@@ -28,7 +28,7 @@ public class ArmClaw extends SubsystemBase {
    * Creates a new ArmClaw. Should be called once from {@link frc.robot.RobotContainer}.
    */
   public ArmClaw() {
-    clawMotor = new WPI_TalonSRX(Constants.ArmConstants.ID_TALON_ARM_CLAW);
+    clawMotor = new WPI_TalonSRX(Constants.Arm.ID_TALON_ARM_CLAW);
     /* We set the setpoint to null when we want to disable the code that automagically moves the claw to the setpoint */
     setpoint = null;
   }
@@ -39,7 +39,7 @@ public class ArmClaw extends SubsystemBase {
   public void openClaw() {
     /* We set the setpoint to null when we want to disable the code that automagically moves the claw to the setpoint */
     setpoint = null;
-    clawMotor.set(Constants.ArmConstants.SPEED_ARM_CLAW);
+    clawMotor.set(Constants.Arm.SPEED_ARM_CLAW);
   }
 
   /* TODO: Determine what the pressure sensor's gonna be from mechanical, and, therefore, what units it will use. */
@@ -62,11 +62,11 @@ public class ArmClaw extends SubsystemBase {
       return;
     } else {
       /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
-      if (Math.abs(setpoint - clawPressure) >= Constants.ArmConstants.DONE_THRESHOLD_ARM_CLAW) {
+      if (Math.abs(setpoint - clawPressure) >= Constants.Arm.DONE_THRESHOLD_ARM_CLAW) {
         if (clawPressure > setpoint) {
-          clawMotor.set(-1 * Constants.ArmConstants.SPEED_ARM_CLAW);
+          clawMotor.set(-1 * Constants.Arm.SPEED_ARM_CLAW);
         } else {
-          clawMotor.set(Constants.ArmConstants.SPEED_ARM_CLAW);
+          clawMotor.set(Constants.Arm.SPEED_ARM_CLAW);
         }
       }
     }

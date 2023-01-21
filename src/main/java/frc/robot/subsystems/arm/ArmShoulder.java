@@ -21,12 +21,12 @@ public class ArmShoulder extends SubsystemBase {
 
   /** Creates a new ArmShoulder. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmShoulder() {
-    armShoulderMotor = configTalon(Constants.ArmConstants.ID_TALON_ARM_SHOULDER);
+    armShoulderMotor = configTalon(Constants.Arm.ID_TALON_ARM_SHOULDER);
   }
 
   /* TODO: Consider moving this method to a static class. It's not super useful here or in the other arm classes. */
   /**
-   * Configures the Talon SRX for this class with values supplied in {@link frc.robot.Constants.ArmConstants}.
+   * Configures the Talon SRX for this class with values supplied in {@link frc.robot.Constants.Arm}.
    * @param id The CAN ID of the Talon SRX
    * @return The newly constructed Talon SRX, configured and ready for PID
    */
@@ -37,12 +37,12 @@ public class ArmShoulder extends SubsystemBase {
     WPI_TalonSRX talon = new WPI_TalonSRX(id);
     //talon.configFactoryDefault();
     talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-    talon.setSensorPhase(Constants.ArmConstants.INVERTED_TALON_SENSOR_ARM_SHOULDER);
-    talon.setInverted(Constants.ArmConstants.INVERTED_TALON_ARM_SHOULDER);
-    //talon.config_kP(0, Constants.ArmConstants.PID.kP);
-    //talon.config_kI(0, Constants.ArmConstants.PID.kI);
-    //talon.config_kD(0, Constants.ArmConstants.PID.kD);
-    //talon.config_kF(0, Constants.ArmConstants.PID.kFF);
+    talon.setSensorPhase(Constants.Arm.INVERTED_TALON_SENSOR_ARM_SHOULDER);
+    talon.setInverted(Constants.Arm.INVERTED_TALON_ARM_SHOULDER);
+    //talon.config_kP(0, Constants.Arm.PID.kP);
+    //talon.config_kI(0, Constants.Arm.PID.kI);
+    //talon.config_kD(0, Constants.Arm.PID.kD);
+    //talon.config_kF(0, Constants.Arm.PID.kFF);
 
     return talon;
   }

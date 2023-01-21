@@ -21,12 +21,12 @@ public class ArmBase extends SubsystemBase {
 
   /** Creates a new ArmBase. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmBase() {
-    armBaseMotor = configTalon(Constants.ArmConstants.ID_TALON_ARM_BASE);
+    armBaseMotor = configTalon(Constants.Arm.ID_TALON_ARM_BASE);
   }
 
   /* TODO: Consider moving this method to a static class. It's not super useful here or in the other arm classes. */
   /**
-   * Configures the Talon SRX for this class with values supplied in {@link frc.robot.Constants.ArmConstants}.
+   * Configures the Talon SRX for this class with values supplied in {@link frc.robot.Constants.Arm}.
    * @param id The CAN ID of the Talon SRX
    * @return The newly constructed Talon SRX, configured and ready for PID
    */
@@ -37,12 +37,12 @@ public class ArmBase extends SubsystemBase {
     WPI_TalonSRX talon = new WPI_TalonSRX(id);
     //talon.configFactoryDefault();
     talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
-    talon.setSensorPhase(Constants.ArmConstants.INVERTED_TALON_SENSOR_ARM_BASE);
-    talon.setInverted(Constants.ArmConstants.INVERTED_TALON_ARM_BASE);
-    //talon.config_kP(0, Constants.ArmConstants.BasePID.kP);
-    //talon.config_kI(0, Constants.ArmConstants.BasePID.kI);
-    //talon.config_kD(0, Constants.ArmConstants.BasePID.kD);
-    //talon.config_kF(0, Constants.ArmConstants.BasePID.kFF);
+    talon.setSensorPhase(Constants.Arm.INVERTED_TALON_SENSOR_ARM_BASE);
+    talon.setInverted(Constants.Arm.INVERTED_TALON_ARM_BASE);
+    //talon.config_kP(0, Constants.Arm.BasePID.kP);
+    //talon.config_kI(0, Constants.Arm.BasePID.kI);
+    //talon.config_kD(0, Constants.Arm.BasePID.kD);
+    //talon.config_kF(0, Constants.Arm.BasePID.kFF);
 
     return talon;
   }

@@ -39,7 +39,7 @@ public final class Constants {
         public static final int ID_TALON_REAR_RIGHT = 3;
     }
 
-    public static class ArmConstants {
+    public static class Arm {
         /** The pose of the arm's base in robot oriented coordinates */
         public static final Pose BASE_POSE = new Pose();
         /** The distance between the floor and the arm base in inches */
