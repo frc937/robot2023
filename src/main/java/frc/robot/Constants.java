@@ -23,9 +23,9 @@ public final class Constants {
         /** The pose of the robot's center */
         public static final Pose CENTER_POSE = new Pose();
         /** The front/back length of the robot's frame in inches */
-        public static final double FRAME_LENGTH = 29.0; // Update this when decided
+        public static final double FRAME_LENGTH = 29.0;
         /** The left/right width of the robot's frame in inches */
-        public static final double FRAME_WIDTH = 29.0; // Update this when decided
+        public static final double FRAME_WIDTH = 29.0;
     }
 
     /**
@@ -200,7 +200,7 @@ public final class Constants {
      */
     public static class BalanceConstants {
         /* Angle threshholds for when the bot is considered balanced and not */
-        public static final double OFF_ANGLE_THRESHOLD = 10; 
+        public static final double OFF_ANGLE_THRESHOLD = 10;
         public static final double ON_ANGLE_THRESHOLD  = 5;
     }
 }
