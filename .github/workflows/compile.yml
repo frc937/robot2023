@@ -26,6 +26,9 @@ jobs:
     # Extract the distance sensor
     - name: Extract distance sensor library
       run: unzip distsen.zip
+    # Create /root/wpilib/2023/
+    - name: Create /root/wpilib/2023/ directory
+      run: mkdir -p /root/wpilib/2023/
     # Copy maven to /root/wpilib/2023/
     - name: Copy maven to /root/wpilib/2023/
       run: cp -R 2m-Distance-Sensor-SDK-2022.0.4/maven /root/wpilib/2023/
