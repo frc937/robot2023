@@ -10,6 +10,11 @@ import frc.robot.commands.Balance;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.arm.ArmBase;
+import frc.robot.subsystems.arm.ArmClaw;
+import frc.robot.subsystems.arm.ArmExtender;
+import frc.robot.subsystems.arm.ArmShoulder;
+import frc.robot.subsystems.arm.CompilationArm;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -30,6 +35,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drive driveSubsystem = new Drive();
+  
+  /* BIG CHUNGUS ARM CODE */
+  private final ArmBase armBase = new ArmBase();
+  private final ArmShoulder armShoulder = new ArmShoulder();
+  private final ArmExtender armExtender = new ArmExtender();
+  private final ArmClaw armClaw = new ArmClaw();
+  private final CompilationArm compilationArm = new CompilationArm(armBase, armClaw, armExtender, armShoulder);
 
   private final Balance balance = new Balance(driveSubsystem);
 
