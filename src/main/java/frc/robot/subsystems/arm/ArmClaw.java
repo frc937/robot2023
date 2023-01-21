@@ -6,6 +6,7 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -40,6 +41,14 @@ public class ArmClaw extends SubsystemBase {
     /* We set the setpoint to null when we want to disable the code that automagically moves the claw to the setpoint */
     setpoint = null;
     clawMotor.set(Constants.Arm.SPEED_ARM_CLAW);
+  }
+
+  /**
+   * Command factory to open the claw
+   * @return a command that opens the claw
+   */
+  public Command openClawCommand(){
+    return this.runOnce(() -> this.openClaw());
   }
 
   /* TODO: Determine what the pressure sensor's gonna be from mechanical, and, therefore, what units it will use. */
