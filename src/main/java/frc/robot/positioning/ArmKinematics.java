@@ -6,7 +6,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import frc.robot.Constants;
-import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.Arm;
 import frc.robot.Constants.RobotDimensions;
 
 /**
@@ -69,10 +69,10 @@ public final class ArmKinematics {
 
     if(frameIntersection.isPresent()) {
       // Outside the frame
-      return frameIntersection.get().getZ() < Constants.ArmConstants.KEEP_OUT_HEIGHT;
+      return frameIntersection.get().getZ() < Constants.Arm.KEEP_OUT_HEIGHT;
     } else {
       // Inside the frame
-      return armPose.getZ() < Constants.ArmConstants.KEEP_OUT_HEIGHT;
+      return armPose.getZ() < Constants.Arm.KEEP_OUT_HEIGHT;
     }
   }
 
@@ -83,7 +83,7 @@ public final class ArmKinematics {
    * @return arm base rotation
    */
   public static double getArmExtension(final double x, final double y, final double z) {
-    final double h = ArmConstants.BASE_TO_SHOULDER_LENGTH;
+    final double h = Arm.BASE_TO_SHOULDER_LENGTH;
 
     return Math.sqrt(x * x + y * y + z * z + h * h - 2 * h * z);
   }
@@ -122,8 +122,8 @@ public final class ArmKinematics {
    *
    */
   public static double getExtendedRobotHeight(final Pose armPose) {
-    final double height = armPose.getWorldOriented(Constants.ArmConstants.BASE_POSE).getZ();
-    return height + Constants.ArmConstants.BASE_DISTANCE_TO_FLOOR;
+    final double height = armPose.getWorldOriented(Constants.Arm.BASE_POSE).getZ();
+    return height + Constants.Arm.BASE_DISTANCE_TO_FLOOR;
   }
 
   /**
@@ -132,7 +132,7 @@ public final class ArmKinematics {
    * @param armPose the end effector pose being checked
    */
   public static double getFrameExtension(final Pose armPose) {
-    final Pose robotPose = armPose.getWorldOriented(ArmConstants.BASE_POSE);
+    final Pose robotPose = armPose.getWorldOriented(Arm.BASE_POSE);
     final Pose centerPose = robotPose.getWorldOriented(RobotDimensions.CENTER_POSE);
     final Optional<Pose> frameIntersection = getFramePlaneInstersection(armPose);
 
@@ -154,7 +154,7 @@ public final class ArmKinematics {
    */
   public static Optional<Pose> getFramePlaneInstersection(final Pose armPose) {
     // Get end effector pose with respect to the robot center
-    final Pose robotPose = armPose.getWorldOriented(ArmConstants.BASE_POSE);
+    final Pose robotPose = armPose.getWorldOriented(Arm.BASE_POSE);
     final Pose centerPose = robotPose.getWorldOriented(RobotDimensions.CENTER_POSE);
 
     final double x = centerPose.getX();
@@ -267,7 +267,7 @@ public final class ArmKinematics {
 	  final double x = armExtension * sinBase * sinShoulder;
     final double y = -1 * armExtension * cosBase * sinShoulder;
 	  final double shoulderBasedZ = armExtension * cosShoulder;
-	  final double z = armExtension * cosShoulder + ArmConstants.BASE_TO_SHOULDER_LENGTH;
+	  final double z = armExtension * cosShoulder + Arm.BASE_TO_SHOULDER_LENGTH;
 
 	  final Vector<N3> vector = VecBuilder.fill(x, y, shoulderBasedZ);
 	  final Rotation3d orientation = new Rotation3d(vector, 0.0);
@@ -283,7 +283,7 @@ public final class ArmKinematics {
    */
   public static double getShoulderRotation(final double x, final double y, final double z) {
     final double distance = Math.sqrt(x * x + y * y);
-    final double heightDiff = z - ArmConstants.BASE_TO_SHOULDER_LENGTH;
+    final double heightDiff = z - Arm.BASE_TO_SHOULDER_LENGTH;
 
     return Math.atan2(distance, heightDiff);
   }
@@ -340,6 +340,6 @@ public final class ArmKinematics {
    */
   public static double getZ(final double baseRotation, final double shoulderRotation, final double armExtension) {
     final double cosShoulder = Math.cos(Math.toRadians(shoulderRotation));
-    return armExtension * cosShoulder + ArmConstants.BASE_TO_SHOULDER_LENGTH;
+    return armExtension * cosShoulder + Arm.BASE_TO_SHOULDER_LENGTH;
   }
 }

@@ -16,16 +16,16 @@ import frc.robot.positioning.Pose;
  */
 public final class Constants {
     public static class OperatorConstants {
-        public static final int kDriverControllerPort = 0;
+        public static final int CONTROLLER_NUMBER = 0;
     }
 
     public static class RobotDimensions {
         /** The pose of the robot's center */
         public static final Pose CENTER_POSE = new Pose();
         /** The front/back length of the robot's frame in inches */
-        public static final double FRAME_LENGTH = 29.0; // Update this when decided
+        public static final double FRAME_LENGTH = 29.0;
         /** The left/right width of the robot's frame in inches */
-        public static final double FRAME_WIDTH = 29.0; // Update this when decided
+        public static final double FRAME_WIDTH = 29.0;
     }
 
     /**
@@ -39,7 +39,7 @@ public final class Constants {
         public static final int ID_TALON_REAR_RIGHT = 3;
     }
 
-    public static class ArmConstants {
+    public static class Arm {
         /** The pose of the arm's base in robot oriented coordinates */
         public static final Pose BASE_POSE = new Pose();
         /** The distance between the floor and the arm base in inches */
@@ -179,5 +179,28 @@ public final class Constants {
                 }
             }
         }
+    }
+    /**
+     * IDs for the controller buttons.
+     */
+    public static class ContollerButtons{
+        public static final int A_NUMBER = 1;
+        public static final int B_NUMBER = 2;
+        public static final int X_NUMBER = 3;
+        public static final int Y_NUMBER = 4;
+        public static final int LEFT_BUMPER_NUMBER = 5;
+        public static final int RIGHT_BUMPER_NUMBER = 6;
+        public static final int BACK_NUMBER = 7;
+        public static final int START_NUMBER = 8;
+        public static final int LEFT_STICK_NUMBER = 9;
+        public static final int RIGHT_STICK_NUMBER = 10;
+    }
+    /**
+     * General constants for the balance command. Primarily used by {@link frc.robot.commands.Balance}.
+     */
+    public static class BalanceConstants {
+        /* Angle threshholds for when the bot is considered balanced and not */
+        public static final double OFF_ANGLE_THRESHOLD = 10;
+        public static final double ON_ANGLE_THRESHOLD  = 5;
     }
 }

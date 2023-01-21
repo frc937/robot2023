@@ -31,10 +31,10 @@ public class ArmExtender extends SubsystemBase {
    * Should be called once from {@link frc.robot.RobotContainer}.
    */
   public ArmExtender() {
-    winch = new WPI_TalonSRX(Constants.ArmConstants.ID_TALON_ARM_WINCH);
+    winch = new WPI_TalonSRX(Constants.Arm.ID_TALON_ARM_WINCH);
     lengthSensor = new Rev2mDistanceSensor(Port.kOnboard);
     lengthSensor.setAutomaticMode(true);
-    setpoint = Constants.ArmConstants.MIN_LENGTH_ARM_EXTENDER;
+    setpoint = Constants.Arm.MIN_LENGTH_ARM_EXTENDER;
   }
 
   /** 
@@ -65,11 +65,11 @@ public class ArmExtender extends SubsystemBase {
   @Override
   public void periodic() {
     /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
-    if (Math.abs(setpoint - getLength()) >= Constants.ArmConstants.DONE_THRESHOLD_ARM_EXTENSION) {
+    if (Math.abs(setpoint - getLength()) >= Constants.Arm.DONE_THRESHOLD_ARM_EXTENSION) {
       if (getLength() > setpoint) {
-        winch.set(-1 * Constants.ArmConstants.SPEED_WINCH_ARM_EXTENSION);
+        winch.set(-1 * Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
       } else {
-        winch.set(Constants.ArmConstants.SPEED_WINCH_ARM_EXTENSION);
+        winch.set(Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
       }
     } else {
       winch.stopMotor();
