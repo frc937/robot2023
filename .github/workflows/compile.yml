@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v3
     # debug ls
     - name: List directory for debugging
-      run: ls
+      run: cd .. ;ls
 
     # Declares the repository safe and not under dubious ownership.
     - name: Add repository to git safe directories
