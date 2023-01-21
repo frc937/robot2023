@@ -20,6 +20,9 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
+    # debug ls
+    - name: List directory for debugging
+      run: ls
 
     # Declares the repository safe and not under dubious ownership.
     - name: Add repository to git safe directories
