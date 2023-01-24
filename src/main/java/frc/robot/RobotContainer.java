@@ -17,6 +17,7 @@ import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -50,6 +51,7 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
 
+  private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER); 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -86,9 +88,18 @@ public class RobotContainer {
     POVButton dPadDown = new POVButton(controller, 180);
     POVButton dPadLeft = new POVButton(controller, 270);*/
 
-    controller.back().onTrue(openClaw);
+    joystick.trigger().onTrue(openClaw);
 
     controller.povUp().onTrue(balance);
+
+    joystick.button(2).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.RESET));
+    joystick.button(3).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.PICKUP));
+    joystick.button(11).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_LOWER));
+    joystick.button(7).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_HIGH_CONE));
+    joystick.button(9).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_MID_CONE));
+    joystick.button(8).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_HIGH_CUBE));
+    joystick.button(10).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_MID_CUBE));
+
   }
 
   /**

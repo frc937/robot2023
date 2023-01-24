@@ -17,6 +17,7 @@ import frc.robot.positioning.Pose;
 public final class Constants {
     public static class OperatorConstants {
         public static final int CONTROLLER_NUMBER = 0;
+        public static final int JOYSTICK_NUMBER = 1; 
     }
 
     public static class RobotDimensions {
@@ -96,6 +97,16 @@ public final class Constants {
           public static final double kI = 0.0;
           public static final double kD = 0.0;
           public static final double kFF = 0.0;
+        }
+
+        public static class Poses{
+          public static final Pose RESET = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble());
+          public static final Pose SCORE_LOWER = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble());
+          public static final Pose SCORE_MID_CONE = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble());
+          public static final Pose SCORE_MID_CUBE = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble());
+          public static final Pose SCORE_HIGH_CONE = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble());
+          public static final Pose SCORE_HIGH_CUBE = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble()); 
+          public static final Pose PICKUP = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble()); 
         }
     }
 
