@@ -19,30 +19,43 @@ public class TaskScheduler extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-  
-  public void QueueTask(AutoTask task){
+
+  public void queueTask(AutoTask task){
     taskqueue.push(task);
   }
 
-  public void RunTaskNow(AutoTask task){
+  public void runTaskNow(AutoTask task){
     currentTask.cancel();
     currentTask = task;
-    InitTask();
+    initTask();
   }
 
-  public void RemoveTask(AutoTask task){
+  public void removeTask(AutoTask task){
     if (taskqueue.contains(task)){
       taskqueue.remove(task);
     }
   }
 
-  private void NextTask(){
+  public void skipTask(){
+    currentTask.cancel();
+    nextTask();
+  }
+  
+  public void clearQueue(){
+    taskqueue.clear();
+  }
+
+  private void nextTask(){
     if (!taskqueue.isEmpty()){
     currentTask = taskqueue.pop();
-    InitTask();
+    initTask();
   }}
 
-  private void InitTask(){ // probaly will need more than just initalize
+  private void stopTask(){
+    currentTask.cancel();
+  }
+
+  private void initTask(){
     currentTask.initialize();
   }
 
