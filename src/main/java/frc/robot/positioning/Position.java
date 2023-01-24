@@ -1,7 +1,5 @@
 package frc.robot.positioning;
 
-import frc.robot.positioning.Pose;
-
 /**
  * The position class that was written before is exactly the same as the Pose
  * class written in another branch. Pose allows you to do horrible math easily.
@@ -18,27 +16,3 @@ public class Position extends Pose {
         return this.getZRot();
     }
 }
-
-// public class Position {
-//     private double x;
-//     private double y;
-//     private double rot;
-
-//     public Position(double x, double y, double rot){
-//         this.x = x;
-//         this.y = y;
-//         this.rot = rot;
-//     }
-//     public double getX(){
-//         return x;
-//     }
-//     public double getY(){
-//         return y;
-//     }
-
-//     public double getRot(){
-//         return rot;
-//     }
-
-
-// }
