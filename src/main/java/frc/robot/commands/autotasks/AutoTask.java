@@ -4,18 +4,17 @@
 
 package frc.robot.commands.autotasks;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Position;
-public abstract class AutoTask extends CommandBase {
+public abstract class AutoTask {
   private boolean initialized = false;
   private Position taskPos;
   /** Creates a new AutoTask. <p>
-   * Dont forgot to use {@link #addRequirements} to add subsystem dependencies.
+   * Dont forgot to use to add subsystem dependencies.
    */
   public AutoTask() {
   }
 
-  @Override
+  
   public void initialize() {
     initTask();
   }
@@ -48,7 +47,6 @@ public abstract class AutoTask extends CommandBase {
   /**
    * <strong>DONT OVERRIDE.</strong> Override update instead. Overriding this will cause the AutoTask to never start.
    */
-  @Override
   public void execute() {
     if (initFinished() & !initialized){
       //code will be put here when the PositionSystem is implimented 
@@ -71,12 +69,10 @@ public abstract class AutoTask extends CommandBase {
   protected void taskPosition(Position position){
     taskPos = position;
   }
-  @Override
   public void end(boolean interrupted) {} 
 
 
   // Returns true when the command should end.
-  @Override
   public boolean isFinished() {
     return false;
   }
