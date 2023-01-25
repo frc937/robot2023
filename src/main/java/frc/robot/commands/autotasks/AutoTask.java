@@ -70,6 +70,9 @@ public abstract class AutoTask {
     taskPos = position;
   }
   public void end(boolean interrupted) {} 
+  public void cancel() {
+    
+  }
 
 
   // Returns true when the command should end.
