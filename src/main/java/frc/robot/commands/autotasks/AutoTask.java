@@ -13,6 +13,8 @@ public abstract class AutoTask {
   private boolean initialized = false;
   private Position taskPos;
   private ArrayList<CommandBase> commands = new ArrayList<CommandBase>();
+  private CommandBase initCommand;
+  private CommandBase arrivedCommand;
 
   /**
    * Creates a new AutoTask.
@@ -104,11 +106,18 @@ public abstract class AutoTask {
   public void cancel() {
 
   }
-  protected void addCommandRequirement(CommandBase... command){
+  private void addCommandRequirement(CommandBase... command) {
     for (CommandBase cb: command){
       commands.add(cb);
     }
-
+  }
+  protected void setInitCommand(CommandBase command) {
+    addCommandRequirement(command);
+    initCommand = command;
+  }
+  protected void setArrivedCommand(CommandBase command) {
+    addCommandRequirement(command);
+    arrivedCommand = command;
   }
 
   // Returns true when the command should end.
