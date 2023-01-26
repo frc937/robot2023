@@ -13,71 +13,58 @@ public class AStar extends SubsystemBase {
   static ArrayList<Node> pathList = new ArrayList<>();
   static ArrayList<Node> closedList = new ArrayList<>();
   static boolean additionalPath = false;
-  
-  // draw the N-by-N boolean matrix to standard draw
-  public static void show(boolean[][] a, boolean which) {
-    int N = a.length;
-    StdDraw.setXscale(-1, N);
-    StdDraw.setYscale(-1, N);
-    StdDraw.setPenColor(StdDraw.BLACK);
-    for (int i = 0; i < N; i++)
-        for (int j = 0; j < N; j++)
-            if (a[i][j] == which)
-                StdDraw.square(j, N - i - 1, .5);
-            else StdDraw.filledSquare(j, N - i - 1, .5);
-  }
 
-  // return a random N-by-N boolean matrix, where each entry is
-  // true with probability p
+  // return a random N-by-N boolean matrix
+  // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT**
   public static boolean[][] random(int N, double p) {
     boolean[][] a = new boolean[N][N];
     for (int i = 0; i < N; i++)
         for (int j = 0; j < N; j++)
-            a[i][j] = StdRandom.bernoulli(p);
+            // a[i][j] = StdRandom.bernoulli(p);
     return a;
   }
 
   /**
    * @param matrix         The boolean matrix that the framework generates
-   * @param Ai             Starting point's x value
-   * @param Aj             Starting point's y value
-   * @param Bi             Ending point's x value
-   * @param Bj             Ending point's y value
+   * @param startY             Starting point's x value
+   * @param startX             Starting point's y value
+   * @param endY             Ending point's x value
+   * @param endX             Ending point's y value
    * @param n              Length of one side of the matrix
    * @param v              Cost between 2 cells located horizontally or vertically next to each other
    * @param d              Cost between 2 cells located Diagonally next to each other
    * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
    * @param h              int value which decides the correct method to choose to calculate the Heuristic value
    */
-  public static void generateHValue(boolean matrix[][], int Ai, int Aj, int Bi, int Bj, int n, int v, int d, boolean additionalPath, int h) {
+  public static void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int n, int v, int d, boolean additionalPath, int h) {
 
     for (int y = 0; y < matrix.length; y++) {
-        for (int x = 0; x < matrix.length; x++) {
-            //Creating a new Node object for each and every Cell of the Grid (Matrix)
-            cell[y][x] = new Node(y, x);
-            //Checks whether a cell is Blocked or Not by checking the boolean value
-            if (matrix[y][x]) {
-                if (h == 1) {
-                    //Assigning the Chebyshev Heuristic value
-                    if (Math.abs(y - Bi) > Math.abs(x - Bj)) {
-                        cell[y][x].hValue = Math.abs(y - Bi);
-                    } else {
-                        cell[y][x].hValue = Math.abs(x - Bj);
-                    }
-                } else if (h == 2) {
-                    //Assigning the Euclidean Heuristic value
-                    cell[y][x].hValue = Math.sqrt(Math.pow(y - Bi, 2) + Math.pow(x - Bj, 2));
-                } else if (h == 3) {
-                    //Assigning the Manhattan Heuristic value by calculating the absolute length (x+y) from the ending point to the starting point
-                    cell[y][x].hValue = Math.abs(y - Bi) + Math.abs(x - Bj);
+      for (int x = 0; x < matrix.length; x++) {
+        //Creating a new Node object for each and every Cell of the Grid (Matrix)
+        cell[y][x] = new Node(y, x);
+        //Checks whether a cell is Blocked or Not by checking the boolean value
+        if (matrix[y][x]) {
+            if (h == 1) {
+                //Assigning the Chebyshev Heuristic value
+                if (Math.abs(y - endY) > Math.abs(x - endX)) {
+                    cell[y][x].hValue = Math.abs(y - endY);
+                } else {
+                    cell[y][x].hValue = Math.abs(x - endX);
                 }
-            } else {
-                //If the boolean value is false, then assigning -1 instead of the absolute length
-                cell[y][x].hValue = -1;
+            } else if (h == 2) {
+                //Assigning the Euclidean Heuristic value
+                cell[y][x].hValue = Math.sqrt(Math.pow(y - endY, 2) + Math.pow(x - endX, 2));
+            } else if (h == 3) {
+                //Assigning the Manhattan Heuristic value by calculating the absolute length (x+y) from the ending point to the starting point
+                cell[y][x].hValue = Math.abs(y - endY) + Math.abs(x - endX);
             }
+        } else {
+            //If the boolean value is false, then assigning -1 instead of the absolute length
+            cell[y][x].hValue = -1;
         }
+      }
     }
-    generatePath(cell, Ai, Aj, Bi, Bj, n, v, d, additionalPath);
+    generatePath(cell, startY, startX, endY, endX, n, v, d, additionalPath);
   }
 
   public static void menu() {
@@ -99,29 +86,23 @@ public class AStar extends SubsystemBase {
     cell = new Node[randomlyGenMatrix.length][randomlyGenMatrix.length];
 
     System.out.println("Enter y1: ");
-    int Ai = in.nextInt();
+    int startY = in.nextInt();
     System.out.println("Enter x1: ");
-    int Aj = in.nextInt();
+    int startX = in.nextInt();
     System.out.println("Enter y2: ");
-    int Bi = in.nextInt();
+    int endY = in.nextInt();
     System.out.println("Enter x2: ");
-    int Bj = in.nextInt();
-
-    show(randomlyGenMatrix, true, Ai, Aj, Bi, Bj);
-
-    Stopwatch timerFlow = null;
+    int endX = in.nextInt();
 
     //Loop to find all 3 pathways and their relative Final Cost values
     for (int j = 0; j < 3; j++) {
 
         if (j == 0) {
-            timerFlow = new Stopwatch();
             //Method to generate Chebyshev path. Both Horizontal and Diagonal pathways are possible.
-            generateHValue(randomlyGenMatrix, Ai, Aj, Bi, Bj, n, 10, 10, true, 1);
+            generateHValue(randomlyGenMatrix, startY, startX, endY, endX, n, 10, 10, true, 1);
 
             //Checks whether the end point has been reach (Stored in the pathList)
-            if (cell[Ai][Aj].hValue!=-1&&pathList.contains(cell[Bi][Bj])) {
-                StdDraw.setPenColor(Color.RED);
+            if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
             /*StdDraw.setPenRadius(0.006);*/
 
                 //Draws the path
@@ -133,20 +114,8 @@ public class AStar extends SubsystemBase {
                     gCost += pathList.get(i).gValue;
                     /*fCost += pathList.get(i).fValue;*/
                 }
-
-                System.out.println("Chebyshev Path Found");
-                System.out.println("Total Cost: " + gCost/10.0);
-                /*System.out.println("Total fCost: " + fCost);*/
-                StdOut.println("Elapsed time = " + timerFlow.elapsedTime());
                 gCost = 0;
                 /*fCost = 0;*/
-
-            } else {
-
-                System.out.println("Chebyshev Path Not found");
-                StdOut.println("Elapsed time = " + timerFlow.elapsedTime());
-
-            }
 
             //Clears Both the pathList and the closedList
             pathList.clear();
@@ -156,9 +125,9 @@ public class AStar extends SubsystemBase {
 
         if (j == 1) {
             timerFlow = new Stopwatch();
-            generateHValue(randomlyGenMatrix, Ai, Aj, Bi, Bj, n, 10, 14, true, 2);
+            generateHValue(randomlyGenMatrix, startY, startX, endY, endX, n, 10, 14, true, 2);
 
-            if (cell[Ai][Aj].hValue!=-1&&pathList.contains(cell[Bi][Bj])) {
+            if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
                 StdDraw.setPenColor(Color.BLACK);
                 StdDraw.setPenRadius(0.015);
 
@@ -190,9 +159,9 @@ public class AStar extends SubsystemBase {
 
         if (j == 2) {
             timerFlow = new Stopwatch();
-            generateHValue(randomlyGenMatrix, Ai, Aj, Bi, Bj, n, 10, 10, false, 3);
+            generateHValue(randomlyGenMatrix, startY, startX, endY, endX, n, 10, 10, false, 3);
 
-            if (cell[Ai][Aj].hValue!=-1&&pathList.contains(cell[Bi][Bj])) {
+            if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
                 StdDraw.setPenColor(Color.orange);
                 StdDraw.setPenRadius(0.006);
 
@@ -227,16 +196,16 @@ public class AStar extends SubsystemBase {
 
 /**
  * @param hValue         Node type 2D Array (Matrix)
- * @param Ai             Starting point's y value
- * @param Aj             Starting point's x value
- * @param Bi             Ending point's y value
- * @param Bj             Ending point's x value
+ * @param startY         Starting point's y value
+ * @param startX         Starting point's x value
+ * @param endY           Ending point's y value
+ * @param endX           Ending point's x value
  * @param n              Length of one side of the matrix
  * @param v              Cost between 2 cells located horizontally or vertically next to each other
  * @param d              Cost between 2 cells located Diagonally next to each other
  * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
  */
-public static void generatePath(Node hValue[][], int Ai, int Aj, int Bi, int Bj, int n, int v, int d, boolean additionalPath) {
+public static void generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int n, int v, int d, boolean additionalPath) {
 
   //Creation of a PriorityQueue and the declaration of the Comparator
   PriorityQueue<Node> openList = new PriorityQueue<>(11, new Comparator() {
@@ -249,7 +218,7 @@ public static void generatePath(Node hValue[][], int Ai, int Aj, int Bi, int Bj,
   });
 
   //Adds the Starting cell inside the openList
-  openList.add(cell[Ai][Aj]);
+  openList.add(cell[startY][startX]);
 
   //Executes the rest if there are objects left inside the PriorityQueue
   while (true) {
@@ -264,7 +233,7 @@ public static void generatePath(Node hValue[][], int Ai, int Aj, int Bi, int Bj,
 
       //Checks if whether the node returned is having the same node object values of the ending point
       //If it des then stores that inside the closedList and breaks the while loop
-      if (node == cell[Bi][Bj]) {
+      if (node == cell[endY][endX]) {
           closedList.add(node);
           break;
       }
@@ -429,7 +398,7 @@ public static void generatePath(Node hValue[][], int Ai, int Aj, int Bi, int Bj,
       endNode = endNode.parent;
   }
 
-  pathList.add(cell[Ai][Aj]);
+  pathList.add(cell[startY][startX]);
   //Clears the openList
   openList.clear();
 
