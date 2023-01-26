@@ -52,7 +52,7 @@ public class TaskScheduler extends SubsystemBase {
  * Skips the currently scheduled class.
  */
   public void skipTask(){
-    currentTask.cancel();
+    stopTask();
     nextTask();
   }
 /**
