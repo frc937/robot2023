@@ -18,21 +18,16 @@ public abstract class AutoTask {
 
   /**
    * Creates a new AutoTask.
-   * <p>
-   * Dont forgot to use to add subsystem dependencies.
    */
   public AutoTask() {
-  }
-
-  public void initialize() {
-    initTask();
   }
 
   /**
    * Ran when the command is started. Allow basic movements before the
    * PositionSystem moves the robot.
    * <p>
-   * Make sure to put the {@link #taskPosition(Position) taskPosition} method in
+   * Make sure to put the {@link #setTaskPosition(Position) setTaskPosition}
+   * method in
    * init to set where the robot will go.
    * <p>
    * Not running taskPosition will cause a NullPointerException.
@@ -96,31 +91,55 @@ public abstract class AutoTask {
    * 
    * @param position The position the bot will go to for the AutoTask
    */
-  protected void taskPosition(Position position) {
+  protected void setTaskPosition(Position position) {
     taskPos = position;
   }
 
+  /**
+   * Ran if the task needs to be ended.
+   * 
+   * @param interrupted if the command was interrupted
+   */
   public void end(boolean interrupted) {
   }
 
-  public void cancel() {
-
-  }
+  /**
+   * Adds command requirements for TaskScheduler (such as ending commands)
+   * 
+   * @param command The command/s to add
+   */
   private void addCommandRequirement(CommandBase... command) {
-    for (CommandBase cb: command){
+    for (CommandBase cb : command) {
       commands.add(cb);
     }
   }
+
+  /**
+   * Sets the command to run on autotask init.
+   * 
+   * @param command The command to run.
+   */
   protected void setInitCommand(CommandBase command) {
     addCommandRequirement(command);
     initCommand = command;
   }
+
+  /**
+   * Sets the command to run on autotask arrival.
+   * 
+   * @param command The command to run.
+   */
   protected void setArrivedCommand(CommandBase command) {
     addCommandRequirement(command);
     arrivedCommand = command;
   }
 
-  // Returns true when the command should end.
+  /**
+   * Returns true once the arrival command finishes. Only overide if you want to
+   * change this behavior
+   * 
+   * @return Command state
+   */
   public boolean isFinished() {
     return false;
   }
