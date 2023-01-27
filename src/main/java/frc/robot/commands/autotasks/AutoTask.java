@@ -9,8 +9,10 @@ import java.util.Stack;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
-// TODO : class docstring
-// TODO: add documentaion for adding commands to tasks
+/**
+ * Base class for autotasks. 
+ * If you want to create an autotask extend this class.
+ */
 public abstract class AutoTask {
   private boolean initialized = false;
   private Pose taskPos;
@@ -21,6 +23,8 @@ public abstract class AutoTask {
 
   /**
    * Creates a new AutoTask.
+   * Dont create instances of commands.
+   * Each command should be a parameter instead of created
    */
   public AutoTask() {
   }
