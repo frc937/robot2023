@@ -31,7 +31,7 @@ public class TaskScheduler extends SubsystemBase {
  * @param task The task to run instantly
  */
   public void runTaskNow(AutoTask task){
-    currentTask.end(true);
+    currentTask.end();
     currentTask = task;
     initTask();
   }
@@ -74,7 +74,7 @@ public class TaskScheduler extends SubsystemBase {
  * Stops the current running task. Will not pop the next command.
  */
   private void stopTask(){
-    currentTask.end(true);
+    currentTask.end();
   }
 /**
  * Inits a command.

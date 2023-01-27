@@ -105,10 +105,11 @@ public abstract class AutoTask {
 
   /**
    * Ran if the task needs to be ended.
-   * 
-   * @param interrupted if the command was interrupted
    */
-  public void end(boolean interrupted) {
+  public void end() {
+    if (!runningCommand.isFinished()) {
+      runningCommand.end(true);
+    }
   }
 
   /**
@@ -142,7 +143,7 @@ public abstract class AutoTask {
     arrivedCommands.push(command);
   }
 
-  protected void build() {
+  public void build() {
     if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
       throw new NullPointerException("taskPositon Was not ran in initTask.");
     }
