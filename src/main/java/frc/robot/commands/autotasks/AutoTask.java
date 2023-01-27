@@ -7,11 +7,12 @@ package frc.robot.commands.autotasks;
 import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.positioning.Pose;
 import frc.robot.positioning.Position;
 
 public abstract class AutoTask {
   private boolean initialized = false;
-  private Position taskPos;
+  private Pose taskPos;
   private ArrayList<CommandBase> commands = new ArrayList<CommandBase>();
   private CommandBase initCommand;
   private CommandBase arrivedCommand;
@@ -60,7 +61,7 @@ public abstract class AutoTask {
    * 
    * @param position The bots current position.
    */
-  public abstract void fallback(Position position);
+  public abstract void fallback(Pose position);
 
   /**
    * <strong>DONT OVERRIDE.</strong> Override update instead. Overriding this will
@@ -81,7 +82,7 @@ public abstract class AutoTask {
    * 
    * @param position the current position of the robot when update is ran.
    */
-  public abstract void update(Position position);
+  public abstract void update(Pose position);
 
   /**
    * Sets the position the bot will go to for the task.
@@ -91,7 +92,7 @@ public abstract class AutoTask {
    * 
    * @param position The position the bot will go to for the AutoTask
    */
-  protected void setTaskPosition(Position position) {
+  protected void setTaskPosition(Pose position) {
     taskPos = position;
   }
 
