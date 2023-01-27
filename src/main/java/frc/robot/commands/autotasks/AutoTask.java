@@ -13,8 +13,8 @@ public abstract class AutoTask {
   private boolean initialized = false;
   private Pose taskPos;
   private ArrayList<CommandBase> commands = new ArrayList<CommandBase>();
-  private CommandBase initCommand;
-  private CommandBase arrivedCommand;
+  private ArrayList<CommandBase> initCommands = new ArrayList<CommandBase>();
+  private ArrayList<CommandBase> arrivedCommands = new ArrayList<CommandBase>();
 
   /**
    * Creates a new AutoTask.
@@ -67,12 +67,6 @@ public abstract class AutoTask {
    * cause the AutoTask to never start.
    */
   public void execute() {
-    if (initFinished() & !initialized) {
-      // code will be put here when the PositionSystem is implimented
-      if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
-        throw new NullPointerException("taskPositon Was not ran in initTask.");
-      }
-    }
 
   }
 
@@ -119,9 +113,9 @@ public abstract class AutoTask {
    * 
    * @param command The command to run.
    */
-  protected void setInitCommand(CommandBase command) {
+  protected void addInitCommand(CommandBase command) {
     addCommandRequirement(command);
-    initCommand = command;
+    initCommands.add(command);
   }
 
   /**
@@ -129,9 +123,9 @@ public abstract class AutoTask {
    * 
    * @param command The command to run.
    */
-  protected void setArrivedCommand(CommandBase command) {
+  protected void addArrivedCommand(CommandBase command) {
     addCommandRequirement(command);
-    arrivedCommand = command;
+    arrivedCommands.add(command);
   }
 
   /**
@@ -142,5 +136,10 @@ public abstract class AutoTask {
    */
   public boolean isFinished() {
     return false;
+  }
+  protected void build() {
+    if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
+      throw new NullPointerException("taskPositon Was not ran in initTask.");
+    }
   }
 }
