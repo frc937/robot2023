@@ -6,192 +6,113 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class AStar extends SubsystemBase {
-  static Node[][] cell;
-  static ArrayList<Node> pathList = new ArrayList<>();
-  static ArrayList<Node> closedList = new ArrayList<>();
-  static boolean additionalPath = false;
+    static Node[][] cell;
+    static ArrayList<Node> pathList = new ArrayList<>();
+    static ArrayList<Node> closedList = new ArrayList<>();
+    static boolean additionalPath = false;
 
-  // return a random N-by-N boolean matrix
-  // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT**
-  public static boolean[][] random(int N, double p) {
-    boolean[][] a = new boolean[N][N];
-    for (int i = 0; i < N; i++)
-        for (int j = 0; j < N; j++)
+    // return a random N-by-N boolean matrix
+    // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    public static boolean[][] random(int N) {
+        boolean[][] a = new boolean[N][N];
+        for (int i = 0; i < N; i++){
+        for (int j = 0; j < N; j++){
             // a[i][j] = StdRandom.bernoulli(p);
-    return a;
-  }
+        }
+        }
+        return a;
+    }
 
-  /**
-   * @param matrix         The boolean matrix that the framework generates
-   * @param startY             Starting point's x value
-   * @param startX             Starting point's y value
-   * @param endY             Ending point's x value
-   * @param endX             Ending point's y value
-   * @param n              Length of one side of the matrix
-   * @param v              Cost between 2 cells located horizontally or vertically next to each other
-   * @param d              Cost between 2 cells located Diagonally next to each other
-   * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
-   * @param h              int value which decides the correct method to choose to calculate the Heuristic value
-   */
-  public static void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int n, int v, int d, boolean additionalPath, int h) {
+    /**
+     * @param matrix         The boolean matrix that the framework generates
+     * @param startY             Starting point's x value
+     * @param startX             Starting point's y value
+     * @param endY             Ending point's x value
+     * @param endX             Ending point's y value
+     * @param n              Length of one side of the matrix
+     * @param v              Cost between 2 cells located horizontally or vertically next to each other
+     * @param d              Cost between 2 cells located Diagonally next to each other
+     * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
+     * @param h              int value which decides the correct method to choose to calculate the Heuristic value
+     */
+    public static void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int n, int v, int d, boolean additionalPath, int h) {
 
     for (int y = 0; y < matrix.length; y++) {
-      for (int x = 0; x < matrix.length; x++) {
+        for (int x = 0; x < matrix.length; x++) {
         //Creating a new Node object for each and every Cell of the Grid (Matrix)
         cell[y][x] = new Node(y, x);
         //Checks whether a cell is Blocked or Not by checking the boolean value
         if (matrix[y][x]) {
             if (h == 1) {
-                //Assigning the Chebyshev Heuristic value
-                if (Math.abs(y - endY) > Math.abs(x - endX)) {
-                    cell[y][x].hValue = Math.abs(y - endY);
-                } else {
-                    cell[y][x].hValue = Math.abs(x - endX);
-                }
+            //Assigning the Chebyshev Heuristic value
+            if (Math.abs(y - endY) > Math.abs(x - endX)) {
+                cell[y][x].hValue = Math.abs(y - endY);
+            } else {
+                cell[y][x].hValue = Math.abs(x - endX);
+            }
             } else if (h == 2) {
-                //Assigning the Euclidean Heuristic value
-                cell[y][x].hValue = Math.sqrt(Math.pow(y - endY, 2) + Math.pow(x - endX, 2));
+            //Assigning the Euclidean Heuristic value
+            cell[y][x].hValue = Math.sqrt(Math.pow(y - endY, 2) + Math.pow(x - endX, 2));
             } else if (h == 3) {
-                //Assigning the Manhattan Heuristic value by calculating the absolute length (x+y) from the ending point to the starting point
-                cell[y][x].hValue = Math.abs(y - endY) + Math.abs(x - endX);
+            //Assigning the Manhattan Heuristic value by calculating the absolute length (x+y) from the ending point to the starting point
+            cell[y][x].hValue = Math.abs(y - endY) + Math.abs(x - endX);
             }
         } else {
             //If the boolean value is false, then assigning -1 instead of the absolute length
             cell[y][x].hValue = -1;
         }
-      }
+        }
     }
     generatePath(cell, startY, startX, endY, endX, n, v, d, additionalPath);
-  }
+    }
 
-  public static void menu() {
-    Scanner in = new Scanner(System.in);
-    System.out.println("Please choose N(Grid Size): ");
-    int n = in.nextInt();
-    System.out.println("Please choose Obstacle ratio: ");
-    double p = in.nextDouble();
+    public static void menu() {
+    int n = 69; //TODO: THIS IS A PLACEHOLDER VALUE, SET GRID SIZE LATER OR SOMETHING IDK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     int gCost = 0;
     /*int fCost = 0;*/
 
     //Generating a new Boolean Matrix according to the input values of n and p (Length, Percolation value)
-    boolean[][] randomlyGenMatrix = random(n, p);
-
-    //StdArrayIO.print(randomlyGenMatrix);
-    show(randomlyGenMatrix, true);
+    boolean[][] randomlyGenMatrix = random(n);
 
     //Creation of a Node type 2D array
     cell = new Node[randomlyGenMatrix.length][randomlyGenMatrix.length];
 
-    System.out.println("Enter y1: ");
-    int startY = in.nextInt();
-    System.out.println("Enter x1: ");
-    int startX = in.nextInt();
-    System.out.println("Enter y2: ");
-    int endY = in.nextInt();
-    System.out.println("Enter x2: ");
-    int endX = in.nextInt();
+    // TODO: THIS IS WHERE YOU PUT THE VALUES FOR WHERE THE GOOD 'OL START AND END POS COORDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    int startY = 69;
+    int startX = 69;
+    int endY = 69;
+    int endX = 69;
 
     //Loop to find all 3 pathways and their relative Final Cost values
-    for (int j = 0; j < 3; j++) {
 
-        if (j == 0) {
-            //Method to generate Chebyshev path. Both Horizontal and Diagonal pathways are possible.
-            generateHValue(randomlyGenMatrix, startY, startX, endY, endX, n, 10, 10, true, 1);
+    generateHValue(randomlyGenMatrix, startY, startX, endY, endX, n, 10, 14, true, 2);
 
-            //Checks whether the end point has been reach (Stored in the pathList)
-            if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
-            /*StdDraw.setPenRadius(0.006);*/
+    if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
 
-                //Draws the path
-                for (int i = 0; i < pathList.size(); i++) {
-                /*System.out.println(pathList.get(i).x + " " + pathList.get(i).y);*/
-                    StdDraw.filledSquare(pathList.get(i).y, n - pathList.get(i).x - 1, .5);
-                /*StdDraw.line(pathList.get(i).y, n - 1 - pathList.get(i).x, pathList.get(i + 1).y, n - 1 - pathList.get(i + 1).x);*/
-                    //Adds the gValue of each and every Node object that's stored in the pathList
-                    gCost += pathList.get(i).gValue;
-                    /*fCost += pathList.get(i).fValue;*/
-                }
-                gCost = 0;
-                /*fCost = 0;*/
-
-            //Clears Both the pathList and the closedList
-            pathList.clear();
-            closedList.clear();
-        }
-
-
-        if (j == 1) {
-            timerFlow = new Stopwatch();
-            generateHValue(randomlyGenMatrix, startY, startX, endY, endX, n, 10, 14, true, 2);
-
-            if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
-                StdDraw.setPenColor(Color.BLACK);
-                StdDraw.setPenRadius(0.015);
-
-                for (int i = 0; i < pathList.size() - 1; i++) {
-               /* System.out.println(pathList.get(i).x + " " + pathList.get(i).y);*/
-                /*StdDraw.circle(pathList.get(i).y, n - pathList.get(i).x - 1, .4);*/
-                    StdDraw.line(pathList.get(i).y, n - 1 - pathList.get(i).x, pathList.get(i + 1).y, n - 1 - pathList.get(i + 1).x);
-                    gCost += pathList.get(i).gValue;
-                    /*fCost += pathList.get(i).fValue;*/
-                }
-
-                System.out.println("Euclidean Path Found");
-                System.out.println("Total Cost: " + gCost/10.0);
-                /*System.out.println("Total fCost: " + fCost);*/
-                StdOut.println("Elapsed time = " + timerFlow.elapsedTime());
-                gCost = 0;
-                /*fCost = 0;*/
-
-            } else {
-
-                System.out.println("Euclidean Path Not found");
-                StdOut.println("Elapsed time = " + timerFlow.elapsedTime());
-
-            }
-
-            pathList.clear();
-            closedList.clear();
-        }
-
-        if (j == 2) {
-            timerFlow = new Stopwatch();
-            generateHValue(randomlyGenMatrix, startY, startX, endY, endX, n, 10, 10, false, 3);
-
-            if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
-                StdDraw.setPenColor(Color.orange);
-                StdDraw.setPenRadius(0.006);
-
-                for (int i = 0; i < pathList.size() - 1; i++) {
-                /*System.out.println(pathList.get(i).x + " " + pathList.get(i).y);*/
-                /*StdDraw.filledCircle(pathList.get(i).y, n - pathList.get(i).x - 1, .2);*/
-                    StdDraw.line(pathList.get(i).y, n - 1 - pathList.get(i).x, pathList.get(i + 1).y, n - 1 - pathList.get(i + 1).x);
-                    gCost += pathList.get(i).gValue;
-                    /*fCost += pathList.get(i).fValue;*/
-                }
-
-                System.out.println("Manhattan Path Found");
-                System.out.println("Total Cost: " + gCost/10.0);
-                /*System.out.println("Total fCost: " + fCost);*/
-                StdOut.println("Elapsed time = " + timerFlow.elapsedTime());
-                gCost = 0;
-                /*fCost = 0;*/
-
-            } else {
-
-                System.out.println("Manhattan Path Not found");
-                StdOut.println("Elapsed time = " + timerFlow.elapsedTime());
-
-            }
-
-            pathList.clear();
-            closedList.clear();
-        }
+    for (int i = 0; i < pathList.size() - 1; i++) {
+    /* System.out.println(pathList.get(i).x + " " + pathList.get(i).y);*/
+    /*StdDraw.circle(pathList.get(i).y, n - pathList.get(i).x - 1, .4);*/
+        gCost += pathList.get(i).gValue;
+        /*fCost += pathList.get(i).fValue;*/
     }
 
+    System.out.println("Euclidean Path Found");
+    System.out.println("Total Cost: " + gCost/10.0);
+    /*System.out.println("Total fCost: " + fCost);*/
+    gCost = 0;
+    /*fCost = 0;*/
+
+    } else {
+
+        System.out.println("Euclidean Path Not found");
+
+    }
+
+    pathList.clear();
+    closedList.clear();
 }
 
 /**
