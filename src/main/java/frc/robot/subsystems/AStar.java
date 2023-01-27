@@ -16,7 +16,7 @@ public class AStar extends SubsystemBase {
 
     // return a random N-by-N boolean matrix
     // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public static boolean[][] random(int N) {
+    public static boolean[][] createObstacleGrid(int N) {
         boolean[][] a = new boolean[N][N];
         for (int i = 0; i < N; i++){
         for (int j = 0; j < N; j++){
@@ -75,10 +75,10 @@ public class AStar extends SubsystemBase {
     /*int fCost = 0;*/
 
     //Generating a new Boolean Matrix according to the input values of n and p (Length, Percolation value)
-    boolean[][] randomlyGenMatrix = random(n);
+    boolean[][] grid = createObstacleGrid(n);
 
     //Creation of a Node type 2D array
-    cell = new Node[randomlyGenMatrix.length][randomlyGenMatrix.length];
+    cell = new Node[grid.length][grid.length];
 
     // TODO: THIS IS WHERE YOU PUT THE VALUES FOR WHERE THE GOOD 'OL START AND END POS COORDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     int startY = 69;
@@ -88,7 +88,7 @@ public class AStar extends SubsystemBase {
 
     //Loop to find all 3 pathways and their relative Final Cost values
 
-    generateHValue(randomlyGenMatrix, startY, startX, endY, endX, n, 10, 14, true, 2);
+    generateHValue(grid, startY, startX, endY, endX, n, 10, 14, true, 2);
 
     if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
 
@@ -340,8 +340,6 @@ public static void main(String[] args) {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
-
 
   }
 }
