@@ -5,6 +5,7 @@
 package frc.robot.commands.autotasks;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
@@ -13,8 +14,9 @@ public abstract class AutoTask {
   private boolean initialized = false;
   private Pose taskPos;
   private ArrayList<CommandBase> commands = new ArrayList<CommandBase>();
-  private ArrayList<CommandBase> initCommands = new ArrayList<CommandBase>();
-  private ArrayList<CommandBase> arrivedCommands = new ArrayList<CommandBase>();
+  private Stack<CommandBase> initCommands = new Stack<CommandBase>();
+  private Stack<CommandBase> arrivedCommands = new Stack<CommandBase>();
+  private CommandBase runningCommand;
 
   /**
    * Creates a new AutoTask.
@@ -40,7 +42,13 @@ public abstract class AutoTask {
    * 
    * @return the state of the initTask method.
    */
-  public abstract boolean initFinished();
+  public boolean initFinished(){
+    if (initCommands.empty() & runningCommand.isFinished()) {
+        return true;
+    } else {
+      return false;
+    }
+  }
 
   /**
    * Ran when the AutoTask arrives at the defined position.
@@ -53,7 +61,13 @@ public abstract class AutoTask {
    * 
    * @return the state of the arrived method
    */
-  public abstract boolean arrivedFinished();
+  public boolean isFinished() {
+  if (arrivedCommands.empty() & runningCommand.isFinished()) {
+      return true;
+  } else {
+    return false;
+  }
+  }
 
   /**
    * Ran if the bot cant get to the position it needs.
@@ -115,7 +129,7 @@ public abstract class AutoTask {
    */
   protected void addInitCommand(CommandBase command) {
     addCommandRequirement(command);
-    initCommands.add(command);
+    initCommands.push(command);
   }
 
   /**
@@ -125,18 +139,9 @@ public abstract class AutoTask {
    */
   protected void addArrivedCommand(CommandBase command) {
     addCommandRequirement(command);
-    arrivedCommands.add(command);
+    arrivedCommands.push(command);
   }
 
-  /**
-   * Returns true once the arrival command finishes. Only overide if you want to
-   * change this behavior
-   * 
-   * @return Command state
-   */
-  public boolean isFinished() {
-    return false;
-  }
   protected void build() {
     if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
       throw new NullPointerException("taskPositon Was not ran in initTask.");
