@@ -142,8 +142,10 @@ public abstract class AutoTask {
     addCommandRequirement(command);
     arrivedCommands.push(command);
   }
-
-  public void build() {
+ /**
+  * Runs checks on the autotasks to make sure the tasks are valid
+  */
+  public void verify() {
     if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
       throw new NullPointerException("taskPositon Was not ran in initTask.");
     }
