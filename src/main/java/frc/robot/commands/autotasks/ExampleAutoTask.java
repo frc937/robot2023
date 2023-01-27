@@ -1,7 +1,8 @@
 package frc.robot.commands.autotasks;
 
 import frc.robot.positioning.Pose;
-
+// TODO: write documentation
+// TODO: finish example autotask
 public class ExampleAutoTask extends AutoTask{
     public ExampleAutoTask(){
     }

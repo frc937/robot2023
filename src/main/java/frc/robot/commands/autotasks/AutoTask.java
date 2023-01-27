@@ -9,7 +9,8 @@ import java.util.Stack;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
-
+// TODO : class docstring
+// TODO: add documentaion for adding commands to tasks
 public abstract class AutoTask {
   private boolean initialized = false;
   private Pose taskPos;
