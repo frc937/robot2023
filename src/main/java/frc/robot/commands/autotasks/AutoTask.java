@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
-import frc.robot.positioning.Position;
 
 public abstract class AutoTask {
   private boolean initialized = false;

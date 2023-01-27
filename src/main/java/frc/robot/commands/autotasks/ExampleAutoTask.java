@@ -1,7 +1,6 @@
 package frc.robot.commands.autotasks;
 
 import frc.robot.positioning.Pose;
-import frc.robot.positioning.Position;
 
 public class ExampleAutoTask extends AutoTask{
     public ExampleAutoTask(){
