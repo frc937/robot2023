@@ -19,9 +19,9 @@ public class AStar extends SubsystemBase {
     public static boolean[][] createObstacleGrid(int N) {
         boolean[][] a = new boolean[N][N];
         for (int i = 0; i < N; i++){
-        for (int j = 0; j < N; j++){
-            // a[i][j] = StdRandom.bernoulli(p);
-        }
+            for (int j = 0; j < N; j++){
+                // a[i][j] = StdRandom.bernoulli(p);
+            }
         }
         return a;
     }
@@ -38,82 +38,65 @@ public class AStar extends SubsystemBase {
      * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
      * @param h              int value which decides the correct method to choose to calculate the Heuristic value
      */
-    public static void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int n, int v, int d, boolean additionalPath, int h) {
+    public static void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int n, int v, int d, boolean additionalPath) {
 
-    for (int y = 0; y < matrix.length; y++) {
-        for (int x = 0; x < matrix.length; x++) {
-        //Creating a new Node object for each and every Cell of the Grid (Matrix)
-        cell[y][x] = new Node(y, x);
-        //Checks whether a cell is Blocked or Not by checking the boolean value
-        if (matrix[y][x]) {
-            if (h == 1) {
-            //Assigning the Chebyshev Heuristic value
-            if (Math.abs(y - endY) > Math.abs(x - endX)) {
-                cell[y][x].hValue = Math.abs(y - endY);
-            } else {
-                cell[y][x].hValue = Math.abs(x - endX);
+        for (int y = 0; y < matrix.length; y++) {
+            for (int x = 0; x < matrix.length; x++) {
+                //Creating a new Node object for each and every Cell of the Grid (Matrix)
+                cell[y][x] = new Node(y, x);
+                //Checks whether a cell is Blocked or Not by checking the boolean value
+                if (matrix[y][x]) {
+                    //Assigning the Euclidean Heuristic value
+                    cell[y][x].hValue = Math.sqrt(Math.pow(y - endY, 2) + Math.pow(x - endX, 2));
+                }
             }
-            } else if (h == 2) {
-            //Assigning the Euclidean Heuristic value
-            cell[y][x].hValue = Math.sqrt(Math.pow(y - endY, 2) + Math.pow(x - endX, 2));
-            } else if (h == 3) {
-            //Assigning the Manhattan Heuristic value by calculating the absolute length (x+y) from the ending point to the starting point
-            cell[y][x].hValue = Math.abs(y - endY) + Math.abs(x - endX);
-            }
-        } else {
-            //If the boolean value is false, then assigning -1 instead of the absolute length
-            cell[y][x].hValue = -1;
         }
-        }
-    }
-    generatePath(cell, startY, startX, endY, endX, n, v, d, additionalPath);
+        generatePath(cell, startY, startX, endY, endX, n, v, d, additionalPath);
     }
 
     public static void menu() {
-    int n = 69; //TODO: THIS IS A PLACEHOLDER VALUE, SET GRID SIZE LATER OR SOMETHING IDK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    int gCost = 0;
-    /*int fCost = 0;*/
+        int n = 69; //TODO: THIS IS A PLACEHOLDER VALUE, SET GRID SIZE LATER OR SOMETHING IDK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        int gCost = 0;
+        /*int fCost = 0;*/
 
-    //Generating a new Boolean Matrix according to the input values of n and p (Length, Percolation value)
-    boolean[][] grid = createObstacleGrid(n);
+        //Generating a new Boolean Matrix according to the input values of n and p (Length, Percolation value)
+        boolean[][] grid = createObstacleGrid(n);
 
-    //Creation of a Node type 2D array
-    cell = new Node[grid.length][grid.length];
+        //Creation of a Node type 2D array
+        cell = new Node[grid.length][grid.length];
 
-    // TODO: THIS IS WHERE YOU PUT THE VALUES FOR WHERE THE GOOD 'OL START AND END POS COORDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    int startY = 69;
-    int startX = 69;
-    int endY = 69;
-    int endX = 69;
+        // TODO: THIS IS WHERE YOU PUT THE VALUES FOR WHERE THE GOOD 'OL START AND END POS COORDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        int startY = 69;
+        int startX = 69;
+        int endY = 69;
+        int endX = 69;
 
-    //Loop to find all 3 pathways and their relative Final Cost values
+        //Loop to find all 3 pathways and their relative Final Cost values
 
-    generateHValue(grid, startY, startX, endY, endX, n, 10, 14, true, 2);
+        generateHValue(grid, startY, startX, endY, endX, n, 10, 14, true);
 
-    if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
+        if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
 
-    for (int i = 0; i < pathList.size() - 1; i++) {
-    /* System.out.println(pathList.get(i).x + " " + pathList.get(i).y);*/
-    /*StdDraw.circle(pathList.get(i).y, n - pathList.get(i).x - 1, .4);*/
-        gCost += pathList.get(i).gValue;
-        /*fCost += pathList.get(i).fValue;*/
+            for (int i = 0; i < pathList.size() - 1; i++) {
+                /* System.out.println(pathList.get(i).x + " " + pathList.get(i).y);*/
+                /*StdDraw.circle(pathList.get(i).y, n - pathList.get(i).x - 1, .4);*/
+                gCost += pathList.get(i).gValue;
+                /*fCost += pathList.get(i).fValue;*/
+            }
+        
+            System.out.println("Euclidean Path Found");
+            System.out.println("Total Cost: " + gCost/10.0);
+            /*System.out.println("Total fCost: " + fCost);*/
+            gCost = 0;
+            /*fCost = 0;*/
+        
+        } else {
+            System.out.println("Euclidean Path Not found");
+        }
+
+        pathList.clear();
+        closedList.clear();
     }
-
-    System.out.println("Euclidean Path Found");
-    System.out.println("Total Cost: " + gCost/10.0);
-    /*System.out.println("Total fCost: " + fCost);*/
-    gCost = 0;
-    /*fCost = 0;*/
-
-    } else {
-
-        System.out.println("Euclidean Path Not found");
-
-    }
-
-    pathList.clear();
-    closedList.clear();
-}
 
 /**
  * @param hValue         Node type 2D Array (Matrix)
@@ -328,12 +311,6 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
 }
 
 public AStar() {
-
-}
-
-public static void main(String[] args) {
-
-    menu();
 
 }
 
