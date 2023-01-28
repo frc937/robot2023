@@ -18,8 +18,8 @@ public class AStar extends SubsystemBase {
     // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     public static boolean[][] createObstacleGrid(int N) {
         boolean[][] a = new boolean[N][N];
-        for (int i = 0; i < N; i++){
-            for (int j = 0; j < N; j++){
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
                 // a[i][j] = StdRandom.bernoulli(p);
             }
         }
