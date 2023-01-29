@@ -82,11 +82,37 @@ public abstract class AutoTask {
   public abstract void fallback(Pose position);
 
   /**
-   * <strong>DONT OVERRIDE.</strong> Override update instead. Overriding this will
-   * cause the AutoTask to never start.
+   * Returns the acive command.
    */
-  public void execute() {
+  public CommandBase getActiveCommand() {
+    return runningCommand; 
 
+  }
+
+  /**
+   * Like periodic but gives position arg
+   * @param position The current position of the robot
+   */
+  public void updateTask(Pose position) {
+    
+  } 
+  private void updateInit(){
+    /* Checks if the task has finished init sequence  */
+    if (!initialized) {
+      /* If task is not initalised, queue command if current running one is finished */
+      if (runningCommand.isFinished() & !initCommands.isEmpty()){
+        runningCommand = initCommands.pop();
+        /* If currently running command is finished and there are no more init
+         * Commands, initalize
+         */
+      } else if (initCommands.isEmpty() & runningCommand.isFinished()) {
+        initialized = true;
+      }
+      /* Prevents current command from getting ran multiple times without intention */
+      if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
+        runningCommand.schedule();
+      }
+    }
   }
 
   /**
@@ -94,7 +120,7 @@ public abstract class AutoTask {
    * 
    * @param position the current position of the robot when update is ran.
    */
-  public abstract void update(Pose position);
+  protected abstract void update(Pose position);
 
   /**
    * Sets the position the bot will go to for the task.

@@ -18,5 +18,5 @@ public class ExampleAutoTask extends AutoTask{
         return true;
     }
     public void fallback(Pose position){}
-    public void update(Pose position){}
+    protected void update(Pose position){}
 }
