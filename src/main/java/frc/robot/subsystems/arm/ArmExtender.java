@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.arm;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
@@ -22,7 +21,8 @@ public class ArmExtender extends SubsystemBase {
   /* If VS Code thinks this library can't be found, it's probably wrong.
    * Usually the code builds just fine even if VS Code thinks the library can't be found.
    */
-  private Rev2mDistanceSensor lengthSensor;
+  private Rev2mDistanceSensor lengthSensorStage1;
+  private Rev2mDistanceSensor lengthSensorStage2;
 
   private double setpoint;
 
@@ -32,8 +32,11 @@ public class ArmExtender extends SubsystemBase {
    */
   public ArmExtender() {
     winch = new WPI_TalonSRX(Constants.Arm.ID_TALON_ARM_WINCH);
-    lengthSensor = new Rev2mDistanceSensor(Port.kOnboard);
-    lengthSensor.setAutomaticMode(true);
+    //we do not know which stage corresponds to which port, so change later
+    lengthSensorStage1 = new Rev2mDistanceSensor(Port.kOnboard);
+    lengthSensorStage2 = new Rev2mDistanceSensor(Port.kMXP);
+    lengthSensorStage1.setAutomaticMode(true);
+    lengthSensorStage2.setAutomaticMode(true);
     setpoint = Constants.Arm.MIN_LENGTH_ARM_EXTENDER;
   }
 
@@ -42,10 +45,10 @@ public class ArmExtender extends SubsystemBase {
    * @return The length of the arm from the shoulder to the claw in inches.
    */
   public double getLength() {
-    if (lengthSensor.isRangeValid()) {
-      return lengthSensor.getRange();
+    if (lengthSensorStage1.isRangeValid() && lengthSensorStage2.isRangeValid()) {
+      return lengthSensorStage1.getRange() + lengthSensorStage2.getRange();
     } else {
-      throw new IllegalStateException("Length sensor does not have a valid reading!");
+      return -1.0;
     }
 
   }
