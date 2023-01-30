@@ -16,6 +16,7 @@ import frc.robot.positioning.Pose;
 public abstract class AutoTask {
   private boolean initialized = false;
   private boolean arrived = false;
+  private boolean ended = false;
   private Pose taskPos;
   private ArrayList<CommandBase> commands = new ArrayList<CommandBase>();
   private Stack<CommandBase> initCommands = new Stack<CommandBase>();
@@ -125,16 +126,16 @@ public abstract class AutoTask {
  * Update the arrived sequence of the task. If the task hasent arrived at the desination the command is bypassed.
  */
 private void updateArrived(){
-  /* Checks if the task has finished init sequence  */
+  /* Checks if the task has finished arrived sequence  */
   if (!arrived) {
     /* If task is not initalised, queue command if current running one is finished */
     if (runningCommand.isFinished() & !arrivedCommands.isEmpty()){
       runningCommand = arrivedCommands.pop();
       /* If currently running command is finished and there are no more init
-       * Commands, initalize
+       * Commands, end the command
        */
     } else if (arrivedCommands.isEmpty() & runningCommand.isFinished()) {
-      initialized = true;
+      ended = true;
     }
     /* Prevents current command from getting ran multiple times without intention */
     if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
@@ -142,7 +143,9 @@ private void updateArrived(){
     }
   }
 }
-
+public boolean ended(){
+ return ended;
+}
   /**
    * Use instead of execute. Functions as execute but with a position arguemnt.
    * 
