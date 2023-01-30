@@ -9,8 +9,9 @@ import java.util.Stack;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
+
 /**
- * Base class for autotasks. 
+ * Base class for autotasks.
  * If you want to create an autotask extend this class.
  */
 public abstract class AutoTask {
@@ -49,9 +50,9 @@ public abstract class AutoTask {
    * 
    * @return the state of the initTask method.
    */
-  public boolean initFinished(){
+  public boolean initFinished() {
     if (initCommands.empty() & runningCommand.isFinished()) {
-        return true;
+      return true;
     } else {
       return false;
     }
@@ -69,11 +70,11 @@ public abstract class AutoTask {
    * @return the state of the arrived method
    */
   public boolean isFinished() {
-  if (arrivedCommands.empty() & runningCommand.isFinished()) {
+    if (arrivedCommands.empty() & runningCommand.isFinished()) {
       return true;
-  } else {
-    return false;
-  }
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -87,29 +88,35 @@ public abstract class AutoTask {
    * Returns the acive command.
    */
   public CommandBase getActiveCommand() {
-    return runningCommand; 
+    return runningCommand;
 
   }
 
   /**
    * Like periodic but gives position arg
+   * 
    * @param position The current position of the robot
    */
   public void updateTask(Pose position) {
     updateInit();
     updateArrived();
     update(position);
-  } 
-/*
- * Update the init sequence of the task. If the task is initialized the command is bypassed.
- */
-  private void updateInit(){
-    /* Checks if the task has finished init sequence  */
+  }
+
+  /*
+   * Update the init sequence of the task. If the task is initialized the command
+   * is bypassed.
+   */
+  private void updateInit() {
+    /* Checks if the task has finished init sequence */
     if (!initialized) {
-      /* If task is not initalised, queue command if current running one is finished */
-      if (runningCommand.isFinished() & !initCommands.isEmpty()){
+      /*
+       * If task is not initalised, queue command if current running one is finished
+       */
+      if (runningCommand.isFinished() & !initCommands.isEmpty()) {
         runningCommand = initCommands.pop();
-        /* If currently running command is finished and there are no more init
+        /*
+         * If currently running command is finished and there are no more init
          * Commands, initalize
          */
       } else if (initCommands.isEmpty() & runningCommand.isFinished()) {
@@ -123,29 +130,40 @@ public abstract class AutoTask {
   }
 
   /*
- * Update the arrived sequence of the task. If the task hasent arrived at the desination the command is bypassed.
- */
-private void updateArrived(){
-  /* Checks if the task has finished arrived sequence  */
-  if (!arrived) {
-    /* If task is not initalised, queue command if current running one is finished */
-    if (runningCommand.isFinished() & !arrivedCommands.isEmpty()){
-      runningCommand = arrivedCommands.pop();
-      /* If currently running command is finished and there are no more init
-       * Commands, end the command
+   * Update the arrived sequence of the task. If the task hasent arrived at the
+   * desination the command is bypassed.
+   */
+  private void updateArrived() {
+    /* Checks if the task has finished arrived sequence */
+    if (!arrived) {
+      /*
+       * If task is not initalised, queue command if current running one is finished
        */
-    } else if (arrivedCommands.isEmpty() & runningCommand.isFinished()) {
-      ended = true;
-    }
-    /* Prevents current command from getting ran multiple times without intention */
-    if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
-      runningCommand.schedule();
+      if (runningCommand.isFinished() & !arrivedCommands.isEmpty()) {
+        runningCommand = arrivedCommands.pop();
+        /*
+         * If currently running command is finished and there are no more init
+         * Commands, end the command
+         */
+      } else if (arrivedCommands.isEmpty() & runningCommand.isFinished()) {
+        ended = true;
+      }
+      /* Prevents current command from getting ran multiple times without intention */
+      if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
+        runningCommand.schedule();
+      }
     }
   }
-}
-public boolean ended(){
- return ended;
-}
+
+  /**
+   * Returns if the task has ended or not.
+   * 
+   * @return The status of the command
+   */
+  public boolean ended() {
+    return ended;
+  }
+
   /**
    * Use instead of execute. Functions as execute but with a position arguemnt.
    * 
@@ -204,9 +222,10 @@ public boolean ended(){
     addCommandRequirement(command);
     arrivedCommands.push(command);
   }
- /**
-  * Runs checks on the autotasks to make sure the tasks are valid
-  */
+
+  /**
+   * Runs checks on the autotasks to make sure the tasks are valid
+   */
   public void verify() {
     if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
       throw new NullPointerException("taskPositon Was not ran in initTask.");
