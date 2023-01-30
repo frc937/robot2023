@@ -6,6 +6,14 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+/**
+ * @param x - x coordinate on the field 
+ * @param y - y coordinate on the field
+ * @param hValue - The Heuristic value, distance of each node from (starting point || end point (idk which))
+ * @param gValue - The g value, the distance between the current node and the start node
+ * @param fValue - The f value, the total cost of the node
+ * @param parent - the parent Node
+ */
 public class Node extends SubsystemBase {
   /** Creates a new Node. */
   public Node(int x, int y) {
