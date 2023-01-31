@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.*;
 
 /**
- * @param pathList - 
+ * @param pathList - likely the path
  * @param closedList - nodes that no longer need to be aknowledged
  */
 public class AStar extends SubsystemBase {
