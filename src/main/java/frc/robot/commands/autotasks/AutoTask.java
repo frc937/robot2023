@@ -4,79 +4,209 @@
 
 package frc.robot.commands.autotasks;
 
-import frc.robot.positioning.Position;
+import java.util.ArrayList;
+import java.util.Stack;
+
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.positioning.Pose;
+/**
+ * Base class for autotasks. 
+ * If you want to create an autotask extend this class.
+ */
 public abstract class AutoTask {
   private boolean initialized = false;
-  private Position taskPos;
-  /** Creates a new AutoTask. <p>
-   * Dont forgot to use to add subsystem dependencies.
+  private boolean arrived = false;
+  private Pose taskPos;
+  private ArrayList<CommandBase> commands = new ArrayList<CommandBase>();
+  private Stack<CommandBase> initCommands = new Stack<CommandBase>();
+  private Stack<CommandBase> arrivedCommands = new Stack<CommandBase>();
+  private CommandBase runningCommand;
+
+  /**
+   * Creates a new AutoTask.
+   * Dont create instances of commands.
+   * Each command should be a parameter instead of created
    */
   public AutoTask() {
   }
 
-  
-  public void initialize() {
-    initTask();
-  }
-/**
- * Ran when the command is started. Allow basic movements before the PositionSystem moves the robot. <p>
- * Make sure to put the {@link #taskPosition(Position) taskPosition} method in init to set where the robot will go. <p>
- * Not running taskPosition will cause a NullPointerException.
- */
-  public abstract void initTask(); 
   /**
-   * Checks if the initTask method is finished. Return true when the method finishes.
+   * Ran when the command is started. Allow basic movements before the
+   * PositionSystem moves the robot.
+   * <p>
+   * Make sure to put the {@link #setTaskPosition(Position) setTaskPosition}
+   * method in
+   * init to set where the robot will go.
+   * <p>
+   * Not running taskPosition will cause a NullPointerException.
+   */
+  public abstract void initTask();
+
+  /**
+   * Checks if the initTask method is finished. Return true when the method
+   * finishes.
+   * 
    * @return the state of the initTask method.
    */
-  public abstract boolean initFinished();
+  public boolean initFinished(){
+    if (initCommands.empty() & runningCommand.isFinished()) {
+        return true;
+    } else {
+      return false;
+    }
+  }
+
   /**
    * Ran when the AutoTask arrives at the defined position.
    */
   public abstract void arrived();
+
   /**
-   * Checks if the Arrived method has finished and allows the next queued command to run.
+   * Checks if the Arrived method has finished and allows the next queued command
+   * to run.
+   * 
    * @return the state of the arrived method
    */
-  public abstract boolean arrivedFinished();
+  public boolean isFinished() {
+  if (arrivedCommands.empty() & runningCommand.isFinished()) {
+      return true;
+  } else {
+    return false;
+  }
+  }
+
   /**
    * Ran if the bot cant get to the position it needs.
+   * 
    * @param position The bots current position.
    */
-  public abstract void fallback(Position position);
+  public abstract void fallback(Pose position);
 
   /**
-   * <strong>DONT OVERRIDE.</strong> Override update instead. Overriding this will cause the AutoTask to never start.
+   * Returns the acive command.
    */
-  public void execute() {
-    if (initFinished() & !initialized){
-      //code will be put here when the PositionSystem is implimented 
-      if (taskPos == null){ // checks if taskpos was instantiated and if not throw an error
-        throw new NullPointerException("taskPositon Was not ran in initTask.");
+  public CommandBase getActiveCommand() {
+    return runningCommand; 
+
+  }
+
+  /**
+   * Like periodic but gives position arg
+   * @param position The current position of the robot
+   */
+  public void updateTask(Pose position) {
+    updateInit();
+    updateArrived();
+    update(position);
+  } 
+/*
+ * Update the init sequence of the task. If the task is initialized the command is bypassed.
+ */
+  private void updateInit(){
+    /* Checks if the task has finished init sequence  */
+    if (!initialized) {
+      /* If task is not initalised, queue command if current running one is finished */
+      if (runningCommand.isFinished() & !initCommands.isEmpty()){
+        runningCommand = initCommands.pop();
+        /* If currently running command is finished and there are no more init
+         * Commands, initalize
+         */
+      } else if (initCommands.isEmpty() & runningCommand.isFinished()) {
+        initialized = true;
+      }
+      /* Prevents current command from getting ran multiple times without intention */
+      if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
+        runningCommand.schedule();
       }
     }
-    
   }
+
+  /*
+ * Update the arrived sequence of the task. If the task hasent arrived at the desination the command is bypassed.
+ */
+private void updateArrived(){
+  /* Checks if the task has finished init sequence  */
+  if (!arrived) {
+    /* If task is not initalised, queue command if current running one is finished */
+    if (runningCommand.isFinished() & !arrivedCommands.isEmpty()){
+      runningCommand = arrivedCommands.pop();
+      /* If currently running command is finished and there are no more init
+       * Commands, initalize
+       */
+    } else if (arrivedCommands.isEmpty() & runningCommand.isFinished()) {
+      initialized = true;
+    }
+    /* Prevents current command from getting ran multiple times without intention */
+    if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
+      runningCommand.schedule();
+    }
+  }
+}
+
   /**
    * Use instead of execute. Functions as execute but with a position arguemnt.
+   * 
    * @param position the current position of the robot when update is ran.
    */
-  public abstract void update(Position position);
+  protected abstract void update(Pose position);
+
   /**
-   * Sets the position the bot will go to for the task. <p>
-   * Not running this in {@link #initTask initTask} <strong>will</strong> cause a NullPointerException
+   * Sets the position the bot will go to for the task.
+   * <p>
+   * Not running this in {@link #initTask initTask} <strong>will</strong> cause a
+   * NullPointerException
+   * 
    * @param position The position the bot will go to for the AutoTask
    */
-  protected void taskPosition(Position position){
+  protected void setTaskPosition(Pose position) {
     taskPos = position;
   }
-  public void end(boolean interrupted) {} 
-  public void cancel() {
-    
+
+  /**
+   * Ran if the task needs to be ended.
+   */
+  public void end() {
+    if (!runningCommand.isFinished()) {
+      runningCommand.end(true);
+    }
   }
 
+  /**
+   * Adds command requirements for TaskScheduler (such as ending commands)
+   * 
+   * @param command The command/s to add
+   */
+  private void addCommandRequirement(CommandBase... command) {
+    for (CommandBase cb : command) {
+      commands.add(cb);
+    }
+  }
 
-  // Returns true when the command should end.
-  public boolean isFinished() {
-    return false;
+  /**
+   * Sets the command to run on autotask init.
+   * 
+   * @param command The command to run.
+   */
+  protected void addInitCommand(CommandBase command) {
+    addCommandRequirement(command);
+    initCommands.push(command);
+  }
+
+  /**
+   * Sets the command to run on autotask arrival.
+   * 
+   * @param command The command to run.
+   */
+  protected void addArrivedCommand(CommandBase command) {
+    addCommandRequirement(command);
+    arrivedCommands.push(command);
+  }
+ /**
+  * Runs checks on the autotasks to make sure the tasks are valid
+  */
+  public void verify() {
+    if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
+      throw new NullPointerException("taskPositon Was not ran in initTask.");
+    }
   }
 }

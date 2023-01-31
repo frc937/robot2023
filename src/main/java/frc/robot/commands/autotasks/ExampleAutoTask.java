@@ -1,10 +1,10 @@
 package frc.robot.commands.autotasks;
 
-import frc.robot.positioning.Position;
-
+import frc.robot.positioning.Pose;
+// TODO: write documentation
+// TODO: finish example autotask
 public class ExampleAutoTask extends AutoTask{
     public ExampleAutoTask(){
-        // TODO: Allow for adding commands to requirements.
     }
     public void initTask(){
     }
@@ -17,6 +17,6 @@ public class ExampleAutoTask extends AutoTask{
     public boolean arrivedFinished(){
         return true;
     }
-    public void fallback(Position position){}
-    public void update(Position position){}
+    public void fallback(Pose position){}
+    protected void update(Pose position){}
 }
