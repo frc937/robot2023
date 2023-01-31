@@ -27,9 +27,4 @@ public class Node {
   int gValue;
   double fValue;
   Node parent;
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
 }
