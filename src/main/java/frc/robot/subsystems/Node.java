@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
  * @param fValue - The f value, the total cost of the node
  * @param parent - the parent Node
  */
-public class Node extends SubsystemBase {
+public class Node {
   /** Creates a new Node. */
   public Node(int x, int y) {
     this.x = x;

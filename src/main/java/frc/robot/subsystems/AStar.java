@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.*;
 
+/**
+ * @param pathList - 
+ */
 public class AStar extends SubsystemBase {
     static Node[][] cell;
     static ArrayList<Node> pathList = new ArrayList<>();
@@ -36,7 +39,6 @@ public class AStar extends SubsystemBase {
      * @param v              Cost between 2 cells located horizontally or vertically next to each other
      * @param d              Cost between 2 cells located Diagonally next to each other
      * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
-     * @param h              int value which decides the correct method to choose to calculate the Heuristic value
      */
     public static void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int n, int v, int d, boolean additionalPath) {
 
