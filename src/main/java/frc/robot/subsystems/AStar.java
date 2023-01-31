@@ -10,6 +10,7 @@ import java.util.*;
 
 /**
  * @param pathList - 
+ * @param closedList - nodes that no longer need to be aknowledged
  */
 public class AStar extends SubsystemBase {
     static Node[][] cell;
