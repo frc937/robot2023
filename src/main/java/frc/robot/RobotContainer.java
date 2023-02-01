@@ -34,7 +34,7 @@ public class RobotContainer {
   private final Balance balance = new Balance(driveSubsystem);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final XboxController controller = new XboxController(OperatorConstants.CONTROLLER_NUMBER);
+  private final CommandXboxController controller = new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -54,23 +54,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    /* Create JoystickButtons out of the controller IDs declared in constants */
-    JoystickButton aButton = new JoystickButton(controller, Constants.ContollerButtons.A_NUMBER);
-    JoystickButton bButton = new JoystickButton(controller, Constants.ContollerButtons.B_NUMBER);
-    JoystickButton xButton = new JoystickButton(controller, Constants.ContollerButtons.X_NUMBER);
-    JoystickButton yButton = new JoystickButton(controller, Constants.ContollerButtons.Y_NUMBER);
-    JoystickButton leftBumper = new JoystickButton(controller, Constants.ContollerButtons.LEFT_BUMPER_NUMBER);
-    JoystickButton rightBumper = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_BUMPER_NUMBER);
-    JoystickButton backButton = new JoystickButton(controller, Constants.ContollerButtons.BACK_NUMBER);
-    JoystickButton startButton = new JoystickButton(controller, Constants.ContollerButtons.START_NUMBER);
-    JoystickButton leftStick = new JoystickButton(controller, Constants.ContollerButtons.LEFT_STICK_NUMBER);
-    JoystickButton rightStick = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_STICK_NUMBER);
-    POVButton dPadUp = new POVButton(controller, 0);
-    POVButton dPadRight= new POVButton(controller, 90);        
-    POVButton dPadDown = new POVButton(controller, 180);
-    POVButton dPadLeft = new POVButton(controller, 270);
-
-    new Trigger(dPadUp).onTrue(balance);
+    controller.povUp().onTrue(balance);
   }
 
   /**
