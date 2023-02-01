@@ -227,8 +227,11 @@ public abstract class AutoTask {
    * Runs checks on the autotasks to make sure the tasks are valid
    */
   public void verify() {
+    boolean verifyStatus = true;
+    System.out.println("Checking if taskPosition was ran...");
     if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
-      throw new NullPointerException("taskPositon Was not ran in initTask.");
+      verifyStatus = false;
+      throw new UnsupportedOperationException("Verification failed. See above for reasons.");
     }
   }
 }
