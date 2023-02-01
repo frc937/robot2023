@@ -16,17 +16,7 @@ public final class Constants {
     public static class OperatorConstants {
         public static final int CONTROLLER_NUMBER = 0;
     }
-
-    /**
-     * General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}.
-     */
-    public static class DriveConstants {
-        /* CAN IDs for the drivetrain motor controllers */
-        public static final int ID_TALON_FRONT_LEFT = 0;
-        public static final int ID_TALON_FRONT_RIGHT = 1;
-        public static final int ID_TALON_REAR_LEFT = 2;
-        public static final int ID_TALON_REAR_RIGHT = 3;
-    }
+    
     /**
      * IDs for the controller buttons.
      */
@@ -42,6 +32,28 @@ public final class Constants {
         public static final int LEFT_STICK_NUMBER = 9;
         public static final int RIGHT_STICK_NUMBER = 10;
     }
+    
+        /**
+         * General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}.
+         */
+        public static class DriveConstants {
+            /* CAN IDs for the drivetrain motor controllers */
+            public static final int ID_TALON_FRONT_LEFT = 0;
+            public static final int ID_TALON_FRONT_RIGHT = 1;
+            public static final int ID_TALON_REAR_LEFT = 2;
+            public static final int ID_TALON_REAR_RIGHT = 3;
+        }
+        
+        /**
+         * General constants for the AStar Subsystem. Primarily used by {@link frc.robot.subsystems.AStar}.
+         */
+    public static class AStarConstants {
+        /** Length of the field. Positive for Max, Negative for Min. */
+        public static final int FIELD_X = 1654/2;
+        /** Width of the field. Positive for Max, Negative for Min. */
+        public static final int FIELD_Y = 802/2;
+    }
+
     /**
      * General constants for the balance command. Primarily used by {@link frc.robot.commands.Balance}.
      */
@@ -50,4 +62,5 @@ public final class Constants {
         public static final double OFF_ANGLE_THRESHOLD = 10; 
         public static final double ON_ANGLE_THRESHOLD  = 5;
     }
+
 }
