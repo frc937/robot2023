@@ -4,9 +4,11 @@
 
 package frc.robot.subsystems;
 
+import java.util.*;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.*;
+import frc.robot.Constants;
 
 /**
  * @param pathList - likely the path
@@ -20,11 +22,11 @@ public class AStar extends SubsystemBase {
 
     // return a random N-by-N boolean matrix
     // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public static boolean[][] createObstacleGrid(int N) {
-        boolean[][] a = new boolean[N][N];
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                // a[i][j] = StdRandom.bernoulli(p);
+    public static boolean[][] createObstacleGrid(int length, int width) {
+        boolean[][] a = new boolean[length][width];
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < width; j++) {
+                // HERE
             }
         }
         return a;
@@ -32,38 +34,38 @@ public class AStar extends SubsystemBase {
 
     /**
      * @param matrix         The boolean matrix that the framework generates
-     * @param startY             Starting point's x value
-     * @param startX             Starting point's y value
-     * @param endY             Ending point's x value
-     * @param endX             Ending point's y value
-     * @param n              Length of one side of the matrix
+     * @param startY         Starting point's x value
+     * @param startX         Starting point's y value
+     * @param endY           Ending point's x value
+     * @param endX           Ending point's y value
+     * @param width          Width of the field
+     * @param length         Length of the field
      * @param v              Cost between 2 cells located horizontally or vertically next to each other
      * @param d              Cost between 2 cells located Diagonally next to each other
      * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
      */
-    public static void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int n, int v, int d, boolean additionalPath) {
+    public static void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d, boolean additionalPath) {
 
-        for (int y = 0; y < matrix.length; y++) {
-            for (int x = 0; x < matrix.length; x++) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
                 //Creating a new Node object for each and every Cell of the Grid (Matrix)
-                cell[y][x] = new Node(y, x);
+                cell[i][j] = new Node(i, j);
                 //Checks whether a cell is Blocked or Not by checking the boolean value
-                if (matrix[y][x]) {
+                if (matrix[i][j]) {
                     //Assigning the Euclidean Heuristic value
-                    cell[y][x].hValue = Math.sqrt(Math.pow(y - endY, 2) + Math.pow(x - endX, 2));
+                    cell[i][j].hValue = Math.sqrt(Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
                 }
             }
         }
-        generatePath(cell, startY, startX, endY, endX, n, v, d, additionalPath);
+        generatePath(cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d, additionalPath);
     }
 
     public static void menu() {
-        int n = 69; //TODO: THIS IS A PLACEHOLDER VALUE, SET GRID SIZE LATER OR SOMETHING IDK ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         int gCost = 0;
         /*int fCost = 0;*/
 
         //Generating a new Boolean Matrix according to the input values of n and p (Length, Percolation value)
-        boolean[][] grid = createObstacleGrid(n);
+        boolean[][] grid = createObstacleGrid(Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y);
 
         //Creation of a Node type 2D array
         cell = new Node[grid.length][grid.length];
@@ -76,7 +78,7 @@ public class AStar extends SubsystemBase {
 
         //Loop to find all 3 pathways and their relative Final Cost values
 
-        generateHValue(grid, startY, startX, endY, endX, n, 10, 14, true);
+        generateHValue(grid, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, 10, 14, true);
 
         if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
 
@@ -107,12 +109,13 @@ public class AStar extends SubsystemBase {
  * @param startX         Starting point's x value
  * @param endY           Ending point's y value
  * @param endX           Ending point's x value
- * @param n              Length of one side of the matrix
+ * @param width          Width of the field
+ * @param length         Length of the field
  * @param v              Cost between 2 cells located horizontally or vertically next to each other
  * @param d              Cost between 2 cells located Diagonally next to each other
  * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
  */
-public static void generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int n, int v, int d, boolean additionalPath) {
+public static void generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int x, int y, int v, int d, boolean additionalPath) {
 
   //Creation of a PriorityQueue and the declaration of the Comparator
   PriorityQueue<Node> openList = new PriorityQueue<>(11, new Comparator() {

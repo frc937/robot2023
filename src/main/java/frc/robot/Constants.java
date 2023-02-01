@@ -47,7 +47,7 @@ public final class Constants {
         /**
          * General constants for the AStar Subsystem. Primarily used by {@link frc.robot.subsystems.AStar}.
          */
-    public static class AStarConstants {
+    public static class AStar {
         /** Length of the field. Positive for Max, Negative for Min. */
         public static final int FIELD_X = 1654/2;
         /** Width of the field. Positive for Max, Negative for Min. */
