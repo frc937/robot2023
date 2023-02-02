@@ -49,14 +49,35 @@ public class RobotContainer {
   private final Command openClaw = armClaw.openClawCommand();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController controller = new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
+  public static CommandXboxController controller = new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
 
   private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER); 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
+
+  public static double getRightXAxis () {
+
+    return controller.getRightX();
+  }
+
+  public static double getRightYAxis() {
+    return controller.getRightY();
+  }
+
+  private static double scaleAxis(double a) {
+    return math.signum(a) * Math.pow(a, 2);
+  }
+
+  public static double getScaledRightXAxis() {
+    return scaleAxis(getRightXAxis());
+  }
+
+  public static double getScaledRightYAxis() {
+    return scaleAxis(getRightXAxis());
+  }
+
   public RobotContainer() {
-    // Configure the trigger bindings
     configureBindings();
   }
 
@@ -99,6 +120,9 @@ public class RobotContainer {
     joystick.button(9).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_MID_CONE));
     joystick.button(8).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_HIGH_CUBE));
     joystick.button(10).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_MID_CUBE));
+    joystick.button(12).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.HUMAN_SHELF));
+    
+    
 
   }
 

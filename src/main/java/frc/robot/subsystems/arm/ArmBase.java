@@ -47,6 +47,9 @@ public class ArmBase extends SubsystemBase {
     return talon;
   }
 
+  public void manualMoveArmBase(double x) {
+    armBaseMotor.set(ControlMode.Velocity, x)
+  }
   /**
    * Returns the angle of the base CCW from forward in degrees
    */

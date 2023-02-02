@@ -47,6 +47,10 @@ public class ArmShoulder extends SubsystemBase {
     return talon;
   }
 
+  public void manualMoveArmShoulder(double x) {
+    armShoulderMotor.set(ControlMode.PercentOutput, x)
+  }
+
   /**
    * Returns the angle of the shoulder in degrees
    */
