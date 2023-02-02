@@ -74,7 +74,7 @@ public class RobotContainer {
   }
 
   public static double getScaledRightYAxis() {
-    return scaleAxis(getRightXAxis());
+    return scaleAxis(getRightYAxis());
   }
 
   public RobotContainer() {
