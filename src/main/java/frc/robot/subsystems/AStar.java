@@ -19,19 +19,21 @@ public class AStar extends SubsystemBase {
     static ArrayList<Node> pathList = new ArrayList<>();
     static ArrayList<Node> closedList = new ArrayList<>();
     static boolean additionalPath = false;
+    static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_X*2];
+    
+    public AStar() {
 
-    // return a random N-by-N boolean matrix
-    // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    public static boolean[][] createObstacleGrid(int length, int width) {
-        boolean[][] a = new boolean[length][width];
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < width; j++) {
-                // HERE
+        // return a random N-by-N boolean matrix
+        // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            for (int i = 0; i < Constants.AStar.FIELD_X; i++) {
+                for (int j = 0; j < Constants.AStar.FIELD_Y; j++) {
+                    // HERE
+                }
             }
-        }
-        return a;
+        
     }
-
+    
+    
     /**
      * @param matrix         The boolean matrix that the framework generates
      * @param startY         Starting point's x value
@@ -63,9 +65,6 @@ public class AStar extends SubsystemBase {
     public static void menu() {
         int gCost = 0;
         /*int fCost = 0;*/
-
-        //Generating a new Boolean Matrix according to the input values of n and p (Length, Percolation value)
-        boolean[][] grid = createObstacleGrid(Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y);
 
         //Creation of a Node type 2D array
         cell = new Node[grid.length][grid.length];
@@ -313,10 +312,6 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
   openList.clear();
 
   System.out.println();
-
-}
-
-public AStar() {
 
 }
 

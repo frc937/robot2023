@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 /**
  * @param x - x coordinate on the field 
  * @param y - y coordinate on the field
