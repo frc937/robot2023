@@ -25,14 +25,12 @@ public class AStar extends SubsystemBase {
 
         // return a random N-by-N boolean matrix
         // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            for (int i = 0; i < Constants.AStar.FIELD_X; i++) {
-                for (int j = 0; j < Constants.AStar.FIELD_Y; j++) {
-                    // HERE
-                }
+        for (int i = 0; i < Constants.AStar.FIELD_X; i++) {
+            for (int j = 0; j < Constants.AStar.FIELD_Y; j++) {
+                // HERE
             }
-        
+        }
     }
-    
     
     /**
      * @param matrix         The boolean matrix that the framework generates
@@ -55,7 +53,8 @@ public class AStar extends SubsystemBase {
                 //Checks whether a cell is Blocked or Not by checking the boolean value
                 if (matrix[i][j]) {
                     //Assigning the Euclidean Heuristic value
-                    cell[i][j].hValue = Math.sqrt(Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
+                    // TODO: IF THE THING IS RUNNING SLOW, REMOVE THE Math.sqrt() TO MAYBE IMPROVE PROCESSING PROWER
+                    cell[i][j].hValue = (int)Math.sqrt(Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
                 }
             }
         }
@@ -77,7 +76,7 @@ public class AStar extends SubsystemBase {
 
         //Loop to find all 3 pathways and their relative Final Cost values
 
-        generateHValue(grid, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, 10, 14, true);
+        generateHValue(grid, startY, startX, endY, endX, Constants.AStar.FIELD_X*2, Constants.AStar.FIELD_Y*2, 10, 14, true);
 
         if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
 
@@ -154,9 +153,9 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
           if (cell[node.x][node.y - 1].hValue != -1
                   && !openList.contains(cell[node.x][node.y - 1])
                   && !closedList.contains(cell[node.x][node.y - 1])) {
-              double tCost = node.fValue + v;
+              int tCost = node.fValue + v;
               cell[node.x][node.y - 1].gValue = v;
-              double cost = cell[node.x][node.y - 1].hValue + tCost;
+              int cost = cell[node.x][node.y - 1].hValue + tCost;
               if (cell[node.x][node.y - 1].fValue > cost || !openList.contains(cell[node.x][node.y - 1]))
                   cell[node.x][node.y - 1].fValue = cost;
 
@@ -171,9 +170,9 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
           if (cell[node.x][node.y + 1].hValue != -1
                   && !openList.contains(cell[node.x][node.y + 1])
                   && !closedList.contains(cell[node.x][node.y + 1])) {
-              double tCost = node.fValue + v;
+              int tCost = node.fValue + v;
               cell[node.x][node.y + 1].gValue = v;
-              double cost = cell[node.x][node.y + 1].hValue + tCost;
+              int cost = cell[node.x][node.y + 1].hValue + tCost;
               if (cell[node.x][node.y + 1].fValue > cost || !openList.contains(cell[node.x][node.y + 1]))
                   cell[node.x][node.y + 1].fValue = cost;
 
@@ -188,9 +187,9 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
           if (cell[node.x + 1][node.y].hValue != -1
                   && !openList.contains(cell[node.x + 1][node.y])
                   && !closedList.contains(cell[node.x + 1][node.y])) {
-              double tCost = node.fValue + v;
+              int tCost = node.fValue + v;
               cell[node.x + 1][node.y].gValue = v;
-              double cost = cell[node.x + 1][node.y].hValue + tCost;
+              int cost = cell[node.x + 1][node.y].hValue + tCost;
               if (cell[node.x + 1][node.y].fValue > cost || !openList.contains(cell[node.x + 1][node.y]))
                   cell[node.x + 1][node.y].fValue = cost;
 
@@ -205,9 +204,9 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
           if (cell[node.x - 1][node.y].hValue != -1
                   && !openList.contains(cell[node.x - 1][node.y])
                   && !closedList.contains(cell[node.x - 1][node.y])) {
-              double tCost = node.fValue + v;
+              int tCost = node.fValue + v;
               cell[node.x - 1][node.y].gValue = v;
-              double cost = cell[node.x - 1][node.y].hValue + tCost;
+              int cost = cell[node.x - 1][node.y].hValue + tCost;
               if (cell[node.x - 1][node.y].fValue > cost || !openList.contains(cell[node.x - 1][node.y]))
                   cell[node.x - 1][node.y].fValue = cost;
 
@@ -224,9 +223,9 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
               if (cell[node.x - 1][node.y - 1].hValue != -1
                       && !openList.contains(cell[node.x - 1][node.y - 1])
                       && !closedList.contains(cell[node.x - 1][node.y - 1])) {
-                  double tCost = node.fValue + d;
+                  int tCost = node.fValue + d;
                   cell[node.x - 1][node.y - 1].gValue = d;
-                  double cost = cell[node.x - 1][node.y - 1].hValue + tCost;
+                  int cost = cell[node.x - 1][node.y - 1].hValue + tCost;
                   if (cell[node.x - 1][node.y - 1].fValue > cost || !openList.contains(cell[node.x - 1][node.y - 1]))
                       cell[node.x - 1][node.y - 1].fValue = cost;
 
@@ -241,9 +240,9 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
               if (cell[node.x - 1][node.y + 1].hValue != -1
                       && !openList.contains(cell[node.x - 1][node.y + 1])
                       && !closedList.contains(cell[node.x - 1][node.y + 1])) {
-                  double tCost = node.fValue + d;
+                  int tCost = node.fValue + d;
                   cell[node.x - 1][node.y + 1].gValue = d;
-                  double cost = cell[node.x - 1][node.y + 1].hValue + tCost;
+                  int cost = cell[node.x - 1][node.y + 1].hValue + tCost;
                   if (cell[node.x - 1][node.y + 1].fValue > cost || !openList.contains(cell[node.x - 1][node.y + 1]))
                       cell[node.x - 1][node.y + 1].fValue = cost;
 
@@ -258,9 +257,9 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
               if (cell[node.x + 1][node.y - 1].hValue != -1
                       && !openList.contains(cell[node.x + 1][node.y - 1])
                       && !closedList.contains(cell[node.x + 1][node.y - 1])) {
-                  double tCost = node.fValue + d;
+                  int tCost = node.fValue + d;
                   cell[node.x + 1][node.y - 1].gValue = d;
-                  double cost = cell[node.x + 1][node.y - 1].hValue + tCost;
+                  int cost = cell[node.x + 1][node.y - 1].hValue + tCost;
                   if (cell[node.x + 1][node.y - 1].fValue > cost || !openList.contains(cell[node.x + 1][node.y - 1]))
                       cell[node.x + 1][node.y - 1].fValue = cost;
 
@@ -275,9 +274,9 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
               if (cell[node.x + 1][node.y + 1].hValue != -1
                       && !openList.contains(cell[node.x + 1][node.y + 1])
                       && !closedList.contains(cell[node.x + 1][node.y + 1])) {
-                  double tCost = node.fValue + d;
+                  int tCost = node.fValue + d;
                   cell[node.x + 1][node.y + 1].gValue = d;
-                  double cost = cell[node.x + 1][node.y + 1].hValue + tCost;
+                  int cost = cell[node.x + 1][node.y + 1].hValue + tCost;
                   if (cell[node.x + 1][node.y + 1].fValue > cost || !openList.contains(cell[node.x + 1][node.y + 1]))
                       cell[node.x + 1][node.y + 1].fValue = cost;
 
@@ -310,8 +309,6 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
   pathList.add(cell[startY][startX]);
   //Clears the openList
   openList.clear();
-
-  System.out.println();
 
 }
 
