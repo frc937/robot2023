@@ -154,68 +154,68 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
 
       //Left Cell
       try {
-          if (cell[node.x][node.y - 1].hValue != -1
-                  && !openList.contains(cell[node.x][node.y - 1])
-                  && !closedList.contains(cell[node.x][node.y - 1])) {
+          if (cell[node.getX()][node.getY()-1].hValue != -1
+                  && !openList.contains(cell[node.getX()][node.getY()-1])
+                  && !closedList.contains(cell[node.getX()][node.getY()-1])) {
               int tCost = node.fValue + v;
-              cell[node.x][node.y - 1].gValue = v;
-              int cost = cell[node.x][node.y - 1].hValue + tCost;
-              if (cell[node.x][node.y - 1].fValue > cost || !openList.contains(cell[node.x][node.y - 1]))
-                  cell[node.x][node.y - 1].fValue = cost;
+              cell[node.getX()][node.getY()-1].gValue = v;
+              int cost = cell[node.getX()][node.getY()-1].hValue + tCost;
+              if (cell[node.getX()][node.getY()-1].fValue > cost || !openList.contains(cell[node.getX()][node.getY()-1]))
+                  cell[node.getX()][node.getY()-1].fValue = cost;
 
-              openList.add(cell[node.x][node.y - 1]);
-              cell[node.x][node.y - 1].parent = node;
+              openList.add(cell[node.getX()][node.getY()-1]);
+              cell[node.getX()][node.getY()-1].parent = node;
           }
       } catch (IndexOutOfBoundsException e) {
       }
 
       //Right Cell
       try {
-          if (cell[node.x][node.y + 1].hValue != -1
-                  && !openList.contains(cell[node.x][node.y + 1])
-                  && !closedList.contains(cell[node.x][node.y + 1])) {
+          if (cell[node.getX()][node.getY()+1].hValue != -1
+                  && !openList.contains(cell[node.getX()][node.getY()+1])
+                  && !closedList.contains(cell[node.getX()][node.getY()+1])) {
               int tCost = node.fValue + v;
-              cell[node.x][node.y + 1].gValue = v;
-              int cost = cell[node.x][node.y + 1].hValue + tCost;
-              if (cell[node.x][node.y + 1].fValue > cost || !openList.contains(cell[node.x][node.y + 1]))
-                  cell[node.x][node.y + 1].fValue = cost;
+              cell[node.getX()][node.getY()+1].gValue = v;
+              int cost = cell[node.getX()][node.getY()+1].hValue + tCost;
+              if (cell[node.getX()][node.getY()+1].fValue > cost || !openList.contains(cell[node.getX()][node.getY()+1]))
+                  cell[node.getX()][node.getY()+1].fValue = cost;
 
-              openList.add(cell[node.x][node.y + 1]);
-              cell[node.x][node.y + 1].parent = node;
+              openList.add(cell[node.getX()][node.getY()+1]);
+              cell[node.getX()][node.getY()+1].parent = node;
           }
       } catch (IndexOutOfBoundsException e) {
       }
 
       //Bottom Cell
       try {
-          if (cell[node.x + 1][node.y].hValue != -1
-                  && !openList.contains(cell[node.x + 1][node.y])
-                  && !closedList.contains(cell[node.x + 1][node.y])) {
+          if (cell[node.getX()+1][node.getY()].hValue != -1
+                  && !openList.contains(cell[node.getX()+1][node.getY()])
+                  && !closedList.contains(cell[node.getX()+1][node.getY()])) {
               int tCost = node.fValue + v;
-              cell[node.x + 1][node.y].gValue = v;
-              int cost = cell[node.x + 1][node.y].hValue + tCost;
-              if (cell[node.x + 1][node.y].fValue > cost || !openList.contains(cell[node.x + 1][node.y]))
-                  cell[node.x + 1][node.y].fValue = cost;
+              cell[node.getX()+1][node.getY()].gValue = v;
+              int cost = cell[node.getX()+1][node.getY()].hValue + tCost;
+              if (cell[node.getX()+1][node.getY()].fValue > cost || !openList.contains(cell[node.getX()+1][node.getY()]))
+                  cell[node.getX()+1][node.getY()].fValue = cost;
 
-              openList.add(cell[node.x + 1][node.y]);
-              cell[node.x + 1][node.y].parent = node;
+              openList.add(cell[node.getX()+1][node.getY()]);
+              cell[node.getX()+1][node.getY()].parent = node;
           }
       } catch (IndexOutOfBoundsException e) {
       }
 
       //Top Cell
       try {
-          if (cell[node.x - 1][node.y].hValue != -1
-                  && !openList.contains(cell[node.x - 1][node.y])
-                  && !closedList.contains(cell[node.x - 1][node.y])) {
+          if (cell[node.getX()-1][node.getY()].hValue != -1
+                  && !openList.contains(cell[node.getX()-1][node.getY()])
+                  && !closedList.contains(cell[node.getX()-1][node.getY()])) {
               int tCost = node.fValue + v;
-              cell[node.x - 1][node.y].gValue = v;
-              int cost = cell[node.x - 1][node.y].hValue + tCost;
-              if (cell[node.x - 1][node.y].fValue > cost || !openList.contains(cell[node.x - 1][node.y]))
-                  cell[node.x - 1][node.y].fValue = cost;
+              cell[node.getX()-1][node.getY()].gValue = v;
+              int cost = cell[node.getX()-1][node.getY()].hValue + tCost;
+              if (cell[node.getX()-1][node.getY()].fValue > cost || !openList.contains(cell[node.getX()-1][node.getY()]))
+                  cell[node.getX()-1][node.getY()].fValue = cost;
 
-              openList.add(cell[node.x - 1][node.y]);
-              cell[node.x - 1][node.y].parent = node;
+              openList.add(cell[node.getX()-1][node.getY()]);
+              cell[node.getX()-1][node.getY()].parent = node;
           }
       } catch (IndexOutOfBoundsException e) {
       }
@@ -224,68 +224,68 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
 
           //TopLeft Cell
           try {
-              if (cell[node.x - 1][node.y - 1].hValue != -1
-                      && !openList.contains(cell[node.x - 1][node.y - 1])
-                      && !closedList.contains(cell[node.x - 1][node.y - 1])) {
+              if (cell[node.getX()-1][node.getY()-1].hValue != -1
+                      && !openList.contains(cell[node.getX()-1][node.getY()-1])
+                      && !closedList.contains(cell[node.getX()-1][node.getY()-1])) {
                   int tCost = node.fValue + d;
-                  cell[node.x - 1][node.y - 1].gValue = d;
-                  int cost = cell[node.x - 1][node.y - 1].hValue + tCost;
-                  if (cell[node.x - 1][node.y - 1].fValue > cost || !openList.contains(cell[node.x - 1][node.y - 1]))
-                      cell[node.x - 1][node.y - 1].fValue = cost;
+                  cell[node.getX()-1][node.getY()-1].gValue = d;
+                  int cost = cell[node.getX()-1][node.getY()-1].hValue + tCost;
+                  if (cell[node.getX()-1][node.getY()-1].fValue > cost || !openList.contains(cell[node.getX()-1][node.getY()-1]))
+                      cell[node.getX()-1][node.getY()-1].fValue = cost;
 
-                  openList.add(cell[node.x - 1][node.y - 1]);
-                  cell[node.x - 1][node.y - 1].parent = node;
+                  openList.add(cell[node.getX()-1][node.getY()-1]);
+                  cell[node.getX()-1][node.getY()-1].parent = node;
               }
           } catch (IndexOutOfBoundsException e) {
           }
 
           //TopRight Cell
           try {
-              if (cell[node.x - 1][node.y + 1].hValue != -1
-                      && !openList.contains(cell[node.x - 1][node.y + 1])
-                      && !closedList.contains(cell[node.x - 1][node.y + 1])) {
+              if (cell[node.getX()-1][node.getY()+1].hValue != -1
+                      && !openList.contains(cell[node.getX()-1][node.getY()+1])
+                      && !closedList.contains(cell[node.getX()-1][node.getY()+1])) {
                   int tCost = node.fValue + d;
-                  cell[node.x - 1][node.y + 1].gValue = d;
-                  int cost = cell[node.x - 1][node.y + 1].hValue + tCost;
-                  if (cell[node.x - 1][node.y + 1].fValue > cost || !openList.contains(cell[node.x - 1][node.y + 1]))
-                      cell[node.x - 1][node.y + 1].fValue = cost;
+                  cell[node.getX()-1][node.getY()+1].gValue = d;
+                  int cost = cell[node.getX()-1][node.getY()+1].hValue + tCost;
+                  if (cell[node.getX()-1][node.getY()+1].fValue > cost || !openList.contains(cell[node.getX()-1][node.getY()+1]))
+                      cell[node.getX()-1][node.getY()+1].fValue = cost;
 
-                  openList.add(cell[node.x - 1][node.y + 1]);
-                  cell[node.x - 1][node.y + 1].parent = node;
+                  openList.add(cell[node.getX()-1][node.getY()+1]);
+                  cell[node.getX()-1][node.getY()+1].parent = node;
               }
           } catch (IndexOutOfBoundsException e) {
           }
 
           //BottomLeft Cell
           try {
-              if (cell[node.x + 1][node.y - 1].hValue != -1
-                      && !openList.contains(cell[node.x + 1][node.y - 1])
-                      && !closedList.contains(cell[node.x + 1][node.y - 1])) {
+              if (cell[node.getX()+1][node.getY()-1].hValue != -1
+                      && !openList.contains(cell[node.getX()+1][node.getY()-1])
+                      && !closedList.contains(cell[node.getX()+1][node.getY()-1])) {
                   int tCost = node.fValue + d;
-                  cell[node.x + 1][node.y - 1].gValue = d;
-                  int cost = cell[node.x + 1][node.y - 1].hValue + tCost;
-                  if (cell[node.x + 1][node.y - 1].fValue > cost || !openList.contains(cell[node.x + 1][node.y - 1]))
-                      cell[node.x + 1][node.y - 1].fValue = cost;
+                  cell[node.getX()+1][node.getY()-1].gValue = d;
+                  int cost = cell[node.getX()+1][node.getY()-1].hValue + tCost;
+                  if (cell[node.getX()+1][node.getY()-1].fValue > cost || !openList.contains(cell[node.getX()+1][node.getY()-1]))
+                      cell[node.getX()+1][node.getY()-1].fValue = cost;
 
-                  openList.add(cell[node.x + 1][node.y - 1]);
-                  cell[node.x + 1][node.y - 1].parent = node;
+                  openList.add(cell[node.getX()+1][node.getY()-1]);
+                  cell[node.getX()+1][node.getY()-1].parent = node;
               }
           } catch (IndexOutOfBoundsException e) {
           }
 
           //BottomRight Cell
           try {
-              if (cell[node.x + 1][node.y + 1].hValue != -1
-                      && !openList.contains(cell[node.x + 1][node.y + 1])
-                      && !closedList.contains(cell[node.x + 1][node.y + 1])) {
+              if (cell[node.getX()+1][node.getY()+1].hValue != -1
+                      && !openList.contains(cell[node.getX()+1][node.getY()+1])
+                      && !closedList.contains(cell[node.getX()+1][node.getY()+1])) {
                   int tCost = node.fValue + d;
-                  cell[node.x + 1][node.y + 1].gValue = d;
-                  int cost = cell[node.x + 1][node.y + 1].hValue + tCost;
-                  if (cell[node.x + 1][node.y + 1].fValue > cost || !openList.contains(cell[node.x + 1][node.y + 1]))
-                      cell[node.x + 1][node.y + 1].fValue = cost;
+                  cell[node.getX()+1][node.getY()+1].gValue = d;
+                  int cost = cell[node.getX()+1][node.getY()+1].hValue + tCost;
+                  if (cell[node.getX()+1][node.getY()+1].fValue > cost || !openList.contains(cell[node.getX()+1][node.getY()+1]))
+                      cell[node.getX()+1][node.getY()+1].fValue = cost;
 
-                  openList.add(cell[node.x + 1][node.y + 1]);
-                  cell[node.x + 1][node.y + 1].parent = node;
+                  openList.add(cell[node.getX()+1][node.getY()+1]);
+                  cell[node.getX()+1][node.getY()+1].parent = node;
               }
           } catch (IndexOutOfBoundsException e) {
           }
