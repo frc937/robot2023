@@ -7,6 +7,8 @@ package frc.robot.commands.autotasks;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import org.ejml.dense.block.VectorOps_DDRB;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
 //TODO: Add fallback commands
@@ -18,12 +20,12 @@ public abstract class AutoTask {
   private boolean initialized = false;
   private boolean arrived = false;
   private boolean ended = false;
+  private boolean verified = false;
   private Pose taskPos;
   private ArrayList<CommandBase> commands = new ArrayList<CommandBase>();
   private Stack<CommandBase> initCommands = new Stack<CommandBase>();
   private Stack<CommandBase> arrivedCommands = new Stack<CommandBase>();
   private CommandBase runningCommand;
-
   /**
    * Creates a new AutoTask.
    * Dont create instances of commands.
@@ -227,9 +229,17 @@ public abstract class AutoTask {
    * Runs checks on the autotasks to make sure the tasks are valid
    */
   public void verify() {
-    System.out.println("Checking if taskPosition was ran...");
+    System.out.println();
+    System.out.println("================================================================");
+    System.out.println("Checking if taskPosition was ran in " + this.getClass().getName());
     if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
-      throw new UnsupportedOperationException("Verification failed. See above for reasons.");
+      System.out.println("Taskpos was not ran. In order for a AutoTask to be valid taskpos HAS to be ran in the constructor");
+      throw new UnsupportedOperationException("Verification failed because taskpos was not ran in the constructor.");
+      
+    } else {
+      verified = true;
+      System.out.println("Taskpos was run. Task verified.");
     }
+    System.out.println("================================================================");
   }
 }
