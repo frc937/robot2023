@@ -18,11 +18,11 @@ import frc.robot.Constants;
  * @param grid - the map of obstacles
  */
 public class AStar extends SubsystemBase {
-    Node[][] cell;
-    static ArrayList<Node> pathList = new ArrayList<>();
-    static ArrayList<Node> closedList = new ArrayList<>();
-    static boolean additionalPath = true;
-    static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_X*2];
+    private static Node[][] cell;
+    private static ArrayList<Node> pathList = new ArrayList<>();
+    private static ArrayList<Node> closedList = new ArrayList<>();
+    private static boolean additionalPath = true;
+    private static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_X*2];
     public int startY;
     public int startX;
     public int endY;
@@ -55,7 +55,7 @@ public class AStar extends SubsystemBase {
      * @param d              Cost between 2 cells located Diagonally next to each other
      * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
      */
-    public static void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d, boolean additionalPath) {
+    public void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d, boolean additionalPath) {
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -71,7 +71,7 @@ public class AStar extends SubsystemBase {
         generatePath(cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d, additionalPath);
     }
 
-    public static void generateAStarPath() {
+    public void generateAStarPath() {
         int gCost = 0;
         /*int fCost = 0;*/
 
@@ -164,7 +164,7 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                   cell[node.getX()][node.getY()-1].fValue = cost;
 
               openList.add(cell[node.getX()][node.getY()-1]);
-              cell[node.getX()][node.getY()-1].parent = node;
+              cell[node.getX()][node.getY()-1].setParent(node);
           }
       } catch (IndexOutOfBoundsException e) {
       }
@@ -181,7 +181,7 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                   cell[node.getX()][node.getY()+1].fValue = cost;
 
               openList.add(cell[node.getX()][node.getY()+1]);
-              cell[node.getX()][node.getY()+1].parent = node;
+              cell[node.getX()][node.getY()+1].setParent(node);
           }
       } catch (IndexOutOfBoundsException e) {
       }
@@ -198,7 +198,7 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                   cell[node.getX()+1][node.getY()].fValue = cost;
 
               openList.add(cell[node.getX()+1][node.getY()]);
-              cell[node.getX()+1][node.getY()].parent = node;
+              cell[node.getX()+1][node.getY()].setParent(node);
           }
       } catch (IndexOutOfBoundsException e) {
       }
@@ -215,7 +215,7 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                   cell[node.getX()-1][node.getY()].fValue = cost;
 
               openList.add(cell[node.getX()-1][node.getY()]);
-              cell[node.getX()-1][node.getY()].parent = node;
+              cell[node.getX()-1][node.getY()].setParent(node);
           }
       } catch (IndexOutOfBoundsException e) {
       }
@@ -234,7 +234,7 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                       cell[node.getX()-1][node.getY()-1].fValue = cost;
 
                   openList.add(cell[node.getX()-1][node.getY()-1]);
-                  cell[node.getX()-1][node.getY()-1].parent = node;
+                  cell[node.getX()-1][node.getY()-1].setParent(node);
               }
           } catch (IndexOutOfBoundsException e) {
           }
@@ -251,7 +251,7 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                       cell[node.getX()-1][node.getY()+1].fValue = cost;
 
                   openList.add(cell[node.getX()-1][node.getY()+1]);
-                  cell[node.getX()-1][node.getY()+1].parent = node;
+                  cell[node.getX()-1][node.getY()+1].setParent(node);
               }
           } catch (IndexOutOfBoundsException e) {
           }
@@ -268,7 +268,7 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                       cell[node.getX()+1][node.getY()-1].fValue = cost;
 
                   openList.add(cell[node.getX()+1][node.getY()-1]);
-                  cell[node.getX()+1][node.getY()-1].parent = node;
+                  cell[node.getX()+1][node.getY()-1].setParent(node);
               }
           } catch (IndexOutOfBoundsException e) {
           }
@@ -285,7 +285,7 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                       cell[node.getX()+1][node.getY()+1].fValue = cost;
 
                   openList.add(cell[node.getX()+1][node.getY()+1]);
-                  cell[node.getX()+1][node.getY()+1].parent = node;
+                  cell[node.getX()+1][node.getY()+1].setParent(node);
               }
           } catch (IndexOutOfBoundsException e) {
           }
