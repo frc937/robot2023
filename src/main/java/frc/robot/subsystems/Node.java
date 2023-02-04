@@ -19,11 +19,35 @@ public class Node {
     this.y = y;
   }
 
-  int x;
-  int y;
-  int hValue;
-  int gValue;
-  int fValue;
-  Node parent;
-  static boolean[][] obstacle;
+  private int x;
+  private int y;
+  public int hValue;
+  public int gValue;
+  public int fValue;
+  private Node parent;
+
+  public void setX(int x) {
+    this.x = x;
+  }
+
+  public void setY(int y) {
+    this.y = y;
+  }
+
+  public void setParent(Node parent) {
+    this.parent = parent;
+  }
+
+  public int getX() {
+    return this.x;
+  }
+
+  public int getY() {
+    return this.y;
+  }
+
+  public Node getParent() {
+    return this.parent;
+  }
+
 }
