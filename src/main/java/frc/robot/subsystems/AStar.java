@@ -11,25 +11,36 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 /**
+ * @param cell - the map of nodes
  * @param pathList - likely the path
- * @param closedList - nodes that no longer need to be aknowledged
+ * @param closedList - nodes that no longer need to be aknowledged by the pathfinding
+ * @param additionalPath - boolean to decide whether or not to take the diagonal path. Should always be set to true.
+ * @param grid - the map of obstacles
  */
 public class AStar extends SubsystemBase {
-    static Node[][] cell;
+    Node[][] cell;
     static ArrayList<Node> pathList = new ArrayList<>();
     static ArrayList<Node> closedList = new ArrayList<>();
-    static boolean additionalPath = false;
+    static boolean additionalPath = true;
     static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_X*2];
-    
-    public AStar() {
-
-        // return a random N-by-N boolean matrix
-        // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        for (int i = 0; i < Constants.AStar.FIELD_X; i++) {
-            for (int j = 0; j < Constants.AStar.FIELD_Y; j++) {
-                // HERE
-            }
+    public int startY;
+    public int startX;
+    public int endY;
+    public int endX;
+    static {
+    // return a random N-by-N boolean matrix
+    // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    for (int i = 0; i < Constants.AStar.FIELD_X*2; i++) {
+        for (int j = 0; j < Constants.AStar.FIELD_Y*2; j++) {
+            // HERE
+            //Creating a new Node object for each and every Cell of the Grid (Matrix)
+            cell[i][j] = new Node(i, j);
         }
+    }
+}
+    
+    public AStar(int startY, int startX, int endY, int endX) {
+
     }
     
     /**
@@ -48,8 +59,7 @@ public class AStar extends SubsystemBase {
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
-                //Creating a new Node object for each and every Cell of the Grid (Matrix)
-                cell[i][j] = new Node(i, j);
+                
                 //Checks whether a cell is Blocked or Not by checking the boolean value
                 if (matrix[i][j]) {
                     //Assigning the Euclidean Heuristic value
@@ -61,18 +71,12 @@ public class AStar extends SubsystemBase {
         generatePath(cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d, additionalPath);
     }
 
-    public static void menu() {
+    public static void generateAStarPath() {
         int gCost = 0;
         /*int fCost = 0;*/
 
         //Creation of a Node type 2D array
         cell = new Node[grid.length][grid.length];
-
-        // TODO: THIS IS WHERE YOU PUT THE VALUES FOR WHERE THE GOOD 'OL START AND END POS COORDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        int startY = 69;
-        int startX = 69;
-        int endY = 69;
-        int endX = 69;
 
         //Loop to find all 3 pathways and their relative Final Cost values
 

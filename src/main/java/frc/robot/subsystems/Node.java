@@ -25,4 +25,5 @@ public class Node {
   int gValue;
   int fValue;
   Node parent;
+  static boolean[][] obstacle;
 }
