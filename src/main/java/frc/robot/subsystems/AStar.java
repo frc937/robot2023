@@ -304,10 +304,10 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
 
   //Checks if whether the endNode variable currently has a parent Node. if it doesn't then stops moving forward.
   //Stores each parent Node to the PathList so it is easier to trace back the final path
-  while (endNode.parent != null) {
+  while (endNode.getParent() != null) {
       Node currentNode = endNode;
       pathList.add(currentNode);
-      endNode = endNode.parent;
+      endNode = endNode.getParent();
   }
 
   pathList.add(cell[startY][startX]);
