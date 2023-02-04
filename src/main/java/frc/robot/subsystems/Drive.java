@@ -162,4 +162,18 @@ public class Drive extends SubsystemBase {
     public void resetGyro() {
         gyroscope.reset();
     }
+    /**
+     * Gets the roll of the robot in degrees
+     * @return The roll of the robot
+     */
+    public double getRoll(){
+        return gyroscope.getRoll();
+    }
+    /**
+     * Gets the pitch of the robot in degrees
+     * @return The pitch of the robot
+     */
+    public double getPitch(){
+        return gyroscope.getPitch();
+    }
 }
