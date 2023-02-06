@@ -8,7 +8,15 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.estimator.MecanumDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
+import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.SPI;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -21,22 +29,29 @@ import frc.robot.Constants;
 public class Drive extends SubsystemBase {
 
     /* Motor controllers */
-    WPI_TalonSRX frontLeft;
-    WPI_TalonSRX frontRight;
-    WPI_TalonSRX rearLeft;
-    WPI_TalonSRX rearRight;
+    private WPI_TalonSRX frontLeft, frontRight, rearLeft, rearRight;
 
-    MecanumDrive drivetrain;
 
-    AHRS gyroscope;
 
-    /** Creates a new drivetrain using IDs from {@link Constants.DriveConstants}. */
-    public Drive() {
+    private MecanumDriveKinematics kinematics;
+
+    private MecanumDrivePoseEstimator whereTheHeckAreWe;
+
+    private HolonomicDriveController holonomicController;
+
+    private MecanumDrive drivetrain;
+
+    private AHRS gyroscope;
+
+    private Limelight limelight;
+
+    /** Creates a new drivetrain using IDs from {@link Constants.Drive}. */
+    public Drive(Limelight limelight) {
         /* Instantiates the motor controllers for each mecanum wheel. */
-        frontLeft = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_FRONT_LEFT);
-        frontRight = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_FRONT_RIGHT);
-        rearLeft = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_REAR_LEFT);
-        rearRight = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_REAR_RIGHT);
+        frontLeft = new WPI_TalonSRX(Constants.Drive.ID_TALON_FRONT_LEFT);
+        frontRight = new WPI_TalonSRX(Constants.Drive.ID_TALON_FRONT_RIGHT);
+        rearLeft = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_LEFT);
+        rearRight = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_RIGHT);
 
         /* "Makes the robot not go whee-whee" - Quinn */
         /* In actuality this inverts the right side of the drivetrain, since WPIlib doesn't do that for us anymore. 
@@ -56,8 +71,35 @@ public class Drive extends SubsystemBase {
         /* Instantiates the MecanumDrive drivetrain controller. */
         drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
 
+        kinematics = new MecanumDriveKinematics(Constants.Drive.LOCATION_WHEEL_FRONT_LEFT, Constants.Drive.LOCATION_WHEEL_FRONT_RIGHT, Constants.Drive.LOCATION_WHEEL_REAR_LEFT, Constants.Drive.LOCATION_WHEEL_REAR_RIGHT);
+
         /* Instantiates the gyroscope. */
         gyroscope = new AHRS(SPI.Port.kMXP);
+
+        this.limelight = limelight;
+
+        /* Odometry, has a funny name because funny */
+        whereTheHeckAreWe = new MecanumDrivePoseEstimator(
+            kinematics, 
+            gyroscope.getRotation2d(), 
+            new MecanumDriveWheelPositions(
+                /* This is proooobably the right way to do this */
+                frontLeft.getSelectedSensorPosition(), 
+                frontRight.getSelectedSensorPosition(), 
+                rearLeft.getSelectedSensorPosition(), 
+                rearRight.getSelectedSensorPosition()), 
+            /* Initial pose can be 0,0 since it should be set by the first AutoTask */
+            null
+        );
+        
+        /* CONSTANTS OUT THE BUTTHOLE */
+        holonomicController = new HolonomicDriveController(
+            new PIDController(Constants.Drive.HolonomicController.XController.P, Constants.Drive.HolonomicController.XController.I, Constants.Drive.HolonomicController.XController.D), 
+            new PIDController(Constants.Drive.HolonomicController.YController.P, Constants.Drive.HolonomicController.YController.I, Constants.Drive.HolonomicController.YController.D), 
+            new ProfiledPIDController(Constants.Drive.HolonomicController.ThetaController.P, Constants.Drive.HolonomicController.ThetaController.I, Constants.Drive.HolonomicController.ThetaController.D, 
+                new TrapezoidProfile.Constraints(Constants.Drive.HolonomicController.ThetaController.Constraints.MAX_VELOCITY, Constants.Drive.HolonomicController.ThetaController.Constraints.MAX_ACCELERATION)
+            )
+        );
     }
 
     /**
@@ -117,5 +159,21 @@ public class Drive extends SubsystemBase {
      */
     public double getPitch(){
         return gyroscope.getPitch();
+    }
+
+    @Override
+    public void periodic() {
+        whereTheHeckAreWe.update(
+            gyroscope.getRotation2d(), 
+            new MecanumDriveWheelPositions(
+                frontLeft.getSelectedSensorPosition(), 
+                frontRight.getSelectedSensorPosition(), 
+                rearLeft.getSelectedSensorPosition(), 
+                rearRight.getSelectedSensorPosition()
+            )
+        );
+        if (limelight.hasValidTarget()) {
+            whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), /* fuck */);
+        }
     }
 }
