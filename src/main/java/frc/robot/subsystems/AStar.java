@@ -11,16 +11,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 /**
+ * 
  * @param cell - the map of nodes
  * @param pathList - likely the path
  * @param closedList - nodes that no longer need to be aknowledged by the pathfinding
  * @param grid - the map of obstacles
+ * @param startY - the y of the start coord
+ * @param startX - the x of the start coord
+ * @param endY - the y of the end coord
+ * @param endX - the x of the end coord
  */
 public class AStar extends SubsystemBase {
     private static Node[][] cell;
     private static ArrayList<Node> pathList = new ArrayList<>();
     private static ArrayList<Node> closedList = new ArrayList<>();
-    private static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_X*2];
+    private static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_Y*2];
     public int startY;
     public int startX;
     public int endY;
@@ -52,7 +57,7 @@ public class AStar extends SubsystemBase {
      * @param v              Cost between 2 cells located horizontally or vertically next to each other
      * @param d              Cost between 2 cells located Diagonally next to each other
      */
-    public void generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d) {
+    public Node[] generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d) {
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -65,15 +70,15 @@ public class AStar extends SubsystemBase {
                 }
             }
         }
-        generatePath(cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d);
+        return generatePath(cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d);
     }
 
-    public void generateAStarPath() {
+    public Node[] generateAStarPath() {
         int gCost = 0;
         /*int fCost = 0;*/
 
         //Creation of a Node type 2D array
-        cell = new Node[grid.length][grid.length];
+        cell = new Node[Constants.AStar.FIELD_X][Constants.AStar.FIELD_Y];
 
         //Loop to find all 3 pathways and their relative Final Cost values
 
@@ -98,59 +103,61 @@ public class AStar extends SubsystemBase {
             System.out.println("Euclidean Path Not found");
         }
 
+        return; //TODO: MAKE THIS REUTRN A node[] of 
+
         pathList.clear();
         closedList.clear();
     }
 
-/**
- * @param hValue         Node type 2D Array (Matrix)
- * @param startY         Starting point's y value
- * @param startX         Starting point's x value
- * @param endY           Ending point's y value
- * @param endX           Ending point's x value
- * @param width          Width of the field
- * @param length         Length of the field
- * @param v              Cost between 2 cells located horizontally or vertically next to each other
- * @param d              Cost between 2 cells located Diagonally next to each other
- * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
- */
-public static void generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int x, int y, int v, int d) {
-
-  //Creation of a PriorityQueue and the declaration of the Comparator
-  PriorityQueue<Node> openList = new PriorityQueue<>(11, new Comparator() {
-      @Override
-      //Compares 2 Node objects stored in the PriorityQueue and Reorders the Queue according to the object which has the lowest fValue
-      public int compare(Object cell1, Object cell2) {
-          return ((Node) cell1).fValue < ((Node) cell2).fValue ? -1 :
-                  ((Node) cell1).fValue > ((Node) cell2).fValue ? 1 : 0;
-      }
-  });
-
-  //Adds the Starting cell inside the openList
-  openList.add(cell[startY][startX]);
-
-  //Executes the rest if there are objects left inside the PriorityQueue
-  while (true) {
-
-      //Gets and removes the objects that's stored on the top of the openList and saves it inside node
-      Node node = openList.poll();
-
-      //Checks if whether node is empty and f it is then breaks the while loop
-      if (node == null) {
-          break;
-      }
-
-      //Checks if whether the node returned is having the same node object values of the ending point
-      //If it des then stores that inside the closedList and breaks the while loop
-      if (node == cell[endY][endX]) {
+    /**
+     * @param hValue         Node type 2D Array (Matrix)
+     * @param startY         Starting point's y value
+     * @param startX         Starting point's x value
+     * @param endY           Ending point's y value
+     * @param endX           Ending point's x value
+     * @param width          Width of the field
+     * @param length         Length of the field
+     * @param v              Cost between 2 cells located horizontally or vertically next to each other
+     * @param d              Cost between 2 cells located Diagonally next to each other
+     * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
+     */
+    public static Node[] generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int x, int y, int v, int d) {
+    
+      //Creation of a PriorityQueue and the declaration of the Comparator
+      PriorityQueue<Node> openList = new PriorityQueue<>(11, new Comparator() {
+          @Override
+          //Compares 2 Node objects stored in the PriorityQueue and Reorders the Queue according to the object which has the lowest fValue
+          public int compare(Object cell1, Object cell2) {
+              return ((Node) cell1).fValue < ((Node) cell2).fValue ? -1 :
+                      ((Node) cell1).fValue > ((Node) cell2).fValue ? 1 : 0;
+          }
+      });
+  
+      //Adds the Starting cell inside the openList
+      openList.add(cell[startY][startX]);
+  
+      //Executes the rest if there are objects left inside the PriorityQueue
+      while (true) {
+    
+          //Gets and removes the objects that's stored on the top of the openList and saves it inside node
+          Node node = openList.poll();
+    
+          //Checks if whether node is empty and f it is then breaks the while loop
+          if (node == null) {
+              break;
+          }
+      
+          //Checks if whether the node returned is having the same node object values of the ending point
+          //If it des then stores that inside the closedList and breaks the while loop
+          if (node == cell[endY][endX]) {
+              closedList.add(node);
+              break;
+          }
+      
           closedList.add(node);
-          break;
-      }
-
-      closedList.add(node);
-
-      //Left Cell
-      try {
+      
+          //Left Cell
+          try {
           if (cell[node.getX()][node.getY()-1].hValue != -1
                   && !openList.contains(cell[node.getX()][node.getY()-1])
                   && !closedList.contains(cell[node.getX()][node.getY()-1])) {
@@ -163,11 +170,11 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
               openList.add(cell[node.getX()][node.getY()-1]);
               cell[node.getX()][node.getY()-1].setParent(node);
           }
-      } catch (IndexOutOfBoundsException e) {
+          } catch (IndexOutOfBoundsException e) {
       }
-
-      //Right Cell
-      try {
+      
+          //Right Cell
+          try {
           if (cell[node.getX()][node.getY()+1].hValue != -1
                   && !openList.contains(cell[node.getX()][node.getY()+1])
                   && !closedList.contains(cell[node.getX()][node.getY()+1])) {
@@ -180,11 +187,11 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
               openList.add(cell[node.getX()][node.getY()+1]);
               cell[node.getX()][node.getY()+1].setParent(node);
           }
-      } catch (IndexOutOfBoundsException e) {
+          } catch (IndexOutOfBoundsException e) {
       }
-
-      //Bottom Cell
-      try {
+      
+          //Bottom Cell
+          try {
           if (cell[node.getX()+1][node.getY()].hValue != -1
                   && !openList.contains(cell[node.getX()+1][node.getY()])
                   && !closedList.contains(cell[node.getX()+1][node.getY()])) {
@@ -197,11 +204,11 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
               openList.add(cell[node.getX()+1][node.getY()]);
               cell[node.getX()+1][node.getY()].setParent(node);
           }
-      } catch (IndexOutOfBoundsException e) {
+          } catch (IndexOutOfBoundsException e) {
       }
-
-      //Top Cell
-      try {
+      
+          //Top Cell
+          try {
           if (cell[node.getX()-1][node.getY()].hValue != -1
                   && !openList.contains(cell[node.getX()-1][node.getY()])
                   && !closedList.contains(cell[node.getX()-1][node.getY()])) {
@@ -214,11 +221,11 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
               openList.add(cell[node.getX()-1][node.getY()]);
               cell[node.getX()-1][node.getY()].setParent(node);
           }
-      } catch (IndexOutOfBoundsException e) {
+          } catch (IndexOutOfBoundsException e) {
       }
-
-        //TopLeft Cell
-        try {
+      
+            //TopLeft Cell
+            try {
             if (cell[node.getX()-1][node.getY()-1].hValue != -1
                     && !openList.contains(cell[node.getX()-1][node.getY()-1])
                     && !closedList.contains(cell[node.getX()-1][node.getY()-1])) {
@@ -231,11 +238,11 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                 openList.add(cell[node.getX()-1][node.getY()-1]);
                 cell[node.getX()-1][node.getY()-1].setParent(node);
             }
-        } catch (IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) {
         }
-
-        //TopRight Cell
-        try {
+        
+            //TopRight Cell
+            try {
             if (cell[node.getX()-1][node.getY()+1].hValue != -1
                     && !openList.contains(cell[node.getX()-1][node.getY()+1])
                     && !closedList.contains(cell[node.getX()-1][node.getY()+1])) {
@@ -248,11 +255,11 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                 openList.add(cell[node.getX()-1][node.getY()+1]);
                 cell[node.getX()-1][node.getY()+1].setParent(node);
             }
-        } catch (IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) {
         }
-
-        //BottomLeft Cell
-        try {
+        
+            //BottomLeft Cell
+            try {
             if (cell[node.getX()+1][node.getY()-1].hValue != -1
                     && !openList.contains(cell[node.getX()+1][node.getY()-1])
                     && !closedList.contains(cell[node.getX()+1][node.getY()-1])) {
@@ -265,11 +272,11 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                 openList.add(cell[node.getX()+1][node.getY()-1]);
                 cell[node.getX()+1][node.getY()-1].setParent(node);
             }
-        } catch (IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) {
         }
-
-        //BottomRight Cell
-        try {
+        
+            //BottomRight Cell
+            try {
             if (cell[node.getX()+1][node.getY()+1].hValue != -1
                     && !openList.contains(cell[node.getX()+1][node.getY()+1])
                     && !closedList.contains(cell[node.getX()+1][node.getY()+1])) {
@@ -282,33 +289,35 @@ public static void generatePath(Node hValue[][], int startY, int startX, int end
                 openList.add(cell[node.getX()+1][node.getY()+1]);
                 cell[node.getX()+1][node.getY()+1].setParent(node);
             }
-        } catch (IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) {
         }
-  }
-
-  /*for (int i = 0; i < n; ++i) {
-      for (int j = 0; j < n; ++j) {
-          System.out.print(cell[i][j].fValue + "    ");
       }
-      System.out.println();
-  }*/
+  
+      /*for (int i = 0; i < n; ++i) {
+          for (int j = 0; j < n; ++j) {
+              System.out.print(cell[i][j].fValue + "    ");
+          }
+          System.out.println();
+      }*/
+  
+      //Assigns the last Object in the closedList to the endNode variable
+      Node endNode = closedList.get(closedList.size() - 1);
+  
+      //Checks if whether the endNode variable currently has a parent Node. if it doesn't then stops moving forward.
+      //Stores each parent Node to the PathList so it is easier to trace back the final path
+      while (endNode.getParent() != null) {
+          Node currentNode = endNode;
+          pathList.add(currentNode);
+          endNode = endNode.getParent();
+      }
+  
+      pathList.add(cell[startY][startX]);
+      //Clears the openList
+      openList.clear();
 
-  //Assigns the last Object in the closedList to the endNode variable
-  Node endNode = closedList.get(closedList.size() - 1);
-
-  //Checks if whether the endNode variable currently has a parent Node. if it doesn't then stops moving forward.
-  //Stores each parent Node to the PathList so it is easier to trace back the final path
-  while (endNode.getParent() != null) {
-      Node currentNode = endNode;
-      pathList.add(currentNode);
-      endNode = endNode.getParent();
-  }
-
-  pathList.add(cell[startY][startX]);
-  //Clears the openList
-  openList.clear();
-
-}
+      return;
+  
+    }
 
   @Override
   public void periodic() {
