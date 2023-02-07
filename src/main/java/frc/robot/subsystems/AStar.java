@@ -21,7 +21,7 @@ import frc.robot.Constants;
  * @param endY - the y of the end coord
  * @param endX - the x of the end coord
  */
-public class AStar extends SubsystemBase {
+public class AStar {
     private static Node[][] cell;
     private ArrayList<Node> pathList = new ArrayList<>();
     private ArrayList<Node> closedList = new ArrayList<>();
@@ -316,9 +316,4 @@ public class AStar extends SubsystemBase {
   
     }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-
-  }
 }
