@@ -22,10 +22,11 @@ public final class Constants {
      */
     public static class DriveConstants {
         /* CAN IDs for the drivetrain motor controllers */
-        public static final int ID_TALON_FRONT_LEFT = 0;
+        /* these are real now */
+        public static final int ID_TALON_FRONT_LEFT = 3;
         public static final int ID_TALON_FRONT_RIGHT = 1;
-        public static final int ID_TALON_REAR_LEFT = 2;
-        public static final int ID_TALON_REAR_RIGHT = 3;
+        public static final int ID_TALON_REAR_LEFT = 4;
+        public static final int ID_TALON_REAR_RIGHT = 2;
 
         /* 
         * Sensor phases for each motor controller.
