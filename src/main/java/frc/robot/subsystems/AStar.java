@@ -23,8 +23,8 @@ import frc.robot.Constants;
  */
 public class AStar extends SubsystemBase {
     private static Node[][] cell;
-    private static ArrayList<Node> pathList = new ArrayList<>();
-    private static ArrayList<Node> closedList = new ArrayList<>();
+    private ArrayList<Node> pathList = new ArrayList<>();
+    private ArrayList<Node> closedList = new ArrayList<>();
     private static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_Y*2];
     public int startY;
     public int startX;
@@ -57,7 +57,7 @@ public class AStar extends SubsystemBase {
      * @param v              Cost between 2 cells located horizontally or vertically next to each other
      * @param d              Cost between 2 cells located Diagonally next to each other
      */
-    public Node[] generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d) {
+    public ArrayList<Node> generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d) {
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -73,7 +73,7 @@ public class AStar extends SubsystemBase {
         return generatePath(cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d);
     }
 
-    public Node[] generateAStarPath() {
+    public ArrayList<Node> generateAStarPath() {
         int gCost = 0;
         /*int fCost = 0;*/
 
@@ -103,10 +103,7 @@ public class AStar extends SubsystemBase {
             System.out.println("Euclidean Path Not found");
         }
 
-        return; //TODO: MAKE THIS REUTRN A node[] of 
-
-        pathList.clear();
-        closedList.clear();
+        return pathList; //TODO: MAKE THIS REUTRN A node[] of 
     }
 
     /**
@@ -121,7 +118,7 @@ public class AStar extends SubsystemBase {
      * @param d              Cost between 2 cells located Diagonally next to each other
      * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
      */
-    public static Node[] generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int x, int y, int v, int d) {
+    public ArrayList<Node> generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int x, int y, int v, int d) {
     
       //Creation of a PriorityQueue and the declaration of the Comparator
       PriorityQueue<Node> openList = new PriorityQueue<>(11, new Comparator() {
@@ -315,7 +312,7 @@ public class AStar extends SubsystemBase {
       //Clears the openList
       openList.clear();
 
-      return;
+      return pathList;
   
     }
 
