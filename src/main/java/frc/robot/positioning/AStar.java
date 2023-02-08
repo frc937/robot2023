@@ -25,7 +25,6 @@ public class AStar {
     private ArrayList<Node> pathList = new ArrayList<>();
     private ArrayList<Node> closedList = new ArrayList<>();
     private static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_Y*2];
-    private Thread 
     public int startY;
     public int startX;
     public int endY;
@@ -125,8 +124,8 @@ public class AStar {
           @Override
           //Compares 2 Node objects stored in the PriorityQueue and Reorders the Queue according to the object which has the lowest fValue
           public int compare(Node cell1, Node cell2) {
-              return ((Node) cell1).fValue < ((Node) cell2).fValue ? -1 :
-                      ((Node) cell1).fValue > ((Node) cell2).fValue ? 1 : 0;
+              return cell1.fValue < cell2.fValue ? -1 :
+                      cell1.fValue > cell2.fValue ? 1 : 0;
           }
       });
   
