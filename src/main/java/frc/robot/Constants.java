@@ -45,7 +45,7 @@ public final class Constants {
         }
         
         /**
-         * General constants for the AStar Subsystem. Primarily used by {@link frc.robot.AStar}.
+         * General constants for the AStar Subsystem. Primarily used by {@link frc.robot.positioning.AStar}.
          */
     public static class AStar {
         /** Half the length of the field. Positive for Max, Negative for Min. Measured in cm. */
