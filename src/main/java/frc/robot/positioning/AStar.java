@@ -25,6 +25,7 @@ public class AStar {
     private ArrayList<Node> pathList = new ArrayList<>();
     private ArrayList<Node> closedList = new ArrayList<>();
     private static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_Y*2];
+    private Thread 
     public int startY;
     public int startX;
     public int endY;
@@ -120,10 +121,10 @@ public class AStar {
     public ArrayList<Node> generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int x, int y, int v, int d) {
     
       //Creation of a PriorityQueue and the declaration of the Comparator
-      PriorityQueue<Node> openList = new PriorityQueue<>(11, new Comparator() {
+      PriorityQueue<Node> openList = new PriorityQueue<Node>(11, new Comparator<Node>() {
           @Override
           //Compares 2 Node objects stored in the PriorityQueue and Reorders the Queue according to the object which has the lowest fValue
-          public int compare(Object cell1, Object cell2) {
+          public int compare(Node cell1, Node cell2) {
               return ((Node) cell1).fValue < ((Node) cell2).fValue ? -1 :
                       ((Node) cell1).fValue > ((Node) cell2).fValue ? 1 : 0;
           }
