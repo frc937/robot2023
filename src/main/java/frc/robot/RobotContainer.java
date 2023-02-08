@@ -10,6 +10,7 @@ import frc.robot.commands.Balance;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -29,7 +30,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drive driveSubsystem = new Drive();
+  private final Limelight limelight = new Limelight();
+  private final Drive driveSubsystem = new Drive(limelight);
 
   private final Balance balance = new Balance(driveSubsystem);
 

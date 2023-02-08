@@ -18,7 +18,7 @@ import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.SPI;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -161,9 +161,29 @@ public class Drive extends SubsystemBase {
         return gyroscope.getPitch();
     }
 
+    /**
+     * This will RESET the pose of the robot - NOT update. It tells the bot "hey, you know all that data you used to have about where the robot is? Ignore ALL OF THAT, this is where you are now."
+     * <p>As such, it should be used VERY sparingly. I recommend that it is only run by the AutoTask that zeros field-oriented drive, and MAYBE at the start of teleop if we aren't connected to the field.
+     * <p>The pose supplied to it should probably come from the Limelight--the purpose of this method is to make sure that the pose the robot thinks it's at is field-oriented and doesn't place the origin at whatever arbitrary point on the field that we set the bot down at.
+     * @param currentPose The pose to reset the bot's odometry to.
+     */
+    public void resetPosition(Pose2d currentPose) {
+        whereTheHeckAreWe.resetPosition(
+            gyroscope.getRotation2d(), 
+            new MecanumDriveWheelPositions(
+                frontLeft.getSelectedSensorPosition(), 
+                frontRight.getSelectedSensorPosition(), 
+                rearLeft.getSelectedSensorPosition(), 
+                rearRight.getSelectedSensorPosition()
+            ),
+            currentPose
+        );
+    }
+
     @Override
     public void periodic() {
-        whereTheHeckAreWe.update(
+        whereTheHeckAreWe.updateWithTime(
+            Timer.getFPGATimestamp(),
             gyroscope.getRotation2d(), 
             new MecanumDriveWheelPositions(
                 frontLeft.getSelectedSensorPosition(), 
@@ -173,7 +193,7 @@ public class Drive extends SubsystemBase {
             )
         );
         if (limelight.hasValidTarget()) {
-            whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), /* fuck */);
+            whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), Timer.getFPGATimestamp());
         }
     }
 }
