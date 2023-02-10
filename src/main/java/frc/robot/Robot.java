@@ -7,6 +7,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.positioning.ArmKinematics;
+import frc.robot.subsystems.arm.CompilationArm;
+import frc.robot.positioning.Pose;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,6 +23,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+
+  private Pose armPose;
 
   private RobotContainer m_robotContainer;
 
@@ -66,7 +75,17 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+
+
+    if (isAlmostOverextended() == true) {
+      m_robotContainer.getResetContainer().schedule();
+    }
+  }
+
+  private boolean isAlmostOverextended() {
+    return ArmKinematics.isOverextended(armPose);
+  }
 
   @Override
   public void teleopInit() {
@@ -81,7 +100,15 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    
+
+    if (isAlmostOverextended() == true) {
+      m_robotContainer.getResetContainer().schedule();
+    }
+  
+  }
+  
 
   @Override
   public void testInit() {

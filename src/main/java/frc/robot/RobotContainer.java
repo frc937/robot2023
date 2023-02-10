@@ -87,6 +87,7 @@ public class RobotContainer {
     compilationArm.setDefaultCommand(manualArm);
 
   }
+  
 
     /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -141,5 +142,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return Autos.exampleAuto(m_exampleSubsystem);
+  }
+
+  public Command getResetContainer() {
+    return compilationArm.moveToPoseCommand(Constants.Arm.Poses.RESET);
   }
 }
