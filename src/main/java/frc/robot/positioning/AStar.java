@@ -47,33 +47,6 @@ public class AStar {
 
     }
     
-    /**
-     * @param matrix         The boolean matrix that the framework generates
-     * @param startY         Starting point's x value
-     * @param startX         Starting point's y value
-     * @param endY           Ending point's x value
-     * @param endX           Ending point's y value
-     * @param width          Width of the field
-     * @param length         Length of the field
-     * @param v              Cost between 2 cells located horizontally or vertically next to each other
-     * @param d              Cost between 2 cells located Diagonally next to each other
-     */
-    public ArrayList<Node> generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d) {
-
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                
-                //Checks whether a cell is Blocked or Not by checking the boolean value
-                if (matrix[i][j]) {
-                    //Assigning the Euclidean Heuristic value
-                    // TODO: IF THE THING IS RUNNING SLOW, REMOVE THE Math.sqrt() TO MAYBE IMPROVE PROCESSING PROWER
-                    cell[i][j].hValue = (int)Math.sqrt(Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
-                }
-            }
-        }
-        return generatePath(cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d);
-    }
-
     public ArrayList<Node> generateAStarPath() {
         int gCost = 0;
         /*int fCost = 0;*/
@@ -105,6 +78,33 @@ public class AStar {
         }
 
         return pathList; //TODO: MAKE THIS REUTRN A node[] of 
+    }
+
+    /**
+     * @param matrix         The boolean matrix that the framework generates
+     * @param startY         Starting point's x value
+     * @param startX         Starting point's y value
+     * @param endY           Ending point's x value
+     * @param endX           Ending point's y value
+     * @param width          Width of the field
+     * @param length         Length of the field
+     * @param v              Cost between 2 cells located horizontally or vertically next to each other
+     * @param d              Cost between 2 cells located Diagonally next to each other
+     */
+    public ArrayList<Node> generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d) {
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                
+                //Checks whether a cell is Blocked or Not by checking the boolean value
+                if (matrix[i][j]) {
+                    //Assigning the Euclidean Heuristic value
+                    // TODO: IF THE THING IS RUNNING SLOW, REMOVE THE Math.sqrt() TO MAYBE IMPROVE PROCESSING PROWER
+                    cell[i][j].hValue = (int)Math.sqrt(Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
+                }
+            }
+        }
+        return generatePath(cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d);
     }
 
     /**
