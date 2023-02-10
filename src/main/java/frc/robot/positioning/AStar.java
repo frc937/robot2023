@@ -4,7 +4,9 @@
 
 package frc.robot.positioning;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
+import java.util.Comparator;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -13,7 +15,7 @@ import frc.robot.Constants;
  * 
  * @param cell - the map of nodes
  * @param pathList - likely the path
- * @param closedList - nodes that no longer need to be aknowledged by the pathfinding
+ * @param closedList - nodes that no longer need to be aknowledged by the pathfinder
  * @param grid - the map of obstacles
  * @param startY - the y of the start coord
  * @param startX - the x of the start coord
