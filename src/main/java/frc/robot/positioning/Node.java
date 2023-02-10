@@ -5,6 +5,7 @@
 package frc.robot.positioning;
 
 /**
+ * One of the points on the path planning gridmap.
  * @param x - x coordinate on the field 
  * @param y - y coordinate on the field
  * @param hValue - The Heuristic value, distance of each node from (starting point || end point (idk which))
@@ -19,6 +20,7 @@ public class Node {
     this.y = y;
   }
 
+  /* The logic behind private/public is that some values may be used in other classes, while hValue is unlikely to be used. */
   private int x;
   private int y;
   public int hValue;

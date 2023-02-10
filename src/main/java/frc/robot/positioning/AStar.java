@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Comparator;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 /**
@@ -32,7 +31,7 @@ public class AStar {
     public int endY;
     public int endX;
     static {
-    // return a random N-by-N boolean matrix
+    // creates the boolean obstacle matrix
     // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     for (int i = 0; i < Constants.AStar.FIELD_X*2; i++) {
         for (int j = 0; j < Constants.AStar.FIELD_Y*2; j++) {
@@ -43,8 +42,14 @@ public class AStar {
     }
 }
     
-    public AStar(int startY, int startX, int endY, int endX) {
-
+    /**
+     * Creates a new pathfinding situation. Input should be in centimeters.
+     */
+    public AStar(int startX, int startY, int endX, int endY) {
+        this.startX = startX;
+        this.startY = startY;
+        this.endX = endX;
+        this.endY = endY;
     }
     
     public ArrayList<Node> generateAStarPath() {
@@ -91,7 +96,7 @@ public class AStar {
      * @param v              Cost between 2 cells located horizontally or vertically next to each other
      * @param d              Cost between 2 cells located Diagonally next to each other
      */
-    public ArrayList<Node> generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d) {
+    private ArrayList<Node> generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d) {
 
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -119,7 +124,7 @@ public class AStar {
      * @param d              Cost between 2 cells located Diagonally next to each other
      * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
      */
-    public ArrayList<Node> generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int x, int y, int v, int d) {
+    private ArrayList<Node> generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int x, int y, int v, int d) {
     
       //Creation of a PriorityQueue and the declaration of the Comparator
       PriorityQueue<Node> openList = new PriorityQueue<Node>(11, new Comparator<Node>() {
