@@ -108,6 +108,7 @@ public final class Constants {
           public static final Pose SCORE_HIGH_CUBE = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble()); 
           public static final Pose PICKUP = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble()); 
           public static final Pose HUMAN_SHELF = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble());
+          public static final Pose CARRYING = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble());
         }
     }
 

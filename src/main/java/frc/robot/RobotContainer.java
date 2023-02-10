@@ -15,6 +15,7 @@ import frc.robot.subsystems.arm.ArmClaw;
 import frc.robot.subsystems.arm.ArmExtender;
 import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
+import frc.robot.commands.ManualArm;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -43,6 +44,7 @@ public class RobotContainer {
   private final ArmExtender armExtender = new ArmExtender();
   private final ArmClaw armClaw = new ArmClaw();
   private final CompilationArm compilationArm = new CompilationArm(armBase, armClaw, armExtender, armShoulder);
+  private final ManualArm manualArm = new ManualArm(armBase, armShoulder);
 
   private final Balance balance = new Balance(driveSubsystem);
 
@@ -56,6 +58,8 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
 
+  
+
   public static double getRightXAxis () {
 
     return controller.getRightX();
@@ -66,7 +70,7 @@ public class RobotContainer {
   }
 
   private static double scaleAxis(double a) {
-    return math.signum(a) * Math.pow(a, 2);
+    return Math.signum(a) * Math.pow(a, 2);
   }
 
   public static double getScaledRightXAxis() {
@@ -79,6 +83,9 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
+
+    compilationArm.setDefaultCommand(manualArm);
+
   }
 
     /**
