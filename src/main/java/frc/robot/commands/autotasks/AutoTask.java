@@ -7,8 +7,6 @@ package frc.robot.commands.autotasks;
 import java.util.ArrayList;
 import java.util.Stack;
 
-import org.ejml.dense.block.VectorOps_DDRB;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
 //TODO: Add fallback commands

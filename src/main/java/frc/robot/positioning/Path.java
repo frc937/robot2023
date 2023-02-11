@@ -2,7 +2,7 @@ package frc.robot.positioning;
 
 import java.util.ArrayList;
 /**
- * Return object for {@link positioning.Path.generateAStarPath}
+ * Path object for A star path planning.
  */
 public class Path {
     private ArrayList<Double[]> pathList;
