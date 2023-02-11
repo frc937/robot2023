@@ -33,7 +33,7 @@ public class RobotContainer {
   /* SUBSYSTEMS */
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Limelight limelight = new Limelight();
-  private final Drive driveSubsystem = new Drive();
+  private final Drive driveSubsystem = new Drive(limelight);
   private final TaskScheduler taskScheduler = new TaskScheduler();
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 
