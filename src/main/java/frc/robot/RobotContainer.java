@@ -129,7 +129,8 @@ public class RobotContainer {
     joystick.button(8).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_HIGH_CUBE));
     joystick.button(10).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_MID_CUBE));
     joystick.button(12).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.HUMAN_SHELF));
-    
+    joystick.button(1).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.CLOSE));
+
     
 
   }
