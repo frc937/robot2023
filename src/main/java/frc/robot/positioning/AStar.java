@@ -66,7 +66,6 @@ public class AStar {
 
     /**
      * Run this off an object to generate a path using A*.
-     * 
      * @return An ArrayList of doubles[] containing an x and y value.
      */
     public AtomicReference<Path> generateAStarPath() {
@@ -82,8 +81,7 @@ public class AStar {
                 cell = new Node[Constants.AStar.FIELD_X][Constants.AStar.FIELD_Y];
 
                 // Loop to find all 3 pathways and their relative Final Cost values
-
-                generateHValue(grid, startY, startX, endY, endX, Constants.AStar.FIELD_X * 2,
+                pathList = generateHValue(grid, startY, startX, endY, endX, Constants.AStar.FIELD_X * 2,
                         Constants.AStar.FIELD_Y * 2, 10, 14);
 
                 if (cell[startY][startX].hValue != -1 && pathList.contains(cell[endY][endX])) {
