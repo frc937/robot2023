@@ -79,13 +79,13 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
 
 //Opens the claw if the arm is close to being overextended
-    if (isAlmostOverextended() == true) {
+    if (isAlmostOverextended()) {
       m_robotContainer.getResetCommand().schedule();
     }
   }
 
   private boolean isAlmostOverextended() {
-    return ArmKinematics.isOverextended(armPose);
+    return ArmKinematics.isAlmostOverextended(armPose);
   }
 
   @Override
