@@ -155,6 +155,10 @@ public class AStar {
                     // 2)); - put this back if necessary, however it shouldn't be.
                     cell[i][j].hValue = (int) (Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
                 }
+                else {
+                    //If the boolean value is false (it's an obstacle), then assigning -1 instead of the absolute length
+                    cell[i][j].hValue = -1;
+                }
             }
         }
         return generatePath(cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d);
