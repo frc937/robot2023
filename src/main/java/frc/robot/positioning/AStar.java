@@ -24,6 +24,8 @@ import frc.robot.Constants;
  * @param cell - the map of nodes
  * @param pathList - likely the path
  * @param closedList - nodes that no longer need to be aknowledged by the pathfinder
+ * @param currPath - HI QUINN JAVADOC THIS OK BYE
+ * @param genThread - HI QUIIN JAVADOC HTTHIS OK BUE /nm or whatever
  * @param grid - the map of obstacles
  * @param startY - the y of the start coord
  * @param startX - the x of the start coord
