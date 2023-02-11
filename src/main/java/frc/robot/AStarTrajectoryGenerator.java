@@ -14,8 +14,14 @@ import frc.robot.positioning.Path;
 
 import java.util.ArrayList;
 
-/** Add your docs here. */
+/** Static utility class for generating WPILib {@link Trajectory Trajectories} from A* {@link Path Paths}. */
 public class AStarTrajectoryGenerator {
+
+    /**
+     * Static method for generating WPILib {@link Trajectory Trajectories} from A* {@link Path Paths}.
+     * @param path The Path to generate a Trajectory from
+     * @return The generated Trajectory
+     */
     public static Trajectory generateTrajectory(Path path) {
         ArrayList<Double[]> pathList = path.getPathList();
 
