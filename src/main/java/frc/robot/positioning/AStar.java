@@ -20,27 +20,27 @@ import frc.robot.Constants;
 
 /**
  * A* class, used to generate a path for the trajectory.
- * @param cell - the map of nodes
- * @param pathList - likely the path
- * @param closedList - nodes that no longer need to be aknowledged by the pathfinder
- * @param currPath - HI QUINN JAVADOC THIS OK BYE
- * @param genThread - HI QUIIN JAVADOC HTTHIS OK BUE /nm or whatever
- * @param grid - the map of obstacles
- * @param startY - the y of the start coord
- * @param startX - the x of the start coord
- * @param endY - the y of the end coord
- * @param endX - the x of the end coord
  */
 public class AStar {
+    /** The map of nodes */
     private static Node[][] cell;
+    /** Likely the path */
     private ArrayList<Node> pathList = new ArrayList<>();
+    /** Nodes that no longer need to be aknowledged by the pathfinder */
     private ArrayList<Node> closedList = new ArrayList<>();
+    /** The map of obstacles (in boolean form!) */
     private static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_Y*2];
+    /** Blame Quinn if there is no javadoc here */
     private AtomicReference<Path> currPath = new AtomicReference<Path>(new Path());
+    /** Blame Quinn if there is no javadoc here */
     private Thread genThread;
+    /** The y of the start coord */
     public int startY;
+    /** The x of the start coord */
     public int startX;
+    /** The y of the end coord */
     public int endY;
+    /** The x of the end coord */
     public int endX;
     static {
     // creates the boolean obstacle matrix
