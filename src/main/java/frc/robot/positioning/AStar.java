@@ -52,7 +52,7 @@ public class AStar {
         this.endY = endY;
     }
     
-    public ArrayList<Node> generateAStarPath() {
+    public ArrayList<Double[]> generateAStarPath() {
         int gCost = 0;
         /*int fCost = 0;*/
 
@@ -82,7 +82,13 @@ public class AStar {
             System.out.println("Euclidean Path Not found");
         }
 
-        return pathList; //TODO: MAKE THIS REUTRN A node[] of 
+        ArrayList<Double[]> pathListInMeters = new ArrayList<Double[]>();
+        for (Node node : pathList) {
+            Double tempNode[] = {(double)node.getX()/100, (double)node.getY()/100};
+            pathListInMeters.add(tempNode);
+        }
+
+        return pathListInMeters;
     }
 
     /**
