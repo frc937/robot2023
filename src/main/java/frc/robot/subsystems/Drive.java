@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -14,8 +15,11 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.MecanumDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
+import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -89,7 +93,7 @@ public class Drive extends SubsystemBase {
                 rearLeft.getSelectedSensorPosition(), 
                 rearRight.getSelectedSensorPosition()), 
             /* Initial pose can be 0,0 since it should be set by the first AutoTask */
-            null
+            new Pose2d()
         );
         
         /* CONSTANTS OUT THE BUTTHOLE */
@@ -180,6 +184,36 @@ public class Drive extends SubsystemBase {
         );
     }
 
+    /**
+     * Tracks a provided trajectory.
+     * <p>Should be called at a regular interval, like with an execute() method in a command.
+     * <p>This thing is confusing as hell, so there should be an example command for how to use it somewhere in this project.
+     * @param nextState The trajectory state representing where the robot should be at the time in tracking the trajectory when this method is called. 
+     * <p>One way to do this would be store the value of {@link Timer#getFPGATimestamp()} the first time this method is called, then to use {@link Trajectory#sample() Trajectory.sample(Timer.getFPGATimestamp - initialFPGATimestamp)}
+     * @param heading The desired heading at the nextState
+     */
+    public void trackTrajectory(Trajectory.State nextState, Rotation2d heading) {
+        ChassisSpeeds chassisSpeeds = holonomicController.calculate(whereTheHeckAreWe.getEstimatedPosition(), nextState, heading);
+        MecanumDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
+        frontLeft.set(ControlMode.Velocity, wheelSpeeds.frontLeftMetersPerSecond);
+        frontRight.set(ControlMode.Velocity, wheelSpeeds.frontRightMetersPerSecond);
+        rearLeft.set(ControlMode.Velocity, wheelSpeeds.rearLeftMetersPerSecond);
+        rearRight.set(ControlMode.Velocity, wheelSpeeds.rearRightMetersPerSecond);
+    }
+
+    /**
+     * Returns true if the holonomicController is at its reference point, or in other words, done tracking its trajectory
+     * @return A boolean; true if the holonomicController done tracking its trajectory
+     */
+    public boolean trajectoryDone() {
+        return holonomicController.atReference();
+    }
+
+    /**
+     * Subsystem periodic, runs every scheduler loop.
+     * <p>Updates odometry (aka whereTheHeckAreWe) with wheel positions and gyro heading,
+     * and adds the current vision measurement to odometry's kalman filter.
+     */
     @Override
     public void periodic() {
         whereTheHeckAreWe.updateWithTime(
@@ -193,7 +227,15 @@ public class Drive extends SubsystemBase {
             )
         );
         if (limelight.hasValidTarget()) {
-            whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), Timer.getFPGATimestamp());
+            /* This *should* check if the pose from the limelight is within 1m of the current odometry pose,
+             * which the odometry recommends we do to prevent us from getting noisy measurements
+             */
+            if (
+                (Math.abs(limelight.getBotpose2d().getX() - whereTheHeckAreWe.getEstimatedPosition().getX()) >= 1) && 
+                (Math.abs(limelight.getBotpose2d().getY() - whereTheHeckAreWe.getEstimatedPosition().getY()) >= 1)
+            ) {
+                whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), Timer.getFPGATimestamp());
+            }
         }
     }
 }
