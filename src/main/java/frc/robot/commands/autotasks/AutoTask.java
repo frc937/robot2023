@@ -1,21 +1,16 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project. 
+// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.autotasks;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.positioning.Pose;
+// TODO: Add fallback commands
 import java.util.ArrayList;
 import java.util.Stack;
 
-import org.ejml.dense.block.VectorOps_DDRB;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.positioning.Pose;
-//TODO: Add fallback commands
-/**
- * Base class for autotasks.
- * If you want to create an autotask extend this class.
- */
+/** Base class for autotasks. If you want to create an autotask extend this class. */
 public abstract class AutoTask {
   private boolean initialized = false;
   private boolean arrived = false;
@@ -27,29 +22,25 @@ public abstract class AutoTask {
   private Stack<CommandBase> arrivedCommands = new Stack<CommandBase>();
   private CommandBase runningCommand;
   /**
-   * Creates a new AutoTask.
-   * Dont create instances of commands.
-   * Each command should be a parameter instead of created
+   * Creates a new AutoTask. Dont create instances of commands. Each command should be a parameter
+   * instead of created
    */
-  public AutoTask() {
-  }
+  public AutoTask() {}
 
   /**
-   * Ran when the command is started. Allow basic movements before the
-   * PositionSystem moves the robot.
-   * <p>
-   * Make sure to put the {@link #setTaskPosition(Position) setTaskPosition}
-   * method in
-   * init to set where the robot will go.
-   * <p>
-   * Not running taskPosition will cause a NullPointerException.
+   * Ran when the command is started. Allow basic movements before the PositionSystem moves the
+   * robot.
+   *
+   * <p>Make sure to put the {@link #setTaskPosition(Position) setTaskPosition} method in init to
+   * set where the robot will go.
+   *
+   * <p>Not running taskPosition will cause a NullPointerException.
    */
   public abstract void initTask();
 
   /**
-   * Checks if the initTask method is finished. Return true when the method
-   * finishes.
-   * 
+   * Checks if the initTask method is finished. Return true when the method finishes.
+   *
    * @return the state of the initTask method.
    */
   public boolean initFinished() {
@@ -60,15 +51,12 @@ public abstract class AutoTask {
     }
   }
 
-  /**
-   * Ran when the AutoTask arrives at the defined position.
-   */
+  /** Ran when the AutoTask arrives at the defined position. */
   public abstract void arrived();
 
   /**
-   * Checks if the Arrived method has finished and allows the next queued command
-   * to run.
-   * 
+   * Checks if the Arrived method has finished and allows the next queued command to run.
+   *
    * @return the state of the arrived method
    */
   public boolean isFinished() {
@@ -81,22 +69,19 @@ public abstract class AutoTask {
 
   /**
    * Ran if the bot cant get to the position it needs.
-   * 
+   *
    * @param position The bots current position.
    */
   public abstract void fallback(Pose position);
 
-  /**
-   * Returns the acive command.
-   */
+  /** Returns the acive command. */
   public CommandBase getActiveCommand() {
     return runningCommand;
-
   }
 
   /**
    * Like periodic but gives position arg
-   * 
+   *
    * @param position The current position of the robot
    */
   public void updateTask(Pose position) {
@@ -159,7 +144,7 @@ public abstract class AutoTask {
 
   /**
    * Returns if the task has ended or not.
-   * 
+   *
    * @return The status of the command
    */
   public boolean ended() {
@@ -168,26 +153,24 @@ public abstract class AutoTask {
 
   /**
    * Use instead of execute. Functions as execute but with a position arguemnt.
-   * 
+   *
    * @param position the current position of the robot when update is ran.
    */
   protected abstract void update(Pose position);
 
   /**
    * Sets the position the bot will go to for the task.
-   * <p>
-   * Not running this in {@link #initTask initTask} <strong>will</strong> cause a
+   *
+   * <p>Not running this in {@link #initTask initTask} <strong>will</strong> cause a
    * NullPointerException
-   * 
+   *
    * @param position The position the bot will go to for the AutoTask
    */
   protected void setTaskPosition(Pose position) {
     taskPos = position;
   }
 
-  /**
-   * Ran if the task needs to be ended.
-   */
+  /** Ran if the task needs to be ended. */
   public void end() {
     if (!runningCommand.isFinished()) {
       runningCommand.end(true);
@@ -196,7 +179,7 @@ public abstract class AutoTask {
 
   /**
    * Adds command requirements for TaskScheduler (such as ending commands)
-   * 
+   *
    * @param command The command/s to add
    */
   private void addCommandRequirement(CommandBase... command) {
@@ -207,7 +190,7 @@ public abstract class AutoTask {
 
   /**
    * Sets the command to run on autotask init.
-   * 
+   *
    * @param command The command to run.
    */
   protected void addInitCommand(CommandBase command) {
@@ -217,7 +200,7 @@ public abstract class AutoTask {
 
   /**
    * Sets the command to run on autotask arrival.
-   * 
+   *
    * @param command The command to run.
    */
   protected void addArrivedCommand(CommandBase command) {
@@ -225,17 +208,18 @@ public abstract class AutoTask {
     arrivedCommands.push(command);
   }
 
-  /**
-   * Runs checks on the autotasks to make sure the tasks are valid
-   */
+  /** Runs checks on the autotasks to make sure the tasks are valid */
   public void verify() {
     System.out.println();
     System.out.println("================================================================");
     System.out.println("Checking if taskPosition was ran in " + this.getClass().getName());
     if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
-      System.out.println("Taskpos was not ran. In order for a AutoTask to be valid taskpos HAS to be ran in the constructor");
-      throw new UnsupportedOperationException("Verification failed because taskpos was not ran in the constructor.");
-      
+      System.out.println(
+          "Taskpos was not ran. In order for a AutoTask to be valid taskpos HAS to be ran in the"
+              + " constructor");
+      throw new UnsupportedOperationException(
+          "Verification failed because taskpos was not ran in the constructor.");
+
     } else {
       verified = true;
       System.out.println("Taskpos was run. Task verified.");
