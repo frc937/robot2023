@@ -48,7 +48,7 @@ public class ArmShoulder extends SubsystemBase {
   }
 
   public void manualMoveArmShoulder(double x) {
-    armShoulderMotor.set(ControlMode.PercentOutput, x)
+    armShoulderMotor.set(ControlMode.PercentOutput, x);
   }
 
   /**
