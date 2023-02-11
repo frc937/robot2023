@@ -6,6 +6,8 @@ package frc.robot.positioning;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.Comparator;
 
 import frc.robot.Constants;
@@ -26,6 +28,8 @@ public class AStar {
     private ArrayList<Node> pathList = new ArrayList<>();
     private ArrayList<Node> closedList = new ArrayList<>();
     private static boolean[][] grid = new boolean[Constants.AStar.FIELD_X*2][Constants.AStar.FIELD_Y*2];
+    private AtomicReference<Path> currPath = new AtomicReference<Path>(new Path());
+    private Thread genThread;
     public int startY;
     public int startX;
     public int endY;
@@ -52,7 +56,10 @@ public class AStar {
         this.endY = endY;
     }
     
-    public ArrayList<Double[]> generateAStarPath() {
+    public AtomicReference<Path> generateAStarPath() {
+        currPath.set(new Path());
+        if (!genThread.isAlive()) {
+        this.genThread = new Thread(() ->{
         int gCost = 0;
         /*int fCost = 0;*/
 
@@ -87,8 +94,14 @@ public class AStar {
             Double tempNode[] = {(double)node.getX()/100, (double)node.getY()/100};
             pathListInMeters.add(tempNode);
         }
+        
+       currPath.set(new Path(pathListInMeters));
+    }
+    );
+}
+    genThread.start();
 
-        return pathListInMeters;
+        return currPath;
     }
 
     /**

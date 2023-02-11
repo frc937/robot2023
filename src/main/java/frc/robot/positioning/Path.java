@@ -1,8 +1,10 @@
 package frc.robot.positioning;
 
 import java.util.ArrayList;
-
-public class PathObject {
+/**
+ * Return object for {@link positioning.Path.generateAStarPath}
+ */
+public class Path {
     private ArrayList<Double[]> pathList;
     private boolean generatedPath;
 
@@ -14,11 +16,11 @@ public class PathObject {
         return this.generatedPath;
     }
 
-    public PathObject() {
+    public Path() {
         generatedPath = false;
     }
     
-    public PathObject(ArrayList<Double[]> pathList) {
+    public Path(ArrayList<Double[]> pathList) {
         this.pathList = pathList;
         this.generatedPath = true;
     }
