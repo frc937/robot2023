@@ -1,27 +1,31 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// the WPILib BSD license file in the root directory of this project. 
 
 package frc.robot.commands.autotasks;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
+import org.ejml.dense.block.VectorOps_DDRB;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
+//TODO: Add fallback commands
 /**
- * Base class for autotasks. 
+ * Base class for autotasks.
  * If you want to create an autotask extend this class.
  */
 public abstract class AutoTask {
   private boolean initialized = false;
   private boolean arrived = false;
+  private boolean ended = false;
+  private boolean verified = false;
   private Pose taskPos;
   private ArrayList<CommandBase> commands = new ArrayList<CommandBase>();
   private Stack<CommandBase> initCommands = new Stack<CommandBase>();
   private Stack<CommandBase> arrivedCommands = new Stack<CommandBase>();
   private CommandBase runningCommand;
-
   /**
    * Creates a new AutoTask.
    * Dont create instances of commands.
@@ -48,9 +52,9 @@ public abstract class AutoTask {
    * 
    * @return the state of the initTask method.
    */
-  public boolean initFinished(){
+  public boolean initFinished() {
     if (initCommands.empty() & runningCommand.isFinished()) {
-        return true;
+      return true;
     } else {
       return false;
     }
@@ -68,11 +72,11 @@ public abstract class AutoTask {
    * @return the state of the arrived method
    */
   public boolean isFinished() {
-  if (arrivedCommands.empty() & runningCommand.isFinished()) {
+    if (arrivedCommands.empty() & runningCommand.isFinished()) {
       return true;
-  } else {
-    return false;
-  }
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -86,29 +90,35 @@ public abstract class AutoTask {
    * Returns the acive command.
    */
   public CommandBase getActiveCommand() {
-    return runningCommand; 
+    return runningCommand;
 
   }
 
   /**
    * Like periodic but gives position arg
+   * 
    * @param position The current position of the robot
    */
   public void updateTask(Pose position) {
     updateInit();
     updateArrived();
     update(position);
-  } 
-/*
- * Update the init sequence of the task. If the task is initialized the command is bypassed.
- */
-  private void updateInit(){
-    /* Checks if the task has finished init sequence  */
+  }
+
+  /*
+   * Update the init sequence of the task. If the task is initialized the command
+   * is bypassed.
+   */
+  private void updateInit() {
+    /* Checks if the task has finished init sequence */
     if (!initialized) {
-      /* If task is not initalised, queue command if current running one is finished */
-      if (runningCommand.isFinished() & !initCommands.isEmpty()){
+      /*
+       * If task is not initalised, queue command if current running one is finished
+       */
+      if (runningCommand.isFinished() & !initCommands.isEmpty()) {
         runningCommand = initCommands.pop();
-        /* If currently running command is finished and there are no more init
+        /*
+         * If currently running command is finished and there are no more init
          * Commands, initalize
          */
       } else if (initCommands.isEmpty() & runningCommand.isFinished()) {
@@ -122,26 +132,39 @@ public abstract class AutoTask {
   }
 
   /*
- * Update the arrived sequence of the task. If the task hasent arrived at the desination the command is bypassed.
- */
-private void updateArrived(){
-  /* Checks if the task has finished init sequence  */
-  if (!arrived) {
-    /* If task is not initalised, queue command if current running one is finished */
-    if (runningCommand.isFinished() & !arrivedCommands.isEmpty()){
-      runningCommand = arrivedCommands.pop();
-      /* If currently running command is finished and there are no more init
-       * Commands, initalize
+   * Update the arrived sequence of the task. If the task hasent arrived at the
+   * desination the command is bypassed.
+   */
+  private void updateArrived() {
+    /* Checks if the task has finished arrived sequence */
+    if (!arrived) {
+      /*
+       * If task is not initalised, queue command if current running one is finished
        */
-    } else if (arrivedCommands.isEmpty() & runningCommand.isFinished()) {
-      initialized = true;
-    }
-    /* Prevents current command from getting ran multiple times without intention */
-    if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
-      runningCommand.schedule();
+      if (runningCommand.isFinished() & !arrivedCommands.isEmpty()) {
+        runningCommand = arrivedCommands.pop();
+        /*
+         * If currently running command is finished and there are no more init
+         * Commands, end the command
+         */
+      } else if (arrivedCommands.isEmpty() & runningCommand.isFinished()) {
+        ended = true;
+      }
+      /* Prevents current command from getting ran multiple times without intention */
+      if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
+        runningCommand.schedule();
+      }
     }
   }
-}
+
+  /**
+   * Returns if the task has ended or not.
+   * 
+   * @return The status of the command
+   */
+  public boolean ended() {
+    return ended;
+  }
 
   /**
    * Use instead of execute. Functions as execute but with a position arguemnt.
@@ -201,12 +224,22 @@ private void updateArrived(){
     addCommandRequirement(command);
     arrivedCommands.push(command);
   }
- /**
-  * Runs checks on the autotasks to make sure the tasks are valid
-  */
+
+  /**
+   * Runs checks on the autotasks to make sure the tasks are valid
+   */
   public void verify() {
+    System.out.println();
+    System.out.println("================================================================");
+    System.out.println("Checking if taskPosition was ran in " + this.getClass().getName());
     if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
-      throw new NullPointerException("taskPositon Was not ran in initTask.");
+      System.out.println("Taskpos was not ran. In order for a AutoTask to be valid taskpos HAS to be ran in the constructor");
+      throw new UnsupportedOperationException("Verification failed because taskpos was not ran in the constructor.");
+      
+    } else {
+      verified = true;
+      System.out.println("Taskpos was run. Task verified.");
     }
+    System.out.println("================================================================");
   }
 }

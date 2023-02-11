@@ -8,9 +8,11 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.autotasks.ExampleAutoTask;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.TaskScheduler;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -28,15 +30,22 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  /* SUBSYSTEMS */
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Limelight limelight = new Limelight();
-  private final Drive driveSubsystem = new Drive(limelight);
+  private final Drive driveSubsystem = new Drive();
+  private final TaskScheduler taskScheduler = new TaskScheduler();
+  private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 
+ /* COMMANDS */
   private final Balance balance = new Balance(driveSubsystem);
+  private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
+
+ /* AUTO TASKS */
+  private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final XboxController controller = new XboxController(OperatorConstants.CONTROLLER_NUMBER);
+  private final CommandXboxController controller = new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -44,6 +53,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+    // Verify auto tasks. If each task isnt verified the autotask will throw a exception.
+    verifyAutoTasks();
   }
 
     /**
@@ -56,23 +67,10 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    /* Create JoystickButtons out of the controller IDs declared in constants */
-    JoystickButton aButton = new JoystickButton(controller, Constants.ContollerButtons.A_NUMBER);
-    JoystickButton bButton = new JoystickButton(controller, Constants.ContollerButtons.B_NUMBER);
-    JoystickButton xButton = new JoystickButton(controller, Constants.ContollerButtons.X_NUMBER);
-    JoystickButton yButton = new JoystickButton(controller, Constants.ContollerButtons.Y_NUMBER);
-    JoystickButton leftBumper = new JoystickButton(controller, Constants.ContollerButtons.LEFT_BUMPER_NUMBER);
-    JoystickButton rightBumper = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_BUMPER_NUMBER);
-    JoystickButton backButton = new JoystickButton(controller, Constants.ContollerButtons.BACK_NUMBER);
-    JoystickButton startButton = new JoystickButton(controller, Constants.ContollerButtons.START_NUMBER);
-    JoystickButton leftStick = new JoystickButton(controller, Constants.ContollerButtons.LEFT_STICK_NUMBER);
-    JoystickButton rightStick = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_STICK_NUMBER);
-    POVButton dPadUp = new POVButton(controller, 0);
-    POVButton dPadRight= new POVButton(controller, 90);        
-    POVButton dPadDown = new POVButton(controller, 180);
-    POVButton dPadLeft = new POVButton(controller, 270);
-
-    new Trigger(dPadUp).onTrue(balance);
+    controller.povUp().onTrue(balance);
+  }
+  private void verifyAutoTasks() {
+    exampleAutoTask.verify();
   }
 
   /**
