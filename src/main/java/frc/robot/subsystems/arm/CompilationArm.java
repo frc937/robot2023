@@ -89,11 +89,8 @@ public class CompilationArm extends SubsystemBase {
    * @param pose the position that the arm is to go to
    * @return command that moves arm to a pose 
    */
-  public Command moveToPoseCommand(Pose pose){
-    return Commands.runOnce(() -> moveToPose(pose), 
-      /* Subsystem requirements */
-      this, armBase, armShoulder, armExtender);
-  }
+  
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

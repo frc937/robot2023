@@ -109,6 +109,7 @@ public final class Constants {
           public static final Pose PICKUP = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble()); 
           public static final Pose HUMAN_SHELF = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble());
           public static final Pose CARRYING = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble());
+          public static final Pose CLOSE = new Pose(ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble(), ArbitraryValues.arbitraryDouble());
         }
     }
 

@@ -70,7 +70,7 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-      m_robotContainer.getResetContainer().schedule();
+      m_robotContainer.getResetCommand().schedule();
     }
   }
 
@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
 
 //Opens the claw if the arm is close to being overextended
     if (isAlmostOverextended() == true) {
-      m_robotContainer.getResetContainer().schedule();
+      m_robotContainer.getResetCommand().schedule();
     }
   }
 
@@ -96,8 +96,8 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-//Opens the claw
-      m_robotContainer.getResetContainer().schedule();
+//Opens the
+      m_robotContainer.getResetCommand().schedule();
 
     }
   }
@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
     
 
     if (isAlmostOverextended() == true) {
-      m_robotContainer.getResetContainer().schedule();
+      m_robotContainer.getResetCommand().schedule();
     }
   
   }

@@ -16,6 +16,8 @@ import frc.robot.subsystems.arm.ArmExtender;
 import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
 import frc.robot.commands.ManualArm;
+import frc.robot.commands.MoveToPose;
+import frc.robot.positioning.Pose;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -45,6 +47,7 @@ public class RobotContainer {
   private final ArmClaw armClaw = new ArmClaw();
   private final CompilationArm compilationArm = new CompilationArm(armBase, armClaw, armExtender, armShoulder);
   private final ManualArm manualArm = new ManualArm(armBase, armShoulder);
+  private final Pose pose = new Pose();
 
   private final Balance balance = new Balance(driveSubsystem);
 
@@ -121,15 +124,15 @@ public class RobotContainer {
 
     controller.povUp().onTrue(balance);
 
-    joystick.button(2).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.RESET));
-    joystick.button(3).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.PICKUP));
-    joystick.button(11).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_LOWER));
-    joystick.button(7).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_HIGH_CONE));
-    joystick.button(9).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_MID_CONE));
-    joystick.button(8).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_HIGH_CUBE));
-    joystick.button(10).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.SCORE_MID_CUBE));
-    joystick.button(12).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.HUMAN_SHELF));
-    joystick.button(1).onTrue(compilationArm.moveToPoseCommand(Constants.Arm.Poses.CLOSE));
+    joystick.button(2).onTrue(new MoveToPose(Constants.Arm.Poses.RESET, armShoulder, armBase, armExtender, compilationArm));
+    joystick.button(3).onTrue(new MoveToPose(Constants.Arm.Poses.PICKUP, armShoulder, armBase, armExtender, compilationArm));
+    joystick.button(11).onTrue(new MoveToPose(Constants.Arm.Poses.SCORE_LOWER, armShoulder, armBase, armExtender, compilationArm));
+    joystick.button(7).onTrue(new MoveToPose(Constants.Arm.Poses.SCORE_HIGH_CONE, armShoulder, armBase, armExtender, compilationArm));
+    joystick.button(9).onTrue(new MoveToPose(Constants.Arm.Poses.SCORE_MID_CONE, armShoulder, armBase, armExtender, compilationArm));
+    joystick.button(8).onTrue(new MoveToPose(Constants.Arm.Poses.SCORE_HIGH_CUBE, armShoulder, armBase, armExtender, compilationArm));
+    joystick.button(10).onTrue(new MoveToPose(Constants.Arm.Poses.SCORE_MID_CUBE, armShoulder, armBase, armExtender, compilationArm));
+    joystick.button(12).onTrue(new MoveToPose(Constants.Arm.Poses.HUMAN_SHELF, armShoulder, armBase, armExtender, compilationArm));
+    joystick.button(1).onTrue(new MoveToPose(Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));
 
     
 
@@ -145,7 +148,7 @@ public class RobotContainer {
     return Autos.exampleAuto(m_exampleSubsystem);
   }
 
-  public Command getResetContainer() {
-    return compilationArm.moveToPoseCommand(Constants.Arm.Poses.RESET);
+  public Command getResetCommand() {
+    return new MoveToPose(Constants.Arm.Poses.RESET, armShoulder, armBase, armExtender, compilationArm);
   }
 }
