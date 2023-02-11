@@ -126,8 +126,8 @@ public class AStar {
                 //Checks whether a cell is Blocked or Not by checking the boolean value
                 if (matrix[i][j]) {
                     //Assigning the Euclidean Heuristic value
-                    // TODO: IF THE THING IS RUNNING SLOW, REMOVE THE Math.sqrt() TO MAYBE IMPROVE PROCESSING PROWER
-                    cell[i][j].hValue = (int)Math.sqrt(Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
+                    //cell[i][j].hValue = (int)Math.sqrt(Math.pow(i - endY, 2) + Math.pow(j - endX, 2)); - put this back if necessary, however it shouldn't be.
+                    cell[i][j].hValue = (int)(Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
                 }
             }
         }
