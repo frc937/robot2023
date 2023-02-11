@@ -8,7 +8,7 @@ package frc.robot.positioning;
  * One of the points on the path planning gridmap.
  * @param x - x coordinate on the field 
  * @param y - y coordinate on the field
- * @param hValue - The Heuristic value, distance of each node from (starting point || end point (idk which))
+ * @param hValue - The Heuristic value, distance of each node from (starting point || end point (idk which)) as the crow flies
  * @param gValue - The g value, the distance between the current node and the start node
  * @param fValue - The f value, the total cost of the node
  * @param parent - the parent Node

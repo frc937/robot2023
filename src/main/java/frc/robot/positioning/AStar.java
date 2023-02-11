@@ -10,8 +10,15 @@ import java.util.Comparator;
 
 import frc.robot.Constants;
 
+/*
+ * A* (A Star) path planning uses a grid of Nodes, and assigns values to said Nodes to decide on the best route for the robot.
+ * Quick Overview: https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
+ * In Depth: https://csis.pace.edu/~benjamin/teaching/cs627/webfiles/Astar.pdf
+ * Stolen Code: https://github.com/Suwadith/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java/blob/FinalizedVersion/src/PathFindingOnSquaredGrid.java 
+ */
+
 /**
- * 
+ * A* class, used to generate a path for the trajectory.
  * @param cell - the map of nodes
  * @param pathList - likely the path
  * @param closedList - nodes that no longer need to be aknowledged by the pathfinder
@@ -52,6 +59,10 @@ public class AStar {
         this.endY = endY;
     }
     
+    /**
+     * Run this off an object to generate a path using A*.
+     * @return An ArrayList of doubles[] containing an x and y value.
+     */
     public ArrayList<Double[]> generateAStarPath() {
         int gCost = 0;
         /*int fCost = 0;*/
@@ -65,23 +76,25 @@ public class AStar {
 
         if (cell[startY][startX].hValue!=-1&&pathList.contains(cell[endY][endX])) {
 
-            for (int i = 0; i < pathList.size() - 1; i++) {
-                /* System.out.println(pathList.get(i).x + " " + pathList.get(i).y);*/
-                /*StdDraw.circle(pathList.get(i).y, n - pathList.get(i).x - 1, .4);*/
-                gCost += pathList.get(i).gValue;
-                /*fCost += pathList.get(i).fValue;*/
-            }
+            /* This is only if you want to output the total cost of the whole thing; aka it's unnessecary. */
+            // for (int i = 0; i < pathList.size() - 1; i++) {
+            //     /* System.out.println(pathList.get(i).x + " " + pathList.get(i).y);*/
+            //     gCost += pathList.get(i).gValue;
+            //     /*fCost += pathList.get(i).fValue;*/
+            // }
         
             System.out.println("Euclidean Path Found");
-            System.out.println("Total Cost: " + gCost/10.0);
+            System.out.println("Total Cost: " + gCost/10);
             /*System.out.println("Total fCost: " + fCost);*/
             gCost = 0;
             /*fCost = 0;*/
         
         } else {
+            //TODO: THIS SHOULD OUTPUT TO SHUFFLEBOARD
             System.out.println("Euclidean Path Not found");
         }
 
+        /* Converts the pathlist from Node(int cm) to double[] meters. Purely for the final return. */
         ArrayList<Double[]> pathListInMeters = new ArrayList<Double[]>();
         for (Node node : pathList) {
             Double tempNode[] = {(double)node.getX()/100, (double)node.getY()/100};
@@ -92,6 +105,8 @@ public class AStar {
     }
 
     /**
+     * Generates the Heuristic value.
+     * The Heuristic is the estimated distance from the current node (not starting node) to the (start||end) node.
      * @param matrix         The boolean matrix that the framework generates
      * @param startY         Starting point's x value
      * @param startX         Starting point's y value
@@ -101,6 +116,7 @@ public class AStar {
      * @param length         Length of the field
      * @param v              Cost between 2 cells located horizontally or vertically next to each other
      * @param d              Cost between 2 cells located Diagonally next to each other
+     * @return The Pathlist of Nodes.
      */
     private ArrayList<Node> generateHValue(boolean matrix[][], int startY, int startX, int endY, int endX, int width, int length, int v, int d) {
 
@@ -119,6 +135,7 @@ public class AStar {
     }
 
     /**
+     * Actually generates the path, in a 3x3 grid, with the center being the node.
      * @param hValue         Node type 2D Array (Matrix)
      * @param startY         Starting point's y value
      * @param startX         Starting point's x value
@@ -129,6 +146,7 @@ public class AStar {
      * @param v              Cost between 2 cells located horizontally or vertically next to each other
      * @param d              Cost between 2 cells located Diagonally next to each other
      * @param additionalPath Boolean to decide whether to calculate the cost of through the diagonal path
+     * @return The Pathlist of Nodes.
      */
     private ArrayList<Node> generatePath(Node hValue[][], int startY, int startX, int endY, int endX, int x, int y, int v, int d) {
     
