@@ -6,7 +6,6 @@ package frc.robot.positioning;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.Comparator;
 
