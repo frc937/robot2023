@@ -15,12 +15,6 @@ import frc.robot.commands.autotasks.ExampleAutoTask;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.TaskScheduler;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,11 +29,11 @@ public class RobotContainer {
   private final TaskScheduler taskScheduler = new TaskScheduler();
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 
- /* COMMANDS */
+  /* COMMANDS */
   private final Balance balance = new Balance(driveSubsystem);
   private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
 
- /* AUTO TASKS */
+  /* AUTO TASKS */
   private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -66,6 +60,7 @@ public class RobotContainer {
   private void configureBindings() {
     controller.povUp().onTrue(balance);
   }
+
   private void verifyAutoTasks() {
     exampleAutoTask.verify();
   }

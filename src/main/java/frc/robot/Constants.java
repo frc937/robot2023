@@ -25,15 +25,16 @@ public final class Constants {
     public static final int ID_TALON_REAR_LEFT = 2;
     public static final int ID_TALON_REAR_RIGHT = 3;
   }
-        /**
-         * General constants for the AStar Subsystem. Primarily used by {@link frc.robot.positioning.AStar}.
-         */
-    public static class AStar {
-        /** Half the length of the field. Positive for Max, Negative for Min. Measured in cm. */
-        public static final int FIELD_X = 1654/2;
-        /** Half the width of the field. Positive for Max, Negative for Min. Measured in cm. */
-        public static final int FIELD_Y = 802/2;
-    }
+  /**
+   * General constants for the AStar Subsystem. Primarily used by {@link
+   * frc.robot.positioning.AStar}.
+   */
+  public static class AStar {
+    /** Half the length of the field. Positive for Max, Negative for Min. Measured in cm. */
+    public static final int FIELD_X = 1654 / 2;
+    /** Half the width of the field. Positive for Max, Negative for Min. Measured in cm. */
+    public static final int FIELD_Y = 802 / 2;
+  }
   /**
    * General constants for the balance command. Primarily used by {@link
    * frc.robot.commands.Balance}.
