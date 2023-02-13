@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test;
 
-<<<<<<< HEAD:src/test/java/BaseTests.java
 import frc.robot.RobotContainer;
 
 public class BaseTests {
@@ -13,12 +12,4 @@ public class BaseTests {
     public void TestAutoTasks(){
         new RobotContainer();
     }
-=======
-public class TestTesting {
-  @Test
-  public void TestTests() {
-    System.out.println("Test :)");
-    assert true;
-  }
->>>>>>> staging:src/test/java/TestTesting.java
 }

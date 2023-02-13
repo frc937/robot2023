@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Path {
     private ArrayList<Double[]> pathList;
     private boolean generatedPath;
-
+    
     public ArrayList<Double[]> getPathList() {
         return this.pathList;
     }
