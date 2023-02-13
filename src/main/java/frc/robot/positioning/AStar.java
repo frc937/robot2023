@@ -117,12 +117,12 @@ public class AStar {
                 }
 
                 /*
-                 * Converts the pathlist from Node(int cm) to double[] meters. Purely for the
-                 * final return.
+                 * Converts the pathlist from Node(int cm) to double[] meters relative to the center (origin) of the field. 
+                 * Purely for the final return.
                  */
                 ArrayList<Double[]> pathListInMeters = new ArrayList<Double[]>();
                 for (Node node : pathList) {
-                  Double tempNode[] = {(double) node.getX() / 100, (double) node.getY() / 100};
+                  Double tempNode[] = {(double) (node.getX() - Constants.AStar.FIELD_X) / 100, (double) (node.getY() - Constants.AStar.FIELD_Y) / 100};
                   pathListInMeters.add(tempNode);
                 }
 
@@ -163,7 +163,7 @@ public class AStar {
     for (int i = 0; i < matrix.length; i++) {
       for (int j = 0; j < matrix.length; j++) {
 
-        // Checks whether a cell is Blocked or Not by checking the boolean value
+        // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle absent)
         if (matrix[i][j]) {
           // Assigning the Euclidean Heuristic value
           // cell[i][j].hValue = (int)Math.sqrt(Math.pow(i - endY, 2) + Math.pow(j - endX,

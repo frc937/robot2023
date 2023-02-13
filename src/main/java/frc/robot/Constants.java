@@ -30,9 +30,9 @@ public final class Constants {
    * frc.robot.positioning.AStar}.
    */
   public static class AStar {
-    /** Half the length of the field. Positive for Max, Negative for Min. Measured in cm. */
+    /** Half the length of the field relative to the origin. Positive for Max, Negative for Min. Measured in cm. */
     public static final int FIELD_X = 1654 / 2;
-    /** Half the width of the field. Positive for Max, Negative for Min. Measured in cm. */
+    /** Half the width of the field relative to the origin. Positive for Max, Negative for Min. Measured in cm. */
     public static final int FIELD_Y = 802 / 2;
   }
   /**
