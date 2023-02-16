@@ -39,7 +39,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drive driveSubsystem = new Drive();
-  
+  private Pose armPose;
   /* BIG CHUNGUS ARM CODE */
   private final ArmBase armBase = new ArmBase();
   private final ArmShoulder armShoulder = new ArmShoulder();
@@ -89,6 +89,11 @@ public class RobotContainer {
 
     compilationArm.setDefaultCommand(manualArm);
 
+  }
+
+  public Pose getArmPose () {
+
+  return armPose;
   }
   
 

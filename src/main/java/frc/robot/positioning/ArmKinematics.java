@@ -8,6 +8,7 @@ import edu.wpi.first.math.Vector;
 import frc.robot.Constants;
 import frc.robot.Constants.Arm;
 import frc.robot.Constants.RobotDimensions;
+import frc.robot.RobotContainer;
 
 /**
  * Kinematics class contains forward and inverse kinematics functions for the
@@ -47,9 +48,16 @@ public final class ArmKinematics {
    * robot MUST immediately retract the arm to avoid penalties.
    * @param armPose the pose of the end effector
    */
-  public static boolean isOverextended(final Pose armPose) {
+
+   public Pose getArmPose(final Pose armPose) {
+     return armPose;
+   }
+    public static boolean isOverextended(final Pose armPose) {
+
+    
     final double horizontal = getFrameExtension(armPose);
     final double vertical = getExtendedRobotHeight(armPose);
+    
 
     final double horizontalMax = Constants.Limits.MAX_FRAME_EXTENSION;
     final double verticalMax = Constants.Limits.MAX_EXTENDED_HEIGHT;
