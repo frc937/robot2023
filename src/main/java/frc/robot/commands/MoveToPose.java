@@ -30,7 +30,7 @@ public class MoveToPose extends CommandBase {
       CompilationArm compilationArm) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    addRequirements(armShoulder, armExtender, armBase);
+    addRequirements(armShoulder, armExtender, armBase, compilationArm);
     this.pose = pose;
     this.compilationArm = compilationArm;
     this.armBase = armBase;
