@@ -80,9 +80,9 @@ public class RobotContainer {
     compilationArm.setDefaultCommand(manualArm);
   }
 
-  public Pose getArmPose() {
+  public Pose containerGetArmPose() {
 
-    return armPose;
+    return compilationArm.compGetArmPose();
   }
 
   /**

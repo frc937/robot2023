@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.positioning.ArmKinematics;
 import frc.robot.positioning.Pose;
+import frc.robot.RobotContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +23,7 @@ public class Robot extends TimedRobot {
   private Pose armPose;
 
   private RobotContainer m_robotContainer;
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -80,7 +82,7 @@ public class Robot extends TimedRobot {
   }
 
   private boolean isAlmostOverextended() {
-    return ArmKinematics.isAlmostOverextended(armPose);
+    return ArmKinematics.isAlmostOverextended(m_robotContainer.containerGetArmPose());
   }
 
   @Override
