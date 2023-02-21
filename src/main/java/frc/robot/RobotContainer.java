@@ -154,6 +154,6 @@ public class RobotContainer {
   }
 
   public Command getResetCommand() {
-    return new MoveToPose(Constants.Arm.Poses.RESET, armShoulder, armBase, armExtender, compilationArm);
+    return new MoveToPose(Constants.Arm.Poses.RESET, armShoulder, armBase, armExtender, compilationArm).alongWith(armClaw.openClawCommand());
   }
 }
