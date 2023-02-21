@@ -4,10 +4,6 @@
 
 package frc.robot.subsystems.arm;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.positioning.ArmKinematics;
 import frc.robot.positioning.Pose;
@@ -19,11 +15,9 @@ public class CompilationArm extends SubsystemBase {
   private Pose armPose;
   private ArmShoulder armShoulder;
 
-
   /** Creates a new CompilationArm. */
-
-
-  public CompilationArm(ArmBase armBase, ArmClaw armClaw, ArmExtender armExtender, ArmShoulder armShoulder) {
+  public CompilationArm(
+      ArmBase armBase, ArmClaw armClaw, ArmExtender armExtender, ArmShoulder armShoulder) {
     this.armBase = armBase;
     this.armClaw = armClaw;
     this.armExtender = armExtender;
@@ -32,65 +26,61 @@ public class CompilationArm extends SubsystemBase {
     updateArmPose();
   }
 
-  /**
-   * Corrects the different basis between the sensor and the math model
-
-   */
+  /** Corrects the different basis between the sensor and the math model */
   private double correctShoulderAngle(final double angle) {
     // In the model, cos(UP) = 1
     // and sin(FORWARD) = 1
     return angle;
   }
 
-  /**
-   * Returns whether or not the arm is in danger of overextending.
-   */
+  /** Returns whether or not the arm is in danger of overextending. */
   public boolean isAlmostOverextended() {
     return ArmKinematics.isAlmostOverextended(armPose);
   }
 
   /**
-   * Returns whether or not the arm is overextended. If this is the case, the
-   * robot MUST immediately retract the arm to avoid penalties.
+   * Returns whether or not the arm is overextended. If this is the case, the robot MUST immediately
+   * retract the arm to avoid penalties.
    */
   public boolean isOverextended() {
     return ArmKinematics.isOverextended(armPose);
   }
 
   /**
-   * Returns whether the robot is stabbing itself. Keep in mind, this only tests
-   * whether or not the end effector is stabbing the frame. If anything is built
-   * up above KEEP_OUT_HEIGHT, this will happily run into it.
+   * Returns whether the robot is stabbing itself. Keep in mind, this only tests whether or not the
+   * end effector is stabbing the frame. If anything is built up above KEEP_OUT_HEIGHT, this will
+   * happily run into it.
    */
   private boolean isStabbingSelf() {
     return ArmKinematics.isStabbingSelf(armPose);
   }
 
   /**
-   * getter method of the position of the arm 
-   * @return Current posiiton of the arm 
+   * getter method of the position of the arm
+   *
+   * @return Current posiiton of the arm
    */
   public Pose getArmPose() {
     return armPose;
   }
 
   /**
-   * Moves arm to a given pose 
-   * @param pose the position that the arm is to go to 
+   * Moves arm to a given pose
+   *
+   * @param pose the position that the arm is to go to
    */
-  public void moveToPose(Pose pose){
-    armBase.moveBase((int)(0.5+ArmKinematics.getBaseRotation(pose)));
-    armShoulder.moveShoulder((int)(0.5+ArmKinematics.getShoulderRotation(pose)));
+  public void moveToPose(Pose pose) {
+    armBase.moveBase((int) (0.5 + ArmKinematics.getBaseRotation(pose)));
+    armShoulder.moveShoulder((int) (0.5 + ArmKinematics.getShoulderRotation(pose)));
     armExtender.set(ArmKinematics.getArmExtension(pose));
   }
 
   /**
    * Command factory that returns command that moves the arm to a given pose
+   *
    * @param pose the position that the arm is to go to
-   * @return command that moves arm to a pose 
+   * @return command that moves arm to a pose
    */
-  
-  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -98,9 +88,7 @@ public class CompilationArm extends SubsystemBase {
     updateArmPose();
   }
 
-  /**
-   * Updates the arm pose based on sensor values
-   */
+  /** Updates the arm pose based on sensor values */
   private void updateArmPose() {
     final double baseRotation = armBase.getAngle();
     final double sensedShoulderRotation = armShoulder.getAngle();

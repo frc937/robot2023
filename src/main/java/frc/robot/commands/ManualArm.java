@@ -12,6 +12,7 @@ import frc.robot.subsystems.arm.ArmShoulder;
 public class ManualArm extends CommandBase {
   /** Creates a new ManualArm. */
   private final ArmBase armBaseMove;
+
   private final ArmShoulder armShoulderMove;
 
   private double armX;
@@ -38,8 +39,6 @@ public class ManualArm extends CommandBase {
 
     armBaseMove.manualMoveArmBase(armX);
     armShoulderMove.manualMoveArmShoulder(armY);
-
-
   }
 
   // Called once the command ends or is interrupted.

@@ -8,12 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.positioning.ArmKinematics;
-import frc.robot.subsystems.arm.CompilationArm;
 import frc.robot.positioning.Pose;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -78,7 +73,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
 
-//Opens the claw if the arm is close to being overextended
+    // Opens the claw if the arm is close to being overextended
     if (isAlmostOverextended()) {
       m_robotContainer.getResetCommand().schedule();
     }
@@ -96,23 +91,19 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-//Opens the
+      // Opens the
       m_robotContainer.getResetCommand().schedule();
-
     }
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    
 
     if (isAlmostOverextended() == true) {
       m_robotContainer.getResetCommand().schedule();
     }
-  
   }
-  
 
   @Override
   public void testInit() {

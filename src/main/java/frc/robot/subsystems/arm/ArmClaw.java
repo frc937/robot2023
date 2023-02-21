@@ -5,7 +5,6 @@
 package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,25 +17,21 @@ public class ArmClaw extends SubsystemBase {
   private WPI_TalonSRX clawMotor;
   private Double setpoint;
 
-  /* 
+  /*
    * *********************************************************************************
    * TODO: REPLACE THIS WITH A REAL PRESSURE SENSOR OBJECT BEFORE WE USE IT ON THE BOT
    * *********************************************************************************
    */
   private double clawPressure;
 
-  /** 
-   * Creates a new ArmClaw. Should be called once from {@link frc.robot.RobotContainer}.
-   */
+  /** Creates a new ArmClaw. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmClaw() {
     clawMotor = new WPI_TalonSRX(Constants.Arm.ID_TALON_ARM_CLAW);
     /* We set the setpoint to null when we want to disable the code that automagically moves the claw to the setpoint */
     setpoint = null;
   }
 
-  /**
-   * Opens the claw.
-   */
+  /** Opens the claw. */
   public void openClaw() {
     /* We set the setpoint to null when we want to disable the code that automagically moves the claw to the setpoint */
     setpoint = null;
@@ -45,16 +40,19 @@ public class ArmClaw extends SubsystemBase {
 
   /**
    * Command factory to open the claw
+   *
    * @return a command that opens the claw
    */
-  public Command openClawCommand(){
+  public Command openClawCommand() {
     return this.runOnce(() -> this.openClaw());
   }
 
   /* TODO: Determine what the pressure sensor's gonna be from mechanical, and, therefore, what units it will use. */
   /**
    * Sets the pressure-based setpoint for the claw.
-   * @param setpoint How much pressure we want the claw to apply to whatever it's clamping onto. <b>(UNITS TBD)</b>
+   *
+   * @param setpoint How much pressure we want the claw to apply to whatever it's clamping onto.
+   *     <b>(UNITS TBD)</b>
    */
   public void set(Double setpoint) {
     this.setpoint = setpoint;
@@ -62,6 +60,7 @@ public class ArmClaw extends SubsystemBase {
 
   /**
    * Subsystem periodic; called once per scheduler run.
+   *
    * <p>Moves the claw to the current setpoint.
    */
   @Override

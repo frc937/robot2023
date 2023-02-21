@@ -6,21 +6,28 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
-import frc.robot.subsystems.arm.CompilationArm;
 import frc.robot.subsystems.arm.ArmBase;
-import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.ArmExtender;
+import frc.robot.subsystems.arm.ArmShoulder;
+import frc.robot.subsystems.arm.CompilationArm;
 
 public class MoveToPose extends CommandBase {
   /** Creates a new MoveToPose. */
   private Pose armPose;
+
   private ArmBase armBase;
   private ArmShoulder armShoulder;
   private ArmExtender armExtender;
   private CompilationArm compilationArm;
 
   private Pose pose;
-  public MoveToPose(Pose pose, ArmShoulder armShoulder, ArmBase armBase, ArmExtender armExtender, CompilationArm compilationArm) {
+
+  public MoveToPose(
+      Pose pose,
+      ArmShoulder armShoulder,
+      ArmBase armBase,
+      ArmExtender armExtender,
+      CompilationArm compilationArm) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     addRequirements(armShoulder, armExtender, armBase);
@@ -29,15 +36,13 @@ public class MoveToPose extends CommandBase {
     this.armBase = armBase;
     this.armExtender = armExtender;
     this.armShoulder = armShoulder;
-  
-
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
 
-      compilationArm.moveToPose(pose);
+    compilationArm.moveToPose(pose);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -54,5 +59,3 @@ public class MoveToPose extends CommandBase {
     return false;
   }
 }
-
-
