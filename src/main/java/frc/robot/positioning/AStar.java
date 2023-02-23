@@ -251,7 +251,7 @@ public class AStar {
       }
 
       // Right Cell
-      if (node.getY() != Constants.AStar.FIELD_X*2) {
+      if (node.getY() != Constants.AStar.FIELD_X * 2) {
         if (cell[node.getX()][node.getY() + 1].hValue != -1
             && !openList.contains(cell[node.getX()][node.getY() + 1])
             && !closedList.contains(cell[node.getX()][node.getY() + 1])) {
@@ -406,9 +406,9 @@ public class AStar {
   }
 
   /**
-   * A NoNoZone is a obstacle.
-   * Obstacle is in rectangle form.
-   * originX/originY is the topleft origin of the rectangle; width/length is the size of the rectangle
+   * A NoNoZone is a obstacle. Obstacle is in rectangle form. originX/originY is the topleft origin
+   * of the rectangle; width/length is the size of the rectangle
+   *
    * @param originX - the starting x point (origin) of the obstacle
    * @param originY - the starting y point (origin) of the obstacle
    * @param width - the width (x wise) of the rectangle relative to the origin
