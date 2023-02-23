@@ -25,7 +25,7 @@ public class AStar {
   private ArrayList<Node> pathList = new ArrayList<>();
   /** Nodes that no longer need to be aknowledged by the pathfinder */
   private ArrayList<Node> closedList = new ArrayList<>();
-  /** The map of obstacles (in boolean form!) */
+  /** The map of obstacles (false if obstacle present) */
   private static boolean[][] grid =
       new boolean[Constants.AStar.FIELD_X * 2][Constants.AStar.FIELD_Y * 2];
   /** Current path object the path generation algorithm is generating */
@@ -43,14 +43,8 @@ public class AStar {
 
   static {
     // creates the boolean obstacle matrix
-    // TODO: THIS IS (I BELIEVE) WHERE WE INPUT THE OBSTACLES, SO, YA KNOW, **IMPORTANT**
-    for (int i = 0; i < Constants.AStar.FIELD_X * 2; i++) {
-      for (int j = 0; j < Constants.AStar.FIELD_Y * 2; j++) {
-        // HERE
-        // Creating a new Node object for each and every Cell of the Grid (Matrix)
-        cell[i][j] = new Node(i, j);
-      }
-    }
+    // TODO: Inputs the obstacles for the field (nonosquares), input your nono squares here.
+    generateNoNoZone(69, 420, 69, 420); /* placeholder/example */
   }
 
   /** Creates a new pathfinding situation. Input should be in centimeters. */
@@ -170,8 +164,6 @@ public class AStar {
         // absent)
         if (matrix[i][j]) {
           // Assigning the Euclidean Heuristic value
-          // cell[i][j].hValue = (int)Math.sqrt(Math.pow(i - endY, 2) + Math.pow(j - endX,
-          // 2)); - put this back if necessary, however it shouldn't be.
           cell[i][j].hValue = (int) (Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
         } else {
           // If the boolean value is false (it's an obstacle), then assigning -1 instead of the
@@ -242,7 +234,7 @@ public class AStar {
       closedList.add(node);
 
       // Left Cell
-      try {
+      if (node.getY() != 0) {
         if (cell[node.getX()][node.getY() - 1].hValue != -1
             && !openList.contains(cell[node.getX()][node.getY() - 1])
             && !closedList.contains(cell[node.getX()][node.getY() - 1])) {
@@ -256,11 +248,10 @@ public class AStar {
           openList.add(cell[node.getX()][node.getY() - 1]);
           cell[node.getX()][node.getY() - 1].setParent(node);
         }
-      } catch (IndexOutOfBoundsException e) {
       }
 
       // Right Cell
-      try {
+      if (node.getY() != Constants.AStar.FIELD_X*2) {
         if (cell[node.getX()][node.getY() + 1].hValue != -1
             && !openList.contains(cell[node.getX()][node.getY() + 1])
             && !closedList.contains(cell[node.getX()][node.getY() + 1])) {
@@ -274,7 +265,6 @@ public class AStar {
           openList.add(cell[node.getX()][node.getY() + 1]);
           cell[node.getX()][node.getY() + 1].setParent(node);
         }
-      } catch (IndexOutOfBoundsException e) {
       }
 
       // Bottom Cell
@@ -413,5 +403,22 @@ public class AStar {
     openList.clear();
 
     return pathList;
+  }
+
+  /**
+   * A NoNoZone is a obstacle.
+   * Obstacle is in rectangle form.
+   * originX/originY is the topleft origin of the rectangle; width/length is the size of the rectangle
+   * @param originX - the starting x point (origin) of the obstacle
+   * @param originY - the starting y point (origin) of the obstacle
+   * @param width - the width (x wise) of the rectangle relative to the origin
+   * @param length - the length (y wise) of the rectangle relative to the origin
+   */
+  private static void generateNoNoZone(int originX, int originY, int width, int length) {
+    for (int y = originY; y <= originY + length; y++) {
+      for (int x = originX; x <= originX + length; x++) {
+        grid[y][x] = true;
+      }
+    }
   }
 }
