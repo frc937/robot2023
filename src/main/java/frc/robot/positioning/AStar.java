@@ -268,6 +268,7 @@ public class AStar {
       }
 
       // Bottom Cell
+      if (node.getX() != Constants.AStar.FIELD_Y * 2 - 1) {
         if (cell[node.getX() + 1][node.getY()].hValue != -1
             && !openList.contains(cell[node.getX() + 1][node.getY()])
             && !closedList.contains(cell[node.getX() + 1][node.getY()])) {
