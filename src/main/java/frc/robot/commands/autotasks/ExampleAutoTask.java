@@ -1,10 +1,11 @@
 package frc.robot.commands.autotasks;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.positioning.Pose;
 public class ExampleAutoTask extends AutoTask {
 
-    private ExampleCommand exampleCommand;
+    private CommandBase exampleCommand;
     /**
          * Use the constructor to configure the autotask arrival and init commands
          * The order you run {@link #addArrivedCommand(edu.wpi.first.wpilibj2.command.CommandBase) addArrivedCommand} and
@@ -16,8 +17,8 @@ public class ExampleAutoTask extends AutoTask {
      * @param exampleCommand The commands the tasks needs, this one only needs the example command
      */
     public ExampleAutoTask(ExampleCommand exampleCommand){
-        this.exampleCommand = exampleCommand;
-        addArrivedCommand(exampleCommand); 
+        this.exampleCommand = (CommandBase) exampleCommand;
+        setArrivedCommand(exampleCommand); 
         setTaskPosition(new Pose()); // Normaly the pose would not be empty but this is a example so its okay.
     }
     /**

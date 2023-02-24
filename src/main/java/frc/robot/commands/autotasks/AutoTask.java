@@ -202,7 +202,7 @@ public abstract class AutoTask {
    * 
    * @param command The command to run.
    */
-  protected void setArriveCommand(CommandBase command) {
+  protected void setArrivedCommand(CommandBase command) {
     arrivedCommand = command;
   }
 
