@@ -283,7 +283,8 @@ public class AStar {
         }
       }
 
-      // Top Cell      if (node.getX() != 0) {
+      // Top Cell      
+      if (node.getX() != 0) {
         if (cell[node.getX() - 1][node.getY()].hValue != -1
             && !openList.contains(cell[node.getX() - 1][node.getY()])
             && !closedList.contains(cell[node.getX() - 1][node.getY()])) {
