@@ -284,7 +284,7 @@ public class AStar {
         }
       }
 
-      // Top Cell      
+      // Top Cell
       if (node.getX() != 0) {
         if (cell[node.getX() - 1][node.getY()].hValue != -1
             && !openList.contains(cell[node.getX() - 1][node.getY()])
@@ -335,7 +335,7 @@ public class AStar {
         }
       }
 
-      // BottomLeft Cell //TODO: HI FUTURE BRADEN THIS IS ACCESSING FIELD Y FOR X CHECK THAT ITS PROBABLY WRONG
+      // BottomLeft Cell
       if (node.getX() != Constants.AStar.FIELD_Y * 2 - 1 && node.getY() != 0) {
         if (cell[node.getX() + 1][node.getY() - 1].hValue != -1
             && !openList.contains(cell[node.getX() + 1][node.getY() - 1])
