@@ -9,7 +9,9 @@ import java.util.Stack;
 
 import org.ejml.dense.block.VectorOps_DDRB;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import frc.robot.positioning.Pose;
 //TODO: Add fallback commands
 /**
@@ -22,10 +24,18 @@ public abstract class AutoTask {
   private boolean ended = false;
   private boolean verified = false;
   private Pose taskPos;
-  private ArrayList<CommandBase> commands = new ArrayList<CommandBase>();
-  private Stack<CommandBase> initCommands = new Stack<CommandBase>();
-  private Stack<CommandBase> arrivedCommands = new Stack<CommandBase>();
   private CommandBase runningCommand;
+  private CommandBase initCommand;
+  private CommandBase arrivedCommand;
+  private State commandState;
+
+  private enum State {
+    INIT,
+    NAVIGATING,
+    ARRIVED,
+    FINISHED
+    
+  }
   /**
    * Creates a new AutoTask.
    * Dont create instances of commands.
@@ -53,7 +63,7 @@ public abstract class AutoTask {
    * @return the state of the initTask method.
    */
   public boolean initFinished() {
-    if (initCommands.empty() & runningCommand.isFinished()) {
+    if (commandState.ordinal() > 1) {
       return true;
     } else {
       return false;
@@ -72,7 +82,7 @@ public abstract class AutoTask {
    * @return the state of the arrived method
    */
   public boolean isFinished() {
-    if (arrivedCommands.empty() & runningCommand.isFinished()) {
+    if (commandState == State.FINISHED) {
       return true;
     } else {
       return false;
@@ -111,22 +121,14 @@ public abstract class AutoTask {
    */
   private void updateInit() {
     /* Checks if the task has finished init sequence */
-    if (!initialized) {
-      /*
-       * If task is not initalised, queue command if current running one is finished
-       */
-      if (runningCommand.isFinished() & !initCommands.isEmpty()) {
-        runningCommand = initCommands.pop();
-        /*
-         * If currently running command is finished and there are no more init
-         * Commands, initalize
-         */
-      } else if (initCommands.isEmpty() & runningCommand.isFinished()) {
-        initialized = true;
+    if (commandState == State.INIT) {
+      if (!runningCommand.equals(initCommand)) {
+        runningCommand = initCommand;
       }
-      /* Prevents current command from getting ran multiple times without intention */
       if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
         runningCommand.schedule();
+      } else if (runningCommand.isFinished()){
+        commandState = State.NAVIGATING;
       }
     }
   }
@@ -137,22 +139,14 @@ public abstract class AutoTask {
    */
   private void updateArrived() {
     /* Checks if the task has finished arrived sequence */
-    if (!arrived) {
-      /*
-       * If task is not initalised, queue command if current running one is finished
-       */
-      if (runningCommand.isFinished() & !arrivedCommands.isEmpty()) {
-        runningCommand = arrivedCommands.pop();
-        /*
-         * If currently running command is finished and there are no more init
-         * Commands, end the command
-         */
-      } else if (arrivedCommands.isEmpty() & runningCommand.isFinished()) {
-        ended = true;
+    if (commandState == State.ARRIVED) {
+      if (!runningCommand.equals(arrivedCommand)) {
+        runningCommand = arrivedCommand;
       }
-      /* Prevents current command from getting ran multiple times without intention */
       if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
         runningCommand.schedule();
+      } else if (runningCommand.isFinished()){
+        commandState = State.FINISHED;
       }
     }
   }
@@ -195,24 +189,12 @@ public abstract class AutoTask {
   }
 
   /**
-   * Adds command requirements for TaskScheduler (such as ending commands)
-   * 
-   * @param command The command/s to add
-   */
-  private void addCommandRequirement(CommandBase... command) {
-    for (CommandBase cb : command) {
-      commands.add(cb);
-    }
-  }
-
-  /**
    * Sets the command to run on autotask init.
    * 
    * @param command The command to run.
    */
-  protected void addInitCommand(CommandBase command) {
-    addCommandRequirement(command);
-    initCommands.push(command);
+  protected void setInitCommand(CommandBase command) {
+    initCommand = command;
   }
 
   /**
@@ -220,9 +202,8 @@ public abstract class AutoTask {
    * 
    * @param command The command to run.
    */
-  protected void addArrivedCommand(CommandBase command) {
-    addCommandRequirement(command);
-    arrivedCommands.push(command);
+  protected void setArriveCommand(CommandBase command) {
+    arrivedCommand = command;
   }
 
   /**
