@@ -27,7 +27,7 @@ public class AStar {
   private ArrayList<Node> closedList = new ArrayList<>();
   /** The map of obstacles (false if obstacle present) */
   private static boolean[][] grid =
-      new boolean[Constants.AStar.FIELD_X * 2][Constants.AStar.FIELD_Y * 2];
+      new boolean[Constants.AStar.FIELD_Y * 2][Constants.AStar.FIELD_X * 2];
   /** Current path object the path generation algorithm is generating */
   private AtomicReference<Path> currPath = new AtomicReference<Path>(new Path());
   /** The path generation thread */
@@ -72,7 +72,7 @@ public class AStar {
                 /* int fCost = 0; */
 
                 // Creation of a Node type 2D array
-                cell = new Node[Constants.AStar.FIELD_X][Constants.AStar.FIELD_Y];
+                cell = new Node[Constants.AStar.FIELD_Y * 2][Constants.AStar.FIELD_X * 2];
 
                 // Loop to find all 3 pathways and their relative Final Cost values
                 pathList =
@@ -157,9 +157,8 @@ public class AStar {
       int v,
       int d) {
 
-    for (int i = 0; i < matrix.length; i++) {
-      for (int j = 0; j < matrix.length; j++) {
-
+    for (int i = 0; i < Constants.AStar.FIELD_Y; i++) {
+      for (int j = 0; j < Constants.AStar.FIELD_X; j++) {  
         // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle
         // absent)
         if (matrix[i][j]) {
@@ -403,12 +402,12 @@ public class AStar {
    * A NoNoZone is a obstacle. Obstacle is in rectangle form. originX/originY is the topleft origin
    * of the rectangle; width/length is the size of the rectangle
    *
-   * @param originX - the starting x point (origin) of the obstacle
    * @param originY - the starting y point (origin) of the obstacle
-   * @param width - the width (x wise) of the rectangle relative to the origin
+   * @param originX - the starting x point (origin) of the obstacle
    * @param length - the length (y wise) of the rectangle relative to the origin
+   * @param width - the width (x wise) of the rectangle relative to the origin
    */
-  private static void generateNoNoZone(int originX, int originY, int width, int length) {
+  private static void generateNoNoZone(int originY, int originX, int length, int width) {
     for (int y = originY; y <= originY + length; y++) {
       for (int x = originX; x <= originX + length; x++) {
         grid[y][x] = true;
