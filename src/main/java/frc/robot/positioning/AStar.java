@@ -158,7 +158,7 @@ public class AStar {
       int d) {
 
     for (int i = 0; i < Constants.AStar.FIELD_Y; i++) {
-      for (int j = 0; j < Constants.AStar.FIELD_X; j++) {  
+      for (int j = 0; j < Constants.AStar.FIELD_X; j++) {
         // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle
         // absent)
         if (matrix[i][j]) {
