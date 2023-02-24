@@ -251,7 +251,7 @@ public class AStar {
       }
 
       // Right Cell
-      if (node.getY() != Constants.AStar.FIELD_X * 2) {
+      if (node.getY() != Constants.AStar.FIELD_X * 2 - 1) {
         if (cell[node.getX()][node.getY() + 1].hValue != -1
             && !openList.contains(cell[node.getX()][node.getY() + 1])
             && !closedList.contains(cell[node.getX()][node.getY() + 1])) {
@@ -268,7 +268,6 @@ public class AStar {
       }
 
       // Bottom Cell
-      try {
         if (cell[node.getX() + 1][node.getY()].hValue != -1
             && !openList.contains(cell[node.getX() + 1][node.getY()])
             && !closedList.contains(cell[node.getX() + 1][node.getY()])) {
@@ -282,11 +281,9 @@ public class AStar {
           openList.add(cell[node.getX() + 1][node.getY()]);
           cell[node.getX() + 1][node.getY()].setParent(node);
         }
-      } catch (IndexOutOfBoundsException e) {
       }
 
-      // Top Cell
-      try {
+      // Top Cell      if (node.getX() != 0) {
         if (cell[node.getX() - 1][node.getY()].hValue != -1
             && !openList.contains(cell[node.getX() - 1][node.getY()])
             && !closedList.contains(cell[node.getX() - 1][node.getY()])) {
@@ -300,11 +297,10 @@ public class AStar {
           openList.add(cell[node.getX() - 1][node.getY()]);
           cell[node.getX() - 1][node.getY()].setParent(node);
         }
-      } catch (IndexOutOfBoundsException e) {
       }
 
       // TopLeft Cell
-      try {
+      if (node.getX() != 0 && node.getY() != 0) {
         if (cell[node.getX() - 1][node.getY() - 1].hValue != -1
             && !openList.contains(cell[node.getX() - 1][node.getY() - 1])
             && !closedList.contains(cell[node.getX() - 1][node.getY() - 1])) {
@@ -318,11 +314,10 @@ public class AStar {
           openList.add(cell[node.getX() - 1][node.getY() - 1]);
           cell[node.getX() - 1][node.getY() - 1].setParent(node);
         }
-      } catch (IndexOutOfBoundsException e) {
       }
 
       // TopRight Cell
-      try {
+      if (node.getX() != 0 && node.getY() != Constants.AStar.FIELD_X * 2 - 1) {
         if (cell[node.getX() - 1][node.getY() + 1].hValue != -1
             && !openList.contains(cell[node.getX() - 1][node.getY() + 1])
             && !closedList.contains(cell[node.getX() - 1][node.getY() + 1])) {
@@ -336,11 +331,10 @@ public class AStar {
           openList.add(cell[node.getX() - 1][node.getY() + 1]);
           cell[node.getX() - 1][node.getY() + 1].setParent(node);
         }
-      } catch (IndexOutOfBoundsException e) {
       }
 
-      // BottomLeft Cell
-      try {
+      // BottomLeft Cell //TODO: HI FUTURE BRADEN THIS IS ACCESSING FIELD Y FOR X CHECK THAT ITS PROBABLY WRONG
+      if (node.getX() != Constants.AStar.FIELD_Y * 2 - 1 && node.getY() != 0) {
         if (cell[node.getX() + 1][node.getY() - 1].hValue != -1
             && !openList.contains(cell[node.getX() + 1][node.getY() - 1])
             && !closedList.contains(cell[node.getX() + 1][node.getY() - 1])) {
@@ -354,11 +348,10 @@ public class AStar {
           openList.add(cell[node.getX() + 1][node.getY() - 1]);
           cell[node.getX() + 1][node.getY() - 1].setParent(node);
         }
-      } catch (IndexOutOfBoundsException e) {
       }
 
       // BottomRight Cell
-      try {
+      if (node.getX() != Constants.AStar.FIELD_X * 2 - 1 && node.getY() != Constants.AStar.FIELD_Y * 2 - 1) {
         if (cell[node.getX() + 1][node.getY() + 1].hValue != -1
             && !openList.contains(cell[node.getX() + 1][node.getY() + 1])
             && !closedList.contains(cell[node.getX() + 1][node.getY() + 1])) {
@@ -372,7 +365,6 @@ public class AStar {
           openList.add(cell[node.getX() + 1][node.getY() + 1]);
           cell[node.getX() + 1][node.getY() + 1].setParent(node);
         }
-      } catch (IndexOutOfBoundsException e) {
       }
     }
 
