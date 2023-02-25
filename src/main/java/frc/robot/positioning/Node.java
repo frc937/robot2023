@@ -25,7 +25,7 @@ public class Node {
   private Node parent;
 
   /** Creates a new Node. Input should be in centimeters */
-  public Node(int x, int y) {
+  public Node(int y, int x) {
     this.x = x;
     this.y = y;
   }

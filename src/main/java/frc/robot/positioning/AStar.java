@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /** A* class, used to generate a path for the trajectory. */
 public class AStar {
   /** The map of nodes */
-  private static Node[][] cell;
+  private static Node[][] cell = new Node[Constants.AStar.FIELD_Y * 2][Constants.AStar.FIELD_X * 2];
   /** Likely the path */
   private ArrayList<Node> pathList = new ArrayList<>();
   /** Nodes that no longer need to be aknowledged by the pathfinder */
@@ -31,7 +31,7 @@ public class AStar {
   /** Current path object the path generation algorithm is generating */
   private AtomicReference<Path> currPath = new AtomicReference<Path>(new Path());
   /** The path generation thread */
-  private Thread genThread;
+  private Thread genThread = new Thread();
   /** The y of the start coord */
   public int startY;
   /** The x of the start coord */
@@ -42,6 +42,12 @@ public class AStar {
   public int endX;
 
   static {
+    // creates nodes for cell
+    for (int i = 0; i < Constants.AStar.FIELD_Y * 2; i++) {
+        for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
+            cell[i][j] = new Node(i, j);
+        }
+    }
     // creates the boolean obstacle matrix
     // TODO: Inputs the obstacles for the field (nonosquares), input your nono squares here.
     generateNoNoZone(69, 420, 69, 420); /* placeholder/example */
@@ -70,9 +76,6 @@ public class AStar {
               () -> {
                 int gCost = 0;
                 /* int fCost = 0; */
-
-                // Creation of a Node type 2D array
-                cell = new Node[Constants.AStar.FIELD_Y * 2][Constants.AStar.FIELD_X * 2];
 
                 // Loop to find all 3 pathways and their relative Final Cost values
                 pathList =
@@ -161,7 +164,7 @@ public class AStar {
       for (int j = 0; j < Constants.AStar.FIELD_X; j++) {
         // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle
         // absent)
-        if (matrix[i][j]) {
+        if (!matrix[i][j]) {
           // Assigning the Euclidean Heuristic value
           cell[i][j].hValue = (int) (Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
         } else {
