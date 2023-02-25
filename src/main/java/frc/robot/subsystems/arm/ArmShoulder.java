@@ -75,7 +75,6 @@ public class ArmShoulder extends SubsystemBase {
 
   public void getShoulderRotation() {
     shoulderRotation = (((armShoulderMotor.getSelectedSensorPosition() / 3) / 4096) * 360);
-
   }
 
   public boolean isShoulderAtSetpoint() {
@@ -84,7 +83,6 @@ public class ArmShoulder extends SubsystemBase {
     } else {
       return true;
     }
-
   }
 
   /** Stops the shoulder from moving. */

@@ -74,7 +74,6 @@ public class ArmBase extends SubsystemBase {
 
   public void getBaseRotation() {
     baseRotation = (((armBaseMotor.getSelectedSensorPosition() / 4096) * 360));
-
   }
 
   public boolean isBaseAtSetpoint() {
@@ -83,11 +82,7 @@ public class ArmBase extends SubsystemBase {
     } else {
       return true;
     }
-
   }
-
-
-
 
   /** Stops the base from moving. */
   public void stop() {
