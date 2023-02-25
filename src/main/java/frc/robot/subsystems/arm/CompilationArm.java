@@ -56,7 +56,9 @@ public class CompilationArm extends SubsystemBase {
   }
 
   public boolean isArmAtSetpoint() {
-    return armShoulder.isShoulderAtSetpoint() && armExtender.isExtenderAtSetpoint() && armBase.isBaseAtSetpoint();
+    return armShoulder.isShoulderAtSetpoint()
+        && armExtender.isExtenderAtSetpoint()
+        && armBase.isBaseAtSetpoint();
   }
 
   /**
