@@ -160,8 +160,8 @@ public class AStar {
       int v,
       int d) {
 
-    for (int i = 0; i < Constants.AStar.FIELD_Y; i++) {
-      for (int j = 0; j < Constants.AStar.FIELD_X; j++) {
+    for (int i = 0; i < Constants.AStar.FIELD_Y * 2; i++) {
+      for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
         // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle
         // absent)
         if (!matrix[i][j]) {
@@ -175,7 +175,7 @@ public class AStar {
       }
     }
     return generatePath(
-        cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d);
+        cell, startY, startX, endY, endX, Constants.AStar.FIELD_X * 2, Constants.AStar.FIELD_Y * 2, v, d);
   }
 
   /**
