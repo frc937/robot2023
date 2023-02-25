@@ -21,7 +21,7 @@ public class ArmExtender extends SubsystemBase {
    */
   private Rev2mDistanceSensor lengthSensor;
 
-  private double setpoint;
+  private Double setpoint;
 
   /** Creates a new ArmExtender. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmExtender() {
@@ -66,7 +66,8 @@ public class ArmExtender extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
+    if (setpoint != null) {
+      /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
     if (Math.abs(setpoint - getLength()) >= Constants.Arm.DONE_THRESHOLD_ARM_EXTENSION) {
       if (getLength() > setpoint) {
         winch.set(-1 * Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
@@ -77,5 +78,11 @@ public class ArmExtender extends SubsystemBase {
       winch.stopMotor();
       extenderAtSetpoint = true;
     }
+  }}
+
+  public void setArmSpeed(double speed) {
+    setpoint = null;
+    winch.set(speed);
   }
+
 }
