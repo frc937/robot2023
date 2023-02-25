@@ -175,7 +175,15 @@ public class AStar {
       }
     }
     return generatePath(
-        cell, startY, startX, endY, endX, Constants.AStar.FIELD_X * 2, Constants.AStar.FIELD_Y * 2, v, d);
+        cell,
+        startY,
+        startX,
+        endY,
+        endX,
+        Constants.AStar.FIELD_X * 2,
+        Constants.AStar.FIELD_Y * 2,
+        v,
+        d);
   }
 
   /**
