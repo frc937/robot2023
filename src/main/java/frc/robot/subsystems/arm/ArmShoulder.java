@@ -78,7 +78,7 @@ public class ArmShoulder extends SubsystemBase {
 
   }
 
-  public boolean shoulderAtSetpoint() {
+  public boolean isShoulderAtSetpoint() {
     if (((shoulderRotation - uniShoulderDegrees) > 5) || ((shoulderRotation - uniShoulderDegrees) < -5)) {
       return false;
     } else {
