@@ -49,7 +49,6 @@ public class RobotContainer {
 
   private final Command openClaw = armClaw.openClawCommand();
 
-
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
@@ -207,7 +206,7 @@ public class RobotContainer {
         .alongWith(armClaw.openClawCommand());
   }
 
-  public RetractArm getRetractCommand(){
+  public RetractArm getRetractCommand() {
     return retractArmCommand;
   }
 }

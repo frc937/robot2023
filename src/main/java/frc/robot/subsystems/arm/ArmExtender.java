@@ -68,21 +68,21 @@ public class ArmExtender extends SubsystemBase {
   public void periodic() {
     if (setpoint != null) {
       /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
-    if (Math.abs(setpoint - getLength()) >= Constants.Arm.DONE_THRESHOLD_ARM_EXTENSION) {
-      if (getLength() > setpoint) {
-        winch.set(-1 * Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
+      if (Math.abs(setpoint - getLength()) >= Constants.Arm.DONE_THRESHOLD_ARM_EXTENSION) {
+        if (getLength() > setpoint) {
+          winch.set(-1 * Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
+        } else {
+          winch.set(Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
+        }
       } else {
-        winch.set(Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
+        winch.stopMotor();
+        extenderAtSetpoint = true;
       }
-    } else {
-      winch.stopMotor();
-      extenderAtSetpoint = true;
     }
-  }}
+  }
 
   public void setArmSpeed(double speed) {
     setpoint = null;
     winch.set(speed);
   }
-
 }
