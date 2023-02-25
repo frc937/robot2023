@@ -35,7 +35,7 @@ public class CompilationArm extends SubsystemBase {
 
   /** Returns whether or not the arm is in danger of overextending. */
   public boolean isAlmostOverextended() {
-    return ArmKinematics.isAlmostOverextended(armPose);
+    return ArmKinematics.isAlmostOverextended(compGetArmPose());
   }
 
   /**
@@ -43,7 +43,7 @@ public class CompilationArm extends SubsystemBase {
    * retract the arm to avoid penalties.
    */
   public boolean isOverextended() {
-    return ArmKinematics.isOverextended(armPose);
+    return ArmKinematics.isOverextended(compGetArmPose());
   }
 
   /**
@@ -52,7 +52,11 @@ public class CompilationArm extends SubsystemBase {
    * happily run into it.
    */
   private boolean isStabbingSelf() {
-    return ArmKinematics.isStabbingSelf(armPose);
+    return ArmKinematics.isStabbingSelf(compGetArmPose());
+  }
+
+  public boolean isArmAtSetpoint() {
+    return armShoulder.isShoulderAtSetpoint() && armExtender.isExtenderAtSetpoint() && armBase.isBaseAtSetpoint();
   }
 
   /**
@@ -60,7 +64,7 @@ public class CompilationArm extends SubsystemBase {
    *
    * @return Current posiiton of the arm
    */
-  public Pose getArmPose() {
+  public Pose compGetArmPose() {
     return armPose;
   }
 

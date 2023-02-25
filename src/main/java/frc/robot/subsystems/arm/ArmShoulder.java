@@ -17,6 +17,8 @@ import frc.robot.Constants;
 public class ArmShoulder extends SubsystemBase {
 
   WPI_TalonSRX armShoulderMotor;
+  private double shoulderRotation;
+  private double uniShoulderDegrees;
 
   /** Creates a new ArmShoulder. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmShoulder() {
@@ -66,8 +68,23 @@ public class ArmShoulder extends SubsystemBase {
     /* Takes the degree param and converts it to encoder ticks
      * so the talon knows what we're talking about
      */
-    degrees = (degrees / 360) * 4096;
+    degrees = (((degrees / 360) * 4096) * 3);
     armShoulderMotor.set(ControlMode.Position, degrees);
+    uniShoulderDegrees = degrees;
+  }
+
+  public void getShoulderRotation() {
+    shoulderRotation = (((armShoulderMotor.getSelectedSensorPosition() / 3) / 4096) * 360);
+
+  }
+
+  public boolean shoulderAtSetpoint() {
+    if (((shoulderRotation - uniShoulderDegrees) > 5) || ((shoulderRotation - uniShoulderDegrees) < -5)) {
+      return false;
+    } else {
+      return true;
+    }
+
   }
 
   /** Stops the shoulder from moving. */

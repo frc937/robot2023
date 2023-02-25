@@ -17,6 +17,8 @@ import frc.robot.Constants;
 public class ArmBase extends SubsystemBase {
 
   private WPI_TalonSRX armBaseMotor;
+  private double uniBaseDegrees;
+  private double baseRotation;
 
   /** Creates a new ArmBase. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmBase() {
@@ -67,7 +69,25 @@ public class ArmBase extends SubsystemBase {
      */
     degrees = (degrees / 360) * 4096;
     armBaseMotor.set(ControlMode.Position, degrees);
+    uniBaseDegrees = degrees;
   }
+
+  public void getBaseRotation() {
+    baseRotation = (((armBaseMotor.getSelectedSensorPosition() / 4096) * 360));
+
+  }
+
+  public boolean isBaseAtSetpoint() {
+    if ((baseRotation - uniBaseDegrees) > 5 || ((baseRotation - uniBaseDegrees) < -5)) {
+      return false;
+    } else {
+      return true;
+    }
+
+  }
+
+
+
 
   /** Stops the base from moving. */
   public void stop() {

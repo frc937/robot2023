@@ -14,6 +14,7 @@ import frc.robot.Constants;
 public class ArmExtender extends SubsystemBase {
 
   private WPI_TalonSRX winch;
+  private boolean extenderAtSetpoint;
 
   /* If VS Code thinks this library can't be found, it's probably wrong.
    * Usually the code builds just fine even if VS Code thinks the library can't be found.
@@ -29,6 +30,7 @@ public class ArmExtender extends SubsystemBase {
     lengthSensor = new Rev2mDistanceSensor(Port.kOnboard);
     lengthSensor.setAutomaticMode(true);
     setpoint = Constants.Arm.MIN_LENGTH_ARM_EXTENDER;
+    extenderAtSetpoint = false;
   }
 
   /**
@@ -54,6 +56,10 @@ public class ArmExtender extends SubsystemBase {
     this.setpoint = setpoint;
   }
 
+  public boolean isExtenderAtSetpoint() {
+    return extenderAtSetpoint;
+  }
+
   /**
    * Directs arm towards setpoint. Since this is the periodic method, this is called every time the
    * scheduler runs.
@@ -69,6 +75,7 @@ public class ArmExtender extends SubsystemBase {
       }
     } else {
       winch.stopMotor();
+      extenderAtSetpoint = true;
     }
   }
 }
