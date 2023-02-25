@@ -40,7 +40,7 @@ public class RobotContainer {
   private final ArmClaw armClaw = new ArmClaw();
   private final CompilationArm compilationArm =
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
-  private final ManualArm manualArm = new ManualArm(armBase, armShoulder);
+  private final ManualArm manualArm = new ManualArm(armBase, armShoulder, armExtender);
   private final Pose pose = new Pose();
 
   private final Balance balance = new Balance(driveSubsystem);
