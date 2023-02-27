@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.positioning.ArmKinematics;
+import frc.robot.positioning.Pose;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -16,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+
+  private Pose armPose;
 
   private RobotContainer m_robotContainer;
 
@@ -61,12 +65,29 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
+      m_robotContainer.getResetCommand().schedule();
     }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+
+    // Opens the claw if the arm is close to being overextended
+    checkOverexteneded();
+  }
+
+  private boolean isAlmostOverextended() {
+    return ArmKinematics.isAlmostOverextended(m_robotContainer.containerGetArmPose());
+  }
+
+  private void checkOverexteneded() {
+    if (isAlmostOverextended()) {
+      m_robotContainer.getRetractCommand().schedule();
+    } else if (m_robotContainer.getRetractCommand().isScheduled()) {
+      m_robotContainer.getRetractCommand().end(true);
+    }
+  }
 
   @Override
   public void teleopInit() {
@@ -76,12 +97,17 @@ public class Robot extends TimedRobot {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
+      // Opens the
+      m_robotContainer.getResetCommand().schedule();
     }
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    checkOverexteneded();
+  }
 
   @Override
   public void testInit() {
