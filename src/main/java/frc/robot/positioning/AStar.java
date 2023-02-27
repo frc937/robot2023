@@ -120,8 +120,8 @@ public class AStar {
                 ArrayList<Double[]> pathListInMeters = new ArrayList<Double[]>();
                 for (Node node : pathList) {
                   Double tempNode[] = {
-                    (double) (node.getX() - Constants.AStar.FIELD_X) / 100,
-                    (double) (node.getY() - Constants.AStar.FIELD_Y) / 100
+                    (double) (node.getY() - Constants.AStar.FIELD_X) / 100,
+                    (double) (node.getX() - Constants.AStar.FIELD_Y) / 100
                   };
                   pathListInMeters.add(tempNode);
                 }
@@ -236,139 +236,139 @@ public class AStar {
       closedList.add(node);
 
       // Left Cell
-      if (node.getY() != 0) {
-        if (cell[node.getX()][node.getY() - 1].hValue != -1
-            && !openList.contains(cell[node.getX()][node.getY() - 1])
-            && !closedList.contains(cell[node.getX()][node.getY() - 1])) {
+      if (node.getX() != 0) {
+        if (cell[node.getY()][node.getX() - 1].hValue != -1
+            && !openList.contains(cell[node.getY()][node.getX() - 1])
+            && !closedList.contains(cell[node.getY()][node.getX() - 1])) {
           int tCost = node.fValue + v;
-          cell[node.getX()][node.getY() - 1].gValue = v;
-          int cost = cell[node.getX()][node.getY() - 1].hValue + tCost;
-          if (cell[node.getX()][node.getY() - 1].fValue > cost
-              || !openList.contains(cell[node.getX()][node.getY() - 1]))
-            cell[node.getX()][node.getY() - 1].fValue = cost;
+          cell[node.getY()][node.getX() - 1].gValue = v;
+          int cost = cell[node.getY()][node.getX() - 1].hValue + tCost;
+          if (cell[node.getY()][node.getX() - 1].fValue > cost
+              || !openList.contains(cell[node.getY()][node.getX() - 1]))
+            cell[node.getY()][node.getX() - 1].fValue = cost;
 
-          openList.add(cell[node.getX()][node.getY() - 1]);
-          cell[node.getX()][node.getY() - 1].setParent(node);
+          openList.add(cell[node.getY()][node.getX() - 1]);
+          cell[node.getY()][node.getX() - 1].setParent(node);
         }
       }
 
       // Right Cell
-      if (node.getY() != Constants.AStar.FIELD_X * 2 - 1) {
-        if (cell[node.getX()][node.getY() + 1].hValue != -1
-            && !openList.contains(cell[node.getX()][node.getY() + 1])
-            && !closedList.contains(cell[node.getX()][node.getY() + 1])) {
+      if (node.getX() != Constants.AStar.FIELD_X * 2 - 1) {
+        if (cell[node.getY()][node.getX() + 1].hValue != -1
+            && !openList.contains(cell[node.getY()][node.getX() + 1])
+            && !closedList.contains(cell[node.getY()][node.getX() + 1])) {
           int tCost = node.fValue + v;
-          cell[node.getX()][node.getY() + 1].gValue = v;
-          int cost = cell[node.getX()][node.getY() + 1].hValue + tCost;
-          if (cell[node.getX()][node.getY() + 1].fValue > cost
-              || !openList.contains(cell[node.getX()][node.getY() + 1]))
-            cell[node.getX()][node.getY() + 1].fValue = cost;
+          cell[node.getY()][node.getX() + 1].gValue = v;
+          int cost = cell[node.getY()][node.getX() + 1].hValue + tCost;
+          if (cell[node.getY()][node.getX() + 1].fValue > cost
+              || !openList.contains(cell[node.getY()][node.getX() + 1]))
+            cell[node.getY()][node.getX() + 1].fValue = cost;
 
-          openList.add(cell[node.getX()][node.getY() + 1]);
-          cell[node.getX()][node.getY() + 1].setParent(node);
+          openList.add(cell[node.getY()][node.getX() + 1]);
+          cell[node.getY()][node.getX() + 1].setParent(node);
         }
       }
 
       // Bottom Cell
-      if (node.getX() != Constants.AStar.FIELD_Y * 2 - 1) {
-        if (cell[node.getX() + 1][node.getY()].hValue != -1
-            && !openList.contains(cell[node.getX() + 1][node.getY()])
-            && !closedList.contains(cell[node.getX() + 1][node.getY()])) {
+      if (node.getY() != Constants.AStar.FIELD_Y * 2 - 1) {
+        if (cell[node.getY() + 1][node.getX()].hValue != -1
+            && !openList.contains(cell[node.getY() + 1][node.getX()])
+            && !closedList.contains(cell[node.getY() + 1][node.getX()])) {
           int tCost = node.fValue + v;
-          cell[node.getX() + 1][node.getY()].gValue = v;
-          int cost = cell[node.getX() + 1][node.getY()].hValue + tCost;
-          if (cell[node.getX() + 1][node.getY()].fValue > cost
-              || !openList.contains(cell[node.getX() + 1][node.getY()]))
-            cell[node.getX() + 1][node.getY()].fValue = cost;
+          cell[node.getY() + 1][node.getX()].gValue = v;
+          int cost = cell[node.getY() + 1][node.getX()].hValue + tCost;
+          if (cell[node.getY() + 1][node.getX()].fValue > cost
+              || !openList.contains(cell[node.getY() + 1][node.getX()]))
+            cell[node.getY() + 1][node.getX()].fValue = cost;
 
-          openList.add(cell[node.getX() + 1][node.getY()]);
-          cell[node.getX() + 1][node.getY()].setParent(node);
+          openList.add(cell[node.getY() + 1][node.getX()]);
+          cell[node.getY() + 1][node.getX()].setParent(node);
         }
       }
 
       // Top Cell
-      if (node.getX() != 0) {
-        if (cell[node.getX() - 1][node.getY()].hValue != -1
-            && !openList.contains(cell[node.getX() - 1][node.getY()])
-            && !closedList.contains(cell[node.getX() - 1][node.getY()])) {
+      if (node.getY() != 0) {
+        if (cell[node.getY() - 1][node.getX()].hValue != -1
+            && !openList.contains(cell[node.getY() - 1][node.getX()])
+            && !closedList.contains(cell[node.getY() - 1][node.getX()])) {
           int tCost = node.fValue + v;
-          cell[node.getX() - 1][node.getY()].gValue = v;
-          int cost = cell[node.getX() - 1][node.getY()].hValue + tCost;
-          if (cell[node.getX() - 1][node.getY()].fValue > cost
-              || !openList.contains(cell[node.getX() - 1][node.getY()]))
-            cell[node.getX() - 1][node.getY()].fValue = cost;
+          cell[node.getY() - 1][node.getX()].gValue = v;
+          int cost = cell[node.getY() - 1][node.getX()].hValue + tCost;
+          if (cell[node.getY() - 1][node.getX()].fValue > cost
+              || !openList.contains(cell[node.getY() - 1][node.getX()]))
+            cell[node.getY() - 1][node.getX()].fValue = cost;
 
-          openList.add(cell[node.getX() - 1][node.getY()]);
-          cell[node.getX() - 1][node.getY()].setParent(node);
+          openList.add(cell[node.getY() - 1][node.getX()]);
+          cell[node.getY() - 1][node.getX()].setParent(node);
         }
       }
 
       // TopLeft Cell
-      if (node.getX() != 0 && node.getY() != 0) {
-        if (cell[node.getX() - 1][node.getY() - 1].hValue != -1
-            && !openList.contains(cell[node.getX() - 1][node.getY() - 1])
-            && !closedList.contains(cell[node.getX() - 1][node.getY() - 1])) {
+      if (node.getY() != 0 && node.getX() != 0) {
+        if (cell[node.getY() - 1][node.getX() - 1].hValue != -1
+            && !openList.contains(cell[node.getY() - 1][node.getX() - 1])
+            && !closedList.contains(cell[node.getY() - 1][node.getX() - 1])) {
           int tCost = node.fValue + d;
-          cell[node.getX() - 1][node.getY() - 1].gValue = d;
-          int cost = cell[node.getX() - 1][node.getY() - 1].hValue + tCost;
-          if (cell[node.getX() - 1][node.getY() - 1].fValue > cost
-              || !openList.contains(cell[node.getX() - 1][node.getY() - 1]))
-            cell[node.getX() - 1][node.getY() - 1].fValue = cost;
+          cell[node.getY() - 1][node.getX() - 1].gValue = d;
+          int cost = cell[node.getY() - 1][node.getX() - 1].hValue + tCost;
+          if (cell[node.getY() - 1][node.getX() - 1].fValue > cost
+              || !openList.contains(cell[node.getY() - 1][node.getX() - 1]))
+            cell[node.getY() - 1][node.getX() - 1].fValue = cost;
 
-          openList.add(cell[node.getX() - 1][node.getY() - 1]);
-          cell[node.getX() - 1][node.getY() - 1].setParent(node);
+          openList.add(cell[node.getY() - 1][node.getX() - 1]);
+          cell[node.getY() - 1][node.getX() - 1].setParent(node);
         }
       }
 
       // TopRight Cell
-      if (node.getX() != 0 && node.getY() != Constants.AStar.FIELD_X * 2 - 1) {
-        if (cell[node.getX() - 1][node.getY() + 1].hValue != -1
-            && !openList.contains(cell[node.getX() - 1][node.getY() + 1])
-            && !closedList.contains(cell[node.getX() - 1][node.getY() + 1])) {
+      if (node.getY() != 0 && node.getX() != Constants.AStar.FIELD_X * 2 - 1) {
+        if (cell[node.getY() - 1][node.getX() + 1].hValue != -1
+            && !openList.contains(cell[node.getY() - 1][node.getX() + 1])
+            && !closedList.contains(cell[node.getY() - 1][node.getX() + 1])) {
           int tCost = node.fValue + d;
-          cell[node.getX() - 1][node.getY() + 1].gValue = d;
-          int cost = cell[node.getX() - 1][node.getY() + 1].hValue + tCost;
-          if (cell[node.getX() - 1][node.getY() + 1].fValue > cost
-              || !openList.contains(cell[node.getX() - 1][node.getY() + 1]))
-            cell[node.getX() - 1][node.getY() + 1].fValue = cost;
+          cell[node.getY() - 1][node.getX() + 1].gValue = d;
+          int cost = cell[node.getY() - 1][node.getX() + 1].hValue + tCost;
+          if (cell[node.getY() - 1][node.getX() + 1].fValue > cost
+              || !openList.contains(cell[node.getY() - 1][node.getX() + 1]))
+            cell[node.getY() - 1][node.getX() + 1].fValue = cost;
 
-          openList.add(cell[node.getX() - 1][node.getY() + 1]);
-          cell[node.getX() - 1][node.getY() + 1].setParent(node);
+          openList.add(cell[node.getY() - 1][node.getX() + 1]);
+          cell[node.getY() - 1][node.getX() + 1].setParent(node);
         }
       }
 
       // BottomLeft Cell
-      if (node.getX() != Constants.AStar.FIELD_Y * 2 - 1 && node.getY() != 0) {
-        if (cell[node.getX() + 1][node.getY() - 1].hValue != -1
-            && !openList.contains(cell[node.getX() + 1][node.getY() - 1])
-            && !closedList.contains(cell[node.getX() + 1][node.getY() - 1])) {
+      if (node.getY() != Constants.AStar.FIELD_Y * 2 - 1 && node.getX() != 0) {
+        if (cell[node.getY() + 1][node.getX() - 1].hValue != -1
+            && !openList.contains(cell[node.getY() + 1][node.getX() - 1])
+            && !closedList.contains(cell[node.getY() + 1][node.getX() - 1])) {
           int tCost = node.fValue + d;
-          cell[node.getX() + 1][node.getY() - 1].gValue = d;
-          int cost = cell[node.getX() + 1][node.getY() - 1].hValue + tCost;
-          if (cell[node.getX() + 1][node.getY() - 1].fValue > cost
-              || !openList.contains(cell[node.getX() + 1][node.getY() - 1]))
-            cell[node.getX() + 1][node.getY() - 1].fValue = cost;
+          cell[node.getY() + 1][node.getX() - 1].gValue = d;
+          int cost = cell[node.getY() + 1][node.getX() - 1].hValue + tCost;
+          if (cell[node.getY() + 1][node.getX() - 1].fValue > cost
+              || !openList.contains(cell[node.getY() + 1][node.getX() - 1]))
+            cell[node.getY() + 1][node.getX() - 1].fValue = cost;
 
-          openList.add(cell[node.getX() + 1][node.getY() - 1]);
-          cell[node.getX() + 1][node.getY() - 1].setParent(node);
+          openList.add(cell[node.getY() + 1][node.getX() - 1]);
+          cell[node.getY() + 1][node.getX() - 1].setParent(node);
         }
       }
 
       // BottomRight Cell
-      if (node.getX() != Constants.AStar.FIELD_Y * 2 - 1
-          && node.getY() != Constants.AStar.FIELD_X * 2 - 1) {
-        if (cell[node.getX() + 1][node.getY() + 1].hValue != -1
-            && !openList.contains(cell[node.getX() + 1][node.getY() + 1])
-            && !closedList.contains(cell[node.getX() + 1][node.getY() + 1])) {
+      if (node.getY() != Constants.AStar.FIELD_Y * 2 - 1
+          && node.getX() != Constants.AStar.FIELD_X * 2 - 1) {
+        if (cell[node.getY() + 1][node.getX() + 1].hValue != -1
+            && !openList.contains(cell[node.getY() + 1][node.getX() + 1])
+            && !closedList.contains(cell[node.getY() + 1][node.getX() + 1])) {
           int tCost = node.fValue + d;
-          cell[node.getX() + 1][node.getY() + 1].gValue = d;
-          int cost = cell[node.getX() + 1][node.getY() + 1].hValue + tCost;
-          if (cell[node.getX() + 1][node.getY() + 1].fValue > cost
-              || !openList.contains(cell[node.getX() + 1][node.getY() + 1]))
-            cell[node.getX() + 1][node.getY() + 1].fValue = cost;
+          cell[node.getY() + 1][node.getX() + 1].gValue = d;
+          int cost = cell[node.getY() + 1][node.getX() + 1].hValue + tCost;
+          if (cell[node.getY() + 1][node.getX() + 1].fValue > cost
+              || !openList.contains(cell[node.getY() + 1][node.getX() + 1]))
+            cell[node.getY() + 1][node.getX() + 1].fValue = cost;
 
-          openList.add(cell[node.getX() + 1][node.getY() + 1]);
-          cell[node.getX() + 1][node.getY() + 1].setParent(node);
+          openList.add(cell[node.getY() + 1][node.getX() + 1]);
+          cell[node.getY() + 1][node.getX() + 1].setParent(node);
         }
       }
     }
