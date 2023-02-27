@@ -40,7 +40,6 @@ public class RobotContainer {
   private final Drive driveSubsystem = new Drive(limelight);
   private final TaskScheduler taskScheduler = new TaskScheduler();
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-  private final Drive driveSubsystem = new Drive();
   private Pose armPose;
   /* BIG CHUNGUS ARM CODE */
   private final ArmBase armBase = new ArmBase();
