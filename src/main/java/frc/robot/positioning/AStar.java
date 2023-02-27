@@ -44,9 +44,9 @@ public class AStar {
   static {
     // creates nodes for cell
     for (int i = 0; i < Constants.AStar.FIELD_Y * 2; i++) {
-        for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
-            cell[i][j] = new Node(i, j);
-        }
+      for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
+        cell[i][j] = new Node(i, j);
+      }
     }
     // creates the boolean obstacle matrix
     // TODO: Inputs the obstacles for the field (nonosquares), input your nono squares here.
