@@ -68,13 +68,13 @@ public class ArmShoulder extends SubsystemBase {
     /* Takes the degree param and converts it to encoder ticks
      * so the talon knows what we're talking about
      */
-    degrees = (((degrees / 360) * 4096) * 3);
+    degrees = (((degrees / 360) * 4096));
     armShoulderMotor.set(ControlMode.Position, degrees);
     uniShoulderDegrees = degrees;
   }
 
   public void getShoulderRotation() {
-    shoulderRotation = (((armShoulderMotor.getSelectedSensorPosition() / 3) / 4096) * 360);
+    shoulderRotation = (((armShoulderMotor.getSelectedSensorPosition()) / 4096) * 360);
   }
 
   public boolean isShoulderAtSetpoint() {
