@@ -13,26 +13,41 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static class OperatorConstants {
-        public static final int CONTROLLER_NUMBER = 0;
-    }
+  public static class OperatorConstants {
+    public static final int CONTROLLER_NUMBER = 0;
+  }
 
+  /** General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}. */
+  public static class DriveConstants {
+    /* CAN IDs for the drivetrain motor controllers */
+    public static final int ID_TALON_FRONT_LEFT = 0;
+    public static final int ID_TALON_FRONT_RIGHT = 1;
+    public static final int ID_TALON_REAR_LEFT = 2;
+    public static final int ID_TALON_REAR_RIGHT = 3;
+  }
+  /**
+   * General constants for the AStar Subsystem. Primarily used by {@link
+   * frc.robot.positioning.AStar}.
+   */
+  public static class AStar {
     /**
-     * General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}.
+     * Half the length of the field relative to the origin. Positive for Max, Negative for Min.
+     * Measured in cm.
      */
-    public static class DriveConstants {
-        /* CAN IDs for the drivetrain motor controllers */
-        public static final int ID_TALON_FRONT_LEFT = 0;
-        public static final int ID_TALON_FRONT_RIGHT = 1;
-        public static final int ID_TALON_REAR_LEFT = 2;
-        public static final int ID_TALON_REAR_RIGHT = 3;
-    }
+    public static final int FIELD_X = 1654 / 2;
     /**
-     * General constants for the balance command. Primarily used by {@link frc.robot.commands.Balance}.
+     * Half the width of the field relative to the origin. Positive for Max, Negative for Min.
+     * Measured in cm.
      */
-    public static class BalanceConstants {
-        /* Angle threshholds for when the bot is considered balanced and not */
-        public static final double OFF_ANGLE_THRESHOLD = 10; 
-        public static final double ON_ANGLE_THRESHOLD  = 5;
-    }
+    public static final int FIELD_Y = 802 / 2;
+  }
+  /**
+   * General constants for the balance command. Primarily used by {@link
+   * frc.robot.commands.Balance}.
+   */
+  public static class BalanceConstants {
+    /* Angle threshholds for when the bot is considered balanced and not */
+    public static final double OFF_ANGLE_THRESHOLD = 10;
+    public static final double ON_ANGLE_THRESHOLD = 5;
+  }
 }

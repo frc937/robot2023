@@ -11,9 +11,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.positioning.Pose;
 
-/**
- * Subsystem for the Limelight 2+ that we use for vision.
- */
+/** Subsystem for the Limelight 2+ that we use for vision. */
 public class Limelight extends SubsystemBase {
 
   /* Note to future devs: we are NOT doing the whole setting values in NetworkTables to turn the Limelight
@@ -27,7 +25,7 @@ public class Limelight extends SubsystemBase {
 
   /* This class may need logic to switch between pipelines based off of AprilTag pipeline restrictions. As
    * of now, I'm not adding them, since in theory the Limelight should just handle getting a botpos with as
-   * many AprilTags in its FOV as can fit because MegaTag 
+   * many AprilTags in its FOV as can fit because MegaTag
    * (https://docs.limelightvision.io/en/latest/apriltags_in_3d.html#robot-localization-botpose-and-megatag).
    */
   /* it would be so cool if we just didn't have to do multiple pipelines at all this year */
@@ -40,18 +38,21 @@ public class Limelight extends SubsystemBase {
    * to understand what the heck the different indices in this array mean
    */
   private double[] botpos;
-  
+
   /** Creates a new Limelight. Should be run once from {@link frc.robot.RobotContainer}. */
   public Limelight() {
     tvSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("limelight/tv").subscribe(0.0);
     txSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("limelight/tx").subscribe(0.0);
     tySubscriber = NetworkTableInstance.getDefault().getDoubleTopic("limelight/ty").subscribe(0.0);
     taSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("limelight/ta").subscribe(0.0);
-    /* In theory this won't break. It got mad when I tried to insert the array into the 
+    /* In theory this won't break. It got mad when I tried to insert the array into the
      * method like .subscribe({0.0, 0.0, 0.0, 0.0, 0.0, 0.0}) so ¯\_(ツ)_/¯
      */
     double[] defaultBotpos = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-    botposSubscriber = NetworkTableInstance.getDefault().getDoubleArrayTopic("limelight/botpos").subscribe(defaultBotpos);
+    botposSubscriber =
+        NetworkTableInstance.getDefault()
+            .getDoubleArrayTopic("limelight/botpos")
+            .subscribe(defaultBotpos);
   }
 
   /* now its time for getter method chaingun, which I have to write manually because VS Code */
@@ -59,6 +60,7 @@ public class Limelight extends SubsystemBase {
 
   /**
    * Returns whether the Limelight has a valid target.
+   *
    * @return Whether or not the Limelight has a valid target. True if it does, false if it doesn't.
    */
   public boolean hasValidTarget() {
@@ -67,6 +69,7 @@ public class Limelight extends SubsystemBase {
 
   /**
    * Gets the horizontal offset from the crosshair to the currently active target.
+   *
    * @return tx; the horizontal offset from the crosshair to the target.
    */
   public double getTX() {
@@ -75,6 +78,7 @@ public class Limelight extends SubsystemBase {
 
   /**
    * Gets the vertical offset from the crosshair to the currently active target.
+   *
    * @return ty; the vertical offset from the crosshair to the target.
    */
   public double getTY() {
@@ -83,6 +87,7 @@ public class Limelight extends SubsystemBase {
 
   /**
    * Gets the area of the target, 0% to 100% of the image.
+   *
    * @return ta; the area of the target.
    */
   public double getTA() {
@@ -90,19 +95,25 @@ public class Limelight extends SubsystemBase {
   }
 
   /**
-   * Returns the robot's current pose relative to the field. 
+   * Returns the robot's current pose relative to the field.
+   *
    * <p>Units are meters; 0,0 is at the center of the field.
+   *
    * <p>Will only work if the Limelight can see an AprilTag and read it correctly.
-   * <p>Notably, the Z, roll, and pitch values will always be zero, since we snap the bot to the floor on the Limelight.
+   *
+   * <p>Notably, the Z, roll, and pitch values will always be zero, since we snap the bot to the
+   * floor on the Limelight.
+   *
    * @return A {@link Pose}; the robot's current position relative to the field.
    */
   public Pose getBotpose() {
-    return new Pose(botpos[0], botpos[1], botpos[2], new Rotation3d(botpos[3], botpos[4], botpos[5]));
+    return new Pose(
+        botpos[0], botpos[1], botpos[2], new Rotation3d(botpos[3], botpos[4], botpos[5]));
   }
 
   /**
-   * Subsystem periodic; runs every scheduler run. 
-   * Used to update Limelight data from NetworkTables in this subsystem.
+   * Subsystem periodic; runs every scheduler run. Used to update Limelight data from NetworkTables
+   * in this subsystem.
    */
   @Override
   public void periodic() {
