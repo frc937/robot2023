@@ -78,7 +78,7 @@ public final class Constants {
     public static final double OFF_ANGLE_THRESHOLD = 10;
     public static final double ON_ANGLE_THRESHOLD = 5;
   }
-   /**
+  /**
    * General constants for the AStar Subsystem. Primarily used by {@link
    * frc.robot.positioning.AStar}.
    */
