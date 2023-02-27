@@ -14,6 +14,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.autotasks.ExampleAutoTask;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.TaskScheduler;
 
 /**
@@ -25,7 +26,8 @@ import frc.robot.subsystems.TaskScheduler;
 public class RobotContainer {
   /* SUBSYSTEMS */
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drive driveSubsystem = new Drive();
+  private final Limelight limelight = new Limelight();
+  private final Drive driveSubsystem = new Drive(limelight);
   private final TaskScheduler taskScheduler = new TaskScheduler();
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 

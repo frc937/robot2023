@@ -343,6 +343,7 @@ public class AStar {
           openList.add(cell[node.getX() - 1][node.getY() + 1]);
           cell[node.getX() - 1][node.getY() + 1].setParent(node);
         }
+      } catch (IndexOutOfBoundsException e) {
       }
 
       // BottomLeft Cell
