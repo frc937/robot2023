@@ -85,8 +85,8 @@ public class AStar {
                         startX,
                         endY,
                         endX,
-                        Constants.AStar.FIELD_X * 2,
                         Constants.AStar.FIELD_Y * 2,
+                        Constants.AStar.FIELD_X * 2,
                         10,
                         14);
 
@@ -175,15 +175,7 @@ public class AStar {
       }
     }
     return generatePath(
-        cell,
-        startY,
-        startX,
-        endY,
-        endX,
-        Constants.AStar.FIELD_X * 2,
-        Constants.AStar.FIELD_Y * 2,
-        v,
-        d);
+        cell, startY, startX, endY, endX, Constants.AStar.FIELD_Y * 2, Constants.AStar.FIELD_X * 2, v, d);
   }
 
   /**
@@ -421,7 +413,7 @@ public class AStar {
    */
   private static void generateNoNoZone(int originY, int originX, int length, int width) {
     for (int y = originY; y <= originY + length; y++) {
-      for (int x = originX; x <= originX + length; x++) {
+      for (int x = originX; x <= originX + width; x++) {
         grid[y][x] = true;
       }
     }
