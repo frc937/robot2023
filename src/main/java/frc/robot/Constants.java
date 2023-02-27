@@ -78,4 +78,20 @@ public final class Constants {
     public static final double OFF_ANGLE_THRESHOLD = 10;
     public static final double ON_ANGLE_THRESHOLD = 5;
   }
+   /**
+   * General constants for the AStar Subsystem. Primarily used by {@link
+   * frc.robot.positioning.AStar}.
+   */
+  public static class AStar {
+    /**
+     * Half the length of the field relative to the origin. Positive for Max, Negative for Min.
+     * Measured in cm.
+     */
+    public static final int FIELD_X = 1654 / 2;
+    /**
+     * Half the width of the field relative to the origin. Positive for Max, Negative for Min.
+     * Measured in cm.
+     */
+    public static final int FIELD_Y = 802 / 2;
+  }
 }

@@ -44,9 +44,9 @@ public class AStar {
   static {
     // creates nodes for cell
     for (int i = 0; i < Constants.AStar.FIELD_Y * 2; i++) {
-      for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
-        cell[i][j] = new Node(i, j);
-      }
+        for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
+            cell[i][j] = new Node(i, j);
+        }
     }
     // creates the boolean obstacle matrix
     // TODO: Inputs the obstacles for the field (nonosquares), input your nono squares here.
@@ -160,8 +160,8 @@ public class AStar {
       int v,
       int d) {
 
-    for (int i = 0; i < Constants.AStar.FIELD_Y * 2; i++) {
-      for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
+    for (int i = 0; i < Constants.AStar.FIELD_Y; i++) {
+      for (int j = 0; j < Constants.AStar.FIELD_X; j++) {
         // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle
         // absent)
         if (!matrix[i][j]) {
@@ -175,15 +175,7 @@ public class AStar {
       }
     }
     return generatePath(
-        cell,
-        startY,
-        startX,
-        endY,
-        endX,
-        Constants.AStar.FIELD_X * 2,
-        Constants.AStar.FIELD_Y * 2,
-        v,
-        d);
+        cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d);
   }
 
   /**
@@ -343,7 +335,6 @@ public class AStar {
           openList.add(cell[node.getX() - 1][node.getY() + 1]);
           cell[node.getX() - 1][node.getY() + 1].setParent(node);
         }
-      } catch (IndexOutOfBoundsException e) {
       }
 
       // BottomLeft Cell

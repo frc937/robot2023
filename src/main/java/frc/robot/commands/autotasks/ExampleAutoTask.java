@@ -22,7 +22,7 @@ public class ExampleAutoTask extends AutoTask {
    */
   public ExampleAutoTask(ExampleCommand exampleCommand) {
     this.exampleCommand = exampleCommand;
-    addArrivedCommand(exampleCommand);
+    setArrivedCommand(exampleCommand);
     setTaskPosition(
         new Pose()); // Normaly the pose would not be empty but this is a example so its okay.
   }

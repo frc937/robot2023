@@ -8,14 +8,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
-<<<<<<< HEAD
-=======
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.estimator.MecanumDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
->>>>>>> holonomic-drive-controller
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
@@ -24,10 +21,7 @@ import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.SPI;
-<<<<<<< HEAD
-=======
 import edu.wpi.first.wpilibj.Timer;
->>>>>>> holonomic-drive-controller
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -36,25 +30,6 @@ import frc.robot.Constants;
 public class Drive extends SubsystemBase {
 
   /* Motor controllers */
-<<<<<<< HEAD
-  WPI_TalonSRX frontLeft;
-  WPI_TalonSRX frontRight;
-  WPI_TalonSRX rearLeft;
-  WPI_TalonSRX rearRight;
-
-  MecanumDrive drivetrain;
-
-  AHRS gyroscope;
-
-  /** Creates a new drivetrain using IDs from {@link Constants.DriveConstants}. */
-  public Drive() {
-    /* Instantiates the motor controllers for each mecanum wheel. */
-    frontLeft = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_FRONT_LEFT);
-    frontRight = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_FRONT_RIGHT);
-    rearLeft = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_REAR_LEFT);
-    rearRight = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_REAR_RIGHT);
-
-=======
   private WPI_TalonSRX frontLeft, frontRight, rearLeft, rearRight;
 
   private MecanumDriveKinematics kinematics;
@@ -77,7 +52,6 @@ public class Drive extends SubsystemBase {
     rearLeft = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_LEFT);
     rearRight = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_RIGHT);
 
->>>>>>> holonomic-drive-controller
     /* "Makes the robot not go whee-whee" - Quinn */
     /* In actuality this inverts the right side of the drivetrain, since WPIlib doesn't do that for us anymore.
      * In fairness, "makes the robot not go whee-whee" might actually be an accurate way to describe that.
@@ -96,10 +70,8 @@ public class Drive extends SubsystemBase {
     /* Instantiates the MecanumDrive drivetrain controller. */
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
 
-<<<<<<< HEAD
     /* Instantiates the gyroscope. */
     gyroscope = new AHRS(SPI.Port.kMXP);
-=======
     kinematics =
         new MecanumDriveKinematics(
             Constants.Drive.LOCATION_WHEEL_FRONT_LEFT,
@@ -145,7 +117,6 @@ public class Drive extends SubsystemBase {
                     Constants.Drive.HolonomicController.ThetaController.Constraints.MAX_VELOCITY,
                     Constants.Drive.HolonomicController.ThetaController.Constraints
                         .MAX_ACCELERATION)));
->>>>>>> holonomic-drive-controller
   }
 
   /**
@@ -214,8 +185,6 @@ public class Drive extends SubsystemBase {
   public double getPitch() {
     return gyroscope.getPitch();
   }
-<<<<<<< HEAD
-=======
 
   /**
    * This will RESET the pose of the robot - NOT update. It tells the bot "hey, you know all that
@@ -307,5 +276,4 @@ public class Drive extends SubsystemBase {
       }
     }
   }
->>>>>>> holonomic-drive-controller
 }

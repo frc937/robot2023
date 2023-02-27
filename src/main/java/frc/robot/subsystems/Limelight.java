@@ -111,22 +111,6 @@ public class Limelight extends SubsystemBase {
   public Pose getBotpose() {
     return new Pose(
         botpos[0], botpos[1], botpos[2], new Rotation3d(botpos[3], botpos[4], botpos[5]));
-<<<<<<< HEAD
-=======
-  }
-
-  /**
-   * Gets the robot's current post relative to the field.
-   *
-   * <p>Units are meters; 0,0 is at the center of the field.
-   *
-   * <p>Will only work if the Limelight can see an AprilTag and read it correctly.
-   *
-   * @return A {@link Pose2d}; the robot's current position relative to the field in two dimensions.
-   */
-  public Pose2d getBotpose2d() {
-    return new Pose2d(botpos[0], botpos[1], Rotation2d.fromDegrees(botpos[5]));
->>>>>>> holonomic-drive-controller
   }
 
   /**
@@ -144,5 +128,18 @@ public class Limelight extends SubsystemBase {
      * to understand what the heck the different indices in this array mean
      */
     botpos = botposSubscriber.get();
+  }
+
+  /**
+   * Gets the robot's current post relative to the field.
+   *
+   * <p>Units are meters; 0,0 is at the center of the field.
+   *
+   * <p>Will only work if the Limelight can see an AprilTag and read it correctly.
+   *
+   * @return A {@link Pose2d}; the robot's current position relative to the field in two dimensions.
+   */
+  public Pose2d getBotpose2d() {
+    return new Pose2d(botpos[0], botpos[1], Rotation2d.fromDegrees(botpos[5]));
   }
 }
