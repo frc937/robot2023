@@ -1,6 +1,5 @@
 package frc.robot.commands.autotasks;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.positioning.Pose;
 

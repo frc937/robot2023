@@ -7,20 +7,8 @@ package frc.robot.commands.autotasks;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
 // TODO: Add fallback commands
-import java.util.ArrayList;
-import java.util.Stack;
 
-import org.ejml.dense.block.VectorOps_DDRB;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
-import frc.robot.positioning.Pose;
-//TODO: Add fallback commands
-/**
- * Base class for autotasks.
- * If you want to create an autotask extend this class.
- */
+/** Base class for autotasks. If you want to create an autotask extend this class. */
 public abstract class AutoTask {
   private boolean initialized = false;
   private boolean arrived = false;
@@ -37,7 +25,6 @@ public abstract class AutoTask {
     NAVIGATING,
     ARRIVED,
     FINISHED
-    
   }
   /**
    * Creates a new AutoTask. Dont create instances of commands. Each command should be a parameter
@@ -120,7 +107,7 @@ public abstract class AutoTask {
       }
       if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
         runningCommand.schedule();
-      } else if (runningCommand.isFinished()){
+      } else if (runningCommand.isFinished()) {
         commandState = State.NAVIGATING;
       }
     }
@@ -138,7 +125,7 @@ public abstract class AutoTask {
       }
       if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
         runningCommand.schedule();
-      } else if (runningCommand.isFinished()){
+      } else if (runningCommand.isFinished()) {
         commandState = State.FINISHED;
       }
     }
