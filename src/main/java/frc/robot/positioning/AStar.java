@@ -94,7 +94,7 @@ public class AStar {
                 // Outputs whether or not the pathlist *is* a pathlist
                 if (cell[startY][startX].hValue != -1 && pathList.contains(cell[endY][endX])) {
 
-                  //TODO: THIS SHOULD OUTPUT TO SHUFFLEBOARD
+                  // TODO: THIS SHOULD OUTPUT TO SHUFFLEBOARD
                   System.out.println("Euclidean Path Found");
 
                 } else {
