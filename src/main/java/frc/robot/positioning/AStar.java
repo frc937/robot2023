@@ -16,6 +16,7 @@ import java.util.Collections;
  * Quick Overview: https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
  * In Depth: https://csis.pace.edu/~benjamin/teaching/cs627/webfiles/Astar.pdf
  * Stolen Code: https://github.com/Suwadith/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java/blob/FinalizedVersion/src/PathFindingOnSquaredGrid.java
+ * Copy of this code, but executable https://github.com/Berdenson/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java
  */
 
 /** A* class, used to generate a path for the trajectory. */
@@ -51,11 +52,12 @@ public class AStar {
     }
     // creates the boolean obstacle matrix
     // TODO: Inputs the obstacles for the field (nonosquares), input your nono squares here.
-    generateNoNoZone(69, 420, 69, 420); /* placeholder/example */
+    generateNoNoZone(10, 20, 10, 20); /* placeholder/example */
   }
 
   /** 
-   * Creates a new pathfinding situation. Input should be in centimeters.
+   * Creates a new pathfinding situation. 
+   * Input should be in centimeters.
    * Values are inclusive.
    */
   public AStar(int startX, int startY, int endX, int endY) {
@@ -192,7 +194,7 @@ public class AStar {
   }
 
   /**
-   * Actually generates the path, in a 3x3 grid, with the center being the node.
+   * Actually generates the pathlist.
    *
    * @param hValue Node type 2D Array (Matrix)
    * @param startY Starting point's y value
