@@ -22,7 +22,7 @@ public class TCA9548A {
     this(0); /* Default, this is the port this year's bot uses */
   }
 
-  public void selectBus(int busNumber) {
+  public void setBus(int busNumber) {
     if (busNumber >= 8 || busNumber < 0) return;
     multiplexer.write(portNum, 1 << busNumber);
   }
