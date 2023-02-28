@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.Collections;
 
 /*
  * A* (A Star) path planning uses a grid of Nodes, and assigns values to said Nodes to decide on the best route for the robot.
@@ -53,7 +54,10 @@ public class AStar {
     generateNoNoZone(69, 420, 69, 420); /* placeholder/example */
   }
 
-  /** Creates a new pathfinding situation. Input should be in centimeters. */
+  /** 
+   * Creates a new pathfinding situation. Input should be in centimeters.
+   * Values are inclusive.
+   */
   public AStar(int startX, int startY, int endX, int endY) {
     this.startX = startX;
     this.startY = startY;
@@ -126,6 +130,7 @@ public class AStar {
                   pathListInMeters.add(tempNode);
                 }
 
+                Collections.reverse(pathListInMeters);
                 currPath.set(new Path(pathListInMeters));
               });
     }
