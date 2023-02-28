@@ -23,11 +23,11 @@ import java.util.concurrent.atomic.AtomicReference;
 public class AStar {
   /** The map of nodes */
   private static Node[][] cell = new Node[Constants.AStar.FIELD_Y * 2][Constants.AStar.FIELD_X * 2];
-  /** Likely the path */
+  /** The pathlist, the path, the line to follow */
   private ArrayList<Node> pathList = new ArrayList<>();
   /** Nodes that no longer need to be aknowledged by the pathfinder */
   private ArrayList<Node> closedList = new ArrayList<>();
-  /** The map of obstacles (false if obstacle present) */
+  /** The map of obstacles (true if obstacle present) */
   private static boolean[][] grid =
       new boolean[Constants.AStar.FIELD_Y * 2][Constants.AStar.FIELD_X * 2];
   /** Current path object the path generation algorithm is generating */
@@ -50,6 +50,7 @@ public class AStar {
         cell[i][j] = new Node(i, j);
       }
     }
+
     // creates the boolean obstacle matrix
     // TODO: Inputs the obstacles for the field (nonosquares), input your nono squares here.
     generateNoNoZone(10, 20, 10, 20); /* placeholder/example */
@@ -76,10 +77,8 @@ public class AStar {
       this.genThread =
           new Thread(
               () -> {
-                int gCost = 0;
-                /* int fCost = 0; */
 
-                // Loop to find all 3 pathways and their relative Final Cost values
+                // Runs generateHValue to get the pathlist.
                 pathList =
                     generateHValue(
                         grid,
@@ -92,23 +91,11 @@ public class AStar {
                         10,
                         14);
 
+                // Outputs whether or not the pathlist *is* a pathlist
                 if (cell[startY][startX].hValue != -1 && pathList.contains(cell[endY][endX])) {
 
-                  /*
-                   * This is only if you want to output the total cost of the whole thing; aka
-                   * it's unnessecary.
-                   */
-                  // for (int i = 0; i < pathList.size() - 1; i++) {
-                  // /* System.out.println(pathList.get(i).x + " " + pathList.get(i).y);*/
-                  // gCost += pathList.get(i).gValue;
-                  // /*fCost += pathList.get(i).fValue;*/
-                  // }
-
+                  //TODO: THIS SHOULD OUTPUT TO SHUFFLEBOARD
                   System.out.println("Euclidean Path Found");
-                  System.out.println("Total Cost: " + gCost / 10);
-                  /* System.out.println("Total fCost: " + fCost); */
-                  gCost = 0;
-                  /* fCost = 0; */
 
                 } else {
                   // TODO: THIS SHOULD OUTPUT TO SHUFFLEBOARD
