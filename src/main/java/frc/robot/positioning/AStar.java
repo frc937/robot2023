@@ -6,10 +6,10 @@ package frc.robot.positioning;
 
 import frc.robot.Constants;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.Collections;
 
 /*
  * A* (A Star) path planning uses a grid of Nodes, and assigns values to said Nodes to decide on the best route for the robot.
