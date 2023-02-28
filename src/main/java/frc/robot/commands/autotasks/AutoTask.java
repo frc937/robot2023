@@ -14,6 +14,7 @@ public abstract class AutoTask {
   private boolean arrived = false;
   private boolean ended = false;
   private boolean verified = false;
+  private boolean positionKnown;
   private Pose taskPos;
   private CommandBase runningCommand;
   private CommandBase initCommand;
@@ -157,6 +158,16 @@ public abstract class AutoTask {
    */
   protected void setTaskPosition(Pose position) {
     taskPos = position;
+    positionKnown = true;
+  }
+  /**
+   * Like {@link #setTaskPosition(Pose) setTaskPosition} but without any args. <p>
+   * Used for when the location of the autotask is unknown.
+   * Marks the task as unknown so it passes tests but warns about the location being unknown.
+   */
+  protected void setUnknownLocation() {
+    taskPos = new Pose();
+    positionKnown = false;
   }
 
   /** Ran if the task needs to be ended. */
@@ -198,7 +209,12 @@ public abstract class AutoTask {
 
     } else {
       verified = true;
-      System.out.println("Taskpos was run. Task verified.");
+    }
+    if (!positionKnown) {
+      System.out.println("Warning: The position of this task is unknown. For this task to be useful, the position has to be known.");
+    }
+    if (verified) {
+      System.out.println("Autotask verified.");
     }
     System.out.println("================================================================");
   }

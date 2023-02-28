@@ -23,8 +23,7 @@ public class ExampleAutoTask extends AutoTask {
   public ExampleAutoTask(ExampleCommand exampleCommand) {
     this.exampleCommand = exampleCommand;
     setArrivedCommand(exampleCommand);
-    setTaskPosition(
-        new Pose()); // Normaly the pose would not be empty but this is a example so its okay.
+    setUnknownLocation();// Normaly the pose would not be empty but this is a example so its okay.
   }
   /**
    * The methods below this are mainly for updates, like if you wanted to put somthing on smartdash
