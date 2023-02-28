@@ -14,13 +14,14 @@ import frc.robot.Constants;
 public class ArmExtender extends SubsystemBase {
 
   private WPI_TalonSRX winch;
+  private boolean extenderAtSetpoint;
 
   /* If VS Code thinks this library can't be found, it's probably wrong.
    * Usually the code builds just fine even if VS Code thinks the library can't be found.
    */
   private Rev2mDistanceSensor lengthSensor;
 
-  private double setpoint;
+  private Double setpoint;
 
   /** Creates a new ArmExtender. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmExtender() {
@@ -29,6 +30,7 @@ public class ArmExtender extends SubsystemBase {
     lengthSensor = new Rev2mDistanceSensor(Port.kOnboard);
     lengthSensor.setAutomaticMode(true);
     setpoint = Constants.Arm.MIN_LENGTH_ARM_EXTENDER;
+    extenderAtSetpoint = false;
   }
 
   /**
@@ -54,21 +56,33 @@ public class ArmExtender extends SubsystemBase {
     this.setpoint = setpoint;
   }
 
+  public boolean isExtenderAtSetpoint() {
+    return extenderAtSetpoint;
+  }
+
   /**
    * Directs arm towards setpoint. Since this is the periodic method, this is called every time the
    * scheduler runs.
    */
   @Override
   public void periodic() {
-    /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
-    if (Math.abs(setpoint - getLength()) >= Constants.Arm.DONE_THRESHOLD_ARM_EXTENSION) {
-      if (getLength() > setpoint) {
-        winch.set(-1 * Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
+    if (setpoint != null) {
+      /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
+      if (Math.abs(setpoint - getLength()) >= Constants.Arm.DONE_THRESHOLD_ARM_EXTENSION) {
+        if (getLength() > setpoint) {
+          winch.set(-1 * Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
+        } else {
+          winch.set(Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
+        }
       } else {
-        winch.set(Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
+        winch.stopMotor();
+        extenderAtSetpoint = true;
       }
-    } else {
-      winch.stopMotor();
     }
+  }
+
+  public void setArmSpeed(double speed) {
+    setpoint = null;
+    winch.set(speed);
   }
 }

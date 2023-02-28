@@ -13,6 +13,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
+import frc.robot.commands.RetractArm;
 import frc.robot.positioning.Pose;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -42,6 +43,7 @@ public class RobotContainer {
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
   private final ManualArm manualArm = new ManualArm(armBase, armShoulder);
   private final Pose pose = new Pose();
+  private RetractArm retractArmCommand = new RetractArm(armExtender);
 
   private final Balance balance = new Balance(driveSubsystem);
 
@@ -80,9 +82,9 @@ public class RobotContainer {
     compilationArm.setDefaultCommand(manualArm);
   }
 
-  public Pose getArmPose() {
+  public Pose containerGetArmPose() {
 
-    return armPose;
+    return compilationArm.compGetArmPose();
   }
 
   /**
@@ -202,5 +204,9 @@ public class RobotContainer {
     return new MoveToPose(
             Constants.Arm.Poses.RESET, armShoulder, armBase, armExtender, compilationArm)
         .alongWith(armClaw.openClawCommand());
+  }
+
+  public RetractArm getRetractCommand() {
+    return retractArmCommand;
   }
 }
