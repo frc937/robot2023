@@ -7,13 +7,16 @@ public class Path {
   private ArrayList<Double[]> pathList;
   private boolean generatedPath;
 
-  /** @return the pathList */
+  /**
+   * @return the pathList
+   */
   public ArrayList<Double[]> getPathList() {
     return this.pathList;
   }
 
-  /** 
+  /**
    * Checks if the path is generated
+   *
    * @return (true/false) (path is/isn't generated)
    */
   public boolean isPathGenerated() {

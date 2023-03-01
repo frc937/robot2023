@@ -17,16 +17,17 @@ import java.util.concurrent.atomic.AtomicReference;
  * In Depth: https://csis.pace.edu/~benjamin/teaching/cs627/webfiles/Astar.pdf
  * Stolen Code: https://github.com/Suwadith/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java/blob/FinalizedVersion/src/PathFindingOnSquaredGrid.java
  * Copy of this code, but executable https://github.com/Berdenson/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java
- * 
+ *
  * You may notice how Constants.AStar.FIELD_(Y/X) is being * 2 / 10.
  * * 2 is for the field constant only representing half the field
- * / 10 is for the field's measurements in decimeters. 
+ * / 10 is for the field's measurements in decimeters.
  */
 
 /** A* class, used to generate a path for the trajectory. */
 public class AStar {
   /** The map of nodes */
-  private static Node[][] cell = new Node[Constants.AStar.FIELD_Y * 2 / 10][Constants.AStar.FIELD_X * 2 / 10];
+  private static Node[][] cell =
+      new Node[Constants.AStar.FIELD_Y * 2 / 10][Constants.AStar.FIELD_X * 2 / 10];
   /** The pathlist, the path, the line to follow */
   private ArrayList<Node> pathList = new ArrayList<>();
   /** Nodes that no longer need to be aknowledged by the pathfinder */
