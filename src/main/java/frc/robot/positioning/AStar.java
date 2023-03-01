@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 /** A* class, used to generate a path for the trajectory. */
 public class AStar {
+
   /** The map of nodes */
   private static Node[][] cell =
       new Node[Constants.AStar.FIELD_Y][Constants.AStar.FIELD_X];
@@ -121,7 +122,7 @@ public class AStar {
                   pathListInMeters.add(tempNode);
                 }
 
-                // Reverses the values, as they are normally ordered end pt. to start pt..
+                // Reverses the values, as they are normally ordered: end pt. to start pt.
                 Collections.reverse(pathListInMeters);
 
                 currPath.set(new Path(pathListInMeters));
@@ -383,10 +384,12 @@ public class AStar {
     // Assigns the last Object in the closedList to the endNode variable
     Node endNode = closedList.get(closedList.size() - 1);
 
-    // Checks if whether the endNode variable currently has a parent Node. if it
-    // doesn't then stops moving forward.
-    // Stores each parent Node to the PathList so it is easier to trace back the
-    // final path
+    /*
+     * Checks if whether the endNode variable currently has a parent Node. if it
+     * doesn't then stops moving forward.
+     * Stores each parent Node to the PathList so it is easier to trace back the
+     * final path
+     */
     while (endNode.getParent() != null) {
       Node currentNode = endNode;
       pathList.add(currentNode);
