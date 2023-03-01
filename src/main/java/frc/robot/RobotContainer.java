@@ -5,16 +5,23 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.autotasks.ExampleAutoTask;
+import frc.robot.commands.ManualArm;
+import frc.robot.commands.MoveToPose;
+import frc.robot.commands.RetractArm;
+import frc.robot.positioning.Pose;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.TaskScheduler;
+import frc.robot.subsystems.arm.ArmBase;
+import frc.robot.subsystems.arm.ArmClaw;
+import frc.robot.subsystems.arm.ArmExtender;
+import frc.robot.subsystems.arm.ArmShoulder;
+import frc.robot.subsystems.arm.CompilationArm;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,28 +31,63 @@ import frc.robot.subsystems.TaskScheduler;
  */
 public class RobotContainer {
   /* SUBSYSTEMS */
+  // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drive driveSubsystem = new Drive();
   private final TaskScheduler taskScheduler = new TaskScheduler();
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+  private Pose armPose;
+  /* BIG CHUNGUS ARM CODE */
+  private final ArmBase armBase = new ArmBase();
+  private final ArmShoulder armShoulder = new ArmShoulder();
+  private final ArmExtender armExtender = new ArmExtender();
+  private final ArmClaw armClaw = new ArmClaw();
+  private final CompilationArm compilationArm =
+      new CompilationArm(armBase, armClaw, armExtender, armShoulder);
+  private final ManualArm manualArm = new ManualArm(armBase, armShoulder);
+  private final Pose pose = new Pose();
+  private RetractArm retractArmCommand = new RetractArm(armExtender);
 
-  /* COMMANDS */
   private final Balance balance = new Balance(driveSubsystem);
-  private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
 
-  /* AUTO TASKS */
-  private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
+  private final Command openClaw = armClaw.openClawCommand();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController controller =
+  public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
 
+  private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public static double getRightXAxis() {
+
+    return controller.getRightX();
+  }
+
+  public static double getRightYAxis() {
+    return controller.getRightY();
+  }
+
+  private static double scaleAxis(double a) {
+    return Math.signum(a) * Math.pow(a, 2);
+  }
+
+  public static double getScaledRightXAxis() {
+    return scaleAxis(getRightXAxis());
+  }
+
+  public static double getScaledRightYAxis() {
+    return scaleAxis(getRightYAxis());
+  }
+
   public RobotContainer() {
-    // Configure the trigger bindings
     configureBindings();
-    // Verify auto tasks. If each task isnt verified the autotask will throw a exception.
-    verifyAutoTasks();
+
+    compilationArm.setDefaultCommand(manualArm);
+  }
+
+  public Pose containerGetArmPose() {
+
+    return compilationArm.compGetArmPose();
   }
 
   /**
@@ -58,11 +100,97 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    controller.povUp().onTrue(balance);
-  }
+    /* Create JoystickButtons out of the controller IDs declared in constants */
 
-  private void verifyAutoTasks() {
-    exampleAutoTask.verify();
+    /* this is super not the way we do this anymore */
+    /*JoystickButton aButton = new JoystickButton(controller, Constants.ContollerButtons.A_NUMBER);
+    JoystickButton bButton = new JoystickButton(controller, Constants.ContollerButtons.B_NUMBER);
+    JoystickButton xButton = new JoystickButton(controller, Constants.ContollerButtons.X_NUMBER);
+    JoystickButton yButton = new JoystickButton(controller, Constants.ContollerButtons.Y_NUMBER);
+    JoystickButton leftBumper = new JoystickButton(controller, Constants.ContollerButtons.LEFT_BUMPER_NUMBER);
+    JoystickButton rightBumper = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_BUMPER_NUMBER);
+    JoystickButton backButton = new JoystickButton(controller, Constants.ContollerButtons.BACK_NUMBER);
+    JoystickButton startButton = new JoystickButton(controller, Constants.ContollerButtons.START_NUMBER);
+    JoystickButton leftStick = new JoystickButton(controller, Constants.ContollerButtons.LEFT_STICK_NUMBER);
+    JoystickButton rightStick = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_STICK_NUMBER);
+    POVButton dPadUp = new POVButton(controller, 0);
+    POVButton dPadRight= new POVButton(controller, 90);
+    POVButton dPadDown = new POVButton(controller, 180);
+    POVButton dPadLeft = new POVButton(controller, 270);*/
+
+    joystick.trigger().onTrue(openClaw);
+
+    controller.povUp().onTrue(balance);
+
+    joystick
+        .button(2)
+        .onTrue(
+            new MoveToPose(
+                Constants.Arm.Poses.RESET, armShoulder, armBase, armExtender, compilationArm));
+    joystick
+        .button(3)
+        .onTrue(
+            new MoveToPose(
+                Constants.Arm.Poses.PICKUP, armShoulder, armBase, armExtender, compilationArm));
+    joystick
+        .button(11)
+        .onTrue(
+            new MoveToPose(
+                Constants.Arm.Poses.SCORE_LOWER,
+                armShoulder,
+                armBase,
+                armExtender,
+                compilationArm));
+    joystick
+        .button(7)
+        .onTrue(
+            new MoveToPose(
+                Constants.Arm.Poses.SCORE_HIGH_CONE,
+                armShoulder,
+                armBase,
+                armExtender,
+                compilationArm));
+    joystick
+        .button(9)
+        .onTrue(
+            new MoveToPose(
+                Constants.Arm.Poses.SCORE_MID_CONE,
+                armShoulder,
+                armBase,
+                armExtender,
+                compilationArm));
+    joystick
+        .button(8)
+        .onTrue(
+            new MoveToPose(
+                Constants.Arm.Poses.SCORE_HIGH_CUBE,
+                armShoulder,
+                armBase,
+                armExtender,
+                compilationArm));
+    joystick
+        .button(10)
+        .onTrue(
+            new MoveToPose(
+                Constants.Arm.Poses.SCORE_MID_CUBE,
+                armShoulder,
+                armBase,
+                armExtender,
+                compilationArm));
+    joystick
+        .button(12)
+        .onTrue(
+            new MoveToPose(
+                Constants.Arm.Poses.HUMAN_SHELF,
+                armShoulder,
+                armBase,
+                armExtender,
+                compilationArm));
+    joystick
+        .button(1)
+        .onTrue(
+            new MoveToPose(
+                Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));
   }
 
   /**
@@ -73,5 +201,15 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return Autos.exampleAuto(m_exampleSubsystem);
+  }
+
+  public Command getResetCommand() {
+    return new MoveToPose(
+            Constants.Arm.Poses.RESET, armShoulder, armBase, armExtender, compilationArm)
+        .alongWith(armClaw.openClawCommand());
+  }
+
+  public RetractArm getRetractCommand() {
+    return retractArmCommand;
   }
 }

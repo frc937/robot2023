@@ -35,6 +35,18 @@ public class Pose extends Pose3d {
     return new Pose3d(this.getTranslation(), this.getRotation());
   }
 
+  /** If this pose is in inches, get a pose in feet. Do not use if this pose is in inches. */
+  public Pose getFeetFromInches() {
+    final Translation3d newPosition = this.getTranslation().times(1 / 12);
+    return new Pose(new Pose3d(newPosition, getRotation()));
+  }
+
+  /** If this pose is in feet, get a pose in inches. Do not use if this pose is in feet. */
+  public Pose getInchesFromFeet() {
+    final Translation3d newPosition = this.getTranslation().times(12);
+    return new Pose(new Pose3d(newPosition, getRotation()));
+  }
+
   /**
    * Returns this pose, but in world based coordinates This is very useful if you have a pose where
    * (0,0,0) is on the robot. If you know where that (0,0,0) point is oriented in the world, then
