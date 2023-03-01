@@ -152,7 +152,7 @@ public class AStar {
       int v,
       int d) {
 
-    // loops through 
+    // loops through
     for (int i = 0; i < Constants.AStar.FIELD_Y * 2; i++) {
       for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
         // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle
