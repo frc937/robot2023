@@ -12,16 +12,11 @@ import java.util.PriorityQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
 /*
-
  * A* (A Star) path planning uses a grid of Nodes, and assigns values to said Nodes to decide on the best route for the robot.
  * Quick Overview: https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
  * In Depth: https://csis.pace.edu/~benjamin/teaching/cs627/webfiles/Astar.pdf
  * Stolen Code: https://github.com/Suwadith/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java/blob/FinalizedVersion/src/PathFindingOnSquaredGrid.java
  * Copy of this code, but executable https://github.com/Berdenson/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java
- *
- * You may notice how Constants.AStar.FIELD_(Y/X) is being * 2 / 10.
- * * 2 is for the field constant only representing half the field
- * / 10 is for the field's measurements in decimeters.
  */
 
 /** A* class, used to generate a path for the trajectory. */
