@@ -17,19 +17,23 @@ import java.util.concurrent.atomic.AtomicReference;
  * In Depth: https://csis.pace.edu/~benjamin/teaching/cs627/webfiles/Astar.pdf
  * Stolen Code: https://github.com/Suwadith/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java/blob/FinalizedVersion/src/PathFindingOnSquaredGrid.java
  * Copy of this code, but executable https://github.com/Berdenson/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java
+ * 
+ * You may notice how Constants.AStar.FIELD_(Y/X) is being * 2 / 10.
+ * * 2 is for the field constant only representing half the field
+ * / 10 is for the field's measurements in decimeters. 
  */
 
 /** A* class, used to generate a path for the trajectory. */
 public class AStar {
   /** The map of nodes */
-  private static Node[][] cell = new Node[Constants.AStar.FIELD_Y * 2][Constants.AStar.FIELD_X * 2];
+  private static Node[][] cell = new Node[Constants.AStar.FIELD_Y * 2 / 10][Constants.AStar.FIELD_X * 2 / 10];
   /** The pathlist, the path, the line to follow */
   private ArrayList<Node> pathList = new ArrayList<>();
   /** Nodes that no longer need to be aknowledged by the pathfinder */
   private ArrayList<Node> closedList = new ArrayList<>();
   /** The map of obstacles (true if obstacle present) */
   private static boolean[][] grid =
-      new boolean[Constants.AStar.FIELD_Y * 2][Constants.AStar.FIELD_X * 2];
+      new boolean[Constants.AStar.FIELD_Y * 2 / 10][Constants.AStar.FIELD_X * 2 / 10];
   /** Current path object the path generation algorithm is generating */
   private AtomicReference<Path> currPath = new AtomicReference<Path>(new Path());
   /** The path generation thread */
@@ -45,8 +49,8 @@ public class AStar {
 
   static {
     // creates nodes for cell
-    for (int i = 0; i < Constants.AStar.FIELD_Y * 2; i++) {
-      for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
+    for (int i = 0; i < Constants.AStar.FIELD_Y * 2 / 10; i++) {
+      for (int j = 0; j < Constants.AStar.FIELD_X * 2 / 10; j++) {
         cell[i][j] = new Node(i, j);
       }
     }
@@ -86,8 +90,8 @@ public class AStar {
                         startX,
                         endY,
                         endX,
-                        Constants.AStar.FIELD_Y * 2,
-                        Constants.AStar.FIELD_X * 2,
+                        Constants.AStar.FIELD_Y * 2 / 10,
+                        Constants.AStar.FIELD_X * 2 / 10,
                         10,
                         14);
 
@@ -153,8 +157,8 @@ public class AStar {
       int d) {
 
     // loops through
-    for (int i = 0; i < Constants.AStar.FIELD_Y * 2; i++) {
-      for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
+    for (int i = 0; i < Constants.AStar.FIELD_Y * 2 / 10; i++) {
+      for (int j = 0; j < Constants.AStar.FIELD_X * 2 / 10; j++) {
         // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle
         // present)
         if (!matrix[i][j]) {
@@ -173,8 +177,8 @@ public class AStar {
         startX,
         endY,
         endX,
-        Constants.AStar.FIELD_Y * 2,
-        Constants.AStar.FIELD_X * 2,
+        Constants.AStar.FIELD_Y * 2 / 10,
+        Constants.AStar.FIELD_X * 2 / 10,
         v,
         d);
   }
@@ -254,7 +258,7 @@ public class AStar {
       }
 
       // Right Cell
-      if (node.getX() != Constants.AStar.FIELD_X * 2 - 1) {
+      if (node.getX() != Constants.AStar.FIELD_X * 2 / 10 - 1) {
         if (cell[node.getY()][node.getX() + 1].hValue != -1
             && !openList.contains(cell[node.getY()][node.getX() + 1])
             && !closedList.contains(cell[node.getY()][node.getX() + 1])) {
@@ -271,7 +275,7 @@ public class AStar {
       }
 
       // Bottom Cell
-      if (node.getY() != Constants.AStar.FIELD_Y * 2 - 1) {
+      if (node.getY() != Constants.AStar.FIELD_Y * 2 / 10 - 1) {
         if (cell[node.getY() + 1][node.getX()].hValue != -1
             && !openList.contains(cell[node.getY() + 1][node.getX()])
             && !closedList.contains(cell[node.getY() + 1][node.getX()])) {
@@ -322,7 +326,7 @@ public class AStar {
       }
 
       // TopRight Cell
-      if (node.getY() != 0 && node.getX() != Constants.AStar.FIELD_X * 2 - 1) {
+      if (node.getY() != 0 && node.getX() != Constants.AStar.FIELD_X * 2 / 10 - 1) {
         if (cell[node.getY() - 1][node.getX() + 1].hValue != -1
             && !openList.contains(cell[node.getY() - 1][node.getX() + 1])
             && !closedList.contains(cell[node.getY() - 1][node.getX() + 1])) {
@@ -339,7 +343,7 @@ public class AStar {
       }
 
       // BottomLeft Cell
-      if (node.getY() != Constants.AStar.FIELD_Y * 2 - 1 && node.getX() != 0) {
+      if (node.getY() != Constants.AStar.FIELD_Y * 2 / 10 - 1 && node.getX() != 0) {
         if (cell[node.getY() + 1][node.getX() - 1].hValue != -1
             && !openList.contains(cell[node.getY() + 1][node.getX() - 1])
             && !closedList.contains(cell[node.getY() + 1][node.getX() - 1])) {
@@ -356,8 +360,8 @@ public class AStar {
       }
 
       // BottomRight Cell
-      if (node.getY() != Constants.AStar.FIELD_Y * 2 - 1
-          && node.getX() != Constants.AStar.FIELD_X * 2 - 1) {
+      if (node.getY() != Constants.AStar.FIELD_Y * 2 / 10 - 1
+          && node.getX() != Constants.AStar.FIELD_X * 2 / 10 - 1) {
         if (cell[node.getY() + 1][node.getX() + 1].hValue != -1
             && !openList.contains(cell[node.getY() + 1][node.getX() + 1])
             && !closedList.contains(cell[node.getY() + 1][node.getX() + 1])) {
