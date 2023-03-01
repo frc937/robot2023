@@ -10,6 +10,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.concurrent.atomic.AtomicReference;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
  * A* (A Star) path planning uses a grid of Nodes, and assigns values to said Nodes to decide on the best route for the robot.
@@ -96,12 +98,10 @@ public class AStar {
                 // Outputs whether or not the pathlist *is* a pathlist
                 if (cell[startY][startX].hValue != -1 && pathList.contains(cell[endY][endX])) {
 
-                  // TODO: THIS SHOULD OUTPUT TO SHUFFLEBOARD
-                  System.out.println("Euclidean Path Found");
+                  SmartDashboard.putString("Euclidean Path Found ", "i suppose yes");
 
                 } else {
-                  // TODO: THIS SHOULD OUTPUT TO SHUFFLEBOARD
-                  System.out.println("Euclidean Path Not found");
+                  SmartDashboard.putString("Euclidean Path Found ", "actually no");
                 }
 
                 /*
