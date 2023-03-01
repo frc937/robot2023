@@ -103,7 +103,7 @@ public class AStar {
                 }
 
                 /*
-                 * Converts the pathlist from Node(int cm) to double[] meters relative to the center (origin) of the field.
+                 * Converts the pathlist from Node(int cm) to Path(double[] meters) relative to the center (origin) of the field.
                  * Purely for the final return.
                  */
                 ArrayList<Double[]> pathListInMeters = new ArrayList<Double[]>();
@@ -115,7 +115,9 @@ public class AStar {
                   pathListInMeters.add(tempNode);
                 }
 
+                // Reverses the values, as they are normally ordered end pt. to start pt..
                 Collections.reverse(pathListInMeters);
+
                 currPath.set(new Path(pathListInMeters));
               });
     }
@@ -150,20 +152,21 @@ public class AStar {
       int v,
       int d) {
 
+    // loops through 
     for (int i = 0; i < Constants.AStar.FIELD_Y * 2; i++) {
       for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
         // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle
-        // absent)
+        // present)
         if (!matrix[i][j]) {
           // Assigning the Euclidean Heuristic value
           cell[i][j].hValue = (int) (Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
         } else {
-          // If the boolean value is false (it's an obstacle), then assigning -1 instead of the
-          // absolute length
+          // If the boolean value is true (it's an obstacle), it's assigned -1 as a "heuristic"
           cell[i][j].hValue = -1;
         }
       }
     }
+
     return generatePath(
         cell,
         startY,
@@ -211,7 +214,6 @@ public class AStar {
     // Adds the Starting cell inside the openList
     openList.add(cell[startY][startX]);
 
-    // Executes the rest if there are objects left inside the PriorityQueue
     while (true) {
 
       // Gets and removes the objects that's stored on the top of the openList and
@@ -223,9 +225,10 @@ public class AStar {
         break;
       }
 
-      // Checks if whether the node returned is having the same node object values of
-      // the ending point
-      // If it des then stores that inside the closedList and breaks the while loop
+      /*
+       * Checks if the current node is the end node, and if so, break
+       * This is what ends the while loop (if path is found)
+       */
       if (node == cell[endY][endX]) {
         closedList.add(node);
         break;
@@ -370,15 +373,6 @@ public class AStar {
         }
       }
     }
-
-    /*
-     * for (int i = 0; i < n; ++i) {
-     * for (int j = 0; j < n; ++j) {
-     * System.out.print(cell[i][j].fValue + "    ");
-     * }
-     * System.out.println();
-     * }
-     */
 
     // Assigns the last Object in the closedList to the endNode variable
     Node endNode = closedList.get(closedList.size() - 1);
