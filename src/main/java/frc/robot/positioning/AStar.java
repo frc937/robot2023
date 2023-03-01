@@ -12,6 +12,7 @@ import java.util.PriorityQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
 /*
+
  * A* (A Star) path planning uses a grid of Nodes, and assigns values to said Nodes to decide on the best route for the robot.
  * Quick Overview: https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
  * In Depth: https://csis.pace.edu/~benjamin/teaching/cs627/webfiles/Astar.pdf
@@ -27,14 +28,14 @@ import java.util.concurrent.atomic.AtomicReference;
 public class AStar {
   /** The map of nodes */
   private static Node[][] cell =
-      new Node[Constants.AStar.FIELD_Y * 2 / 10][Constants.AStar.FIELD_X * 2 / 10];
+      new Node[Constants.AStar.FIELD_Y][Constants.AStar.FIELD_X];
   /** The pathlist, the path, the line to follow */
   private ArrayList<Node> pathList = new ArrayList<>();
   /** Nodes that no longer need to be aknowledged by the pathfinder */
   private ArrayList<Node> closedList = new ArrayList<>();
   /** The map of obstacles (true if obstacle present) */
   private static boolean[][] grid =
-      new boolean[Constants.AStar.FIELD_Y * 2 / 10][Constants.AStar.FIELD_X * 2 / 10];
+      new boolean[Constants.AStar.FIELD_Y][Constants.AStar.FIELD_X];
   /** Current path object the path generation algorithm is generating */
   private AtomicReference<Path> currPath = new AtomicReference<Path>(new Path());
   /** The path generation thread */
@@ -50,8 +51,8 @@ public class AStar {
 
   static {
     // creates nodes for cell
-    for (int i = 0; i < Constants.AStar.FIELD_Y * 2 / 10; i++) {
-      for (int j = 0; j < Constants.AStar.FIELD_X * 2 / 10; j++) {
+    for (int i = 0; i < Constants.AStar.FIELD_Y; i++) {
+      for (int j = 0; j < Constants.AStar.FIELD_X; j++) {
         cell[i][j] = new Node(i, j);
       }
     }
@@ -91,8 +92,8 @@ public class AStar {
                         startX,
                         endY,
                         endX,
-                        Constants.AStar.FIELD_Y * 2 / 10,
-                        Constants.AStar.FIELD_X * 2 / 10,
+                        Constants.AStar.FIELD_Y,
+                        Constants.AStar.FIELD_X,
                         10,
                         14);
 
@@ -114,8 +115,8 @@ public class AStar {
                 ArrayList<Double[]> pathListInMeters = new ArrayList<Double[]>();
                 for (Node node : pathList) {
                   Double tempNode[] = {
-                    (double) (node.getY() - Constants.AStar.FIELD_X) / 100,
-                    (double) (node.getX() - Constants.AStar.FIELD_Y) / 100
+                    (double) (node.getY() - Constants.Game.Field.FIELD_X) / 100,
+                    (double) (node.getX() - Constants.Game.Field.FIELD_Y) / 100
                   };
                   pathListInMeters.add(tempNode);
                 }
@@ -158,8 +159,8 @@ public class AStar {
       int d) {
 
     // loops through
-    for (int i = 0; i < Constants.AStar.FIELD_Y * 2 / 10; i++) {
-      for (int j = 0; j < Constants.AStar.FIELD_X * 2 / 10; j++) {
+    for (int i = 0; i < Constants.AStar.FIELD_Y; i++) {
+      for (int j = 0; j < Constants.AStar.FIELD_X; j++) {
         // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle
         // present)
         if (!matrix[i][j]) {
@@ -178,8 +179,8 @@ public class AStar {
         startX,
         endY,
         endX,
-        Constants.AStar.FIELD_Y * 2 / 10,
-        Constants.AStar.FIELD_X * 2 / 10,
+        Constants.AStar.FIELD_Y,
+        Constants.AStar.FIELD_X,
         v,
         d);
   }
@@ -259,7 +260,7 @@ public class AStar {
       }
 
       // Right Cell
-      if (node.getX() != Constants.AStar.FIELD_X * 2 / 10 - 1) {
+      if (node.getX() != Constants.AStar.FIELD_X - 1) {
         if (cell[node.getY()][node.getX() + 1].hValue != -1
             && !openList.contains(cell[node.getY()][node.getX() + 1])
             && !closedList.contains(cell[node.getY()][node.getX() + 1])) {
@@ -276,7 +277,7 @@ public class AStar {
       }
 
       // Bottom Cell
-      if (node.getY() != Constants.AStar.FIELD_Y * 2 / 10 - 1) {
+      if (node.getY() != Constants.AStar.FIELD_Y - 1) {
         if (cell[node.getY() + 1][node.getX()].hValue != -1
             && !openList.contains(cell[node.getY() + 1][node.getX()])
             && !closedList.contains(cell[node.getY() + 1][node.getX()])) {
@@ -327,7 +328,7 @@ public class AStar {
       }
 
       // TopRight Cell
-      if (node.getY() != 0 && node.getX() != Constants.AStar.FIELD_X * 2 / 10 - 1) {
+      if (node.getY() != 0 && node.getX() != Constants.AStar.FIELD_X - 1) {
         if (cell[node.getY() - 1][node.getX() + 1].hValue != -1
             && !openList.contains(cell[node.getY() - 1][node.getX() + 1])
             && !closedList.contains(cell[node.getY() - 1][node.getX() + 1])) {
@@ -344,7 +345,7 @@ public class AStar {
       }
 
       // BottomLeft Cell
-      if (node.getY() != Constants.AStar.FIELD_Y * 2 / 10 - 1 && node.getX() != 0) {
+      if (node.getY() != Constants.AStar.FIELD_Y - 1 && node.getX() != 0) {
         if (cell[node.getY() + 1][node.getX() - 1].hValue != -1
             && !openList.contains(cell[node.getY() + 1][node.getX() - 1])
             && !closedList.contains(cell[node.getY() + 1][node.getX() - 1])) {
@@ -361,8 +362,8 @@ public class AStar {
       }
 
       // BottomRight Cell
-      if (node.getY() != Constants.AStar.FIELD_Y * 2 / 10 - 1
-          && node.getX() != Constants.AStar.FIELD_X * 2 / 10 - 1) {
+      if (node.getY() != Constants.AStar.FIELD_Y - 1
+          && node.getX() != Constants.AStar.FIELD_X - 1) {
         if (cell[node.getY() + 1][node.getX() + 1].hValue != -1
             && !openList.contains(cell[node.getY() + 1][node.getX() + 1])
             && !closedList.contains(cell[node.getY() + 1][node.getX() + 1])) {

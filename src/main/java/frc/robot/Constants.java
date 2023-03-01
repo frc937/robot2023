@@ -161,6 +161,18 @@ public final class Constants {
   /** Holds constants for things not related to the robot */
   public static class Game {
     public static class Field {
+      
+      /**
+       * Half the length of the field relative to the origin. Positive for Max, Negative for Min.
+       * Measured in cm.
+       */
+      public static final int FIELD_X = 1654 / 2;
+      /**
+       * Half the width of the field relative to the origin. Positive for Max, Negative for Min.
+       * Measured in cm.
+       */
+      public static final int FIELD_Y = 802 / 2;
+
       public static class Grid {
         public static class ConeNode {
           public static class Top {
@@ -246,16 +258,20 @@ public final class Constants {
    * frc.robot.positioning.AStar}.
    */
   public static class AStar {
-    /**
-     * Half the length of the field relative to the origin. Positive for Max, Negative for Min.
-     * Measured in cm.
+    /* 
+     * Values are *2 as they are accessing half the length of the field
+     * Values are /10 as they are in decimeters (/100 for centi and so on)
      */
-    public static final int FIELD_X = 1654 / 2;
     /**
-     * Half the width of the field relative to the origin. Positive for Max, Negative for Min.
-     * Measured in cm.
+     * The full length of the field.
+     * Measured in decimeters.
      */
-    public static final int FIELD_Y = 802 / 2;
+    public static final int FIELD_X = Game.Field.FIELD_X * 2 / 10;
+    /**
+     * The full length of the field.
+     * Measured in decimeters.
+     */
+    public static final int FIELD_Y = Game.Field.FIELD_Y * 2 / 10;
   }
   /**
    * General constants for the balance command. Primarily used by {@link
