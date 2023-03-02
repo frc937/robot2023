@@ -6,9 +6,11 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.Encoder;
 
 /**
  * Subsystem that represents the base of the arm, which (if mechanical implements it) will be able
@@ -19,6 +21,7 @@ public class ArmBase extends SubsystemBase {
   private WPI_TalonSRX armBaseMotor;
   private double uniBaseDegrees;
   private double baseRotation;
+  
 
   /** Creates a new ArmBase. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmBase() {
@@ -39,7 +42,7 @@ public class ArmBase extends SubsystemBase {
      */
     WPI_TalonSRX talon = new WPI_TalonSRX(id);
     // talon.configFactoryDefault();
-    talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     talon.setSensorPhase(Constants.Arm.INVERTED_TALON_SENSOR_ARM_BASE);
     talon.setInverted(Constants.Arm.INVERTED_TALON_ARM_BASE);
     // talon.config_kP(0, Constants.Arm.BasePID.kP);
@@ -49,6 +52,10 @@ public class ArmBase extends SubsystemBase {
 
     return talon;
   }
+
+  
+
+  
 
   public void manualMoveArmBase(double x) {
     armBaseMotor.set(ControlMode.PercentOutput, x);
