@@ -6,7 +6,9 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -21,6 +23,8 @@ public class ArmBase extends SubsystemBase {
   private WPI_TalonSRX armBaseMotor;
   private double uniBaseDegrees;
   private double baseRotation;
+  private boolean isTripped;
+  private SensorCollection sensorCollection;
   
 
   /** Creates a new ArmBase. Should be called once from {@link frc.robot.RobotContainer}. */
@@ -44,14 +48,24 @@ public class ArmBase extends SubsystemBase {
     // talon.configFactoryDefault();
     talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     talon.setSensorPhase(Constants.Arm.INVERTED_TALON_SENSOR_ARM_BASE);
+
     talon.setInverted(Constants.Arm.INVERTED_TALON_ARM_BASE);
     // talon.config_kP(0, Constants.Arm.BasePID.kP);
     // talon.config_kI(0, Constants.Arm.BasePID.kI);
     // talon.config_kD(0, Constants.Arm.BasePID.kD);
     // talon.config_kF(0, Constants.Arm.BasePID.kFF);
 
+
+
+    
+
     return talon;
   }
+
+  public boolean baseLimitSwitch() {
+    return sensorCollection.isFwdLimitSwitchClosed() && sensorCollection.isRevLimitSwitchClosed();
+  }
+
 
   
 
