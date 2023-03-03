@@ -7,18 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.ArmShoulder;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.SensorCollection;
-import frc.robot.Constants.Arm;
 public class HomingRoutine extends CommandBase {
 
   private final ArmBase armBase;
   private final ArmShoulder armShoulder;
-  private WPI_TalonSRX armBaseMotor;
-  private SensorCollection sensorCollection;
   
   /** Creates a new EncoderReset. */
   public HomingRoutine(ArmBase armBaseSubsystem, ArmShoulder armShoulderSubsystem) {
