@@ -96,6 +96,10 @@ public class ArmBase extends SubsystemBase {
   public void changeBaseSpeed(double velocity) {
     armBaseMotor.set(ControlMode.Velocity, velocity);
   }
+  /** Resets the base encoder, mainly used for the homing routine. */
+  public void resetBaseEncoder() {
+    sensorCollection.setQuadraturePosition(0, 0);
+  }
   /** Gets the rotation of the base motor in degrees. */
   public void getBaseRotation() {
     baseRotation = (((armBaseMotor.getSelectedSensorPosition() / 4096) * 360));

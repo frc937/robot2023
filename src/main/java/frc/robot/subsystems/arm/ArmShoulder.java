@@ -95,6 +95,11 @@ public class ArmShoulder extends SubsystemBase {
     return sensorCollection.isRevLimitSwitchClosed();
   }
 
+  /** Resets the Shoulder Encoder, mainly used for the homing routine. */
+  public void resetShoulderEncoder() {
+    sensorCollection.setQuadraturePosition(0, 0);
+  }
+
   /** Stops the shoulder from moving. */
   public void stop() {
     armShoulderMotor.stopMotor();
