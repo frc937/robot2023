@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 
 /**
  * Subsystem that represents the "shoulder" of the arm; that is, the motor which will rotate the arm
@@ -19,11 +20,14 @@ public class ArmShoulder extends SubsystemBase {
   WPI_TalonSRX armShoulderMotor;
   private double shoulderRotation;
   private double uniShoulderDegrees;
+  SensorCollection sensorCollection;
 
   /** Creates a new ArmShoulder. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmShoulder() {
     armShoulderMotor = configTalon(Constants.Arm.ID_TALON_ARM_SHOULDER);
   }
+
+  
 
   /* TODO: Consider moving this method to a static class. It's not super useful here or in the other arm classes. */
   /**
@@ -86,6 +90,10 @@ public class ArmShoulder extends SubsystemBase {
     }
   }
 
+  public boolean shoulderLimitSwitch() {
+    return sensorCollection.isRevLimitSwitchClosed();
+  }
+
   /** Stops the shoulder from moving. */
   public void stop() {
     armShoulderMotor.stopMotor();
@@ -95,5 +103,7 @@ public class ArmShoulder extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+
   }
 }
