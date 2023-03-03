@@ -93,7 +93,7 @@ public class ArmBase extends SubsystemBase {
     uniBaseDegrees = degrees;
   }
   /** Changes the speed of the base motor. Mainly just for the homing routine. */
-  public void changeBaseSpeed(int velocity) {
+  public void changeBaseSpeed(double velocity) {
     armBaseMotor.set(ControlMode.Velocity, velocity);
   }
   /** Gets the rotation of the base motor in degrees. */

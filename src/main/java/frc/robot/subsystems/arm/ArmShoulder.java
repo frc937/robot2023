@@ -100,7 +100,7 @@ public class ArmShoulder extends SubsystemBase {
     armShoulderMotor.stopMotor();
   }
   /** sets the speed of the shoulder motor. Mainly just for the homing routine. */
-  public void changeShoulderSpeed(int velocity) {
+  public void changeShoulderSpeed(double velocity) {
     armShoulderMotor.set(ControlMode.Velocity, velocity);
   }
 
