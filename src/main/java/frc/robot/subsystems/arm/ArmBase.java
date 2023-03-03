@@ -61,7 +61,7 @@ public class ArmBase extends SubsystemBase {
 
     return talon;
   }
-
+  /** Checks if the base limit switch is closed. */
   public boolean baseLimitSwitch() {
     return sensorCollection.isFwdLimitSwitchClosed() && sensorCollection.isRevLimitSwitchClosed();
   }
@@ -92,11 +92,16 @@ public class ArmBase extends SubsystemBase {
     armBaseMotor.set(ControlMode.Position, degrees);
     uniBaseDegrees = degrees;
   }
-
+  /** Changes the speed of the base motor. Mainly just for the homing routine. */
+  public void changeBaseSpeed(int velocity) {
+    armBaseMotor.set(ControlMode.Velocity, velocity);
+  }
+  /** Gets the rotation of the base motor in degrees. */
   public void getBaseRotation() {
     baseRotation = (((armBaseMotor.getSelectedSensorPosition() / 4096) * 360));
   }
-
+  /** Checks if the base motor is at the setpoint.
+   */
   public boolean isBaseAtSetpoint() {
     if ((baseRotation - uniBaseDegrees) > 5 || ((baseRotation - uniBaseDegrees) < -5)) {
       return false;

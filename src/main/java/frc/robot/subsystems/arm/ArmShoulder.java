@@ -90,6 +90,7 @@ public class ArmShoulder extends SubsystemBase {
     }
   }
 
+  /** Checks if the shoulder limit switch is closed, returns a true if it is. */
   public boolean shoulderLimitSwitch() {
     return sensorCollection.isRevLimitSwitchClosed();
   }
@@ -97,6 +98,10 @@ public class ArmShoulder extends SubsystemBase {
   /** Stops the shoulder from moving. */
   public void stop() {
     armShoulderMotor.stopMotor();
+  }
+  /** sets the speed of the shoulder motor. Mainly just for the homing routine. */
+  public void changeShoulderSpeed(int velocity) {
+    armShoulderMotor.set(ControlMode.Velocity, velocity);
   }
 
   /** Subsystem periodic; called every scheduler run. Not used in this subsystem. */
