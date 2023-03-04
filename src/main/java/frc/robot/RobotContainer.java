@@ -41,13 +41,15 @@ public class RobotContainer {
   private final ArmClaw armClaw = new ArmClaw();
   private final CompilationArm compilationArm =
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
-  private final ManualArm manualArm = new ManualArm(armBase, armShoulder);
+  private final ManualArm manualArm = new ManualArm(armBase, armShoulder, armExtender);
   private final Pose pose = new Pose();
   private RetractArm retractArmCommand = new RetractArm(armExtender);
 
   private final Balance balance = new Balance(driveSubsystem);
 
   private final Command openClaw = armClaw.openClawCommand();
+
+  
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
@@ -64,6 +66,10 @@ public class RobotContainer {
     return controller.getRightY();
   }
 
+  public static double getLeftYAxis() {
+    return controller.getLeftY();
+  }
+
   private static double scaleAxis(double a) {
     return Math.signum(a) * Math.pow(a, 2);
   }
@@ -76,11 +82,17 @@ public class RobotContainer {
     return scaleAxis(getRightYAxis());
   }
 
+  public static double getScaledLeftYAxis() {
+    return scaleAxis(getLeftYAxis());
+  }
+
   public RobotContainer() {
     configureBindings();
 
     compilationArm.setDefaultCommand(manualArm);
   }
+
+  
 
   public Pose containerGetArmPose() {
 
@@ -114,6 +126,8 @@ public class RobotContainer {
     POVButton dPadRight= new POVButton(controller, 90);
     POVButton dPadDown = new POVButton(controller, 180);
     POVButton dPadLeft = new POVButton(controller, 270);*/
+
+   
 
     joystick.trigger().onTrue(openClaw);
 
