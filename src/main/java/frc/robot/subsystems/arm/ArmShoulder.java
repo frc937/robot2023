@@ -100,6 +100,10 @@ public class ArmShoulder extends SubsystemBase {
     sensorCollection.setQuadraturePosition(0, 0);
   }
 
+  public void getShoulderQuad() {
+    System.out.println(sensorCollection.getQuadraturePosition());
+  }
+
   /** Stops the shoulder from moving. */
   public void stop() {
     armShoulderMotor.stopMotor();

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import edu.wpi.first.wpilibj.Encoder;
 
+
 /**
  * Subsystem that represents the base of the arm, which (if mechanical implements it) will be able
  * to rotate to a given setpoint.
@@ -99,6 +100,10 @@ public class ArmBase extends SubsystemBase {
   /** Resets the base encoder, mainly used for the homing routine. */
   public void resetBaseEncoder() {
     sensorCollection.setQuadraturePosition(0, 0);
+  }
+
+  public void getBaseQuad() {
+    System.out.println(sensorCollection.getQuadraturePosition());
   }
   /** Gets the rotation of the base motor in degrees. */
   public void getBaseRotation() {

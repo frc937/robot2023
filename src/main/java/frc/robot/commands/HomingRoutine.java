@@ -47,6 +47,9 @@ public class HomingRoutine extends CommandBase {
       armShoulder.changeShoulderSpeed(0);
       armShoulder.resetShoulderEncoder();
     }
+
+    armBase.getBaseQuad();
+    armShoulder.getShoulderQuad();
   }
 
   // Called once the command ends or is interrupted.
