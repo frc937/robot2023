@@ -211,8 +211,10 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return Autos.homingRoutine(armShoulder, armBase);
   }
+
+  
 
   public Command getResetCommand() {
     return new MoveToPose(

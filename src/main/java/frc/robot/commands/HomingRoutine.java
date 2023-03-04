@@ -12,7 +12,7 @@ public class HomingRoutine extends CommandBase {
   private final ArmBase armBase;
   private final ArmShoulder armShoulder;
   
-  /** Creates a new EncoderReset. */
+  /** Creates a new Homing Routine. */
   public HomingRoutine(ArmBase armBaseSubsystem, ArmShoulder armShoulderSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
 
@@ -51,6 +51,8 @@ public class HomingRoutine extends CommandBase {
     armBase.getBaseQuad();
     armShoulder.getShoulderQuad();
   }
+
+  
 
   // Called once the command ends or is interrupted.
   @Override
