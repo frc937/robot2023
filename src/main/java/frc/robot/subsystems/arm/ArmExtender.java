@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.arm;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
@@ -33,6 +34,10 @@ public class ArmExtender extends SubsystemBase {
     extenderAtSetpoint = false;
   }
 
+  public void manualMoveArmExtender(double x) {
+    winch.set(ControlMode.PercentOutput, x);
+  }
+
   /**
    * If the length sensor has a valid reading, this method will return the length of the arm from
    * the shoulder to the claw.
@@ -59,6 +64,8 @@ public class ArmExtender extends SubsystemBase {
   public boolean isExtenderAtSetpoint() {
     return extenderAtSetpoint;
   }
+
+
 
   /**
    * Directs arm towards setpoint. Since this is the periodic method, this is called every time the
