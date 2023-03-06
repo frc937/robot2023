@@ -11,11 +11,12 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import frc.robot.positioning.Path;
+import frc.robot.positioning.AStar;
 import frc.robot.Constants;
 import java.util.ArrayList;
 
 /**
- * Static utility class for generating WPILib {@link Trajectory Trajectories} from A* {@link Path
+ * Static utility class for generating WPILib {@link Trajectory Trajectories} from {@link AStar A*} {@link Path
  * Paths}.
  */
 public class AStarTrajectoryGenerator {
