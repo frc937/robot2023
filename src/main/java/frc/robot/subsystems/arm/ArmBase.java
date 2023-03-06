@@ -64,7 +64,7 @@ public class ArmBase extends SubsystemBase {
   }
   /** Checks if the base limit switch is closed. */
   public boolean baseLimitSwitch() {
-    return sensorCollection.isFwdLimitSwitchClosed() && sensorCollection.isRevLimitSwitchClosed();
+    return sensorCollection.isFwdLimitSwitchClosed() || sensorCollection.isRevLimitSwitchClosed();
   }
 
 
