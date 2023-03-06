@@ -36,13 +36,13 @@ public class HomingRoutine extends CommandBase {
   public void execute() {
 
     if(!armBase.baseLimitSwitch()) {
-      armBase.changeBaseSpeed(0.5);
+      armBase.changeBaseSpeed(0.1);
     } else {
       armBase.changeBaseSpeed(0);
       armBase.resetBaseEncoder();
     }
     if(!armShoulder.shoulderLimitSwitch()) {
-      armShoulder.changeShoulderSpeed(0.5);
+      armShoulder.changeShoulderSpeed(0.1);
     } else {
       armShoulder.changeShoulderSpeed(0);
       armShoulder.resetShoulderEncoder();
