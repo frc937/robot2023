@@ -29,10 +29,10 @@ public class Drive extends SubsystemBase {
   /** Creates a new drivetrain using IDs from {@link Constants.DriveConstants}. */
   public Drive() {
     /* Instantiates the motor controllers for each mecanum wheel. */
-    frontLeft = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_FRONT_LEFT);
-    frontRight = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_FRONT_RIGHT);
-    rearLeft = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_REAR_LEFT);
-    rearRight = new WPI_TalonSRX(Constants.DriveConstants.ID_TALON_REAR_RIGHT);
+    frontLeft = new WPI_TalonSRX(Constants.Drive.ID_TALON_FRONT_LEFT);
+    frontRight = new WPI_TalonSRX(Constants.Drive.ID_TALON_FRONT_RIGHT);
+    rearLeft = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_LEFT);
+    rearRight = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_RIGHT);
 
     /* "Makes the robot not go whee-whee" - Quinn */
     /* In actuality this inverts the right side of the drivetrain, since WPIlib doesn't do that for us anymore.

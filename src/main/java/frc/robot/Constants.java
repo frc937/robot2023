@@ -5,6 +5,8 @@
 package frc.robot;
 
 import frc.robot.positioning.Pose;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -30,12 +32,52 @@ public final class Constants {
   }
 
   /** General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}. */
-  public static class DriveConstants {
+  public static class Drive {
     /* CAN IDs for the drivetrain motor controllers */
     public static final int ID_TALON_FRONT_LEFT = 0;
     public static final int ID_TALON_FRONT_RIGHT = 1;
     public static final int ID_TALON_REAR_LEFT = 2;
     public static final int ID_TALON_REAR_RIGHT = 3;
+
+    /* Locations of mecanum drive wheels relative to the center of the robot
+     * For use with MecanumDriveKinematics
+     */
+    /* these are real/tuned */
+    public static final Translation2d LOCATION_WHEEL_FRONT_LEFT =
+        new Translation2d(Units.feetToMeters(10 + (7 / 8)), Units.feetToMeters(8 + (5 / 8)));
+    public static final Translation2d LOCATION_WHEEL_FRONT_RIGHT =
+        new Translation2d(Units.feetToMeters(10 + (7 / 8)), Units.feetToMeters(8 + (5 / 8)));
+    public static final Translation2d LOCATION_WHEEL_REAR_LEFT =
+        new Translation2d(Units.feetToMeters(10 + (7 / 8)), Units.feetToMeters(8 + (5 / 8)));
+    public static final Translation2d LOCATION_WHEEL_REAR_RIGHT =
+        new Translation2d(Units.feetToMeters(10 + (7 / 8)), Units.feetToMeters(8 + (5 / 8)));
+
+    /* pain */
+    /* TODO: sysid characterization */
+    public static class HolonomicController {
+      public static class XController {
+        public static final double P = 1.0;
+        public static final double I = 0.0;
+        public static final double D = 0.0;
+      }
+
+      public static class YController {
+        public static final double P = 1.0;
+        public static final double I = 0.0;
+        public static final double D = 0.0;
+      }
+
+      public static class ThetaController {
+        public static final double P = 1.0;
+        public static final double I = 0.0;
+        public static final double D = 0.0;
+
+        public static class Constraints {
+          public static final double MAX_VELOCITY = 5.0;
+          public static final double MAX_ACCELERATION = 3.0;
+        }
+      }
+    }
   }
 
   public static class Arm {
