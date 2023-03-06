@@ -199,11 +199,11 @@ public abstract class AutoTask {
   public void verify() {
     System.out.println();
     System.out.println("================================================================");
-    System.out.println("Checking if taskPosition was ran in " + this.getClass().getName());
+    System.out.println("Checking if taskPosition was ran in " + this.getClass().getName() + "\n");
     if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
       System.out.println(
           "Taskpos was not ran. In order for a AutoTask to be valid taskpos HAS to be ran in the"
-              + " constructor");
+              + " constructor\n");
       throw new UnsupportedOperationException(
           "Verification failed because taskpos was not ran in the constructor.");
 
@@ -211,11 +211,14 @@ public abstract class AutoTask {
       verified = true;
     }
     if (!positionKnown) {
-      System.out.println("Warning: The position of this task is unknown. For this task to be useful, the position has to be known.");
+      System.out.println("Warning: The position of this task is unknown.");
+      System.out.println("This means that this autotask will not run because the robot does not know where to go.");
     }
     if (verified) {
+      System.out.println();
       System.out.println("Autotask verified.");
     }
+
     System.out.println("================================================================");
   }
 }

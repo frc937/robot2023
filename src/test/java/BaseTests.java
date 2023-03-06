@@ -1,4 +1,6 @@
 import frc.robot.RobotContainer;
+import frc.robot.commands.autotasks.ExampleAutoTask;
+
 import org.junit.jupiter.api.Test;
 
 public class BaseTests {
@@ -10,6 +12,6 @@ public class BaseTests {
 
   @Test
   public void TestAutoTasks() {
-    new RobotContainer();
+    new ExampleAutoTask(null).verify();
   }
 }
