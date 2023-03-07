@@ -13,7 +13,6 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.autotasks.ExampleAutoTask;
-import frc.robot.commands.autotasks.GoToBalance;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
@@ -59,7 +58,6 @@ public class RobotContainer {
 
   /* AUTO TASKS */
   private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
-  private final GoToBalance goToBalance = new GoToBalance(balance)
 
   private final Command openClaw = armClaw.openClawCommand();
 
@@ -208,7 +206,6 @@ public class RobotContainer {
 
   private void verifyAutoTasks() {
     exampleAutoTask.verify();
-    goToBalance.verify();
 
   }
 
