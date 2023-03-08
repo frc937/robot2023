@@ -137,11 +137,6 @@ public class RobotContainer {
     joystick.trigger().onTrue(openClaw);
 
     controller.povUp().onTrue(balance);
-  }
-
-  private void verifyAutoTasks() {
-    exampleAutoTask.verify();
-
     joystick
         .button(2)
         .onTrue(
