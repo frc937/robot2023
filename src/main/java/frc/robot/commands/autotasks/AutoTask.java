@@ -142,7 +142,7 @@ public abstract class AutoTask {
   }
 
   /**
-   * Use instead of execute. Functions as execute but with a position arguemnt.
+   * Use instead of execute. Functions as execute but with a position argument.
    *
    * @param position the current position of the robot when update is ran.
    */
