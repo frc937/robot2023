@@ -115,7 +115,7 @@ public abstract class AutoTask {
   }
 
   /*
-   * Update the arrived sequence of the task. If the task hasent arrived at the
+   * Update the arrived sequence of the task. If the task hasn't arrived at the
    * desination the command is bypassed.
    */
   private void updateArrived() {
