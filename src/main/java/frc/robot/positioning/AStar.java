@@ -98,6 +98,7 @@ public class AStar {
                 // Outputs whether or not the pathlist *is* a pathlist
                 if (cell[startY][startX].hValue != -1 && pathList.contains(cell[endY][endX])) {
 
+                  //TODO: PLEASE PLEASE PLEASE CHANGE THESE MESSAGES
                   SmartDashboard.putString("Euclidean Path Found ", "it's ready OWO");
 
                 } else {
