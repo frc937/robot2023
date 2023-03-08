@@ -6,28 +6,34 @@ package frc.robot.positioning;
 
 import frc.robot.Constants;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.concurrent.atomic.AtomicReference;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /*
  * A* (A Star) path planning uses a grid of Nodes, and assigns values to said Nodes to decide on the best route for the robot.
  * Quick Overview: https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
  * In Depth: https://csis.pace.edu/~benjamin/teaching/cs627/webfiles/Astar.pdf
  * Stolen Code: https://github.com/Suwadith/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java/blob/FinalizedVersion/src/PathFindingOnSquaredGrid.java
+ * Copy of this code, but executable https://github.com/Berdenson/A-Star-Shortest-Pathfinding-Algorithm-Square-Grid-Java
  */
 
 /** A* class, used to generate a path for the trajectory. */
 public class AStar {
+
   /** The map of nodes */
-  private static Node[][] cell = new Node[Constants.AStar.FIELD_Y * 2][Constants.AStar.FIELD_X * 2];
-  /** Likely the path */
+  private static Node[][] cell =
+      new Node[Constants.AStar.FIELD_Y][Constants.AStar.FIELD_X];
+  /** The pathlist, the path, the line to follow */
   private ArrayList<Node> pathList = new ArrayList<>();
   /** Nodes that no longer need to be aknowledged by the pathfinder */
   private ArrayList<Node> closedList = new ArrayList<>();
-  /** The map of obstacles (false if obstacle present) */
+  /** The map of obstacles (true if obstacle present) */
   private static boolean[][] grid =
-      new boolean[Constants.AStar.FIELD_Y * 2][Constants.AStar.FIELD_X * 2];
+      new boolean[Constants.AStar.FIELD_Y][Constants.AStar.FIELD_X];
   /** Current path object the path generation algorithm is generating */
   private AtomicReference<Path> currPath = new AtomicReference<Path>(new Path());
   /** The path generation thread */
@@ -43,17 +49,18 @@ public class AStar {
 
   static {
     // creates nodes for cell
-    for (int i = 0; i < Constants.AStar.FIELD_Y * 2; i++) {
-      for (int j = 0; j < Constants.AStar.FIELD_X * 2; j++) {
+    for (int i = 0; i < Constants.AStar.FIELD_Y; i++) {
+      for (int j = 0; j < Constants.AStar.FIELD_X; j++) {
         cell[i][j] = new Node(i, j);
       }
     }
+
     // creates the boolean obstacle matrix
     // TODO: Inputs the obstacles for the field (nonosquares), input your nono squares here.
-    generateNoNoZone(69, 420, 69, 420); /* placeholder/example */
+    generateNoNoZone(10, 20, 10, 20); /* placeholder/example */
   }
 
-  /** Creates a new pathfinding situation. Input should be in centimeters. */
+  /** Creates a new pathfinding situation. Input should be in centimeters. Values are inclusive. */
   public AStar(int startX, int startY, int endX, int endY) {
     this.startX = startX;
     this.startY = startY;
@@ -74,10 +81,8 @@ public class AStar {
       this.genThread =
           new Thread(
               () -> {
-                int gCost = 0;
-                /* int fCost = 0; */
 
-                // Loop to find all 3 pathways and their relative Final Cost values
+                // Runs generateHValue to get the pathlist.
                 pathList =
                     generateHValue(
                         grid,
@@ -85,46 +90,36 @@ public class AStar {
                         startX,
                         endY,
                         endX,
-                        Constants.AStar.FIELD_X * 2,
-                        Constants.AStar.FIELD_Y * 2,
+                        Constants.AStar.FIELD_Y,
+                        Constants.AStar.FIELD_X,
                         10,
                         14);
 
+                // Outputs whether or not the pathlist *is* a pathlist
                 if (cell[startY][startX].hValue != -1 && pathList.contains(cell[endY][endX])) {
 
-                  /*
-                   * This is only if you want to output the total cost of the whole thing; aka
-                   * it's unnessecary.
-                   */
-                  // for (int i = 0; i < pathList.size() - 1; i++) {
-                  // /* System.out.println(pathList.get(i).x + " " + pathList.get(i).y);*/
-                  // gCost += pathList.get(i).gValue;
-                  // /*fCost += pathList.get(i).fValue;*/
-                  // }
-
-                  System.out.println("Euclidean Path Found");
-                  System.out.println("Total Cost: " + gCost / 10);
-                  /* System.out.println("Total fCost: " + fCost); */
-                  gCost = 0;
-                  /* fCost = 0; */
+                  //TODO: PLEASE PLEASE PLEASE CHANGE THESE MESSAGES
+                  SmartDashboard.putString("Euclidean Path Found ", "it's ready OWO");
 
                 } else {
-                  // TODO: THIS SHOULD OUTPUT TO SHUFFLEBOARD
-                  System.out.println("Euclidean Path Not found");
+                  SmartDashboard.putString("Euclidean Path Found ", "sowwy uwu");
                 }
 
                 /*
-                 * Converts the pathlist from Node(int cm) to double[] meters relative to the center (origin) of the field.
+                 * Converts the pathlist from Node(int cm) to Path(double[] meters) relative to the center (origin) of the field.
                  * Purely for the final return.
                  */
                 ArrayList<Double[]> pathListInMeters = new ArrayList<Double[]>();
                 for (Node node : pathList) {
                   Double tempNode[] = {
-                    (double) (node.getX() - Constants.AStar.FIELD_X) / 100,
-                    (double) (node.getY() - Constants.AStar.FIELD_Y) / 100
+                    (double) (node.getY() - Constants.Game.Field.FIELD_X) / 100,
+                    (double) (node.getX() - Constants.Game.Field.FIELD_Y) / 100
                   };
                   pathListInMeters.add(tempNode);
                 }
+
+                // Reverses the values, as they are normally ordered: end pt. to start pt.
+                Collections.reverse(pathListInMeters);
 
                 currPath.set(new Path(pathListInMeters));
               });
@@ -160,26 +155,35 @@ public class AStar {
       int v,
       int d) {
 
+    // loops through
     for (int i = 0; i < Constants.AStar.FIELD_Y; i++) {
       for (int j = 0; j < Constants.AStar.FIELD_X; j++) {
         // Checks whether a cell is Blocked or Not by checking the boolean value (true if obstacle
-        // absent)
+        // present)
         if (!matrix[i][j]) {
           // Assigning the Euclidean Heuristic value
           cell[i][j].hValue = (int) (Math.pow(i - endY, 2) + Math.pow(j - endX, 2));
         } else {
-          // If the boolean value is false (it's an obstacle), then assigning -1 instead of the
-          // absolute length
+          // If the boolean value is true (it's an obstacle), it's assigned -1 as a "heuristic"
           cell[i][j].hValue = -1;
         }
       }
     }
+
     return generatePath(
-        cell, startY, startX, endY, endX, Constants.AStar.FIELD_X, Constants.AStar.FIELD_Y, v, d);
+        cell,
+        startY,
+        startX,
+        endY,
+        endX,
+        Constants.AStar.FIELD_Y,
+        Constants.AStar.FIELD_X,
+        v,
+        d);
   }
 
   /**
-   * Actually generates the path, in a 3x3 grid, with the center being the node.
+   * Actually generates the pathlist.
    *
    * @param hValue Node type 2D Array (Matrix)
    * @param startY Starting point's y value
@@ -213,7 +217,6 @@ public class AStar {
     // Adds the Starting cell inside the openList
     openList.add(cell[startY][startX]);
 
-    // Executes the rest if there are objects left inside the PriorityQueue
     while (true) {
 
       // Gets and removes the objects that's stored on the top of the openList and
@@ -225,9 +228,10 @@ public class AStar {
         break;
       }
 
-      // Checks if whether the node returned is having the same node object values of
-      // the ending point
-      // If it des then stores that inside the closedList and breaks the while loop
+      /*
+       * Checks if the current node is the end node, and if so, break
+       * This is what ends the while loop (if path is found)
+       */
       if (node == cell[endY][endX]) {
         closedList.add(node);
         break;
@@ -236,159 +240,152 @@ public class AStar {
       closedList.add(node);
 
       // Left Cell
-      if (node.getY() != 0) {
-        if (cell[node.getX()][node.getY() - 1].hValue != -1
-            && !openList.contains(cell[node.getX()][node.getY() - 1])
-            && !closedList.contains(cell[node.getX()][node.getY() - 1])) {
+      if (node.getX() != 0) {
+        if (cell[node.getY()][node.getX() - 1].hValue != -1
+            && !openList.contains(cell[node.getY()][node.getX() - 1])
+            && !closedList.contains(cell[node.getY()][node.getX() - 1])) {
           int tCost = node.fValue + v;
-          cell[node.getX()][node.getY() - 1].gValue = v;
-          int cost = cell[node.getX()][node.getY() - 1].hValue + tCost;
-          if (cell[node.getX()][node.getY() - 1].fValue > cost
-              || !openList.contains(cell[node.getX()][node.getY() - 1]))
-            cell[node.getX()][node.getY() - 1].fValue = cost;
+          cell[node.getY()][node.getX() - 1].gValue = v;
+          int cost = cell[node.getY()][node.getX() - 1].hValue + tCost;
+          if (cell[node.getY()][node.getX() - 1].fValue > cost
+              || !openList.contains(cell[node.getY()][node.getX() - 1]))
+            cell[node.getY()][node.getX() - 1].fValue = cost;
 
-          openList.add(cell[node.getX()][node.getY() - 1]);
-          cell[node.getX()][node.getY() - 1].setParent(node);
+          openList.add(cell[node.getY()][node.getX() - 1]);
+          cell[node.getY()][node.getX() - 1].setParent(node);
         }
       }
 
       // Right Cell
-      if (node.getY() != Constants.AStar.FIELD_X * 2 - 1) {
-        if (cell[node.getX()][node.getY() + 1].hValue != -1
-            && !openList.contains(cell[node.getX()][node.getY() + 1])
-            && !closedList.contains(cell[node.getX()][node.getY() + 1])) {
+      if (node.getX() != Constants.AStar.FIELD_X - 1) {
+        if (cell[node.getY()][node.getX() + 1].hValue != -1
+            && !openList.contains(cell[node.getY()][node.getX() + 1])
+            && !closedList.contains(cell[node.getY()][node.getX() + 1])) {
           int tCost = node.fValue + v;
-          cell[node.getX()][node.getY() + 1].gValue = v;
-          int cost = cell[node.getX()][node.getY() + 1].hValue + tCost;
-          if (cell[node.getX()][node.getY() + 1].fValue > cost
-              || !openList.contains(cell[node.getX()][node.getY() + 1]))
-            cell[node.getX()][node.getY() + 1].fValue = cost;
+          cell[node.getY()][node.getX() + 1].gValue = v;
+          int cost = cell[node.getY()][node.getX() + 1].hValue + tCost;
+          if (cell[node.getY()][node.getX() + 1].fValue > cost
+              || !openList.contains(cell[node.getY()][node.getX() + 1]))
+            cell[node.getY()][node.getX() + 1].fValue = cost;
 
-          openList.add(cell[node.getX()][node.getY() + 1]);
-          cell[node.getX()][node.getY() + 1].setParent(node);
+          openList.add(cell[node.getY()][node.getX() + 1]);
+          cell[node.getY()][node.getX() + 1].setParent(node);
         }
       }
 
       // Bottom Cell
-      if (node.getX() != Constants.AStar.FIELD_Y * 2 - 1) {
-        if (cell[node.getX() + 1][node.getY()].hValue != -1
-            && !openList.contains(cell[node.getX() + 1][node.getY()])
-            && !closedList.contains(cell[node.getX() + 1][node.getY()])) {
+      if (node.getY() != Constants.AStar.FIELD_Y - 1) {
+        if (cell[node.getY() + 1][node.getX()].hValue != -1
+            && !openList.contains(cell[node.getY() + 1][node.getX()])
+            && !closedList.contains(cell[node.getY() + 1][node.getX()])) {
           int tCost = node.fValue + v;
-          cell[node.getX() + 1][node.getY()].gValue = v;
-          int cost = cell[node.getX() + 1][node.getY()].hValue + tCost;
-          if (cell[node.getX() + 1][node.getY()].fValue > cost
-              || !openList.contains(cell[node.getX() + 1][node.getY()]))
-            cell[node.getX() + 1][node.getY()].fValue = cost;
+          cell[node.getY() + 1][node.getX()].gValue = v;
+          int cost = cell[node.getY() + 1][node.getX()].hValue + tCost;
+          if (cell[node.getY() + 1][node.getX()].fValue > cost
+              || !openList.contains(cell[node.getY() + 1][node.getX()]))
+            cell[node.getY() + 1][node.getX()].fValue = cost;
 
-          openList.add(cell[node.getX() + 1][node.getY()]);
-          cell[node.getX() + 1][node.getY()].setParent(node);
+          openList.add(cell[node.getY() + 1][node.getX()]);
+          cell[node.getY() + 1][node.getX()].setParent(node);
         }
       }
 
       // Top Cell
-      if (node.getX() != 0) {
-        if (cell[node.getX() - 1][node.getY()].hValue != -1
-            && !openList.contains(cell[node.getX() - 1][node.getY()])
-            && !closedList.contains(cell[node.getX() - 1][node.getY()])) {
+      if (node.getY() != 0) {
+        if (cell[node.getY() - 1][node.getX()].hValue != -1
+            && !openList.contains(cell[node.getY() - 1][node.getX()])
+            && !closedList.contains(cell[node.getY() - 1][node.getX()])) {
           int tCost = node.fValue + v;
-          cell[node.getX() - 1][node.getY()].gValue = v;
-          int cost = cell[node.getX() - 1][node.getY()].hValue + tCost;
-          if (cell[node.getX() - 1][node.getY()].fValue > cost
-              || !openList.contains(cell[node.getX() - 1][node.getY()]))
-            cell[node.getX() - 1][node.getY()].fValue = cost;
+          cell[node.getY() - 1][node.getX()].gValue = v;
+          int cost = cell[node.getY() - 1][node.getX()].hValue + tCost;
+          if (cell[node.getY() - 1][node.getX()].fValue > cost
+              || !openList.contains(cell[node.getY() - 1][node.getX()]))
+            cell[node.getY() - 1][node.getX()].fValue = cost;
 
-          openList.add(cell[node.getX() - 1][node.getY()]);
-          cell[node.getX() - 1][node.getY()].setParent(node);
+          openList.add(cell[node.getY() - 1][node.getX()]);
+          cell[node.getY() - 1][node.getX()].setParent(node);
         }
       }
 
       // TopLeft Cell
-      if (node.getX() != 0 && node.getY() != 0) {
-        if (cell[node.getX() - 1][node.getY() - 1].hValue != -1
-            && !openList.contains(cell[node.getX() - 1][node.getY() - 1])
-            && !closedList.contains(cell[node.getX() - 1][node.getY() - 1])) {
+      if (node.getY() != 0 && node.getX() != 0) {
+        if (cell[node.getY() - 1][node.getX() - 1].hValue != -1
+            && !openList.contains(cell[node.getY() - 1][node.getX() - 1])
+            && !closedList.contains(cell[node.getY() - 1][node.getX() - 1])) {
           int tCost = node.fValue + d;
-          cell[node.getX() - 1][node.getY() - 1].gValue = d;
-          int cost = cell[node.getX() - 1][node.getY() - 1].hValue + tCost;
-          if (cell[node.getX() - 1][node.getY() - 1].fValue > cost
-              || !openList.contains(cell[node.getX() - 1][node.getY() - 1]))
-            cell[node.getX() - 1][node.getY() - 1].fValue = cost;
+          cell[node.getY() - 1][node.getX() - 1].gValue = d;
+          int cost = cell[node.getY() - 1][node.getX() - 1].hValue + tCost;
+          if (cell[node.getY() - 1][node.getX() - 1].fValue > cost
+              || !openList.contains(cell[node.getY() - 1][node.getX() - 1]))
+            cell[node.getY() - 1][node.getX() - 1].fValue = cost;
 
-          openList.add(cell[node.getX() - 1][node.getY() - 1]);
-          cell[node.getX() - 1][node.getY() - 1].setParent(node);
+          openList.add(cell[node.getY() - 1][node.getX() - 1]);
+          cell[node.getY() - 1][node.getX() - 1].setParent(node);
         }
       }
 
       // TopRight Cell
-      if (node.getX() != 0 && node.getY() != Constants.AStar.FIELD_X * 2 - 1) {
-        if (cell[node.getX() - 1][node.getY() + 1].hValue != -1
-            && !openList.contains(cell[node.getX() - 1][node.getY() + 1])
-            && !closedList.contains(cell[node.getX() - 1][node.getY() + 1])) {
+      if (node.getY() != 0 && node.getX() != Constants.AStar.FIELD_X - 1) {
+        if (cell[node.getY() - 1][node.getX() + 1].hValue != -1
+            && !openList.contains(cell[node.getY() - 1][node.getX() + 1])
+            && !closedList.contains(cell[node.getY() - 1][node.getX() + 1])) {
           int tCost = node.fValue + d;
-          cell[node.getX() - 1][node.getY() + 1].gValue = d;
-          int cost = cell[node.getX() - 1][node.getY() + 1].hValue + tCost;
-          if (cell[node.getX() - 1][node.getY() + 1].fValue > cost
-              || !openList.contains(cell[node.getX() - 1][node.getY() + 1]))
-            cell[node.getX() - 1][node.getY() + 1].fValue = cost;
+          cell[node.getY() - 1][node.getX() + 1].gValue = d;
+          int cost = cell[node.getY() - 1][node.getX() + 1].hValue + tCost;
+          if (cell[node.getY() - 1][node.getX() + 1].fValue > cost
+              || !openList.contains(cell[node.getY() - 1][node.getX() + 1]))
+            cell[node.getY() - 1][node.getX() + 1].fValue = cost;
 
-          openList.add(cell[node.getX() - 1][node.getY() + 1]);
-          cell[node.getX() - 1][node.getY() + 1].setParent(node);
+          openList.add(cell[node.getY() - 1][node.getX() + 1]);
+          cell[node.getY() - 1][node.getX() + 1].setParent(node);
         }
       }
 
       // BottomLeft Cell
-      if (node.getX() != Constants.AStar.FIELD_Y * 2 - 1 && node.getY() != 0) {
-        if (cell[node.getX() + 1][node.getY() - 1].hValue != -1
-            && !openList.contains(cell[node.getX() + 1][node.getY() - 1])
-            && !closedList.contains(cell[node.getX() + 1][node.getY() - 1])) {
+      if (node.getY() != Constants.AStar.FIELD_Y - 1 && node.getX() != 0) {
+        if (cell[node.getY() + 1][node.getX() - 1].hValue != -1
+            && !openList.contains(cell[node.getY() + 1][node.getX() - 1])
+            && !closedList.contains(cell[node.getY() + 1][node.getX() - 1])) {
           int tCost = node.fValue + d;
-          cell[node.getX() + 1][node.getY() - 1].gValue = d;
-          int cost = cell[node.getX() + 1][node.getY() - 1].hValue + tCost;
-          if (cell[node.getX() + 1][node.getY() - 1].fValue > cost
-              || !openList.contains(cell[node.getX() + 1][node.getY() - 1]))
-            cell[node.getX() + 1][node.getY() - 1].fValue = cost;
+          cell[node.getY() + 1][node.getX() - 1].gValue = d;
+          int cost = cell[node.getY() + 1][node.getX() - 1].hValue + tCost;
+          if (cell[node.getY() + 1][node.getX() - 1].fValue > cost
+              || !openList.contains(cell[node.getY() + 1][node.getX() - 1]))
+            cell[node.getY() + 1][node.getX() - 1].fValue = cost;
 
-          openList.add(cell[node.getX() + 1][node.getY() - 1]);
-          cell[node.getX() + 1][node.getY() - 1].setParent(node);
+          openList.add(cell[node.getY() + 1][node.getX() - 1]);
+          cell[node.getY() + 1][node.getX() - 1].setParent(node);
         }
       }
 
       // BottomRight Cell
-      if (node.getX() != Constants.AStar.FIELD_Y * 2 - 1
-          && node.getY() != Constants.AStar.FIELD_X * 2 - 1) {
-        if (cell[node.getX() + 1][node.getY() + 1].hValue != -1
-            && !openList.contains(cell[node.getX() + 1][node.getY() + 1])
-            && !closedList.contains(cell[node.getX() + 1][node.getY() + 1])) {
+      if (node.getY() != Constants.AStar.FIELD_Y - 1
+          && node.getX() != Constants.AStar.FIELD_X - 1) {
+        if (cell[node.getY() + 1][node.getX() + 1].hValue != -1
+            && !openList.contains(cell[node.getY() + 1][node.getX() + 1])
+            && !closedList.contains(cell[node.getY() + 1][node.getX() + 1])) {
           int tCost = node.fValue + d;
-          cell[node.getX() + 1][node.getY() + 1].gValue = d;
-          int cost = cell[node.getX() + 1][node.getY() + 1].hValue + tCost;
-          if (cell[node.getX() + 1][node.getY() + 1].fValue > cost
-              || !openList.contains(cell[node.getX() + 1][node.getY() + 1]))
-            cell[node.getX() + 1][node.getY() + 1].fValue = cost;
+          cell[node.getY() + 1][node.getX() + 1].gValue = d;
+          int cost = cell[node.getY() + 1][node.getX() + 1].hValue + tCost;
+          if (cell[node.getY() + 1][node.getX() + 1].fValue > cost
+              || !openList.contains(cell[node.getY() + 1][node.getX() + 1]))
+            cell[node.getY() + 1][node.getX() + 1].fValue = cost;
 
-          openList.add(cell[node.getX() + 1][node.getY() + 1]);
-          cell[node.getX() + 1][node.getY() + 1].setParent(node);
+          openList.add(cell[node.getY() + 1][node.getX() + 1]);
+          cell[node.getY() + 1][node.getX() + 1].setParent(node);
         }
       }
     }
 
-    /*
-     * for (int i = 0; i < n; ++i) {
-     * for (int j = 0; j < n; ++j) {
-     * System.out.print(cell[i][j].fValue + "    ");
-     * }
-     * System.out.println();
-     * }
-     */
-
     // Assigns the last Object in the closedList to the endNode variable
     Node endNode = closedList.get(closedList.size() - 1);
 
-    // Checks if whether the endNode variable currently has a parent Node. if it
-    // doesn't then stops moving forward.
-    // Stores each parent Node to the PathList so it is easier to trace back the
-    // final path
+    /*
+     * Checks if whether the endNode variable currently has a parent Node. if it
+     * doesn't then stops moving forward.
+     * Stores each parent Node to the PathList so it is easier to trace back the
+     * final path
+     */
     while (endNode.getParent() != null) {
       Node currentNode = endNode;
       pathList.add(currentNode);
@@ -413,7 +410,7 @@ public class AStar {
    */
   private static void generateNoNoZone(int originY, int originX, int length, int width) {
     for (int y = originY; y <= originY + length; y++) {
-      for (int x = originX; x <= originX + length; x++) {
+      for (int x = originX; x <= originX + width; x++) {
         grid[y][x] = true;
       }
     }

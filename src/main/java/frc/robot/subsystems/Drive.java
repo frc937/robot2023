@@ -70,8 +70,6 @@ public class Drive extends SubsystemBase {
     /* Instantiates the MecanumDrive drivetrain controller. */
     drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
 
-    /* Instantiates the gyroscope. */
-    gyroscope = new AHRS(SPI.Port.kMXP);
     kinematics =
         new MecanumDriveKinematics(
             Constants.Drive.LOCATION_WHEEL_FRONT_LEFT,

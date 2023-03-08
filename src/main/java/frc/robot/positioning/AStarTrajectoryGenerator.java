@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.positioning;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -10,7 +10,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import frc.robot.positioning.Path;
+import frc.robot.Constants;
+import frc.robot.Constants.Drive;
+import frc.robot.Constants.Drive.HolonomicController;
+import frc.robot.Constants.Drive.HolonomicController.ThetaController;
+import frc.robot.Constants.Drive.HolonomicController.ThetaController.Constraints;
+
 import java.util.ArrayList;
 
 /**

@@ -4,9 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.positioning.Pose;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import frc.robot.positioning.Pose;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -204,6 +204,18 @@ public final class Constants {
   /** Holds constants for things not related to the robot */
   public static class Game {
     public static class Field {
+      
+      /**
+       * Half the length of the field relative to the origin. Positive for Max, Negative for Min.
+       * Measured in cm.
+       */
+      public static final int FIELD_X = 1654 / 2;
+      /**
+       * Half the width of the field relative to the origin. Positive for Max, Negative for Min.
+       * Measured in cm.
+       */
+      public static final int FIELD_Y = 802 / 2;
+
       public static class Grid {
         public static class ConeNode {
           public static class Top {
@@ -284,6 +296,41 @@ public final class Constants {
     public static final int LEFT_STICK_NUMBER = 9;
     public static final int RIGHT_STICK_NUMBER = 10;
   }
+  /**
+   * General constants for the AStar Subsystem. Primarily used by {@link
+   * frc.robot.positioning.AStar}.
+   */
+  public static class AStar {
+    /* 
+     * Values are *2 as they are accessing half the length of the field
+     * Values are /10 as they are in decimeters (/100 for centi and so on)
+     */
+    /**
+     * The full length of the field.
+     * Measured in decimeters.
+     */
+    public static final int FIELD_X = Game.Field.FIELD_X * 2 / 10;
+    /**
+     * The full length of the field.
+     * Measured in decimeters.
+     */
+    public static final int FIELD_Y = Game.Field.FIELD_Y * 2 / 10;
+  }
+
+  /** General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}. */
+  public static class DriveConstants {
+    /* CAN IDs for the drivetrain motor controllers */
+    public static final int ID_TALON_FRONT_LEFT = 0;
+    public static final int ID_TALON_FRONT_RIGHT = 1;
+    public static final int ID_TALON_REAR_LEFT = 2;
+    public static final int ID_TALON_REAR_RIGHT = 3;
+  }
+
+  /**
+   * General constants for the AStar Subsystem. Primarily used by {@link
+   * frc.robot.positioning.AStar}.
+   */
+
   /**
    * General constants for the balance command. Primarily used by {@link
    * frc.robot.commands.Balance}.

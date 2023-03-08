@@ -17,6 +17,8 @@ import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
 import frc.robot.positioning.Pose;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.autotasks.ExampleAutoTask;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -35,6 +37,7 @@ import frc.robot.subsystems.arm.CompilationArm;
  */
 public class RobotContainer {
   /* SUBSYSTEMS */
+  // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Limelight limelight = new Limelight();
   private final Drive driveSubsystem = new Drive(limelight);
@@ -52,12 +55,7 @@ public class RobotContainer {
   private final Pose pose = new Pose();
   private RetractArm retractArmCommand = new RetractArm(armExtender);
 
-  /* COMMANDS */
   private final Balance balance = new Balance(driveSubsystem);
-  private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
-
-  /* AUTO TASKS */
-  private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
 
   private final Command openClaw = armClaw.openClawCommand();
 
@@ -88,6 +86,13 @@ public class RobotContainer {
     return scaleAxis(getRightYAxis());
   }
 
+  /* COMMANDS */
+  private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
+
+  /* AUTO TASKS */
+  private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureBindings();
     // Verify auto tasks. If each task isnt verified the autotask will throw a exception.
@@ -132,6 +137,10 @@ public class RobotContainer {
     joystick.trigger().onTrue(openClaw);
 
     controller.povUp().onTrue(balance);
+  }
+
+  private void verifyAutoTasks() {
+    exampleAutoTask.verify();
 
     joystick
         .button(2)

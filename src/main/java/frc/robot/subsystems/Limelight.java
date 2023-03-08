@@ -114,6 +114,19 @@ public class Limelight extends SubsystemBase {
   }
 
   /**
+   * Gets the robot's current post relative to the field.
+   *
+   * <p>Units are meters; 0,0 is at the center of the field.
+   *
+   * <p>Will only work if the Limelight can see an AprilTag and read it correctly.
+   *
+   * @return A {@link Pose2d}; the robot's current position relative to the field in two dimensions.
+   */
+  public Pose2d getBotpose2d() {
+    return new Pose2d(botpos[0], botpos[1], Rotation2d.fromDegrees(botpos[5]));
+  }
+
+  /**
    * Subsystem periodic; runs every scheduler run. Used to update Limelight data from NetworkTables
    * in this subsystem.
    */
