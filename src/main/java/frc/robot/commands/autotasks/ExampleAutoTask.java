@@ -8,8 +8,8 @@ public class ExampleAutoTask extends AutoTask {
   private ExampleCommand exampleCommand;
   /**
    * Use the constructor to configure the autotask arrival and init commands The order you run
-   * {@link #addArrivedCommand(edu.wpi.first.wpilibj2.command.CommandBase) addArrivedCommand} and
-   * {@link #addInitCommand(edu.wpi.first.wpilibj2.command.CommandBase) addInitCommand} is the
+   * {@link #setArrivedCommand(edu.wpi.first.wpilibj2.command.CommandBase) setArrivedCommand} and
+   * {@link #setInitCommand(edu.wpi.first.wpilibj2.command.CommandBase) setInitCommand} is the
    * order the commands are ran.
    *
    * <p>Dont create commands in autotasks, Use dependency injection.
