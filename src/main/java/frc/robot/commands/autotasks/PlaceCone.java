@@ -11,7 +11,7 @@ public class PlaceCone extends AutoTask {
 
   @Override
   public void initTask() {
-    
+    //TODO: This is where the AStar should go (probably);
     
   }
 
