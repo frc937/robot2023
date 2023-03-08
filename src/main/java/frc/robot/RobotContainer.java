@@ -38,7 +38,6 @@ import frc.robot.subsystems.arm.CompilationArm;
 public class RobotContainer {
   /* SUBSYSTEMS */
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Limelight limelight = new Limelight();
   private final Drive driveSubsystem = new Drive(limelight);
   private final TaskScheduler taskScheduler = new TaskScheduler();
@@ -52,13 +51,17 @@ public class RobotContainer {
   private final CompilationArm compilationArm =
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
   private final ManualArm manualArm = new ManualArm(armBase, armShoulder);
-  private final Pose pose = new Pose();
+  /* COMMANDS */
+  private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
   private RetractArm retractArmCommand = new RetractArm(armExtender);
-
   private final Balance balance = new Balance(driveSubsystem);
-
   private final Command openClaw = armClaw.openClawCommand();
+  /* AUTOTASKS */
+    /* COMMANDS */
 
+    /* AUTO TASKS */
+    private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
+  /* CONTROLLERS */
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
@@ -85,12 +88,6 @@ public class RobotContainer {
   public static double getScaledRightYAxis() {
     return scaleAxis(getRightYAxis());
   }
-
-  /* COMMANDS */
-  private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
-
-  /* AUTO TASKS */
-  private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
