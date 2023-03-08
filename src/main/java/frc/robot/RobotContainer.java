@@ -15,8 +15,11 @@ import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
 import frc.robot.positioning.Pose;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.autotasks.ExampleAutoTask;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.TaskScheduler;
 import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.ArmClaw;
@@ -34,7 +37,8 @@ public class RobotContainer {
   /* SUBSYSTEMS */
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drive driveSubsystem = new Drive();
+  private final Limelight limelight = new Limelight();
+  private final Drive driveSubsystem = new Drive(limelight);
   private final TaskScheduler taskScheduler = new TaskScheduler();
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
   private Pose armPose;
@@ -80,6 +84,18 @@ public class RobotContainer {
     return scaleAxis(getRightYAxis());
   }
 
+  /* COMMANDS */
+  private final Balance balance = new Balance(driveSubsystem);
+  private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
+
+  /* AUTO TASKS */
+  private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
+
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final CommandXboxController controller =
+      new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
+
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureBindings();
 
@@ -122,6 +138,10 @@ public class RobotContainer {
     joystick.trigger().onTrue(openClaw);
 
     controller.povUp().onTrue(balance);
+  }
+
+  private void verifyAutoTasks() {
+    exampleAutoTask.verify();
 
     joystick
         .button(2)

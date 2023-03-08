@@ -16,6 +16,7 @@ import edu.wpi.first.math.util.Units;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
+/* TODO: tune EVERY value in here */
 public final class Constants {
   public static class OperatorConstants {
     public static final int CONTROLLER_NUMBER = 0;
@@ -315,6 +316,34 @@ public final class Constants {
      */
     public static final int FIELD_Y = Game.Field.FIELD_Y * 2 / 10;
   }
+  /** IDs for the controller buttons. */
+  public static class ContollerButtons {
+    public static final int A_NUMBER = 1;
+    public static final int B_NUMBER = 2;
+    public static final int X_NUMBER = 3;
+    public static final int Y_NUMBER = 4;
+    public static final int LEFT_BUMPER_NUMBER = 5;
+    public static final int RIGHT_BUMPER_NUMBER = 6;
+    public static final int BACK_NUMBER = 7;
+    public static final int START_NUMBER = 8;
+    public static final int LEFT_STICK_NUMBER = 9;
+    public static final int RIGHT_STICK_NUMBER = 10;
+  }
+
+  /** General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}. */
+  public static class DriveConstants {
+    /* CAN IDs for the drivetrain motor controllers */
+    public static final int ID_TALON_FRONT_LEFT = 0;
+    public static final int ID_TALON_FRONT_RIGHT = 1;
+    public static final int ID_TALON_REAR_LEFT = 2;
+    public static final int ID_TALON_REAR_RIGHT = 3;
+  }
+
+  /**
+   * General constants for the AStar Subsystem. Primarily used by {@link
+   * frc.robot.positioning.AStar}.
+   */
+
   /**
    * General constants for the balance command. Primarily used by {@link
    * frc.robot.commands.Balance}.
