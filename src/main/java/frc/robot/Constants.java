@@ -337,7 +337,7 @@ public final class Constants {
         new UnknownPose(),
         new UnknownPose()};
 
-            /* Poses are left to right relative to the same side*/
+      /* Poses are left to right relative to the same side*/
       public static final Pose[] BLUE_CONE_POSES = {
         new UnknownPose(),
         new UnknownPose(),
@@ -345,6 +345,19 @@ public final class Constants {
         new UnknownPose(),
         new UnknownPose(),
         new UnknownPose()};
+        
+      public static final Pose[] RED_MOBILITY_POSES = {
+        // This is for the upper pose
+        new UnknownPose(),
+        // This is for the lower pose
+        new UnknownPose()};
+
+      public static final Pose[] BLUE_MOBILITY_POSES = {
+        // This is for the upper pose
+        new UnknownPose(),
+        // This is for the lower pose
+        new UnknownPose()};
+      
       }
     }
   }
