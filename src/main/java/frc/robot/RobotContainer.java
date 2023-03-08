@@ -85,15 +85,10 @@ public class RobotContainer {
   }
 
   /* COMMANDS */
-  private final Balance balance = new Balance(driveSubsystem);
   private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
 
   /* AUTO TASKS */
   private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController controller =
-      new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
