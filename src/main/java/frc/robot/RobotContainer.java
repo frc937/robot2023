@@ -56,10 +56,7 @@ public class RobotContainer {
   private RetractArm retractArmCommand = new RetractArm(armExtender);
   private final Balance balance = new Balance(driveSubsystem);
   private final Command openClaw = armClaw.openClawCommand();
-  /* AUTOTASKS */
-    /* COMMANDS */
-
-    /* AUTO TASKS */
+  /* AUTO TASKS */
     private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
   /* CONTROLLERS */
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -217,7 +214,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    return Autos.exampleAuto(exampleSubsystem);
   }
 
   public Command getResetCommand() {
