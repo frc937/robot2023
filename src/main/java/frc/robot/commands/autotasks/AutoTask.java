@@ -1,6 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// the WPILib BSD license file in the root directory of this project. 
 
 package frc.robot.commands.autotasks;
 
@@ -12,47 +12,54 @@ import frc.robot.subsystems.Drive;
 import java.util.concurrent.atomic.AtomicReference;
 // TODO: Add fallback commands
 
-/** Base class for autotasks. If you want to create an autotask extend this class. */
+//TODO: Add fallback commands
+/**
+ * Base class for autotasks.
+ * If you want to create an autotask extend this class.
+ */
 public abstract class AutoTask {
   private boolean initialized = false;
   private boolean arrived = false;
   private boolean ended = false;
   private boolean verified = false;
-  private boolean positionKnown;
   private Pose taskPos;
   private CommandBase runningCommand;
   private CommandBase initCommand;
   private CommandBase arrivedCommand;
   private State commandState;
   private AStar aStar;
-  private Drive drive;
+  private AtomicReference<Path> path;
 
   private enum State {
     INIT,
     NAVIGATING,
     ARRIVED,
     FINISHED
+    
   }
   /**
    * Creates a new AutoTask. Dont create instances of commands. Each command should be a parameter
    * instead of created
    */
-  public AutoTask() {}
+  public AutoTask() {
+  }
 
   /**
-   * Ran when the command is started. Allow basic movements before the PositionSystem moves the
-   * robot.
-   *
-   * <p>Make sure to put the {@link #setTaskPosition(Position) setTaskPosition} method in init to
-   * set where the robot will go.
-   *
-   * <p>Not running taskPosition will cause a NullPointerException.
+   * Ran when the command is started. Allow basic movements before the
+   * PositionSystem moves the robot.
+   * <p>
+   * Make sure to put the {@link #setTaskPosition(Position) setTaskPosition}
+   * method in
+   * init to set where the robot will go.
+   * <p>
+   * Not running taskPosition will cause a NullPointerException.
    */
   public abstract void initTask();
 
   /**
-   * Checks if the initTask method is finished. Return true when the method finishes.
-   *
+   * Checks if the initTask method is finished. Return true when the method
+   * finishes.
+   * 
    * @return the state of the initTask method.
    */
   public boolean initFinished() {
@@ -63,16 +70,15 @@ public abstract class AutoTask {
     }
   }
 
-  public AtomicReference<Path> generatePath() {
-    return null;
-  }
-
-  /** Ran when the AutoTask arrives at the defined position. */
+  /**
+   * Ran when the AutoTask arrives at the defined position.
+   */
   public abstract void arrived();
 
   /**
-   * Checks if the Arrived method has finished and allows the next queued command to run.
-   *
+   * Checks if the Arrived method has finished and allows the next queued command
+   * to run.
+   * 
    * @return the state of the arrived method
    */
   public boolean isFinished() {
@@ -85,19 +91,22 @@ public abstract class AutoTask {
 
   /**
    * Ran if the bot cant get to the position it needs.
-   *
+   * 
    * @param position The bots current position.
    */
   public abstract void fallback(Pose position);
 
-  /** Returns the acive command. */
+  /**
+   * Returns the acive command.
+   */
   public CommandBase getActiveCommand() {
     return runningCommand;
+
   }
 
   /**
    * Like periodic but gives position arg
-   *
+   * 
    * @param position The current position of the robot
    */
   public void updateTask(Pose position) {
@@ -118,14 +127,14 @@ public abstract class AutoTask {
       }
       if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
         runningCommand.schedule();
-      } else if (runningCommand.isFinished()) {
+      } else if (runningCommand.isFinished()){
         commandState = State.NAVIGATING;
       }
     }
   }
 
   /*
-   * Update the arrived sequence of the task. If the task hasn't arrived at the
+   * Update the arrived sequence of the task. If the task hasent arrived at the
    * desination the command is bypassed.
    */
   private void updateArrived() {
@@ -136,7 +145,7 @@ public abstract class AutoTask {
       }
       if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
         runningCommand.schedule();
-      } else if (runningCommand.isFinished()) {
+      } else if (runningCommand.isFinished()){
         commandState = State.FINISHED;
       }
     }
@@ -144,7 +153,7 @@ public abstract class AutoTask {
 
   /**
    * Returns if the task has ended or not.
-   *
+   * 
    * @return The status of the command
    */
   public boolean ended() {
@@ -152,41 +161,44 @@ public abstract class AutoTask {
   }
 
   /**
-   * Use instead of execute. Functions as execute but with a position argument.
-   *
+   * Use instead of execute. Functions as execute but with a position arguemnt.
+   * 
    * @param position the current position of the robot when update is ran.
    */
   protected abstract void update(Pose position);
 
   /**
    * Sets the position the bot will go to for the task.
-   *
-   * <p>Not running this in {@link #initTask initTask} <strong>will</strong> cause a
+   * <p>
+   * Not running this in {@link #initTask initTask} <strong>will</strong> cause a
    * NullPointerException
-   *
+   * 
    * @param position The position the bot will go to for the AutoTask
    */
   protected void setTaskPosition(Pose position) {
-    aStar = new AStar(
-      drive.getMecanumDrivePoseEstimator().getEstimatedPosition().getX(),
-      drive.getMecanumDrivePoseEstimator().getEstimatedPosition().getY(),
-      position.getPose3d().getX(),
-      position.getPose3d().getY()
-      );
     taskPos = position;
-    positionKnown = true;
-  }
-  /**
-   * Like {@link #setTaskPosition(Pose) setTaskPosition} but without any args. <p>
-   * Used for when the location of the autotask is unknown.
-   * Marks the task as unknown so it passes tests but warns about the location being unknown.
-   */
-  protected void setUnknownLocation() {
-    taskPos = new Pose();
-    positionKnown = false;
   }
 
-  /** Ran if the task needs to be ended. */
+  /**
+   * Generates the task path (AStar path)
+   * <p> Make sure to use isPathGenerated() otherwise you will be grabbing a null path.
+   */
+  protected void generateTaskPath() {
+    path = aStar.generateAStarPath();
+  }
+
+  /**
+   * Chekcs whether or not the path has been generated.
+   * Make sure the path has been generated before utilizing the path.
+   * @return
+   */
+  protected boolean isPathGenerated() {
+    return path.get().isPathGenerated();
+  }
+
+  /**
+   * Ran if the task needs to be ended.
+   */
   public void end() {
     if (!runningCommand.isFinished()) {
       runningCommand.end(true);
@@ -195,7 +207,7 @@ public abstract class AutoTask {
 
   /**
    * Sets the command to run on autotask init.
-   *
+   * 
    * @param command The command to run.
    */
   protected void setInitCommand(CommandBase command) {
@@ -204,37 +216,28 @@ public abstract class AutoTask {
 
   /**
    * Sets the command to run on autotask arrival.
-   *
+   * 
    * @param command The command to run.
    */
   protected void setArrivedCommand(CommandBase command) {
     arrivedCommand = command;
   }
 
-  /** Runs checks on the autotasks to make sure the tasks are valid */
+  /**
+   * Runs checks on the autotasks to make sure the tasks are valid
+   */
   public void verify() {
     System.out.println();
     System.out.println("================================================================");
-    System.out.println("Checking if taskPosition was ran in " + this.getClass().getName() + "\n");
+    System.out.println("Checking if taskPosition was ran in " + this.getClass().getName());
     if (taskPos == null) { // checks if taskpos was instantiated and if not throw an error
-      System.out.println(
-          "Taskpos was not ran. In order for a AutoTask to be valid taskpos HAS to be ran in the"
-              + " constructor\n");
-      throw new UnsupportedOperationException(
-          "Verification failed because taskpos was not ran in the constructor.");
-
+      System.out.println("Taskpos was not ran. In order for a AutoTask to be valid taskpos HAS to be ran in the constructor");
+      throw new UnsupportedOperationException("Verification failed because taskpos was not ran in the constructor.");
+      
     } else {
       verified = true;
+      System.out.println("Taskpos was run. Task verified.");
     }
-    if (!positionKnown) {
-      System.out.println("Warning: The position of this task is unknown.");
-      System.out.println("This means that this autotask will not run because the robot does not know where to go.");
-    }
-    if (verified) {
-      System.out.println();
-      System.out.println("Autotask verified.");
-    }
-
     System.out.println("================================================================");
   }
 }
