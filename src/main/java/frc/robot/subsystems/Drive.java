@@ -184,6 +184,10 @@ public class Drive extends SubsystemBase {
     return gyroscope.getPitch();
   }
 
+  public MecanumDrivePoseEstimator getMecanumDrivePoseEstimator() {
+    return whereTheHeckAreWe;
+  }
+
   /**
    * This will RESET the pose of the robot - NOT update. It tells the bot "hey, you know all that
    * data you used to have about where the robot is? Ignore ALL OF THAT, this is where you are now."
