@@ -25,6 +25,7 @@ public abstract class AutoTask {
   private CommandBase arrivedCommand;
   private State commandState;
   private AStar aStar;
+  private Drive drive;
 
   private enum State {
     INIT,
@@ -63,9 +64,7 @@ public abstract class AutoTask {
   }
 
   public AtomicReference<Path> generatePath() {
-    
-    
-
+    return null;
   }
 
   /** Ran when the AutoTask arrives at the defined position. */
@@ -169,8 +168,8 @@ public abstract class AutoTask {
    */
   protected void setTaskPosition(Pose position) {
     aStar = new AStar(
-      Drive.getMecanumDrivePoseEstimator().getEstimatedPosition().getX(),
-      Drive.getMecanumDrivePoseEstimator().getEstimatedPosition().getY(),
+      drive.getMecanumDrivePoseEstimator().getEstimatedPosition().getX(),
+      drive.getMecanumDrivePoseEstimator().getEstimatedPosition().getY(),
       position.getPose3d().getX(),
       position.getPose3d().getY()
       );
