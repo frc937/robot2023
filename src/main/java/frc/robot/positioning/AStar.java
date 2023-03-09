@@ -60,12 +60,13 @@ public class AStar {
     generateNoNoZone(10, 20, 10, 20); /* placeholder/example */
   }
 
-  /** Creates a new pathfinding situation. Input should be in centimeters. Values are inclusive. */
-  public AStar(int startX, int startY, int endX, int endY) {
-    this.startX = startX;
-    this.startY = startY;
-    this.endX = endX;
-    this.endY = endY;
+  /* Values *100 to convert them from meters to centimeters */
+  /** Creates a new pathfinding situation. Input should be in meters. Values are inclusive. */
+  public AStar(double startX, double startY, double endX, double endY) {
+    this.startX = (int) (startX * 100);
+    this.startY = (int) (startY * 100);
+    this.endX = (int) (endX * 100);
+    this.endY = (int) (endY * 100);
   }
 
   /**
