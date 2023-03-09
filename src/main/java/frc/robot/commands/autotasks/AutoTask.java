@@ -6,6 +6,10 @@ package frc.robot.commands.autotasks;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
+import frc.robot.positioning.Path;
+import frc.robot.positioning.AStar;
+import frc.robot.subsystems.Drive;
+import java.util.concurrent.atomic.AtomicReference;
 // TODO: Add fallback commands
 
 /** Base class for autotasks. If you want to create an autotask extend this class. */
@@ -20,6 +24,7 @@ public abstract class AutoTask {
   private CommandBase initCommand;
   private CommandBase arrivedCommand;
   private State commandState;
+  private AStar aStar;
 
   private enum State {
     INIT,
@@ -55,6 +60,12 @@ public abstract class AutoTask {
     } else {
       return false;
     }
+  }
+
+  public AtomicReference<Path> generatePath() {
+    
+    
+
   }
 
   /** Ran when the AutoTask arrives at the defined position. */
@@ -157,6 +168,12 @@ public abstract class AutoTask {
    * @param position The position the bot will go to for the AutoTask
    */
   protected void setTaskPosition(Pose position) {
+    aStar = new AStar(
+      Drive.getMecanumDrivePoseEstimator().getEstimatedPosition().getX(),
+      Drive.getMecanumDrivePoseEstimator().getEstimatedPosition().getY(),
+      position.getPose3d().getX(),
+      position.getPose3d().getY()
+      );
     taskPos = position;
     positionKnown = true;
   }
