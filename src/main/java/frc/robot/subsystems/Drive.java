@@ -209,10 +209,6 @@ public class Drive extends SubsystemBase {
         currentPose);
   }
 
-  public MecanumDrivePoseEstimator getCurrentRobotPosition() {
-    return whereTheHeckAreWe;
-  }
-
   /**
    * Tracks a provided trajectory.
    *
