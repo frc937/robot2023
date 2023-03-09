@@ -133,7 +133,7 @@ public class RobotContainer {
 
     controller.povUp().onTrue(balance);
 
-    joystick
+    /*joystick
         .button(2)
         .onTrue(
             new MoveToPose(
@@ -201,7 +201,7 @@ public class RobotContainer {
         .button(1)
         .onTrue(
             new MoveToPose(
-                Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));
+                Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));*/
   }
 
   /**
@@ -218,7 +218,8 @@ public class RobotContainer {
 
   public Command getResetCommand() {
     return new MoveToPose(
-            Constants.Arm.Poses.RESET, armShoulder, armBase, armExtender, compilationArm)
+            /* CHANGE THIS BACK TO THE REAL POSE */
+            new Pose(), armShoulder, armBase, armExtender, compilationArm)
         .alongWith(armClaw.openClawCommand());
   }
 

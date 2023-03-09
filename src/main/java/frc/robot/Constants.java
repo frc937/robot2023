@@ -96,7 +96,7 @@ public final class Constants {
     }
 
     public static class Poses {
-      public static final Pose RESET =
+      /*public static final Pose RESET =
           new Pose(
               ArbitraryValues.arbitraryDouble(),
               ArbitraryValues.arbitraryDouble(),
@@ -145,7 +145,7 @@ public final class Constants {
           new Pose(
               ArbitraryValues.arbitraryDouble(),
               ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
+              ArbitraryValues.arbitraryDouble());*/
     }
   }
 
