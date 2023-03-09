@@ -221,4 +221,8 @@ public abstract class AutoTask {
 
     System.out.println("================================================================");
   }
+  /**
+   * Sets properties for the autotask.
+   */
+  public abstract void setCommand();
 }
