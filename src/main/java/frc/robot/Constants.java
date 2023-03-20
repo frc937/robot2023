@@ -250,4 +250,9 @@ public final class Constants {
     public static final double OFF_ANGLE_THRESHOLD = 10;
     public static final double ON_ANGLE_THRESHOLD = 5;
   }
+
+  public static class Plunger {
+      public static final int ID_PWMMOTOR_PLUNGER = 1;
+      public static final double SPEED_PLUNGER_DEPLOY = 0.2;
+  }
 }
