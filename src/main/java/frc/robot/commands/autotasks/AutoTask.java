@@ -199,7 +199,7 @@ public abstract class AutoTask {
   /**
    * Checks whether or not the path has been generated.
    * Make sure the path has been generated before utilizing the path.
-   * @return
+   * @return true/false if path is generated
    */
   protected boolean isPathGenerated() {
     return path.get().isPathGenerated();
