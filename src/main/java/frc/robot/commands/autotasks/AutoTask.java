@@ -99,7 +99,7 @@ public abstract class AutoTask {
   public abstract void fallback(Pose position);
 
   /**
-   * Returns the acive command.
+   * Returns the active command.
    */
   public CommandBase getActiveCommand() {
     return runningCommand;
@@ -136,8 +136,8 @@ public abstract class AutoTask {
   }
 
   /*
-   * Update the arrived sequence of the task. If the task hasent arrived at the
-   * desination the command is bypassed.
+   * Update the arrived sequence of the task. If the task hase'nt arrived at the
+   * destination the command is bypassed.
    */
   private void updateArrived() {
     /* Checks if the task has finished arrived sequence */
@@ -163,7 +163,7 @@ public abstract class AutoTask {
   }
 
   /**
-   * Use instead of execute. Functions as execute but with a position arguemnt.
+   * Use instead of execute. Functions as execute but with a position argument.
    * 
    * @param position the current position of the robot when update is ran.
    */
@@ -179,7 +179,7 @@ public abstract class AutoTask {
    */
   protected void setTaskPosition(Pose position) {
     taskPos = position;
-    //TODO: THESE VALUES ARE VERY MUCH PLACEHOLERS - LIKE RIGHT HERE V
+    //TODO: THESE VALUES ARE VERY MUCH PLACEHOLERS -     RIGHT HERE V
     aStar = new AStar(
       Constants.RobotDimensions.CENTER_POSE.getWorldOriented(new Pose()).getX(), 
       Constants.RobotDimensions.CENTER_POSE.getWorldOriented(new Pose()).getY(), 
@@ -197,9 +197,9 @@ public abstract class AutoTask {
   }
 
   /**
-   * Chekcs whether or not the path has been generated.
+   * Checks whether or not the path has been generated.
    * Make sure the path has been generated before utilizing the path.
-   * @return
+   * @return true/false if path is generated
    */
   protected boolean isPathGenerated() {
     return path.get().isPathGenerated();
