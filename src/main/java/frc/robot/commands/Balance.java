@@ -11,6 +11,7 @@ import frc.robot.subsystems.Drive;
 public class Balance extends CommandBase {
   /** Creates a new BalanceAuto. */
   boolean BalanceXMode;
+
   boolean BalanceYMode;
   private final Drive drive;
 
@@ -21,9 +22,7 @@ public class Balance extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -32,19 +31,19 @@ public class Balance extends CommandBase {
     double rollAngleDegrees = drive.getRoll();
     double xAxisRate = 0;
     double yAxisRate = 0;
-    if (!BalanceXMode &&
-        (Math.abs(pitchAngleDegrees) >= Math.abs(BalanceConstants.OFF_ANGLE_THRESHOLD))) {
+    if (!BalanceXMode
+        && (Math.abs(pitchAngleDegrees) >= Math.abs(BalanceConstants.OFF_ANGLE_THRESHOLD))) {
       BalanceXMode = true;
-    } else if (BalanceXMode &&
-        (Math.abs(pitchAngleDegrees) <= Math.abs(BalanceConstants.ON_ANGLE_THRESHOLD))) {
+    } else if (BalanceXMode
+        && (Math.abs(pitchAngleDegrees) <= Math.abs(BalanceConstants.ON_ANGLE_THRESHOLD))) {
       BalanceXMode = false;
     }
 
-    if (!BalanceYMode &&
-        (Math.abs(pitchAngleDegrees) >= Math.abs(BalanceConstants.OFF_ANGLE_THRESHOLD))) {
+    if (!BalanceYMode
+        && (Math.abs(pitchAngleDegrees) >= Math.abs(BalanceConstants.OFF_ANGLE_THRESHOLD))) {
       BalanceYMode = true;
-    } else if (BalanceYMode &&
-        (Math.abs(pitchAngleDegrees) <= Math.abs(BalanceConstants.ON_ANGLE_THRESHOLD))) {
+    } else if (BalanceYMode
+        && (Math.abs(pitchAngleDegrees) <= Math.abs(BalanceConstants.ON_ANGLE_THRESHOLD))) {
       BalanceYMode = false;
     }
     if (BalanceXMode) {
