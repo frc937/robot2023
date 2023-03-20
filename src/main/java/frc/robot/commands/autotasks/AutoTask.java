@@ -99,7 +99,7 @@ public abstract class AutoTask {
   public abstract void fallback(Pose position);
 
   /**
-   * Returns the acive command.
+   * Returns the active command.
    */
   public CommandBase getActiveCommand() {
     return runningCommand;
@@ -136,8 +136,8 @@ public abstract class AutoTask {
   }
 
   /*
-   * Update the arrived sequence of the task. If the task hasent arrived at the
-   * desination the command is bypassed.
+   * Update the arrived sequence of the task. If the task hase'nt arrived at the
+   * destination the command is bypassed.
    */
   private void updateArrived() {
     /* Checks if the task has finished arrived sequence */
@@ -163,7 +163,7 @@ public abstract class AutoTask {
   }
 
   /**
-   * Use instead of execute. Functions as execute but with a position arguemnt.
+   * Use instead of execute. Functions as execute but with a position argument.
    * 
    * @param position the current position of the robot when update is ran.
    */
