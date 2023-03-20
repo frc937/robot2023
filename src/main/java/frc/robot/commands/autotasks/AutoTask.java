@@ -4,9 +4,11 @@
 
 package frc.robot.commands.autotasks;
 
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
 import frc.robot.positioning.Path;
+import frc.robot.Constants;
 import frc.robot.positioning.AStar;
 import frc.robot.subsystems.Drive;
 import java.util.concurrent.atomic.AtomicReference;
@@ -177,6 +179,13 @@ public abstract class AutoTask {
    */
   protected void setTaskPosition(Pose position) {
     taskPos = position;
+    //TODO: THESE VALUES ARE VERY MUCH PLACEHOLERS - LIKE RIGHT HERE V
+    aStar = new AStar(
+      Constants.RobotDimensions.CENTER_POSE.getWorldOriented(new Pose()).getX(), 
+      Constants.RobotDimensions.CENTER_POSE.getWorldOriented(new Pose()).getY(), 
+      position.getX(), 
+      position.getY()
+      );
   }
 
   /**
