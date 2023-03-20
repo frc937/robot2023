@@ -30,6 +30,7 @@ public abstract class AutoTask {
   private CommandBase arrivedCommand;
   private State commandState;
   private AStar aStar;
+  private Drive drive;
   private AtomicReference<Path> path;
 
   private enum State {
@@ -72,9 +73,8 @@ public abstract class AutoTask {
     }
   }
 
-  /**
-   * Ran when the AutoTask arrives at the defined position.
-   */
+
+  /** Ran when the AutoTask arrives at the defined position. */
   public abstract void arrived();
 
   /**
@@ -203,6 +203,10 @@ public abstract class AutoTask {
    */
   protected boolean isPathGenerated() {
     return path.get().isPathGenerated();
+  }
+
+  public AtomicReference<Path> getPathReferece() {
+      return path;
   }
 
   /**
