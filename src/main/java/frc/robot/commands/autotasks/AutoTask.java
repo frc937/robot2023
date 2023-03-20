@@ -179,7 +179,7 @@ public abstract class AutoTask {
    */
   protected void setTaskPosition(Pose position) {
     taskPos = position;
-    //TODO: THESE VALUES ARE VERY MUCH PLACEHOLERS - LIKE RIGHT HERE V
+    //TODO: THESE VALUES ARE VERY MUCH PLACEHOLERS -     RIGHT HERE V
     aStar = new AStar(
       Constants.RobotDimensions.CENTER_POSE.getWorldOriented(new Pose()).getX(), 
       Constants.RobotDimensions.CENTER_POSE.getWorldOriented(new Pose()).getY(), 
@@ -197,7 +197,7 @@ public abstract class AutoTask {
   }
 
   /**
-   * Chekcs whether or not the path has been generated.
+   * Checks whether or not the path has been generated.
    * Make sure the path has been generated before utilizing the path.
    * @return
    */
