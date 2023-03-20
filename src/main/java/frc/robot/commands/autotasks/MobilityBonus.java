@@ -31,11 +31,5 @@ public class MobilityBonus extends AutoTask {
     // TODO Auto-generated method stub
     
   }
-
-  @Override
-  public void setCommand() {
-    // TODO Auto-generated method stub
-    
-  }
   
 }

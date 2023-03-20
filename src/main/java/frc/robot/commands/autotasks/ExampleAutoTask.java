@@ -2,6 +2,7 @@ package frc.robot.commands.autotasks;
 
 import frc.robot.commands.ExampleCommand;
 import frc.robot.positioning.Pose;
+import frc.robot.positioning.UnknownPose;
 
 public class ExampleAutoTask extends AutoTask {
 
@@ -25,7 +26,7 @@ public class ExampleAutoTask extends AutoTask {
   public ExampleAutoTask(ExampleCommand exampleCommand) {
     this.exampleCommand = exampleCommand;
     setArrivedCommand(exampleCommand);
-    setUnknownLocation();// Normaly the pose would not be empty but this is an example so its okay.
+    setTaskPosition(new UnknownPose());
   }
   /**
    * The methods below this are mainly for updates, like if you wanted to put somthing on smartdash
