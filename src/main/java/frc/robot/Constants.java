@@ -16,4 +16,9 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static class Plunger {
+      public static final int ID_PWMMOTOR_PLUNGER = 1;
+      public static final double SPEED_PLUNGER_DEPLOY = 0.2;
+  }
 }
