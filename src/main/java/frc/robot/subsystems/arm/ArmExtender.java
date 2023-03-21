@@ -10,6 +10,7 @@ import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.Command;
 
 /** This subsystem represents the climber in a box that extends the arm on the robot. */
 public class ArmExtender extends SubsystemBase {
@@ -34,8 +35,22 @@ public class ArmExtender extends SubsystemBase {
     extenderAtSetpoint = false;
   }
 
-  public void manualMoveArmExtender(double x) {
-    winch.set(ControlMode.PercentOutput, x);
+
+
+  public void Extend() {
+    winch.set(ControlMode.Velocity, 0.2);
+  }
+
+  public void Retract() {
+    winch.set(ControlMode.Velocity, -0.2);
+  }
+
+  public Command ExtendCommand() {
+    return this.runOnce(() -> this.Extend());
+  }
+
+  public Command RetractCommand() {
+    return this.runOnce(() -> this.Retract());
   }
 
   /**
