@@ -409,10 +409,28 @@ public class AStar {
    * @param length - the length (y wise) of the rectangle relative to the origin
    * @param width - the width (x wise) of the rectangle relative to the origin
    */
-  private static void generateNoNoZone(int originY, int originX, int length, int width) {
+  public static void generateNoNoZone(int originY, int originX, int length, int width) {
     for (int y = originY; y <= originY + length; y++) {
       for (int x = originX; x <= originX + width; x++) {
         grid[y][x] = true;
+      }
+    }
+  }
+
+  /**
+   * A NoNoZone is a obstacle. Obstacle is in rectangle form. originX/originY is the topleft origin
+   * of the rectangle; width/length is the size of the rectangle
+   * IF YOU WANT THIS CHANGE TO BE TEMPORARY, RUN generateNoNoZone TO PUT THE NONOZONE BACK
+   *
+   * @param originY - the starting y point (origin) of the obstacle
+   * @param originX - the starting x point (origin) of the obstacle
+   * @param length - the length (y wise) of the rectangle relative to the origin
+   * @param width - the width (x wise) of the rectangle relative to the origin
+   */
+  public void unGenerateNoNoZone(int originY, int originX, int length, int width) {
+    for (int y = originY; y <= originY + length; y++) {
+      for (int x = originX; x <= originX + width; x++) {
+        grid[y][x] = false;
       }
     }
   }
