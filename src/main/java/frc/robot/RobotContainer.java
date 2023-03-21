@@ -49,6 +49,9 @@ public class RobotContainer {
 
   private final Command openClaw = armClaw.openClawCommand();
 
+  private final Command extend = armExtender.ExtendCommand();
+  private final Command retract = armExtender.RetractCommand();
+
   
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -85,6 +88,8 @@ public class RobotContainer {
   public static double getScaledLeftYAxis() {
     return scaleAxis(getLeftYAxis());
   }
+
+  
 
   public RobotContainer() {
     configureBindings();
@@ -132,6 +137,10 @@ public class RobotContainer {
     joystick.trigger().onTrue(openClaw);
 
     controller.povUp().onTrue(balance);
+
+    controller.leftBumper().onTrue(extend);
+
+    controller.rightBumper().onTrue(retract);
 
     joystick
         .button(2)
