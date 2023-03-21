@@ -15,6 +15,8 @@ import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
 import frc.robot.positioning.Pose;
+import frc.robot.commands.DriveRobotOriented;
+import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.arm.ArmBase;
@@ -46,6 +48,7 @@ public class RobotContainer {
   private RetractArm retractArmCommand = new RetractArm(armExtender);
 
   private final Balance balance = new Balance(driveSubsystem);
+  private final DriveRobotOriented driveRO = new DriveRobotOriented(driveSubsystem);
 
   private final Command openClaw = armClaw.openClawCommand();
 
@@ -108,9 +111,12 @@ public class RobotContainer {
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
@@ -234,4 +240,41 @@ public class RobotContainer {
   public RetractArm getRetractCommand() {
     return retractArmCommand;
   }
+
+  private static double scaleAxis(double a) {
+    return Math.signum(a) * Math.pow(a, 2);
+  }
+
+  public static double getLeftXAxis() {
+    return controller.getLeftX();
+  }
+
+  public static double getScaledLeftXAxis() {
+    return scaleAxis(getLeftXAxis());
+  }
+
+  public static double getLeftYAxis() {
+    return controller.getLeftY() * -1.0;
+  }
+
+  public static double getScaledLeftYAxis() {
+    return scaleAxis(getLeftYAxis());
+  }
+
+  public static double getRightXAxis() {
+    return controller.getRightX();
+  }
+
+  public static double getScaledRightXAxis() {
+    return scaleAxis(getRightXAxis());
+  }
+
+  public static double getRightYAxis() {
+    return controller.getRightY() * -1.0;
+  }
+
+  public static double getScaledRightYAxis() {
+    return scaleAxis(getRightYAxis());
+  }
+
 }
