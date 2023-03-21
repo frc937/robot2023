@@ -44,7 +44,6 @@ public class ManualArm extends CommandBase {
 
     armBaseMove.manualMoveArmBase(armX);
     armShoulderMove.manualMoveArmShoulder(armY);
-    armExtenderMove.manualMoveArmExtender(armZ);
   }
 
   // Called once the command ends or is interrupted.
