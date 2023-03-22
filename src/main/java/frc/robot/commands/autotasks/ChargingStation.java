@@ -1,5 +1,6 @@
 package frc.robot.commands.autotasks;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
 import frc.robot.positioning.Pose;
 import frc.robot.positioning.UnknownPose;
@@ -14,9 +15,16 @@ public class ChargingStation extends AutoTask {
   @Override
   public void initTask() {
     // TODO Auto-generated method stub
-    // TODO: THESE AREN'T ACTUAL VALUES (obviously) THESE NEED TO BE FANCY SCHMANCY VALUES FOR THE CHARGING STATION
-    getAStar().unGenerateNoNoZone(0, 0, 0, 0);
-    setTaskPosition(new UnknownPose());
+    if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
+      // TODO: THESE AREN'T ACTUAL VALUES (obviously) THESE NEED TO BE FANCY SCHMANCY VALUES FOR THE CHARGING STATION
+      getAStar().unGenerateNoNoZone(0, 0, 0, 0);
+      setTaskPosition(new UnknownPose());
+    }
+    else if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
+      // TODO: THESE AREN'T ACTUAL VALUES (obviously) THESE NEED TO BE FANCY SCHMANCY VALUES FOR THE CHARGING STATION
+      getAStar().unGenerateNoNoZone(0, 0, 0, 0);
+      setTaskPosition(new UnknownPose());
+    }
     setArrivedCommand(balance);
   }
 
