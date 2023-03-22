@@ -1,13 +1,14 @@
 package frc.robot.commands.autotasks;
 
 import frc.robot.positioning.Pose;
+import frc.robot.positioning.UnknownPose;
 
 public class PickupCone extends AutoTask {
 
   @Override
   public void initTask() {
     // TODO Auto-generated method stub
-    getAStar().unGenerateNoNoZone(0, 0, 0, 0);
+    setTaskPosition(new UnknownPose());
     // put fancy command here that does fancy pickup
   }
 
