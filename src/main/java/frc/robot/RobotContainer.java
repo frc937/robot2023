@@ -40,7 +40,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Limelight limelight = new Limelight();
   private final Drive driveSubsystem = new Drive(limelight);
-  private final TaskScheduler taskScheduler = new TaskScheduler();
+  private final TaskScheduler taskScheduler = new TaskScheduler(driveSubsystem);
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
   private Pose armPose;
   /* BIG CHUNGUS ARM CODE */

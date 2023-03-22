@@ -16,20 +16,25 @@ public class TaskScheduler extends SubsystemBase {
 
   private AutoTask currentTask;
   private Pose botPosition;
+  private Drive drive;
 
-  public TaskScheduler() {}
+  public TaskScheduler(Drive drive) {
+    
+  }
 
   @Override
   public void periodic() {
-    /*
-     * If the current task has ended it does not update it.
-     * Then grabs the next task if the current one has ended.
-     */
+    if (currentTask != null) {
+      if (currentTask.getPathReferece().get().isPathGenerated()) {
+        
+      }
     if (!currentTask.ended()) {
       currentTask.updateTask(botPosition);
     } else {
       nextTask();
     }
+    this.botPosition = new Pose(drive.getMecanumDrivePoseEstimator().getEstimatedPosition());
+  }
   }
 
   /**
@@ -99,6 +104,7 @@ public class TaskScheduler extends SubsystemBase {
   /** Inits a command. */
   private void initTask() {
     currentTask.initTask();
+    currentTask.generateTaskPath();
   }
 
   /**

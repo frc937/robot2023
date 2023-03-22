@@ -1,5 +1,6 @@
 package frc.robot.positioning;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -15,6 +16,10 @@ public class Pose extends Pose3d {
   /** Constructs a Pose from a Pose3d */
   public Pose(final Pose3d rhs) {
     super(rhs.getTranslation(), rhs.getRotation());
+  }
+  
+  public Pose(final Pose2d pose) {
+    super(pose);
   }
 
   /** Constructs a Pose at x,y,z with default orientation */

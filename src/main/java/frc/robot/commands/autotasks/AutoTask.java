@@ -194,7 +194,7 @@ public abstract class AutoTask {
    * Generates the task path (AStar path)
    * <p> Make sure to use isPathGenerated() otherwise you will be grabbing a null path.
    */
-  protected void generateTaskPath() {
+  public void generateTaskPath() {
     path = aStar.generateAStarPath();
   }
 
