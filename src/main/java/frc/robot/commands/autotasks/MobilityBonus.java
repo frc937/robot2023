@@ -10,7 +10,7 @@ import frc.robot.Constants;
 
 public class MobilityBonus extends AutoTask {
   /** Defines whether or not the bot will exit from above the charging station (top/true), or below (bottom/false) */
-  boolean isTopExit;
+  private boolean isTopExit;
 
   @Override
   public void initTask() {
