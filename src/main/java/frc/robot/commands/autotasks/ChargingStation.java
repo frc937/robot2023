@@ -6,7 +6,7 @@ import frc.robot.positioning.UnknownPose;
 import frc.robot.commands.Balance;
 
 public class ChargingStation extends AutoTask {
-  Balance balance;
+  private Balance balance;
   public ChargingStation(Balance balance) {
     this.balance = balance;
   }
