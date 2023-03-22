@@ -2,6 +2,7 @@ package frc.robot.commands.autotasks;
 
 import frc.robot.Constants;
 import frc.robot.positioning.Pose;
+import frc.robot.positioning.UnknownPose;
 import frc.robot.commands.Balance;
 
 public class ChargingStation extends AutoTask {
@@ -15,6 +16,7 @@ public class ChargingStation extends AutoTask {
     // TODO Auto-generated method stub
     // TODO: THESE AREN'T ACTUAL VALUES (obviously) THESE NEED TO BE FANCY SCHMANCY VALUES FOR THE CHARGING STATION
     getAStar().unGenerateNoNoZone(0, 0, 0, 0);
+    setTaskPosition(new UnknownPose());
     setArrivedCommand(balance);
   }
 
