@@ -3,17 +3,23 @@ package frc.robot.commands.autotasks;
 import frc.robot.positioning.Pose;
 import frc.robot.positioning.UnknownPose;
 import frc.robot.positioning.AStar;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
 public class MobilityBonus extends AutoTask {
+  boolean isTopExit;
 
   @Override
   public void initTask() {
     // TODO Auto-generated method stub
 
+    
+    isTopExit = SmartDashboard.getBoolean("Exit from Top?", true);
+
     // TODO Get boolean input from shuffleboard, for top or bottom exit
-    if (false) {
+    if (isTopExit) {
+      // make sure this one is the top exit V
       setTaskPosition(new UnknownPose());
     }
 
