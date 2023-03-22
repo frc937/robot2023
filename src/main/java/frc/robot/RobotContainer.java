@@ -71,6 +71,7 @@ public class RobotContainer {
     configureBindings();
 
     compilationArm.setDefaultCommand(manualArm);
+    driveSubsystem.setDefaultCommand(driveRO);
   }
 
   
