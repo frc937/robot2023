@@ -33,7 +33,7 @@ public abstract class AutoTask {
   private Drive drive;
   private AtomicReference<Path> path;
 
-  private enum State {
+  protected enum State {
     INIT,
     NAVIGATING,
     ARRIVED,
@@ -238,6 +238,12 @@ public abstract class AutoTask {
   protected void setArrivedCommand(CommandBase command) {
     arrivedCommand = command;
   }
+/**
+ * 
+ */
+protected void setTaskState(State state) {
+  this.commandState = state;
+}
 
   /**
    * Runs checks on the autotasks to make sure the tasks are valid
