@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Wait extends AutoTask {
   /** The amount of time the bot should wait for in seconds */
-  double time;
-  Thread thread = new Thread();
+  private double time;
+  private Thread thread = new Thread();
 
   @Override
   public void initTask() {
