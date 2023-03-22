@@ -73,7 +73,6 @@ public abstract class AutoTask {
     }
   }
 
-
   /** Ran when the AutoTask arrives at the defined position. */
   public abstract void arrived();
 
