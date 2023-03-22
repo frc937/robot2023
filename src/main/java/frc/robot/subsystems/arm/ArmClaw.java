@@ -66,7 +66,7 @@ public class ArmClaw extends SubsystemBase {
   @Override
   public void periodic() {
     /* Allows us to have a way to make this code not run, so we can do things like open the claw. */
-    if (setpoint.equals(null)) {
+    if (setpoint == null) {
       return;
     } else {
       /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
