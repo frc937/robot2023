@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Wait extends AutoTask {
+  /** The amount of time the bot should wait for in seconds */
   double time;
   Thread thread = new Thread();
 
@@ -15,7 +16,8 @@ public class Wait extends AutoTask {
     // THIS LITERALLY JUST GIVES YOU THE ROBOTS CURRENT POSITION; IT'S BOILERPLATE
     setTaskPosition(Constants.RobotDimensions.CENTER_POSE.getWorldOriented(new Pose()));
 
-    time = SmartDashboard.getNumber("Wait Time", 0.0);
+    // Is divided by 1000 to convert from milliseconds to seconds.
+    time = SmartDashboard.getNumber("Wait Time", 0.0) / 1000;
 
     this.thread = new Thread(() -> {
       try {
