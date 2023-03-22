@@ -7,7 +7,8 @@ public class PickupCone extends AutoTask {
   @Override
   public void initTask() {
     // TODO Auto-generated method stub
-    
+    getAStar().unGenerateNoNoZone(0, 0, 0, 0);
+    // put fancy command here that does fancy pickup
   }
 
   @Override
