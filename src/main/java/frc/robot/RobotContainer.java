@@ -63,34 +63,7 @@ public class RobotContainer {
 
   private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public static double getRightXAxis() {
 
-    return controller.getRightX();
-  }
-
-  public static double getRightYAxis() {
-    return controller.getRightY();
-  }
-
-  public static double getLeftYAxis() {
-    return controller.getLeftY();
-  }
-
-  private static double scaleAxis(double a) {
-    return Math.signum(a) * Math.pow(a, 2);
-  }
-
-  public static double getScaledRightXAxis() {
-    return scaleAxis(getRightXAxis());
-  }
-
-  public static double getScaledRightYAxis() {
-    return scaleAxis(getRightYAxis());
-  }
-
-  public static double getScaledLeftYAxis() {
-    return scaleAxis(getLeftYAxis());
-  }
 
   
 
