@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.Plunger;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
+import frc.robot.commands.DeployPlunger;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
@@ -46,6 +48,8 @@ public class RobotContainer {
   private final ManualArm manualArm = new ManualArm(armBase, armShoulder, armExtender, compilationArm);
   private final Pose pose = new Pose();
   private RetractArm retractArmCommand = new RetractArm(armExtender);
+  private final Plunger plunger = new Plunger();
+  private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
 
   private final Balance balance = new Balance(driveSubsystem);
   private final DriveRobotOriented driveRO = new DriveRobotOriented(driveSubsystem);
@@ -115,6 +119,8 @@ public class RobotContainer {
    
 
     joystick.trigger().onTrue(openClaw);
+
+    controller.y().whileTrue(deployPlunger);
 
     controller.povUp().whileTrue(balance);
 
