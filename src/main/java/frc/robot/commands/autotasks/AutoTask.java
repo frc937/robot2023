@@ -103,7 +103,10 @@ public abstract class AutoTask {
    */
   public CommandBase getActiveCommand() {
     return runningCommand;
+  }
 
+  public AStar getAStar() {
+    return aStar;
   }
 
   /**
