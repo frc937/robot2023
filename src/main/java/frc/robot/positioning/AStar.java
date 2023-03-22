@@ -46,6 +46,8 @@ public class AStar {
   public int endY;
   /** The x of the end coord */
   public int endX;
+  /** Whether or not AStar is allowed to run */
+  private boolean enabled = true;
 
   static {
     // creates nodes for cell
@@ -100,10 +102,10 @@ public class AStar {
                 if (cell[startY][startX].hValue != -1 && pathList.contains(cell[endY][endX])) {
 
                   //TODO: PLEASE PLEASE PLEASE CHANGE THESE MESSAGES
-                  SmartDashboard.putString("Euclidean Path Found ", "it's ready OWO");
+                  SmartDashboard.putString("AStar Path Found ", "it's ready OWO");
 
                 } else {
-                  SmartDashboard.putString("Euclidean Path Found ", "sowwy uwu");
+                  SmartDashboard.putString("AStar Path Found ", "sowwy uwu");
                 }
 
                 /*
@@ -218,7 +220,7 @@ public class AStar {
     // Adds the Starting cell inside the openList
     openList.add(cell[startY][startX]);
 
-    while (true) {
+    while (enabled) {
 
       // Gets and removes the objects that's stored on the top of the openList and
       // saves it inside node
@@ -433,5 +435,13 @@ public class AStar {
         grid[y][x] = false;
       }
     }
+  }
+
+  /** 
+   * Disables AStar from running further
+   * <p> AStar is naturally enabled
+   */
+  public void disableAStar() {
+    enabled = false;
   }
 }
