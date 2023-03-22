@@ -1,5 +1,6 @@
 package frc.robot.commands.autotasks;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.positioning.Pose;
 import frc.robot.positioning.UnknownPose;
 
@@ -8,7 +9,13 @@ public class PickupCone extends AutoTask {
   @Override
   public void initTask() {
     // TODO Auto-generated method stub
-    setTaskPosition(new UnknownPose());
+    if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
+      setTaskPosition(new UnknownPose());
+    }
+    else if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
+      setTaskPosition(new UnknownPose());
+    }
+
     // put fancy command here that does fancy pickup
   }
 
