@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 
 public class MobilityBonus extends AutoTask {
+  /** Defines whether or not the bot will exit from above the charging station (top/true), or below (bottom/false) */
   boolean isTopExit;
 
   @Override
   public void initTask() {
     // TODO Auto-generated method stub
 
-    
     isTopExit = SmartDashboard.getBoolean("Exit from Top?", true);
 
     // TODO Get boolean input from shuffleboard, for top or bottom exit
