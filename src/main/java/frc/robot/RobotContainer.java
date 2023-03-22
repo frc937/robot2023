@@ -121,7 +121,7 @@ public class RobotContainer {
 
     controller.rightBumper().onTrue(retract);
 
-    joystick
+    /*joystick
         .button(2)
         .onTrue(
             new MoveToPose(
@@ -189,7 +189,7 @@ public class RobotContainer {
         .button(1)
         .onTrue(
             new MoveToPose(
-                Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));
+                Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));*/
   }
 
   /**
