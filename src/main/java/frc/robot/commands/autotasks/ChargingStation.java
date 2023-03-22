@@ -20,7 +20,7 @@ public class ChargingStation extends AutoTask {
       getAStar().unGenerateNoNoZone(0, 0, 0, 0);
       setTaskPosition(new UnknownPose());
     }
-    else if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
+    else if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
       // TODO: THESE AREN'T ACTUAL VALUES (obviously) THESE NEED TO BE FANCY SCHMANCY VALUES FOR THE CHARGING STATION
       getAStar().unGenerateNoNoZone(0, 0, 0, 0);
       setTaskPosition(new UnknownPose());
