@@ -116,11 +116,11 @@ public class RobotContainer {
 
     joystick.trigger().onTrue(openClaw);
 
-    controller.povUp().onTrue(balance);
+    controller.povUp().whileTrue(balance);
 
-    controller.leftBumper().onTrue(extend);
+    controller.leftBumper().whileTrue(extend);
 
-    controller.rightBumper().onTrue(retract);
+    controller.rightBumper().whileTrue(retract);
 
     /*joystick
         .button(2)
