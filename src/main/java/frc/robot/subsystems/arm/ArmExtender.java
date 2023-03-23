@@ -6,10 +6,10 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.Rev2mDistanceSensor;
-import com.revrobotics.Rev2mDistanceSensor.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.I2CManager;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -19,20 +19,15 @@ public class ArmExtender extends SubsystemBase {
   private Talon winch;
   private boolean extenderAtSetpoint;
 
-  /* If VS Code thinks this library can't be found, it's probably wrong.
-   * Usually the code builds just fine even if VS Code thinks the library can't be found.
-   */
-  private Rev2mDistanceSensor lengthSensor;
+  private I2CManager I2CManager;
 
   private Double setpoint;
 
   /** Creates a new ArmExtender. Should be called once from {@link frc.robot.RobotContainer}. */
-  public ArmExtender() {
+  public ArmExtender(I2CManager I2CManager) {
     winch = new Talon(Constants.Arm.ID_TALON_ARM_WINCH);
-    // we do not know which stage corresponds to which port, so change later
-    lengthSensor = new Rev2mDistanceSensor(Port.kOnboard);
-    lengthSensor.setAutomaticMode(true);
     setpoint = Constants.Arm.MIN_LENGTH_ARM_EXTENDER;
+    this.I2CManager = I2CManager;
     extenderAtSetpoint = false;
   }
 
@@ -61,11 +56,7 @@ public class ArmExtender extends SubsystemBase {
    * @return The length of the arm from the shoulder to the claw in inches.
    */
   public double getLength() {
-    if (lengthSensor.isRangeValid()) {
-      return lengthSensor.getRange();
-    } else {
-      return -1.0;
-    }
+    return I2CManager.getCurrentRange(); /* TODO: CHANGE THIS WHEN I2C MANAGER SUBSYSTEM IS DONE */
   }
 
   /**
@@ -89,7 +80,7 @@ public class ArmExtender extends SubsystemBase {
    */
   @Override
   public void periodic() {
-    if (setpoint != null) {
+    if (setpoint != null && I2CManager.isCurrentRangeValid()) {
       /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
       if (Math.abs(setpoint - getLength()) >= Constants.Arm.DONE_THRESHOLD_ARM_EXTENSION) {
         if (getLength() > setpoint) {

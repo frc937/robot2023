@@ -149,6 +149,11 @@ public final class Constants {
     }
   }
 
+  public static class I2C {
+    public static int DISTANCE_SENSOR_MULTIPLEXER_PORT = 0;
+    public static int COLOR_SENSOR_MULTIPLEXER_PORT = 1;
+  }
+
   public static class Limits {
     /** Maximum horizontal extension over the frame in inches */
     public static final double MAX_FRAME_EXTENSION = 48.0;
