@@ -16,7 +16,7 @@ public class MobilityBonus extends AutoTask {
   public void initTask() {
     // TODO Auto-generated method stub
 
-    isTopExit = SmartDashboard.getBoolean("Exit from Top?", true);
+    isTopExit = SmartDashboard.getBoolean("Exit from Top?", false);
 
     if (DriverStation.getAlliance() == DriverStation.Alliance.Red) {
       if (isTopExit) {

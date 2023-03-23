@@ -1,5 +1,6 @@
 package frc.robot.commands.autotasks;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.MoveToPose;
 import frc.robot.positioning.Pose;
 
@@ -11,8 +12,8 @@ public class PlaceCone extends AutoTask {
 
   @Override
   public void initTask() {
-    //TODO: This is where the AStar should go (probably);
-    
+    //TODO
+
   }
 
   @Override
