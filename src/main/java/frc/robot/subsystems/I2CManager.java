@@ -5,11 +5,9 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.ColorSensorV3;
-import com.revrobotics.Rev2mDistanceSensor;
-import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
-import com.revrobotics.Rev2mDistanceSensor.Unit;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -17,7 +15,7 @@ import frc.robot.TCA9548A;
 
 public class I2CManager extends SubsystemBase {
   private TCA9548A multiplexer;
-  private Rev2mDistanceSensor dist;
+  private ColorSensorV3 dist; /* This is a color sensor, but we only use it for distance */
   private ColorSensorV3 color;
   private boolean currentRangeValid;
   private double currentRange;
@@ -26,27 +24,36 @@ public class I2CManager extends SubsystemBase {
   /** Creates a new I2CManager. */
   public I2CManager() {
     multiplexer = new TCA9548A();
-    dist = new Rev2mDistanceSensor(Rev2mDistanceSensor.Port.kMXP, Unit.kMillimeters, RangeProfile.kDefault);
+    multiplexer.setBus(Constants.I2C.DISTANCE_SENSOR_MULTIPLEXER_PORT);
+    dist = new ColorSensorV3(I2C.Port.kMXP);
+    multiplexer.setBus(Constants.I2C.COLOR_SENSOR_MULTIPLEXER_PORT);
     color = new ColorSensorV3(I2C.Port.kMXP);
     /* TODO: color/distance sensors MAY need additional config */
   }
 
-  public boolean isRangeValid() {
-    
+  public boolean isCurrentRangeValid() {
+    return this.currentRangeValid;
+  }
+
+  public double getCurrentRange() {
+    return this.currentRange;
+  }
+
+  public Color getCurrentColor() {
+    return this.currentColor;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
     multiplexer.setBus(Constants.I2C.DISTANCE_SENSOR_MULTIPLEXER_PORT);
-    /* This might not work because the thread that setEnabled(bool) starts might not get the range
-     * of the distance sensor before we .getRange()
-     */
-    dist.setAutomaticMode(true);
-    currentRangeValid = dist.isRangeValid();
-    currentRange = dist.getRange();
-    dist.setAutomaticMode(false);
+    currentRangeValid = dist.getProximity() == 0;
+    currentRange = dist.getProximity(); /* TODO: convert between this and inches */
+    /* TODO: remove smartdash stuff when we're done testing */
+    SmartDashboard.putNumber("Current proximity", currentRange);
     multiplexer.setBus(Constants.I2C.COLOR_SENSOR_MULTIPLEXER_PORT);
     currentColor = color.getColor();
+    SmartDashboard.putNumber("Red:", color.getRed());
+    SmartDashboard.putNumber("Blue", color.getBlue());
+    SmartDashboard.putNumber("Green:", color.getGreen());
   }
 }

@@ -17,6 +17,7 @@ import frc.robot.commands.RetractArm;
 import frc.robot.positioning.Pose;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.I2CManager;
 import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.ArmClaw;
 import frc.robot.subsystems.arm.ArmExtender;
@@ -35,9 +36,10 @@ public class RobotContainer {
   private final Drive driveSubsystem = new Drive();
   private Pose armPose;
   /* BIG CHUNGUS ARM CODE */
+  private final I2CManager I2CManager = new I2CManager();
   private final ArmBase armBase = new ArmBase();
   private final ArmShoulder armShoulder = new ArmShoulder();
-  private final ArmExtender armExtender = new ArmExtender();
+  private final ArmExtender armExtender = new ArmExtender(I2CManager);
   private final ArmClaw armClaw = new ArmClaw();
   private final CompilationArm compilationArm =
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
