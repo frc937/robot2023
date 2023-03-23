@@ -41,7 +41,7 @@ public class ManualArm extends CommandBase {
 
     armX = RobotContainer.getScaledRightXAxis();
     armY = RobotContainer.getScaledRightYAxis();
-    armZ = RobotContainer.getScaledLeftYAxis();
+    /*armZ = RobotContainer.getScaledLeftYAxis();*/
 
     armBaseMove.manualMoveArmBase(armX);
     armShoulderMove.manualMoveArmShoulder(armY);

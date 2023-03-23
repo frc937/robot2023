@@ -19,6 +19,7 @@ import frc.robot.commands.RetractArm;
 import frc.robot.positioning.Pose;
 import frc.robot.commands.DriveRobotOriented;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ExtendArm;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.arm.ArmBase;
@@ -54,10 +55,11 @@ public class RobotContainer {
   private final Balance balance = new Balance(driveSubsystem);
   private final DriveRobotOriented driveRO = new DriveRobotOriented(driveSubsystem);
 
-  private final Command openClaw = armClaw.openClawCommand();
+  private final Command openClaw = armClaw.manualOpenClawCommand();
+  private final Command closeClaw = armClaw.manualCloseClawCommand();
 
-  private final Command extend = armExtender.ExtendCommand();
-  private final Command retract = armExtender.RetractCommand();
+  private final ExtendArm extend = new ExtendArm(armExtender);
+  private final RetractArm retract = new RetractArm(armExtender);
 
   
 
@@ -118,7 +120,9 @@ public class RobotContainer {
 
    
 
-    joystick.trigger().onTrue(openClaw);
+    controller.a().whileTrue(openClaw);
+
+    controller.b().whileTrue(closeClaw);
 
     controller.y().whileTrue(deployPlunger);
 

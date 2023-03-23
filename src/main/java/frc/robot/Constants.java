@@ -32,10 +32,10 @@ public final class Constants {
   /** General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}. */
   public static class DriveConstants {
     /* CAN IDs for the drivetrain motor controllers */
-    public static final int ID_TALON_FRONT_LEFT = 0;
+    public static final int ID_TALON_FRONT_LEFT = 3;
     public static final int ID_TALON_FRONT_RIGHT = 1;
-    public static final int ID_TALON_REAR_LEFT = 2;
-    public static final int ID_TALON_REAR_RIGHT = 3;
+    public static final int ID_TALON_REAR_LEFT = 4;
+    public static final int ID_TALON_REAR_RIGHT = 2;
   }
 
   public static class Arm {
@@ -51,10 +51,10 @@ public final class Constants {
      */
     public static final double KEEP_OUT_HEIGHT = -1.0; // Update this when measured
 
-    public static final int ID_TALON_ARM_SHOULDER = 4;
-    public static final int ID_TALON_ARM_WINCH = 5;
-    public static final int ID_TALON_ARM_CLAW = 6;
-    public static final int ID_TALON_ARM_BASE = 7;
+    public static final int ID_TALON_ARM_SHOULDER = 6;
+    public static final int ID_TALON_ARM_WINCH = 2;
+    public static final int ID_TALON_ARM_CLAW = 0;
+    public static final int ID_TALON_ARM_BASE = 5;
 
     public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = false;
     public static final boolean INVERTED_TALON_SENSOR_ARM_EXTENSION = false;
@@ -72,7 +72,7 @@ public final class Constants {
 
     public static final double SPEED_WINCH_ARM_EXTENSION = 0.15;
 
-    public static final double SPEED_ARM_CLAW = 0.2;
+    public static final double SPEED_ARM_CLAW = 1;
 
     public static class ShoulderPID {
       public static final double kP = 0.0;

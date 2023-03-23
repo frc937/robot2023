@@ -10,12 +10,13 @@ import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** This subsystem represents the climber in a box that extends the arm on the robot. */
 public class ArmExtender extends SubsystemBase {
 
-  private WPI_TalonSRX winch;
+  private Talon winch;
   private boolean extenderAtSetpoint;
 
   /* If VS Code thinks this library can't be found, it's probably wrong.
@@ -27,7 +28,7 @@ public class ArmExtender extends SubsystemBase {
 
   /** Creates a new ArmExtender. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmExtender() {
-    winch = new WPI_TalonSRX(Constants.Arm.ID_TALON_ARM_WINCH);
+    winch = new Talon(Constants.Arm.ID_TALON_ARM_WINCH);
     // we do not know which stage corresponds to which port, so change later
     lengthSensor = new Rev2mDistanceSensor(Port.kOnboard);
     lengthSensor.setAutomaticMode(true);
@@ -38,11 +39,11 @@ public class ArmExtender extends SubsystemBase {
 
 
   public void Extend() {
-    winch.set(ControlMode.Velocity, 0.2);
+    winch.set(0.2);
   }
 
   public void Retract() {
-    winch.set(ControlMode.Velocity, -0.2);
+    winch.set(-0.2);
   }
 
   public Command ExtendCommand() {
