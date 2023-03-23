@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.positioning.Pose;
 import frc.robot.positioning.UnknownPose;
 
-public class PickupCone extends AutoTask {
+public class PickupGamePiece extends AutoTask {
 
   private enum Spot {
     TOP,
