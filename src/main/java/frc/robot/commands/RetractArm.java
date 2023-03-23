@@ -19,7 +19,7 @@ public class RetractArm extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    this.armExtender.Retract();
+    this.armExtender.retract();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

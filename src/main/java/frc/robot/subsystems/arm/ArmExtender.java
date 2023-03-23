@@ -33,20 +33,20 @@ public class ArmExtender extends SubsystemBase {
 
 
 
-  public void Extend() {
+  public void extend() {
     winch.set(0.2);
   }
 
-  public void Retract() {
+  public void retract() {
     winch.set(-0.2);
   }
 
-  public Command ExtendCommand() {
-    return this.runOnce(() -> this.Extend());
+  public Command extendCommand() {
+    return this.runOnce(() -> this.extend());
   }
 
-  public Command RetractCommand() {
-    return this.runOnce(() -> this.Retract());
+  public Command retractCommand() {
+    return this.runOnce(() -> this.retract());
   }
 
   /**
