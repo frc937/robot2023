@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.positioning.Pose;
 import frc.robot.positioning.UnknownPose;
 
-public class PickupCone extends AutoTask {
+public class PickupGamePiece extends AutoTask {
 
   private enum Spot {
     TOP,
@@ -16,6 +16,8 @@ public class PickupCone extends AutoTask {
   private boolean isTop;
   private boolean isMiddle;
   private boolean isBottom;
+  /** Whether or not the object being picked up is a cone; false for cube */
+  private boolean isCone;
 
   @Override
   public void initTask() {
@@ -60,6 +62,15 @@ public class PickupCone extends AutoTask {
       else if (DriverStation.getAlliance() == DriverStation.Alliance.Blue) {
         setTaskPosition(new UnknownPose());
       }
+    }
+
+    isCone = SmartDashboard.getBoolean("isCone", true);
+
+    if (isCone) {
+      //put fancy cone command here
+    }
+    else {
+      //put fancy cube command here
     }
 
     // put fancy command here that does fancy pickup

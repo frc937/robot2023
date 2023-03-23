@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.MoveToPose;
 import frc.robot.positioning.Pose;
 
-public class PlaceCone extends AutoTask {
+public class PlaceGamePiece extends AutoTask {
   private MoveToPose moveToPose;
-  public PlaceCone(MoveToPose mToPose) {
+  public PlaceGamePiece(MoveToPose mToPose) {
     moveToPose = mToPose;
   }
 
