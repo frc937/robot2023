@@ -130,9 +130,7 @@ public abstract class AutoTask {
       }
       if (!runningCommand.isScheduled() & !runningCommand.isFinished()) {
         runningCommand.schedule();
-      } else if (runningCommand.isFinished()){
-        commandState = State.NAVIGATING;
-      }
+      } 
     }
   }
 
@@ -241,6 +239,9 @@ public abstract class AutoTask {
  */
 public void setTaskState(State state) {
   this.commandState = state;
+}
+public boolean isInitFinished() {
+  return initCommand.isFinished();
 }
 
 public Pose getPose(){
