@@ -4,7 +4,6 @@
 
 package frc.robot.commands.autotasks;
 
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.positioning.Pose;
 import frc.robot.positioning.Path;
@@ -33,7 +32,7 @@ public abstract class AutoTask {
   private Drive drive;
   private AtomicReference<Path> path;
 
-  protected enum State {
+  public enum State {
     INIT,
     NAVIGATING,
     ARRIVED,
@@ -203,7 +202,7 @@ public abstract class AutoTask {
    * Make sure the path has been generated before utilizing the path.
    * @return true/false if path is generated
    */
-  protected boolean isPathGenerated() {
+  public boolean isPathGenerated() {
     return path.get().isPathGenerated();
   }
 
@@ -240,10 +239,13 @@ public abstract class AutoTask {
 /**
  * 
  */
-protected void setTaskState(State state) {
+public void setTaskState(State state) {
   this.commandState = state;
 }
 
+public Pose getPose(){
+  return taskPos;
+}
   /**
    * Runs checks on the autotasks to make sure the tasks are valid
    */
