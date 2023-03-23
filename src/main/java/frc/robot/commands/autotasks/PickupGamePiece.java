@@ -13,26 +13,23 @@ public class PickupGamePiece extends AutoTask {
     BOTTOM
   };
   private Spot spot;
-  private boolean isTop;
-  private boolean isMiddle;
-  private boolean isBottom;
+  /** The height of the game piece spot thing, 1 is the top, 3 is the bottom */
+  private int location;
   /** Whether or not the object being picked up is a cone; false for cube */
   private boolean isCone;
 
   @Override
   public void initTask() {
     
-    isTop = SmartDashboard.getBoolean("exitTop", false);
-    isMiddle = SmartDashboard.getBoolean("exitMiddle", false);
-    isBottom = SmartDashboard.getBoolean("exitBottom", false);
+    location = (int) SmartDashboard.getNumber("gridHeight", 3.0);
 
-    if (isTop) {
+    if (location == 1) {
       spot = Spot.TOP;
     }
-    else if (isMiddle) {
+    else if (location == 2) {
       spot = Spot.MIDDLE;
     }
-    else if (isBottom) {
+    else if (location == 3) {
       spot = Spot.BOTTOM;
     }
 
