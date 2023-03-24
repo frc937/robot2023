@@ -5,31 +5,36 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.arm.ArmBase;
+import frc.robot.subsystems.arm.ArmClaw;
+import frc.robot.subsystems.arm.ArmExtender;
 import frc.robot.subsystems.arm.ArmShoulder;
 public class HomingRoutine extends CommandBase {
 
   private final ArmBase armBase;
   private final ArmShoulder armShoulder;
+  private final ArmExtender armExtender;
+  private final ArmClaw armClaw;
   
   /** Creates a new Homing Routine. */
-  public HomingRoutine(ArmBase armBaseSubsystem, ArmShoulder armShoulderSubsystem) {
+  public HomingRoutine(ArmBase armBaseSubsystem, ArmShoulder armShoulderSubsystem, ArmExtender armExtender, ArmClaw armClaw) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.armBase = armBaseSubsystem;
     this.armShoulder = armShoulderSubsystem;
+    this.armExtender = armExtender;
+    this.armClaw = armClaw;
 
     addRequirements(armBaseSubsystem, armShoulderSubsystem);
-
-    
-
-
-
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    armClaw.openClaw();
+    armExtender.set(Constants.Arm.MIN_LENGTH_ARM_EXTENDER);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
