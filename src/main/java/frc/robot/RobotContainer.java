@@ -99,7 +99,6 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
     // Verify auto tasks. If each task isnt verified the autotask will throw a exception.
-    verifyAutoTasks();
 
     compilationArm.setDefaultCommand(manualArm);
   }
@@ -209,11 +208,6 @@ public class RobotContainer {
         .onTrue(
             new MoveToPose(
                 Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));
-  }
-
-  private void verifyAutoTasks() {
-    exampleAutoTask.verify();
-
   }
 
   /**

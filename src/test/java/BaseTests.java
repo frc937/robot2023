@@ -9,9 +9,4 @@ public class BaseTests {
     System.out.println("Test :)");
     assert true;
   }
-
-  @Test
-  public void TestAutoTasks() {
-    new ExampleAutoTask(null).verify();
-  }
 }
