@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -12,7 +13,11 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.autotasks.ChargingStation;
 import frc.robot.commands.autotasks.ExampleAutoTask;
+import frc.robot.commands.autotasks.MobilityBonus;
+import frc.robot.commands.autotasks.PickupGamePiece;
+import frc.robot.commands.autotasks.PlaceGamePiece;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
@@ -58,6 +63,10 @@ public class RobotContainer {
   private final Command openClaw = armClaw.openClawCommand();
   /* AUTO TASKS */
     private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
+    private final MobilityBonus mobilityBonus = new MobilityBonus();
+    private final PickupGamePiece pickupGamePiece = new PickupGamePiece();
+    private final PlaceGamePiece placeGamePiece = new PlaceGamePiece();
+    private final ChargingStation chargingStation = new ChargingStation(balance);
   /* CONTROLLERS */
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
@@ -215,6 +224,26 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return Autos.exampleAuto(exampleSubsystem);
+  }
+
+  /**
+   * generates the auto tasks that are enabled from Shuffleboard and queues them
+   */
+  public void generateAutotasks() {
+    
+    if (SmartDashboard.getBoolean("MobilityBonus", false)) {
+      taskScheduler.queueTask(mobilityBonus);
+    }
+    if (SmartDashboard.getBoolean("PickupGamePiece", false)) {
+      taskScheduler.queueTask(pickupGamePiece);
+    }
+    if (SmartDashboard.getBoolean("PlaceGamePiece", false)) {
+      taskScheduler.queueTask(placeGamePiece);
+    }
+    if (SmartDashboard.getBoolean("ChargingStation", false)) {
+      taskScheduler.queueTask(chargingStation);
+    }
+
   }
 
   public Command getResetCommand() {
