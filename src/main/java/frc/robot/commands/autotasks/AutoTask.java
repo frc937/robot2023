@@ -10,9 +10,7 @@ import frc.robot.positioning.Path;
 import frc.robot.Constants;
 import frc.robot.positioning.AStar;
 import java.util.concurrent.atomic.AtomicReference;
-// TODO: Add fallback commands
 
-//TODO: Add fallback commands
 /**
  * Base class for autotasks.
  * If you want to create an autotask extend this class.
@@ -199,7 +197,10 @@ public abstract class AutoTask {
   public boolean isPathGenerated() {
     return path.get().isPathGenerated();
   }
-
+  /**
+   * Returns the atomic reference for the current path.
+   * @return The atomic reference for the current path.
+   */
   public AtomicReference<Path> getPathReferece() {
       return path;
   }
@@ -231,18 +232,27 @@ public abstract class AutoTask {
     arrivedCommand = command;
   }
 /**
- * 
+ *  Sets the task state
+ *  @param state the state of the task.
  */
 public void setTaskState(State state) {
   this.commandState = state;
 }
+/**
+ *  Returns if init is finished
+ * @return true/false finished/not finished
+ */
 public boolean isInitFinished() {
   return initCommand.isFinished();
 }
-
+/**
+ *  Returns the pose for the AutoTask
+ *  @return the pose for the AutoTask
+ */
 public Pose getPose(){
   return taskPos;
 }
+
   /**
    * Runs checks on the autotasks to make sure the tasks are valid
    */
