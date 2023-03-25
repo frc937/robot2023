@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -16,6 +17,8 @@ import frc.robot.commands.DeployPlunger;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
+import frc.robot.commands.StartLeavingCommunity;
+import frc.robot.commands.StopLeavingCommunity;
 import frc.robot.positioning.Pose;
 import frc.robot.commands.DriveRobotOriented;
 import frc.robot.commands.ExampleCommand;
@@ -53,6 +56,8 @@ public class RobotContainer {
   private RetractArm retractArmCommand = new RetractArm(armExtender);
   private final Plunger plunger = new Plunger();
   private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
+  private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
+  private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
 
   private final Balance balance = new Balance(driveSubsystem);
   private final DriveRobotOriented driveRO = new DriveRobotOriented(driveSubsystem);
@@ -212,7 +217,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.homingRoutine(armShoulder, armBase);
+    return (Autos.homingRoutine(armShoulder, armBase)).andThen(startLeavingCommunity).andThen(new WaitCommand(2)).andThen(stopLeavingCommunity);
   }
 
   
