@@ -22,7 +22,7 @@ public final class Constants {
 
   public static class RobotDimensions {
     /** The pose of the robot's center */
-    public static final Pose CENTER_POSE = new Pose();
+    public static final Pose CENTER_POSE = new Pose(0, 0, 8.5);
     /** The front/back length of the robot's frame in inches */
     public static final double FRAME_LENGTH = 29.0;
     /** The left/right width of the robot's frame in inches */
@@ -40,7 +40,7 @@ public final class Constants {
 
   public static class Arm {
     /** The pose of the arm's base in robot oriented coordinates */
-    public static final Pose BASE_POSE = new Pose();
+    public static final Pose BASE_POSE = new Pose(0, 0, 8.5);
     /** The distance between the floor and the arm base in inches */
     public static final double BASE_DISTANCE_TO_FLOOR = 8.5; // Update this when decided
     /** Length in inches from the base of the arm to the shoulder joint */
