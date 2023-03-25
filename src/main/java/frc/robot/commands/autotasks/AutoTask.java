@@ -9,7 +9,6 @@ import frc.robot.positioning.Pose;
 import frc.robot.positioning.Path;
 import frc.robot.Constants;
 import frc.robot.positioning.AStar;
-import frc.robot.subsystems.Drive;
 import java.util.concurrent.atomic.AtomicReference;
 // TODO: Add fallback commands
 
@@ -19,8 +18,6 @@ import java.util.concurrent.atomic.AtomicReference;
  * If you want to create an autotask extend this class.
  */
 public abstract class AutoTask {
-  private boolean initialized = false;
-  private boolean arrived = false;
   private boolean ended = false;
   private boolean verified = false;
   private Pose taskPos;
@@ -29,7 +26,6 @@ public abstract class AutoTask {
   private CommandBase arrivedCommand;
   private State commandState;
   private AStar aStar;
-  private Drive drive;
   private AtomicReference<Path> path;
 
   public enum State {
