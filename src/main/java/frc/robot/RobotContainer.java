@@ -217,7 +217,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return (Autos.homingRoutine(armShoulder, armBase)).andThen(startLeavingCommunity).andThen(new WaitCommand(2)).andThen(stopLeavingCommunity);
+    return (Autos.homingRoutine(armShoulder, armBase,armExtender,armClaw)).andThen(startLeavingCommunity).andThen(new WaitCommand(2)).andThen(stopLeavingCommunity);
   }
 
   
