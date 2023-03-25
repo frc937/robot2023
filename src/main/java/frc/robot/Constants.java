@@ -98,49 +98,49 @@ public final class Constants {
     public static class Poses {
       public static final Pose RESET =
           new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
+              0,
+              0,
+              44);
       public static final Pose SCORE_LOWER =
           new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
+              0,
+              23,
+              -6);
       public static final Pose SCORE_MID_CONE =
           new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
+              0,
+              38,
+              32);
       public static final Pose SCORE_MID_CUBE =
           new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
+              0,
+              38,
+              18);
       public static final Pose SCORE_HIGH_CONE =
           new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
+              0,
+              55,
+              44);
       public static final Pose SCORE_HIGH_CUBE =
           new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
+              0,
+              55,
+              28);
       public static final Pose PICKUP =
           new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
+              0,
+              32,
+              -4);
       public static final Pose HUMAN_SHELF =
           new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
+              0,
+              27,
+              32);
       public static final Pose CARRYING =
           new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
+              0,
+              0,
+              44);
       public static final Pose CLOSE =
           new Pose(
               ArbitraryValues.arbitraryDouble(),
