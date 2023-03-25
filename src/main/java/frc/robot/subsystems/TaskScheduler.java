@@ -95,7 +95,9 @@ public class TaskScheduler extends SubsystemBase {
     }
   }
 
-  /** Skips the currently scheduled class. */
+  /** 
+  * Skips the current AutoTask and queues the next one if it exists.
+  */
   public void skipTask() {
     stopTask();
     nextTask();
@@ -110,7 +112,9 @@ public class TaskScheduler extends SubsystemBase {
     taskqueue.clear();
   }
 
-  /** Gets the next queued task. */
+  /** 
+   *  Executes the next task in the queue if it isnt empty. If it is empty this method does nothing.
+  */
   private void nextTask() {
     if (!taskqueue.isEmpty()) {
       currentTask = taskqueue.pop();
@@ -118,12 +122,17 @@ public class TaskScheduler extends SubsystemBase {
     }
   }
 
-  /** Stops the current running task. Will not pop the next command. */
+  /** Stops the current running task. 
+   *  This will not pop the next command. (This wont have the next one run in the queue run.) 
+   * */
   private void stopTask() {
     currentTask.end();
   }
 
-  /** Inits a command. */
+  /**
+   * Initalizes an AutoTask. <p>
+   * Used when an AutoTask is ran or when the next one in queue is ran
+   */
   private void initTask() {
     currentTask.initTask();
     currentTask.generateTaskPath();
