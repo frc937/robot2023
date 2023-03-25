@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -22,8 +23,6 @@ import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
 import frc.robot.positioning.Pose;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.autotasks.ExampleAutoTask;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -118,23 +117,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    /* Create JoystickButtons out of the controller IDs declared in constants */
-
-    /* this is super not the way we do this anymore */
-    /*JoystickButton aButton = new JoystickButton(controller, Constants.ContollerButtons.A_NUMBER);
-    JoystickButton bButton = new JoystickButton(controller, Constants.ContollerButtons.B_NUMBER);
-    JoystickButton xButton = new JoystickButton(controller, Constants.ContollerButtons.X_NUMBER);
-    JoystickButton yButton = new JoystickButton(controller, Constants.ContollerButtons.Y_NUMBER);
-    JoystickButton leftBumper = new JoystickButton(controller, Constants.ContollerButtons.LEFT_BUMPER_NUMBER);
-    JoystickButton rightBumper = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_BUMPER_NUMBER);
-    JoystickButton backButton = new JoystickButton(controller, Constants.ContollerButtons.BACK_NUMBER);
-    JoystickButton startButton = new JoystickButton(controller, Constants.ContollerButtons.START_NUMBER);
-    JoystickButton leftStick = new JoystickButton(controller, Constants.ContollerButtons.LEFT_STICK_NUMBER);
-    JoystickButton rightStick = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_STICK_NUMBER);
-    POVButton dPadUp = new POVButton(controller, 0);
-    POVButton dPadRight= new POVButton(controller, 90);
-    POVButton dPadDown = new POVButton(controller, 180);
-    POVButton dPadLeft = new POVButton(controller, 270);*/
 
     joystick.trigger().onTrue(openClaw);
 
