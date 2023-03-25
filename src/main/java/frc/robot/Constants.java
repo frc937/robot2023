@@ -42,21 +42,21 @@ public final class Constants {
     /** The pose of the arm's base in robot oriented coordinates */
     public static final Pose BASE_POSE = new Pose();
     /** The distance between the floor and the arm base in inches */
-    public static final double BASE_DISTANCE_TO_FLOOR = 0.0; // Update this when decided
+    public static final double BASE_DISTANCE_TO_FLOOR = 8.5; // Update this when decided
     /** Length in inches from the base of the arm to the shoulder joint */
-    public static final double BASE_TO_SHOULDER_LENGTH = -1.0; // Update this when decided
+    public static final double BASE_TO_SHOULDER_LENGTH = 19; // Update this when decided
     /**
      * How high above the arm base should we keep the end effector to stop the arm from stabbing the
      * robot? This only matters inside the frame perimeter. Distance in inches.
      */
-    public static final double KEEP_OUT_HEIGHT = -1.0; // Update this when measured
+    public static final double KEEP_OUT_HEIGHT = 6; // Update this when measured
 
     public static final int ID_TALON_ARM_SHOULDER = 6;
     public static final int ID_TALON_ARM_WINCH = 2;
     public static final int ID_TALON_ARM_CLAW = 0;
     public static final int ID_TALON_ARM_BASE = 5;
 
-    public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = false;
+    public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = true;
     public static final boolean INVERTED_TALON_SENSOR_ARM_EXTENSION = false;
     public static final boolean INVERTED_TALON_SENSOR_ARM_BASE = false;
 
@@ -65,7 +65,7 @@ public final class Constants {
     public static final boolean INVERTED_TALON_ARM_BASE = false;
 
     // WARNING: CHANGE THIS BEFORE YOU USE THIS ON THE ACTUAL ROBOT
-    public static final double MIN_LENGTH_ARM_EXTENDER = 0.0;
+    public static final double MIN_LENGTH_ARM_EXTENDER = 4.5;
 
     public static final double DONE_THRESHOLD_ARM_EXTENSION = 2.0;
     public static final double DONE_THRESHOLD_ARM_CLAW = 1.0;
