@@ -1,0 +1,23 @@
+no no zones:
+  when on blue alliance:
+    red substation:
+      rect((300, 0), (635, 128))
+      rect((300, 0), (0, 252))
+    red community:
+      rect((1582, 252), (1228, 402))
+      rect((1582, 402), (1127, 800))
+  when on red alliance:
+    blue substation:
+      rect((1282, 0), (947, 128))
+      rect((1282, 0), (1582, 252))
+    blue community:
+      rect((0, 252), (300, 402))
+      rect((0, 402), (455, 800))
+
+POIs:
+  when on blue alliance:
+    blue charge station:
+      rect((256, 402), (449, 649))
+  when on red alliance:
+    red charge station:
+      rect((1326, 402), (1133, 649))
