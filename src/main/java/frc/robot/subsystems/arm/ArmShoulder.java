@@ -43,13 +43,13 @@ public class ArmShoulder extends SubsystemBase {
      */
     WPI_TalonSRX talon = new WPI_TalonSRX(id);
     // talon.configFactoryDefault();
-    talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    talon.configClearPositionOnLimitR(Constants.Arm.AUTO_ZERO_REVERSE_LIMIT_SHOULDER, 0);
     talon.setSensorPhase(Constants.Arm.INVERTED_TALON_SENSOR_ARM_SHOULDER);
     talon.setInverted(Constants.Arm.INVERTED_TALON_ARM_SHOULDER);
-    // talon.config_kP(0, Constants.Arm.PID.kP);
-    // talon.config_kI(0, Constants.Arm.PID.kI);
-    // talon.config_kD(0, Constants.Arm.PID.kD);
-    // talon.config_kF(0, Constants.Arm.PID.kFF);
+    talon.config_kP(0, Constants.Arm.ShoulderPID.kP);
+    talon.config_kI(0, Constants.Arm.ShoulderPID.kI);
+    talon.config_kD(0, Constants.Arm.ShoulderPID.kD);
+    talon.config_kF(0, Constants.Arm.ShoulderPID.kFF);
 
     return talon;
   }

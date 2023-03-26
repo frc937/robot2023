@@ -64,6 +64,9 @@ public final class Constants {
     public static final boolean INVERTED_TALON_ARM_EXTENSION = false;
     public static final boolean INVERTED_TALON_ARM_BASE = false;
 
+    public static final boolean AUTO_ZERO_REVERSE_LIMIT_SHOULDER = true;
+    public static final boolean AUTO_ZERO_REVERSE_LIMIT_BASE = true;
+
     // WARNING: CHANGE THIS BEFORE YOU USE THIS ON THE ACTUAL ROBOT
     public static final double MIN_LENGTH_ARM_EXTENDER = 4.5;
 
@@ -75,10 +78,13 @@ public final class Constants {
     public static final double SPEED_ARM_CLAW = 1;
 
     public static class ShoulderPID {
-      public static final double kP = 0.0;
-      public static final double kI = 0.0;
-      public static final double kD = 0.0;
+      /* These values tuned as of 25/03/2023 */
+      public static final double kP = 1;
+      public static final double kI = 0.002;
+      public static final double kD = 100;
       public static final double kFF = 0.0;
+      public static final double kIZone = 800;
+      public static final double ACCEPTABLE_ERROR = 50;
     }
 
     public static class ExtensionPID {
