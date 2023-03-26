@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.MoveToPose;
 import frc.robot.positioning.Pose;
 import frc.robot.positioning.UnknownPose;
+import frc.robot.subsystems.arm.ArmClaw;
 
 public class PlaceGamePiece extends AutoTask {
   private MoveToPose moveToPose;
@@ -12,6 +13,8 @@ public class PlaceGamePiece extends AutoTask {
   private boolean isCone;
   /** the location to place the cone at, starting from the top of the field */
   private int location;
+  ArmClaw armClaw = new ArmClaw();
+  MoveToPose moveToPose = new MoveToPose(null, null, null, null, null)
   public PlaceGamePiece(MoveToPose mToPose) {
     moveToPose = mToPose;
   }
@@ -78,6 +81,7 @@ public class PlaceGamePiece extends AutoTask {
 
     if (isCone) {
       //put fancy cone command here
+      setArrivedCommand(MoveToPose.andThen(ArmClaw.openClawCommand()));
     }
     else {
       //put fancy cube command here

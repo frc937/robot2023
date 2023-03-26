@@ -21,7 +21,7 @@ public class PickupGamePiece extends AutoTask {
   @Override
   public void initTask() {
     
-    location = (int) SmartDashboard.getNumber("gridHeight", 3.0);
+    location = (int) SmartDashboard.getNumber("middleGamePieces", 3.0);
 
     if (location == 1) {
       spot = Spot.TOP;
@@ -70,7 +70,6 @@ public class PickupGamePiece extends AutoTask {
       //put fancy cube command here
     }
 
-    // put fancy command here that does fancy pickup
   }
 
   @Override
