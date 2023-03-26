@@ -185,11 +185,6 @@ public final class Constants {
               ArbitraryValues.arbitraryDouble(),
               ArbitraryValues.arbitraryDouble(),
               ArbitraryValues.arbitraryDouble());
-      public static final Pose CLOSE =
-          new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
     }
   }
 

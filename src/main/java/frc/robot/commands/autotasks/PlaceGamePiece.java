@@ -8,7 +8,6 @@ import frc.robot.positioning.UnknownPose;
 import frc.robot.subsystems.arm.ArmClaw;
 
 public class PlaceGamePiece extends AutoTask {
-  private MoveToPose moveToPose;
   /** Whether or not the object being picked up is a cone; false for cube */
   private boolean isCone;
   /** the location to place the cone at, starting from the top of the field */

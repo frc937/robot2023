@@ -18,6 +18,7 @@ import frc.robot.positioning.Pose;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_homingRoutine;
 
   private Pose armPose;
 
@@ -60,6 +61,9 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+
+    m_robotContainer.generateAutotasks();
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -72,6 +76,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+
+
 
     // Opens the claw if the arm is close to being overextended
     checkOverexteneded();

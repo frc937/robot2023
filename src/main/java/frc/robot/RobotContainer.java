@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -12,13 +14,15 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.autotasks.ChargingStation;
 import frc.robot.commands.autotasks.ExampleAutoTask;
+import frc.robot.commands.autotasks.MobilityBonus;
+import frc.robot.commands.autotasks.PickupGamePiece;
+import frc.robot.commands.autotasks.PlaceGamePiece;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
 import frc.robot.positioning.Pose;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.autotasks.ExampleAutoTask;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Limelight;
@@ -58,6 +62,10 @@ public class RobotContainer {
   private final Command openClaw = armClaw.openClawCommand();
   /* AUTO TASKS */
     private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
+    private final MobilityBonus mobilityBonus = new MobilityBonus();
+    private final PickupGamePiece pickupGamePiece = new PickupGamePiece();
+    private final PlaceGamePiece placeGamePiece = new PlaceGamePiece();
+    private final ChargingStation chargingStation = new ChargingStation(balance);
   /* CONTROLLERS */
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
@@ -90,7 +98,6 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
     // Verify auto tasks. If each task isnt verified the autotask will throw a exception.
-    verifyAutoTasks();
 
     compilationArm.setDefaultCommand(manualArm);
   }
@@ -110,23 +117,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    /* Create JoystickButtons out of the controller IDs declared in constants */
-
-    /* this is super not the way we do this anymore */
-    /*JoystickButton aButton = new JoystickButton(controller, Constants.ContollerButtons.A_NUMBER);
-    JoystickButton bButton = new JoystickButton(controller, Constants.ContollerButtons.B_NUMBER);
-    JoystickButton xButton = new JoystickButton(controller, Constants.ContollerButtons.X_NUMBER);
-    JoystickButton yButton = new JoystickButton(controller, Constants.ContollerButtons.Y_NUMBER);
-    JoystickButton leftBumper = new JoystickButton(controller, Constants.ContollerButtons.LEFT_BUMPER_NUMBER);
-    JoystickButton rightBumper = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_BUMPER_NUMBER);
-    JoystickButton backButton = new JoystickButton(controller, Constants.ContollerButtons.BACK_NUMBER);
-    JoystickButton startButton = new JoystickButton(controller, Constants.ContollerButtons.START_NUMBER);
-    JoystickButton leftStick = new JoystickButton(controller, Constants.ContollerButtons.LEFT_STICK_NUMBER);
-    JoystickButton rightStick = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_STICK_NUMBER);
-    POVButton dPadUp = new POVButton(controller, 0);
-    POVButton dPadRight= new POVButton(controller, 90);
-    POVButton dPadDown = new POVButton(controller, 180);
-    POVButton dPadLeft = new POVButton(controller, 270);*/
 
     joystick.trigger().onTrue(openClaw);
 
@@ -202,11 +192,6 @@ public class RobotContainer {
                 Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));
   }
 
-  private void verifyAutoTasks() {
-    exampleAutoTask.verify();
-
-  }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -215,6 +200,26 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return Autos.exampleAuto(exampleSubsystem);
+  }
+
+  /**
+   * generates the auto tasks that are enabled from Shuffleboard and queues them
+   */
+  public void generateAutotasks() {
+    
+    if (SmartDashboard.getBoolean("MobilityBonus", false)) {
+      taskScheduler.queueTask(mobilityBonus);
+    }
+    if (SmartDashboard.getBoolean("PickupGamePiece", false)) {
+      taskScheduler.queueTask(pickupGamePiece);
+    }
+    if (SmartDashboard.getBoolean("PlaceGamePiece", false)) {
+      taskScheduler.queueTask(placeGamePiece);
+    }
+    if (SmartDashboard.getBoolean("ChargingStation", false)) {
+      taskScheduler.queueTask(chargingStation);
+    }
+
   }
 
   public Command getResetCommand() {
