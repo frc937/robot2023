@@ -8,17 +8,20 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.commands.HomingRoutine;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Constants;
+import frc.robot.commands.HomingRoutine.HomeBase;
+import frc.robot.commands.HomingRoutine.HomeShoulder;
 import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.ArmClaw;
 import frc.robot.subsystems.arm.ArmExtender;
 import frc.robot.subsystems.arm.ArmShoulder;
+import frc.robot.subsystems.arm.CompilationArm;
 
 
 public final class Autos {
-  public static CommandBase homingRoutine(ArmShoulder armShoulderSubsystem, ArmBase armBaseSubsystem,ArmExtender armExtenderSubsystem,ArmClaw armClawSubsystem ) {
-    return Commands.sequence(new HomingRoutine(armBaseSubsystem, armShoulderSubsystem,armExtenderSubsystem,armClawSubsystem));
+  public static CommandBase homingRoutine(ArmShoulder armShoulderSubsystem, ArmBase armBaseSubsystem,ArmExtender armExtenderSubsystem,ArmClaw armClawSubsystem, CompilationArm compilationArmSubsystem) {
+    return Commands.sequence(armExtenderSubsystem.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER), new HomeShoulder(armShoulderSubsystem, compilationArmSubsystem), new HomeBase(armBaseSubsystem, compilationArmSubsystem), armClawSubsystem.openClawCommand());
   }
   
 

@@ -32,14 +32,14 @@ public class I2CManager extends SubsystemBase {
     dist = new Rev2mDistanceSensor(Rev2mDistanceSensor.Port.kMXP);
     dist.setAutomaticMode(true);
     dist.setRangeProfile(RangeProfile.kLongRange);
-    multiplexer.setBus(Constants.I2C.COLOR_SENSOR_MULTIPLEXER_PORT);
-    color = new ColorSensorV3(I2C.Port.kMXP);
+    /*multiplexer.setBus(Constants.I2C.COLOR_SENSOR_MULTIPLEXER_PORT);
+    color = new ColorSensorV3(I2C.Port.kMXP);*/
     /* TODO: color/distance sensors MAY need additional config */
 
     /* We run stuff that needs to be done periodically in a thread instead of this.periodic()
      * because I2C calls take a hot minute and can cause loop overruns
      */
-    thread = new Notifier(() -> {
+    /*thread = new Notifier(() -> {
       multiplexer.setBus(Constants.I2C.DISTANCE_SENSOR_MULTIPLEXER_PORT);
       currentRangeValid = dist.isRangeValid();
       currentRange = dist.getRange();
@@ -47,7 +47,7 @@ public class I2CManager extends SubsystemBase {
       currentColor = color.getColor();
     });
 
-    thread.startPeriodic(0.02); /* Period @ 20ms, the default loop time for command-based */
+    thread.startPeriodic(0.02);*/ /* Period @ 20ms, the default loop time for command-based */
   }
 
   public boolean isCurrentRangeValid() {
@@ -67,5 +67,13 @@ public class I2CManager extends SubsystemBase {
     /* This subsystem does stuff periodically, but it does it in a thread because I2C calls can
      * take a while and will cause loop overruns (see the constructor of this class)
      */
+    /*multiplexer.setBus(Constants.I2C.DISTANCE_SENSOR_MULTIPLEXER_PORT);*/
+    currentRangeValid = dist.isRangeValid();
+    currentRange = dist.getRange();
+    /*multiplexer.setBus(Constants.I2C.COLOR_SENSOR_MULTIPLEXER_PORT);
+    currentColor = color.getColor();*/
+
+    SmartDashboard.putBoolean("current range valid", isCurrentRangeValid());
+    SmartDashboard.putNumber("current range", getCurrentRange());
   }
 }

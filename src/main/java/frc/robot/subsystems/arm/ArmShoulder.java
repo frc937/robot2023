@@ -23,6 +23,7 @@ public class ArmShoulder extends SubsystemBase {
   /** Creates a new ArmShoulder. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmShoulder() {
     armShoulderMotor = configTalon(Constants.Arm.ID_TALON_ARM_SHOULDER);
+    sensorCollection = armShoulderMotor.getSensorCollection();
   }
 
   

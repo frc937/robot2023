@@ -22,7 +22,7 @@ public class HomeShoulder extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    armShoulder.manualMoveArmShoulder(Constants.Arm.SPEED_ARM_SHOULDER_HOMING);
+    armShoulder.manualMoveArmShoulder(-1 * Constants.Arm.SPEED_ARM_SHOULDER_HOMING);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -21,7 +21,6 @@ import frc.robot.commands.StartLeavingCommunity;
 import frc.robot.commands.StopLeavingCommunity;
 import frc.robot.positioning.Pose;
 import frc.robot.commands.DriveRobotOriented;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ExtendArm;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -131,13 +130,15 @@ public class RobotContainer {
 
     controller.b().whileTrue(closeClaw);
 
-    controller.y().whileTrue(deployPlunger);
+    //controller.y().whileTrue(deployPlunger);
 
     controller.povUp().whileTrue(balance);
 
     controller.leftBumper().whileTrue(extend);
 
     controller.rightBumper().whileTrue(retract);
+
+    controller.x().onTrue(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
 
     /*joystick
         .button(2)
@@ -217,7 +218,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return (Autos.homingRoutine(armShoulder, armBase,armExtender,armClaw)).andThen(startLeavingCommunity).andThen(new WaitCommand(2)).andThen(stopLeavingCommunity);
+    return (Autos.homingRoutine(armShoulder, armBase,armExtender,armClaw,compilationArm)).andThen(startLeavingCommunity).andThen(new WaitCommand(2)).andThen(stopLeavingCommunity);
   }
 
   

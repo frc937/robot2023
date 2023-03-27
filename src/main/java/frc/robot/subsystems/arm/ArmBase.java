@@ -31,6 +31,7 @@ public class ArmBase extends SubsystemBase {
   /** Creates a new ArmBase. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmBase() {
     armBaseMotor = configTalon(Constants.Arm.ID_TALON_ARM_BASE);
+    sensorCollection = armBaseMotor.getSensorCollection();
   }
 
   /* TODO: Consider moving this method to a static class. It's not super useful here or in the other arm classes. */

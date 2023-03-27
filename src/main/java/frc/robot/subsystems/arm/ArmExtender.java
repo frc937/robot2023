@@ -68,6 +68,10 @@ public class ArmExtender extends SubsystemBase {
     this.setpoint = setpoint;
   }
 
+  public Command setCommand(double setpoint) {
+    return this.runOnce(() -> this.set(setpoint));
+  }
+
   public boolean isExtenderAtSetpoint() {
     return extenderAtSetpoint;
   }

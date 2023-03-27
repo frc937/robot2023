@@ -22,7 +22,7 @@ public class HomeBase extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    armBase.manualMoveArmBase(Constants.Arm.SPEED_ARM_BASE_HOMING);
+    armBase.manualMoveArmBase(-1 * Constants.Arm.SPEED_ARM_BASE_HOMING);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
