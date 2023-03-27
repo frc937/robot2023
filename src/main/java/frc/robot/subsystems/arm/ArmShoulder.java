@@ -17,10 +17,8 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
  */
 public class ArmShoulder extends SubsystemBase {
 
-  WPI_TalonSRX armShoulderMotor;
-  private double shoulderRotation;
-  private double uniShoulderDegrees;
-  SensorCollection sensorCollection;
+  private WPI_TalonSRX armShoulderMotor;
+  private SensorCollection sensorCollection;
 
   /** Creates a new ArmShoulder. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmShoulder() {
@@ -43,6 +41,7 @@ public class ArmShoulder extends SubsystemBase {
      */
     WPI_TalonSRX talon = new WPI_TalonSRX(id);
     // talon.configFactoryDefault();
+    talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     talon.configClearPositionOnLimitR(Constants.Arm.AUTO_ZERO_REVERSE_LIMIT_SHOULDER, 0);
     talon.setSensorPhase(Constants.Arm.INVERTED_TALON_SENSOR_ARM_SHOULDER);
     talon.setInverted(Constants.Arm.INVERTED_TALON_ARM_SHOULDER);
@@ -50,6 +49,8 @@ public class ArmShoulder extends SubsystemBase {
     talon.config_kI(0, Constants.Arm.ShoulderPID.kI);
     talon.config_kD(0, Constants.Arm.ShoulderPID.kD);
     talon.config_kF(0, Constants.Arm.ShoulderPID.kFF);
+    talon.config_IntegralZone(0, Constants.Arm.ShoulderPID.kIZone);
+    talon.configAllowableClosedloopError(0, Constants.Arm.ShoulderPID.ACCEPTABLE_ERROR);
 
     return talon;
   }
@@ -60,7 +61,7 @@ public class ArmShoulder extends SubsystemBase {
 
   /** Returns the angle of the shoulder in degrees */
   public double getAngle() {
-    return -1; // Someone who can test should implement this.
+    return (armShoulderMotor.getSelectedSensorPosition() / 4096) * 360;
   }
 
   /**
@@ -74,43 +75,22 @@ public class ArmShoulder extends SubsystemBase {
      */
     degrees = (((degrees / 360) * 4096));
     armShoulderMotor.set(ControlMode.Position, degrees);
-    uniShoulderDegrees = degrees;
-  }
-
-  public void getShoulderRotation() {
-    shoulderRotation = (((armShoulderMotor.getSelectedSensorPosition()) / 4096) * 360);
   }
 
   public boolean isShoulderAtSetpoint() {
-    if (((shoulderRotation - uniShoulderDegrees) > 5)
-        || ((shoulderRotation - uniShoulderDegrees) < -5)) {
-      return false;
-    } else {
-      return true;
-    }
+    return armShoulderMotor.getSelectedSensorPosition() <= Constants.Arm.ShoulderPID.ACCEPTABLE_ERROR;
   }
 
-  /** Checks if the shoulder limit switch is closed, returns a true if it is. */
+  /** Checks if the reverse shoulder limit switch is closed
+   * @return True if the switch is closed
+   */
   public boolean shoulderLimitSwitch() {
     return sensorCollection.isRevLimitSwitchClosed();
-  }
-
-  /** Resets the Shoulder Encoder, mainly used for the homing routine. */
-  public void resetShoulderEncoder() {
-    sensorCollection.setQuadraturePosition(0, 0);
-  }
-
-  public void getShoulderQuad() {
-    System.out.println(sensorCollection.getQuadraturePosition());
   }
 
   /** Stops the shoulder from moving. */
   public void stop() {
     armShoulderMotor.stopMotor();
-  }
-  /** sets the speed of the shoulder motor. Mainly just for the homing routine. */
-  public void changeShoulderSpeed(double velocity) {
-    armShoulderMotor.set(ControlMode.Velocity, velocity);
   }
 
   /** Subsystem periodic; called every scheduler run. Not used in this subsystem. */

@@ -41,20 +41,18 @@ public class HomingRoutine extends CommandBase {
   public void execute() {
 
     if(!armBase.baseLimitSwitch()) {
-      armBase.changeBaseSpeed(0.1);
+      armBase.manualMoveArmBase(0.1);
     } else {
-      armBase.changeBaseSpeed(0);
-      armBase.resetBaseEncoder();
+      armBase.manualMoveArmBase(0);
+      /* Base will automatically zero its encoder if the reverse limit switch is tripped */
     }
     if(!armShoulder.shoulderLimitSwitch()) {
-      armShoulder.changeShoulderSpeed(0.1);
+      armShoulder.manualMoveArmShoulder(0.1);
     } else {
-      armShoulder.changeShoulderSpeed(0);
-      armShoulder.resetShoulderEncoder();
+      armShoulder.manualMoveArmShoulder(0);
+      /* Shoulder will also automatically zero its encoder if the reverse limit switch is tripped
+      */
     }
-
-    armBase.getBaseQuad();
-    armShoulder.getShoulderQuad();
   }
 
   

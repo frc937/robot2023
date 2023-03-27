@@ -56,7 +56,7 @@ public class ArmExtender extends SubsystemBase {
    * @return The length of the arm from the shoulder to the claw in inches.
    */
   public double getLength() {
-    return I2CManager.getCurrentRange(); /* TODO: CHANGE THIS WHEN I2C MANAGER SUBSYSTEM IS DONE */
+    return I2CManager.getCurrentRange();
   }
 
   /**

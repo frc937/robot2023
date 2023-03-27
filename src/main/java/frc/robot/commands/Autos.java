@@ -17,11 +17,6 @@ import frc.robot.subsystems.arm.ArmShoulder;
 
 
 public final class Autos {
-  /** Example static factory for an autonomous command. */
-  public static CommandBase exampleAuto(ExampleSubsystem subsystem) {
-    return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
-  }
-
   public static CommandBase homingRoutine(ArmShoulder armShoulderSubsystem, ArmBase armBaseSubsystem,ArmExtender armExtenderSubsystem,ArmClaw armClawSubsystem ) {
     return Commands.sequence(new HomingRoutine(armBaseSubsystem, armShoulderSubsystem,armExtenderSubsystem,armClawSubsystem));
   }

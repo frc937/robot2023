@@ -48,21 +48,22 @@ public class ArmBase extends SubsystemBase {
     WPI_TalonSRX talon = new WPI_TalonSRX(id);
     // talon.configFactoryDefault();
     talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    talon.configClearPositionOnLimitR(Constants.Arm.AUTO_ZERO_REVERSE_LIMIT_BASE, 0);
     talon.setSensorPhase(Constants.Arm.INVERTED_TALON_SENSOR_ARM_BASE);
-
     talon.setInverted(Constants.Arm.INVERTED_TALON_ARM_BASE);
-    // talon.config_kP(0, Constants.Arm.BasePID.kP);
-    // talon.config_kI(0, Constants.Arm.BasePID.kI);
-    // talon.config_kD(0, Constants.Arm.BasePID.kD);
-    // talon.config_kF(0, Constants.Arm.BasePID.kFF);
-
+    talon.config_kP(0, Constants.Arm.BasePID.kP);
+    talon.config_kI(0, Constants.Arm.BasePID.kI);
+    talon.config_kD(0, Constants.Arm.BasePID.kD);
+    talon.config_kF(0, Constants.Arm.BasePID.kFF);
+    talon.config_IntegralZone(0, Constants.Arm.BasePID.kIZone);
+    talon.configAllowableClosedloopError(0, Constants.Arm.BasePID.ACCEPTABLE_ERROR);
 
 
     
 
     return talon;
   }
-  /** Checks if the base limit switch is closed. */
+  /** Checks if either base limit switch is closed. */
   public boolean baseLimitSwitch() {
     return sensorCollection.isFwdLimitSwitchClosed() || sensorCollection.isRevLimitSwitchClosed();
   }
@@ -77,7 +78,8 @@ public class ArmBase extends SubsystemBase {
   }
   /** Returns the angle of the base CCW from forward in degrees */
   public double getAngle() {
-    return -1; // Someone who can test should implement this.
+    /* TODO: account for difference between limit switch position and front of bot */
+    return (armBaseMotor.getSelectedSensorPosition() / 4096) * 360;
   }
 
   /**
@@ -89,34 +91,18 @@ public class ArmBase extends SubsystemBase {
     /* Takes the degree param and converts it to encoder ticks
      * so the talon knows what we're talking about
      */
+    /* TODO: account for difference between limit switch position and front of bot
+     * doing so will require some funky coding
+     */
     degrees = (degrees / 360) * 4096;
     armBaseMotor.set(ControlMode.Position, degrees);
     uniBaseDegrees = degrees;
   }
-  /** Changes the speed of the base motor. Mainly just for the homing routine. */
-  public void changeBaseSpeed(double velocity) {
-    armBaseMotor.set(ControlMode.Velocity, velocity);
-  }
-  /** Resets the base encoder, mainly used for the homing routine. */
-  public void resetBaseEncoder() {
-    sensorCollection.setQuadraturePosition(0, 0);
-  }
-
-  public void getBaseQuad() {
-    System.out.println(sensorCollection.getQuadraturePosition());
-  }
-  /** Gets the rotation of the base motor in degrees. */
-  public void getBaseRotation() {
-    baseRotation = (((armBaseMotor.getSelectedSensorPosition() / 4096) * 360));
-  }
+  
   /** Checks if the base motor is at the setpoint.
    */
   public boolean isBaseAtSetpoint() {
-    if ((baseRotation - uniBaseDegrees) > 5 || ((baseRotation - uniBaseDegrees) < -5)) {
-      return false;
-    } else {
-      return true;
-    }
+    return armBaseMotor.getClosedLoopError() <= Constants.Arm.BasePID.ACCEPTABLE_ERROR;
   }
 
   /** Stops the base from moving. */

@@ -91,7 +91,7 @@ public class RobotContainer {
 
   public Pose containerGetArmPose() {
 
-    return compilationArm.compGetArmPose();
+    return compilationArm.getArmPose();
   }
 
   /**

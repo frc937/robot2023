@@ -56,6 +56,8 @@ public final class Constants {
     public static final int ID_TALON_ARM_CLAW = 0;
     public static final int ID_TALON_ARM_BASE = 5;
 
+    public static final int CHANNEL_ANALOG_PRESSURE_SENSOR = 0;
+
     public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = true;
     public static final boolean INVERTED_TALON_SENSOR_ARM_EXTENSION = false;
     public static final boolean INVERTED_TALON_SENSOR_ARM_BASE = false;
@@ -76,6 +78,9 @@ public final class Constants {
     public static final double SPEED_WINCH_ARM_EXTENSION = 0.15;
 
     public static final double SPEED_ARM_CLAW = 1;
+
+    public static final double SPEED_ARM_SHOULDER_HOMING = 0.5;
+    public static final double SPEED_ARM_BASE_HOMING = 0.5;
 
     public static class ShoulderPID {
       /* These values tuned as of 25/03/2023 */

@@ -6,6 +6,7 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,11 +25,12 @@ public class ArmClaw extends SubsystemBase {
    * TODO: REPLACE THIS WITH A REAL PRESSURE SENSOR OBJECT BEFORE WE USE IT ON THE BOT
    * *********************************************************************************
    */
-  private double clawPressure;
+  private AnalogInput pressure;
 
   /** Creates a new ArmClaw. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmClaw() {
     clawMotor = new Talon(Constants.Arm.ID_TALON_ARM_CLAW);
+    pressure = new AnalogInput(Constants.Arm.CHANNEL_ANALOG_PRESSURE_SENSOR);
     /* We set the setpoint to null when we want to disable the code that automagically moves the claw to the setpoint */
     setpoint = null;
   }
@@ -70,8 +72,7 @@ public class ArmClaw extends SubsystemBase {
   /**
    * Sets the pressure-based setpoint for the claw.
    *
-   * @param setpoint How much pressure we want the claw to apply to whatever it's clamping onto.
-   *     <b>(UNITS TBD)</b>
+   * @param setpoint How much pressure we want the claw to apply to whatever it's clamping onto. Units are in volts of resistance, least resistance is 5v, most is 0. Least resistence = most pressure.
    */
   public void set(Double setpoint) {
     this.setpoint = setpoint;
@@ -89,8 +90,8 @@ public class ArmClaw extends SubsystemBase {
       return;
     } else {
       /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
-      if (Math.abs(setpoint - clawPressure) >= Constants.Arm.DONE_THRESHOLD_ARM_CLAW) {
-        if (clawPressure > setpoint) {
+      if (Math.abs(setpoint - pressure.getVoltage()) >= Constants.Arm.DONE_THRESHOLD_ARM_CLAW) {
+        if (pressure.getVoltage() > setpoint) {
           clawMotor.set(-1 * Constants.Arm.SPEED_ARM_CLAW);
         } else {
           clawMotor.set(Constants.Arm.SPEED_ARM_CLAW);
