@@ -47,10 +47,6 @@ public final class ArmKinematics {
    *
    * @param armPose the pose of the end effector
    */
-  public Pose getArmPose(final Pose armPose) {
-    return armPose;
-  }
-
   public static boolean isOverextended(final Pose armPose) {
 
     final double horizontal = getFrameExtension(armPose);

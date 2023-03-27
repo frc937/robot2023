@@ -8,22 +8,27 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.ArmShoulder;
+import frc.robot.subsystems.arm.CompilationArm;
+import frc.robot.subsystems.arm.ArmExtender;
 
 public class ManualArm extends CommandBase {
   /** Creates a new ManualArm. */
   private final ArmBase armBaseMove;
 
   private final ArmShoulder armShoulderMove;
+  private final ArmExtender armExtenderMove;
 
   private double armX;
   private double armY;
+  private double armZ;
 
-  public ManualArm(ArmBase armBaseSubsystem, ArmShoulder armShoulderSubsystem) {
+  public ManualArm(ArmBase armBaseSubsystem, ArmShoulder armShoulderSubsystem, ArmExtender armExtenderSubsystem, CompilationArm compilationArm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armBaseMove = armBaseSubsystem;
     this.armShoulderMove = armShoulderSubsystem;
+    this.armExtenderMove = armExtenderSubsystem;
 
-    addRequirements(armBaseSubsystem, armShoulderSubsystem);
+    addRequirements(armBaseSubsystem, armShoulderSubsystem, compilationArm);
   }
 
   // Called when the command is initially scheduled.
@@ -36,6 +41,7 @@ public class ManualArm extends CommandBase {
 
     armX = RobotContainer.getScaledRightXAxis();
     armY = RobotContainer.getScaledRightYAxis();
+    /*armZ = RobotContainer.getScaledLeftYAxis();*/
 
     armBaseMove.manualMoveArmBase(armX);
     armShoulderMove.manualMoveArmShoulder(armY);

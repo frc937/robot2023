@@ -5,6 +5,8 @@
 package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -14,7 +16,7 @@ import frc.robot.Constants;
  */
 public class ArmClaw extends SubsystemBase {
 
-  private WPI_TalonSRX clawMotor;
+  private Talon clawMotor;
   private Double setpoint;
 
   /*
@@ -26,7 +28,7 @@ public class ArmClaw extends SubsystemBase {
 
   /** Creates a new ArmClaw. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmClaw() {
-    clawMotor = new WPI_TalonSRX(Constants.Arm.ID_TALON_ARM_CLAW);
+    clawMotor = new Talon(Constants.Arm.ID_TALON_ARM_CLAW);
     /* We set the setpoint to null when we want to disable the code that automagically moves the claw to the setpoint */
     setpoint = null;
   }
@@ -38,6 +40,15 @@ public class ArmClaw extends SubsystemBase {
     clawMotor.set(Constants.Arm.SPEED_ARM_CLAW);
   }
 
+  public void manualCloseClaw() {
+    setpoint = null;
+    clawMotor.set(-1 * Constants.Arm.SPEED_ARM_CLAW);
+  }
+
+  public void stop() {
+    clawMotor.set(0);
+  }
+
   /**
    * Command factory to open the claw
    *
@@ -45,6 +56,14 @@ public class ArmClaw extends SubsystemBase {
    */
   public Command openClawCommand() {
     return this.runOnce(() -> this.openClaw());
+  }
+
+  public Command manualOpenClawCommand() {
+    return this.runEnd(() -> this.openClaw(), () -> this.stop());
+  }
+
+  public Command manualCloseClawCommand() {
+    return this.runEnd(() -> this.manualCloseClaw(), () -> this.stop());
   }
 
   /* TODO: Determine what the pressure sensor's gonna be from mechanical, and, therefore, what units it will use. */
@@ -66,7 +85,7 @@ public class ArmClaw extends SubsystemBase {
   @Override
   public void periodic() {
     /* Allows us to have a way to make this code not run, so we can do things like open the claw. */
-    if (setpoint.equals(null)) {
+    if (setpoint == null) {
       return;
     } else {
       /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */

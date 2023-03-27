@@ -5,21 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.arm.ArmExtender;
+import frc.robot.subsystems.Drive;
 
-public class RetractArm extends CommandBase {
-  private ArmExtender armExtender;
-  /** Creates a new RetractArm. */
-  public RetractArm(ArmExtender armExtender) {
+/** Leaves the community for the  */
+public class StopLeavingCommunity extends CommandBase {
+
+  private final Drive drivetrain;
+
+  /** Creates a new LeaveCommunity. */
+  public StopLeavingCommunity(Drive driveSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armExtender = armExtender;
-    addRequirements(armExtender);
+    this.drivetrain = driveSubsystem;
+    addRequirements(driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    this.armExtender.retract();
+    drivetrain.stop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -28,13 +31,11 @@ public class RetractArm extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    this.armExtender.setArmSpeed(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

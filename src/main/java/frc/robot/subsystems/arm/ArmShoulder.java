@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 
 /**
  * Subsystem that represents the "shoulder" of the arm; that is, the motor which will rotate the arm
@@ -19,11 +20,14 @@ public class ArmShoulder extends SubsystemBase {
   WPI_TalonSRX armShoulderMotor;
   private double shoulderRotation;
   private double uniShoulderDegrees;
+  SensorCollection sensorCollection;
 
   /** Creates a new ArmShoulder. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmShoulder() {
     armShoulderMotor = configTalon(Constants.Arm.ID_TALON_ARM_SHOULDER);
   }
+
+  
 
   /* TODO: Consider moving this method to a static class. It's not super useful here or in the other arm classes. */
   /**
@@ -39,13 +43,13 @@ public class ArmShoulder extends SubsystemBase {
      */
     WPI_TalonSRX talon = new WPI_TalonSRX(id);
     // talon.configFactoryDefault();
-    talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    talon.configClearPositionOnLimitR(Constants.Arm.AUTO_ZERO_REVERSE_LIMIT_SHOULDER, 0);
     talon.setSensorPhase(Constants.Arm.INVERTED_TALON_SENSOR_ARM_SHOULDER);
     talon.setInverted(Constants.Arm.INVERTED_TALON_ARM_SHOULDER);
-    // talon.config_kP(0, Constants.Arm.PID.kP);
-    // talon.config_kI(0, Constants.Arm.PID.kI);
-    // talon.config_kD(0, Constants.Arm.PID.kD);
-    // talon.config_kF(0, Constants.Arm.PID.kFF);
+    talon.config_kP(0, Constants.Arm.ShoulderPID.kP);
+    talon.config_kI(0, Constants.Arm.ShoulderPID.kI);
+    talon.config_kD(0, Constants.Arm.ShoulderPID.kD);
+    talon.config_kF(0, Constants.Arm.ShoulderPID.kFF);
 
     return talon;
   }
@@ -68,13 +72,13 @@ public class ArmShoulder extends SubsystemBase {
     /* Takes the degree param and converts it to encoder ticks
      * so the talon knows what we're talking about
      */
-    degrees = (((degrees / 360) * 4096) * 3);
+    degrees = (((degrees / 360) * 4096));
     armShoulderMotor.set(ControlMode.Position, degrees);
     uniShoulderDegrees = degrees;
   }
 
   public void getShoulderRotation() {
-    shoulderRotation = (((armShoulderMotor.getSelectedSensorPosition() / 3) / 4096) * 360);
+    shoulderRotation = (((armShoulderMotor.getSelectedSensorPosition()) / 4096) * 360);
   }
 
   public boolean isShoulderAtSetpoint() {
@@ -86,14 +90,34 @@ public class ArmShoulder extends SubsystemBase {
     }
   }
 
+  /** Checks if the shoulder limit switch is closed, returns a true if it is. */
+  public boolean shoulderLimitSwitch() {
+    return sensorCollection.isRevLimitSwitchClosed();
+  }
+
+  /** Resets the Shoulder Encoder, mainly used for the homing routine. */
+  public void resetShoulderEncoder() {
+    sensorCollection.setQuadraturePosition(0, 0);
+  }
+
+  public void getShoulderQuad() {
+    System.out.println(sensorCollection.getQuadraturePosition());
+  }
+
   /** Stops the shoulder from moving. */
   public void stop() {
     armShoulderMotor.stopMotor();
+  }
+  /** sets the speed of the shoulder motor. Mainly just for the homing routine. */
+  public void changeShoulderSpeed(double velocity) {
+    armShoulderMotor.set(ControlMode.Velocity, velocity);
   }
 
   /** Subsystem periodic; called every scheduler run. Not used in this subsystem. */
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+
   }
 }

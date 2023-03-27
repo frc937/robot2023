@@ -7,10 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.Plunger;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
 import frc.robot.commands.ExampleCommand;
@@ -19,14 +21,24 @@ import frc.robot.commands.autotasks.ExampleAutoTask;
 import frc.robot.commands.autotasks.MobilityBonus;
 import frc.robot.commands.autotasks.PickupGamePiece;
 import frc.robot.commands.autotasks.PlaceGamePiece;
+import frc.robot.commands.DeployPlunger;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
+import frc.robot.commands.StartLeavingCommunity;
+import frc.robot.commands.StopLeavingCommunity;
 import frc.robot.positioning.Pose;
+import frc.robot.commands.DriveRobotOriented;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ExtendArm;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
+<<<<<<<
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.TaskScheduler;
+=======
+import frc.robot.subsystems.I2CManager;
+>>>>>>>
 import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.ArmClaw;
 import frc.robot.subsystems.arm.ArmExtender;
@@ -48,16 +60,24 @@ public class RobotContainer {
   private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
   private Pose armPose;
   /* BIG CHUNGUS ARM CODE */
+  private final I2CManager I2CManager = new I2CManager();
   private final ArmBase armBase = new ArmBase();
   private final ArmShoulder armShoulder = new ArmShoulder();
-  private final ArmExtender armExtender = new ArmExtender();
+  private final ArmExtender armExtender = new ArmExtender(I2CManager);
   private final ArmClaw armClaw = new ArmClaw();
   private final CompilationArm compilationArm =
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
+  private final ManualArm manualArm = new ManualArm(armBase, armShoulder, armExtender, compilationArm);
+  private final Pose pose = new Pose();
   private final ManualArm manualArm = new ManualArm(armBase, armShoulder);
   /* COMMANDS */
   private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
   private RetractArm retractArmCommand = new RetractArm(armExtender);
+  private final Plunger plunger = new Plunger();
+  private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
+  private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
+  private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
+
   private final Balance balance = new Balance(driveSubsystem);
   private final Command openClaw = armClaw.openClawCommand();
   /* AUTO TASKS */
@@ -67,40 +87,35 @@ public class RobotContainer {
     private final PlaceGamePiece placeGamePiece = new PlaceGamePiece();
     private final ChargingStation chargingStation = new ChargingStation(balance);
   /* CONTROLLERS */
+  private final DriveRobotOriented driveRO = new DriveRobotOriented(driveSubsystem);
+
+  private final Command openClaw = armClaw.manualOpenClawCommand();
+  private final Command closeClaw = armClaw.manualCloseClawCommand();
+
+  private final ExtendArm extend = new ExtendArm(armExtender);
+  private final RetractArm retract = new RetractArm(armExtender);
+
+  
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
 
   private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public static double getRightXAxis() {
 
-    return controller.getRightX();
-  }
 
-  public static double getRightYAxis() {
-    return controller.getRightY();
-  }
+  
 
-  private static double scaleAxis(double a) {
-    return Math.signum(a) * Math.pow(a, 2);
-  }
-
-  public static double getScaledRightXAxis() {
-    return scaleAxis(getRightXAxis());
-  }
-
-  public static double getScaledRightYAxis() {
-    return scaleAxis(getRightYAxis());
-  }
-
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureBindings();
     // Verify auto tasks. If each task isnt verified the autotask will throw a exception.
 
     compilationArm.setDefaultCommand(manualArm);
+    driveSubsystem.setDefaultCommand(driveRO);
   }
+
+  
 
   public Pose containerGetArmPose() {
 
@@ -111,17 +126,31 @@ public class RobotContainer {
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+   * {@link
+   * CommandXboxController
+   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or
+   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
 
-    joystick.trigger().onTrue(openClaw);
+   
 
-    controller.povUp().onTrue(balance);
-    joystick
+    controller.a().whileTrue(openClaw);
+
+    controller.b().whileTrue(closeClaw);
+
+    controller.y().whileTrue(deployPlunger);
+
+    controller.povUp().whileTrue(balance);
+
+    controller.leftBumper().whileTrue(extend);
+
+    controller.rightBumper().whileTrue(retract);
+
+    /*joystick
         .button(2)
         .onTrue(
             new MoveToPose(
@@ -189,7 +218,7 @@ public class RobotContainer {
         .button(1)
         .onTrue(
             new MoveToPose(
-                Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));
+                Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));*/
   }
 
   /**
@@ -199,7 +228,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(exampleSubsystem);
+    return (Autos.homingRoutine(armShoulder, armBase,armExtender,armClaw)).andThen(startLeavingCommunity).andThen(new WaitCommand(2)).andThen(stopLeavingCommunity);
   }
 
   /**
@@ -222,6 +251,8 @@ public class RobotContainer {
 
   }
 
+  
+
   public Command getResetCommand() {
     return new MoveToPose(
             Constants.Arm.Poses.RESET, armShoulder, armBase, armExtender, compilationArm)
@@ -231,4 +262,41 @@ public class RobotContainer {
   public RetractArm getRetractCommand() {
     return retractArmCommand;
   }
+
+  private static double scaleAxis(double a) {
+    return Math.signum(a) * Math.pow(a, 2);
+  }
+
+  public static double getLeftXAxis() {
+    return controller.getLeftX();
+  }
+
+  public static double getScaledLeftXAxis() {
+    return scaleAxis(getLeftXAxis());
+  }
+
+  public static double getLeftYAxis() {
+    return controller.getLeftY() * -1.0;
+  }
+
+  public static double getScaledLeftYAxis() {
+    return scaleAxis(getLeftYAxis());
+  }
+
+  public static double getRightXAxis() {
+    return controller.getRightX();
+  }
+
+  public static double getScaledRightXAxis() {
+    return scaleAxis(getRightXAxis());
+  }
+
+  public static double getRightYAxis() {
+    return controller.getRightY() * -1.0;
+  }
+
+  public static double getScaledRightYAxis() {
+    return scaleAxis(getRightYAxis());
+  }
+
 }
