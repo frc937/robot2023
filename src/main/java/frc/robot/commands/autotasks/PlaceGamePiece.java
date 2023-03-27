@@ -13,10 +13,7 @@ public class PlaceGamePiece extends AutoTask {
   /** the location to place the cone at, starting from the top of the field */
   private int location;
   ArmClaw armClaw = new ArmClaw();
-  MoveToPose moveToPose = new MoveToPose(null, null, null, null, null)
-  public PlaceGamePiece(MoveToPose mToPose) {
-    moveToPose = mToPose;
-  }
+  MoveToPose moveToPose = new MoveToPose(null, null, null, null, null);
 
   @Override
   public void initTask() {
@@ -80,7 +77,7 @@ public class PlaceGamePiece extends AutoTask {
 
     if (isCone) {
       //put fancy cone command here
-      setArrivedCommand(MoveToPose.andThen(ArmClaw.openClawCommand()));
+      setArrivedCommand(moveToPose.andThen(armClaw.openClawCommand()));
     }
     else {
       //put fancy cube command here

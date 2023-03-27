@@ -33,12 +33,9 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ExtendArm;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
-<<<<<<<
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.TaskScheduler;
-=======
 import frc.robot.subsystems.I2CManager;
->>>>>>>
 import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.ArmClaw;
 import frc.robot.subsystems.arm.ArmExtender;
@@ -69,7 +66,6 @@ public class RobotContainer {
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
   private final ManualArm manualArm = new ManualArm(armBase, armShoulder, armExtender, compilationArm);
   private final Pose pose = new Pose();
-  private final ManualArm manualArm = new ManualArm(armBase, armShoulder);
   /* COMMANDS */
   private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
   private RetractArm retractArmCommand = new RetractArm(armExtender);
@@ -79,7 +75,6 @@ public class RobotContainer {
   private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
 
   private final Balance balance = new Balance(driveSubsystem);
-  private final Command openClaw = armClaw.openClawCommand();
   /* AUTO TASKS */
     private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
     private final MobilityBonus mobilityBonus = new MobilityBonus();
@@ -100,8 +95,6 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
-
-  private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
 
 
