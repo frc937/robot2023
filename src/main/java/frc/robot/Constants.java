@@ -95,10 +95,12 @@ public final class Constants {
     }
 
     public static class BasePID {
-      public static final double kP = 0.0;
-      public static final double kI = 0.0;
-      public static final double kD = 0.0;
+      public static final double kP = 1;
+      public static final double kI = 0.001;
+      public static final double kD = 75;
       public static final double kFF = 0.0;
+      public static final double kIZone = 150;
+      public static final double ACCEPTABLE_ERROR = 50;
     }
 
     public static class Poses {
