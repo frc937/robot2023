@@ -62,7 +62,7 @@ public class ArmShoulder extends SubsystemBase {
 
   /** Returns the angle of the shoulder in degrees */
   public double getAngle() {
-    return (armShoulderMotor.getSelectedSensorPosition() / 4096) * 360;
+    return (armShoulderMotor.getSelectedSensorPosition() / 8192) * 360;
   }
 
   /**
@@ -74,7 +74,7 @@ public class ArmShoulder extends SubsystemBase {
     /* Takes the degree param and converts it to encoder ticks
      * so the talon knows what we're talking about
      */
-    degrees = (((degrees / 360) * 4096));
+    degrees = (((degrees / 360) * 8192));
     armShoulderMotor.set(ControlMode.Position, degrees);
   }
 

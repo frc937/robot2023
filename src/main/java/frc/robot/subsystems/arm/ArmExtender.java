@@ -65,6 +65,7 @@ public class ArmExtender extends SubsystemBase {
    * @param setpoint How far we want the arm to extend in inches from the shoulder to the claw.
    */
   public void set(double setpoint) {
+    /* TODO: account for difference between the sensor and the shoulder */
     this.setpoint = setpoint;
   }
 
