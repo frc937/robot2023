@@ -34,11 +34,12 @@ public class ArmExtender extends SubsystemBase {
 
 
   public void extend() {
-    winch.set(0.2);
+    setpoint = null;
+    winch.set(1);
   }
 
   public void retract() {
-    winch.set(-0.2);
+    winch.set(-1);
   }
 
   public Command extendCommand() {
@@ -65,7 +66,7 @@ public class ArmExtender extends SubsystemBase {
    * @param setpoint How far we want the arm to extend in inches from the shoulder to the claw.
    */
   public void set(double setpoint) {
-    setpoint += Constants.Arm.EXTRA_LENGTH_ARM_EXTENDER;
+    setpoint -= Constants.Arm.EXTRA_LENGTH_ARM_EXTENDER;
     this.setpoint = setpoint;
   }
 

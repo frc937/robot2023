@@ -100,7 +100,7 @@ public final class Constants {
       public static final double kD = 75;
       public static final double kFF = 0.0;
       public static final double kIZone = 150;
-      public static final double ACCEPTABLE_ERROR = 50;
+      public static final double ACCEPTABLE_ERROR = 300;
     }
 
     public static class Poses {

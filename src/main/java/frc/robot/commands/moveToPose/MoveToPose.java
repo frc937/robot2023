@@ -13,16 +13,16 @@ import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
 
 /** Add your docs here. */
-public class MoveToPose {
+public final class MoveToPose {
   public MoveToPose() {
     throw new UnsupportedOperationException("This is a utility class!");
   }
 
-  public Command extendingMoveToPose(Pose pose, ArmBase armBase, ArmShoulder armShoulder, ArmExtender armExtender, CompilationArm compilationArm) {
+  public static Command extendingMoveToPose(Pose pose, ArmBase armBase, ArmShoulder armShoulder, ArmExtender armExtender, CompilationArm compilationArm) {
     return Commands.sequence(new MoveBaseToPose(pose, armBase, compilationArm), new MoveShoulderToPose(pose, armShoulder, compilationArm), new MoveExtenderToPose(pose, armExtender, compilationArm));
   }
 
-  public Command retractingMoveToPose(Pose pose, ArmBase armBase, ArmShoulder armShoulder, ArmExtender armExtender, CompilationArm compilationArm) {
+  public static Command retractingMoveToPose(Pose pose, ArmBase armBase, ArmShoulder armShoulder, ArmExtender armExtender, CompilationArm compilationArm) {
     return Commands.sequence(new MoveExtenderToPose(pose, armExtender, compilationArm), new MoveShoulderToPose(pose, armShoulder, compilationArm), new MoveBaseToPose(pose, armBase, compilationArm));
   }
 }

@@ -13,7 +13,7 @@ import frc.robot.subsystems.arm.CompilationArm;
 
 /**
  * @deprecated This command has the potential to decapitate the RSL/Limelight tower. 
-   * Use the commands in {@link frc.robot.commands.moveToPose} instead.
+ * Use the commands in {@link frc.robot.commands.moveToPose} instead.
  */
 public class MoveToPose extends CommandBase {
   /** Creates a new MoveToPose. */

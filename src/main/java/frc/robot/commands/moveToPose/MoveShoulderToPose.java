@@ -26,6 +26,7 @@ public class MoveShoulderToPose extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println(ArmKinematics.getShoulderRotation(pose));
     armShoulder.moveShoulder((int) (0.5 + ArmKinematics.getShoulderRotation(pose)));
   }
 

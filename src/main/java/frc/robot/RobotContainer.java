@@ -15,6 +15,7 @@ import frc.robot.subsystems.Plunger;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
 import frc.robot.commands.DeployPlunger;
+import frc.robot.commands.DriveFieldOriented;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveBaseDegrees;
 import frc.robot.commands.MoveShoulderDegrees;
@@ -63,6 +64,7 @@ public class RobotContainer {
 
   private final Balance balance = new Balance(driveSubsystem);
   private final DriveRobotOriented driveRO = new DriveRobotOriented(driveSubsystem);
+  private final DriveFieldOriented driveFO = new DriveFieldOriented(driveSubsystem);
 
   private final Command openClaw = armClaw.manualOpenClawCommand();
   private final Command closeClaw = armClaw.manualCloseClawCommand();
@@ -76,7 +78,7 @@ public class RobotContainer {
   public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
 
-  private final CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
+  public static CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
 
 
@@ -109,20 +111,22 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    controller.a().whileTrue(openClaw);
-
-    controller.b().whileTrue(closeClaw);
 
     //controller.y().whileTrue(deployPlunger);
 
-    controller.povUp().whileTrue(balance);
+    controller.rightBumper().whileTrue(balance);
 
-    controller.leftBumper().whileTrue(extend);
+    controller.y().toggleOnTrue(driveFO);
 
-    controller.rightBumper().whileTrue(retract);
+    controller.b().whileTrue(deployPlunger);
 
-    controller.x().whileTrue(new MoveBaseDegrees(90, armBase, compilationArm));
-    controller.y().whileTrue(new MoveShoulderDegrees(90, armShoulder, compilationArm));
+    //controller.x().whileTrue(frc.robot.commands.moveToPose.MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase, armShoulder, armExtender, compilationArm));
+
+    joystick.povUp().whileTrue(extend);
+    joystick.povDown().whileTrue(retract);
+
+    joystick.trigger().whileTrue(openClaw);
+    joystick.button(2).whileTrue(closeClaw);
 
     /*joystick
         .button(2)
@@ -243,8 +247,9 @@ public class RobotContainer {
     return scaleAxis(getRightXAxis());
   }
 
+  /* TODO: MAKE THIS NAMED DESCRIPTIVELY */
   public static double getRightYAxis() {
-    return controller.getRightY() * -1.0;
+    return joystick.getY() * -1.0;
   }
 
   public static double getScaledRightYAxis() {
