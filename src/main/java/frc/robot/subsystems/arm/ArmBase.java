@@ -87,7 +87,7 @@ public class ArmBase extends SubsystemBase {
    *
    * @param degrees The setpoint to move to in degrees.
    */
-  public void moveBase(int degrees) {
+  public void moveBase(double degrees) {
     /* Takes the degree param and converts it to encoder ticks
      * so the talon knows what we're talking about
      */
@@ -96,8 +96,9 @@ public class ArmBase extends SubsystemBase {
      */
     degrees = (degrees + 60) % 360;
     System.out.println("Final degrees: " + degrees);
-    degrees *= 3;
+    degrees = degrees * 3;
     degrees = (degrees / 360) * 8192;
+    System.out.println("Final encoder ticks: " + degrees);
     armBaseMotor.set(ControlMode.Position, degrees);
     uniBaseDegrees = degrees;
   }
@@ -109,7 +110,10 @@ public class ArmBase extends SubsystemBase {
   /** Checks if the base motor is at the setpoint.
    */
   public boolean isBaseAtSetpoint() {
-    return armBaseMotor.getClosedLoopError() <= Constants.Arm.BasePID.ACCEPTABLE_ERROR;
+    /* For some unknown reason, WPI_TalonSRX.getClosedLoopError() will return the error from the
+     * last setpoint briefly after a new setpoint is set, so we have to calculate error manually
+     */
+    return Math.abs(armBaseMotor.getSelectedSensorPosition() - armBaseMotor.getClosedLoopTarget()) <= Constants.Arm.BasePID.ACCEPTABLE_ERROR;
   }
 
   /** Stops the base from moving. */

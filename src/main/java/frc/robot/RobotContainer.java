@@ -16,6 +16,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
 import frc.robot.commands.DeployPlunger;
 import frc.robot.commands.ManualArm;
+import frc.robot.commands.MoveBaseDegrees;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.StartLeavingCommunity;
@@ -139,7 +140,7 @@ public class RobotContainer {
 
     controller.rightBumper().whileTrue(retract);
 
-    controller.x().onTrue(armBase.moveBaseCommand(330));
+    controller.x().whileTrue(new MoveBaseDegrees(90, armBase, compilationArm));
 
     /*joystick
         .button(2)
