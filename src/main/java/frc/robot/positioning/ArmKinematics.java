@@ -106,7 +106,7 @@ public final class ArmKinematics {
    * @return arm base rotation
    */
   public static double getBaseRotation(final double x, final double y, final double z) {
-    return Math.atan2(x, y);
+    return Math.atan2(x, y) * 360 / (2 * Math.PI);
   }
 
   /**
@@ -289,7 +289,7 @@ public final class ArmKinematics {
     final double distance = Math.sqrt(x * x + y * y);
     final double heightDiff = z - Arm.BASE_TO_SHOULDER_LENGTH;
 
-    return Math.atan2(distance, heightDiff);
+    return Math.atan2(distance, heightDiff) * 360 / (2 * Math.PI);
   }
 
   /**
