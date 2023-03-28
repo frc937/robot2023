@@ -17,6 +17,7 @@ import frc.robot.commands.Balance;
 import frc.robot.commands.DeployPlunger;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveBaseDegrees;
+import frc.robot.commands.MoveShoulderDegrees;
 import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.StartLeavingCommunity;
@@ -108,26 +109,6 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    /* Create JoystickButtons out of the controller IDs declared in constants */
-
-    /* this is super not the way we do this anymore */
-    /*JoystickButton aButton = new JoystickButton(controller, Constants.ContollerButtons.A_NUMBER);
-    JoystickButton bButton = new JoystickButton(controller, Constants.ContollerButtons.B_NUMBER);
-    JoystickButton xButton = new JoystickButton(controller, Constants.ContollerButtons.X_NUMBER);
-    JoystickButton yButton = new JoystickButton(controller, Constants.ContollerButtons.Y_NUMBER);
-    JoystickButton leftBumper = new JoystickButton(controller, Constants.ContollerButtons.LEFT_BUMPER_NUMBER);
-    JoystickButton rightBumper = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_BUMPER_NUMBER);
-    JoystickButton backButton = new JoystickButton(controller, Constants.ContollerButtons.BACK_NUMBER);
-    JoystickButton startButton = new JoystickButton(controller, Constants.ContollerButtons.START_NUMBER);
-    JoystickButton leftStick = new JoystickButton(controller, Constants.ContollerButtons.LEFT_STICK_NUMBER);
-    JoystickButton rightStick = new JoystickButton(controller, Constants.ContollerButtons.RIGHT_STICK_NUMBER);
-    POVButton dPadUp = new POVButton(controller, 0);
-    POVButton dPadRight= new POVButton(controller, 90);
-    POVButton dPadDown = new POVButton(controller, 180);
-    POVButton dPadLeft = new POVButton(controller, 270);*/
-
-   
-
     controller.a().whileTrue(openClaw);
 
     controller.b().whileTrue(closeClaw);
@@ -141,6 +122,7 @@ public class RobotContainer {
     controller.rightBumper().whileTrue(retract);
 
     controller.x().whileTrue(new MoveBaseDegrees(90, armBase, compilationArm));
+    controller.y().whileTrue(new MoveShoulderDegrees(5, armShoulder, compilationArm));
 
     /*joystick
         .button(2)
@@ -208,9 +190,7 @@ public class RobotContainer {
                 compilationArm));
     joystick
         .button(1)
-        .onTrue(
-            new MoveToPose(
-                Constants.Arm.Poses.CLOSE, armShoulder, armBase, armExtender, compilationArm));*/
+        .onTrue(armClaw.manualCloseClawCommand());*/
   }
 
   /**

@@ -70,16 +70,17 @@ public class ArmShoulder extends SubsystemBase {
    *
    * @param degrees The setpoint to move to in degrees.
    */
-  public void moveShoulder(int degrees) {
+  public void moveShoulder(double degrees) {
     /* Takes the degree param and converts it to encoder ticks
      * so the talon knows what we're talking about
      */
-    degrees = (((degrees / 360) * 8192));
+    degrees -= 10;
+    degrees = (degrees / 360) * 8192;
     armShoulderMotor.set(ControlMode.Position, degrees);
   }
 
   public boolean isShoulderAtSetpoint() {
-    return armShoulderMotor.getSelectedSensorPosition() <= Constants.Arm.ShoulderPID.ACCEPTABLE_ERROR;
+    return Math.abs(armShoulderMotor.getSelectedSensorPosition() - armShoulderMotor.getClosedLoopTarget()) <= Constants.Arm.ShoulderPID.ACCEPTABLE_ERROR;
   }
 
   /** Checks if the reverse shoulder limit switch is closed

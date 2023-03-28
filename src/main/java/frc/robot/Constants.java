@@ -38,13 +38,16 @@ public final class Constants {
     public static final int ID_TALON_REAR_RIGHT = 2;
   }
 
+  /* TODO: reorganize this class after Cow Town, make separate classes for each individual 
+   * sub-subsystem 
+   */
   public static class Arm {
     /** The pose of the arm's base in robot oriented coordinates */
     public static final Pose BASE_POSE = new Pose(0, 0, 8.5);
     /** The distance between the floor and the arm base in inches */
-    public static final double BASE_DISTANCE_TO_FLOOR = 8.5; // Update this when decided
+    public static final double BASE_DISTANCE_TO_FLOOR = 8.5;
     /** Length in inches from the base of the arm to the shoulder joint */
-    public static final double BASE_TO_SHOULDER_LENGTH = 19; // Update this when decided
+    public static final double BASE_TO_SHOULDER_LENGTH = 19;
     /**
      * How high above the arm base should we keep the end effector to stop the arm from stabbing the
      * robot? This only matters inside the frame perimeter. Distance in inches.
@@ -52,27 +55,25 @@ public final class Constants {
     public static final double KEEP_OUT_HEIGHT = 6; // Update this when measured
 
     public static final int ID_TALON_ARM_SHOULDER = 6;
-    public static final int ID_TALON_ARM_WINCH = 2;
-    public static final int ID_TALON_ARM_CLAW = 0;
+    public static final int ID_TALON_ARM_WINCH = 2; /* this is actually a Talon, not a Talon SRX */
+    public static final int ID_TALON_ARM_CLAW = 0; /* This is actually a Spark */
     public static final int ID_TALON_ARM_BASE = 5;
 
     public static final int CHANNEL_ANALOG_PRESSURE_SENSOR = 0;
 
     public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = true;
-    public static final boolean INVERTED_TALON_SENSOR_ARM_EXTENSION = false;
     public static final boolean INVERTED_TALON_SENSOR_ARM_BASE = true;
 
     public static final boolean INVERTED_TALON_ARM_SHOULDER = false;
-    public static final boolean INVERTED_TALON_ARM_EXTENSION = false;
     public static final boolean INVERTED_TALON_ARM_BASE = false;
 
     public static final boolean AUTO_ZERO_REVERSE_LIMIT_SHOULDER = true;
     public static final boolean AUTO_ZERO_REVERSE_LIMIT_BASE = true;
 
-    // WARNING: CHANGE THIS BEFORE YOU USE THIS ON THE ACTUAL ROBOT
     public static final double MIN_LENGTH_ARM_EXTENDER = 4.5;
 
     public static final double DONE_THRESHOLD_ARM_EXTENSION = 1.0;
+    /* DONE_THRESHOLD_ARM_CLAW is not tuned yet - update it when implementing pressure sensor */
     public static final double DONE_THRESHOLD_ARM_CLAW = 1.0;
 
     public static final double SPEED_WINCH_ARM_EXTENSION = 1.0;
@@ -83,20 +84,12 @@ public final class Constants {
     public static final double SPEED_ARM_BASE_HOMING = 0.5;
 
     public static class ShoulderPID {
-      /* These values tuned as of 25/03/2023 */
       public static final double kP = 1;
       public static final double kI = 0.002;
       public static final double kD = 100;
       public static final double kFF = 0.0;
       public static final double kIZone = 800;
       public static final double ACCEPTABLE_ERROR = 50;
-    }
-
-    public static class ExtensionPID {
-      public static final double kP = 0.0;
-      public static final double kI = 0.0;
-      public static final double kD = 0.0;
-      public static final double kFF = 0.0;
     }
 
     public static class BasePID {
@@ -154,11 +147,6 @@ public final class Constants {
               0,
               0,
               44);
-      public static final Pose CLOSE =
-          new Pose(
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble(),
-              ArbitraryValues.arbitraryDouble());
     }
   }
 
@@ -240,24 +228,11 @@ public final class Constants {
         public static class Cube {
           /** Side length of a properly inflated cube in inches */
           public static final double LENGTH = 9.5;
-          /** The pressure reading required to securely hold the cone */
+          /** The pressure reading required to securely hold the cube */
           public static final double PRESSURE_TO_HOLD = -1;
         }
       }
     }
-  }
-  /** IDs for the controller buttons. */
-  public static class ContollerButtons {
-    public static final int A_NUMBER = 1;
-    public static final int B_NUMBER = 2;
-    public static final int X_NUMBER = 3;
-    public static final int Y_NUMBER = 4;
-    public static final int LEFT_BUMPER_NUMBER = 5;
-    public static final int RIGHT_BUMPER_NUMBER = 6;
-    public static final int BACK_NUMBER = 7;
-    public static final int START_NUMBER = 8;
-    public static final int LEFT_STICK_NUMBER = 9;
-    public static final int RIGHT_STICK_NUMBER = 10;
   }
   /**
    * General constants for the balance command. Primarily used by {@link
