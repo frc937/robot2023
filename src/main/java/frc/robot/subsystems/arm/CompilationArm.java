@@ -26,13 +26,6 @@ public class CompilationArm extends SubsystemBase {
     updateArmPose();
   }
 
-  /** Corrects the different basis between the sensor and the math model */
-  private double correctShoulderAngle(final double angle) {
-    // In the model, cos(UP) = 1
-    // and sin(FORWARD) = 1
-    return angle;
-  }
-
   /** Returns whether or not the arm is in danger of overextending. */
   public boolean isAlmostOverextended() {
     return ArmKinematics.isAlmostOverextended(getArmPose());
@@ -74,6 +67,8 @@ public class CompilationArm extends SubsystemBase {
    * Moves arm to a given pose
    *
    * @param pose the position that the arm is to go to
+   * @deprecated This method has the potential to decapitate the RSL/Limelight tower. 
+   * Use the commands in {@link frc.robot.commands.moveToPose} instead.
    */
   public void moveToPose(Pose pose) {
     armBase.moveBase((int) (0.5 + ArmKinematics.getBaseRotation(pose)));
@@ -97,8 +92,7 @@ public class CompilationArm extends SubsystemBase {
   /** Updates the arm pose based on sensor values */
   private void updateArmPose() {
     final double baseRotation = armBase.getAngle();
-    final double sensedShoulderRotation = armShoulder.getAngle();
-    final double shoulderRotation = correctShoulderAngle(sensedShoulderRotation);
+    final double shoulderRotation = armShoulder.getAngle();
     final double armExtension = armExtender.getLength();
 
     this.armPose = ArmKinematics.getPose(baseRotation, shoulderRotation, armExtension);

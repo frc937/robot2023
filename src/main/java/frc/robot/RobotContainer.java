@@ -122,7 +122,7 @@ public class RobotContainer {
     controller.rightBumper().whileTrue(retract);
 
     controller.x().whileTrue(new MoveBaseDegrees(90, armBase, compilationArm));
-    controller.y().whileTrue(new MoveShoulderDegrees(5, armShoulder, compilationArm));
+    controller.y().whileTrue(new MoveShoulderDegrees(90, armShoulder, compilationArm));
 
     /*joystick
         .button(2)

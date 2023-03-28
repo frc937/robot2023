@@ -72,6 +72,8 @@ public final class Constants {
 
     public static final double MIN_LENGTH_ARM_EXTENDER = 4.5;
 
+    public static final double EXTRA_LENGTH_ARM_EXTENDER = 26;
+
     public static final double DONE_THRESHOLD_ARM_EXTENSION = 1.0;
     /* DONE_THRESHOLD_ARM_CLAW is not tuned yet - update it when implementing pressure sensor */
     public static final double DONE_THRESHOLD_ARM_CLAW = 1.0;
