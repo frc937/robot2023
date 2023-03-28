@@ -39,12 +39,12 @@ public class ArmClaw extends SubsystemBase {
   public void openClaw() {
     /* We set the setpoint to null when we want to disable the code that automagically moves the claw to the setpoint */
     setpoint = null;
-    clawMotor.set(-1 * Constants.Arm.SPEED_ARM_CLAW);
+    clawMotor.set(Constants.Arm.SPEED_ARM_CLAW);
   }
 
   public void manualCloseClaw() {
     setpoint = null;
-    clawMotor.set(Constants.Arm.SPEED_ARM_CLAW);
+    clawMotor.set(-1 * Constants.Arm.SPEED_ARM_CLAW);
   }
 
   public void stop() {
