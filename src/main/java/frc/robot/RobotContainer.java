@@ -125,8 +125,8 @@ public class RobotContainer {
     joystick.povUp().whileTrue(extend);
     joystick.povDown().whileTrue(retract);
 
-    joystick.trigger().whileTrue(openClaw);
-    joystick.button(2).whileTrue(closeClaw);
+    joystick.button(11).whileTrue(openClaw);
+    joystick.trigger().whileTrue(closeClaw);
 
     /*joystick
         .button(2)
