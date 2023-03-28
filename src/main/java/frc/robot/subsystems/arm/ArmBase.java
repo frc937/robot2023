@@ -10,8 +10,12 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.positioning.ArmKinematics;
+import frc.robot.positioning.Pose;
 import edu.wpi.first.wpilibj.Encoder;
 
 
@@ -69,18 +73,13 @@ public class ArmBase extends SubsystemBase {
     return sensorCollection.isFwdLimitSwitchClosed() || sensorCollection.isRevLimitSwitchClosed();
   }
 
-
-  
-
-  
-
   public void manualMoveArmBase(double x) {
     armBaseMotor.set(ControlMode.PercentOutput, x);
   }
   /** Returns the angle of the base CCW from forward in degrees */
   public double getAngle() {
     /* TODO: account for difference between limit switch position and front of bot */
-    return (armBaseMotor.getSelectedSensorPosition() / 4096) * 360;
+    return ((armBaseMotor.getSelectedSensorPosition() / 8192) * 360) / 3;
   }
 
   /**
@@ -95,9 +94,16 @@ public class ArmBase extends SubsystemBase {
     /* TODO: account for difference between limit switch position and front of bot
      * doing so will require some funky coding
      */
-    degrees = (degrees / 360) * 4096;
+    degrees = (degrees + 60) % 360;
+    System.out.println("Final degrees: " + degrees);
+    degrees *= 3;
+    degrees = (degrees / 360) * 8192;
     armBaseMotor.set(ControlMode.Position, degrees);
     uniBaseDegrees = degrees;
+  }
+
+  public Command moveBaseCommand(int degrees) {
+    return this.runOnce(() -> this.moveBase(degrees));
   }
   
   /** Checks if the base motor is at the setpoint.

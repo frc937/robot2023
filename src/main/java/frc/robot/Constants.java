@@ -60,7 +60,7 @@ public final class Constants {
 
     public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = true;
     public static final boolean INVERTED_TALON_SENSOR_ARM_EXTENSION = false;
-    public static final boolean INVERTED_TALON_SENSOR_ARM_BASE = false;
+    public static final boolean INVERTED_TALON_SENSOR_ARM_BASE = true;
 
     public static final boolean INVERTED_TALON_ARM_SHOULDER = false;
     public static final boolean INVERTED_TALON_ARM_EXTENSION = false;
