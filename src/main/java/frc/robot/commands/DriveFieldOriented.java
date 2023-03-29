@@ -28,9 +28,9 @@ public class DriveFieldOriented extends CommandBase {
     @Override
     public void execute() {
         /* Gets the left and right axes of the robot and uses that to move */
-        mecanumX = RobotContainer.getScaledLeftXAxis();
-        mecanumY = RobotContainer.getScaledLeftYAxis();
-        mecanumZ = RobotContainer.getScaledRightXAxis();
+        mecanumX = RobotContainer.getScaledControllerLeftXAxis();
+        mecanumY = RobotContainer.getScaledControllerLeftYAxis();
+        mecanumZ = RobotContainer.getScaledControllerRightXAxis();
         drivetrain.moveMecanumField(mecanumY, mecanumX, mecanumZ);
 
     }

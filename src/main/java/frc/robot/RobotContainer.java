@@ -54,7 +54,7 @@ public class RobotContainer {
   private final ArmClaw armClaw = new ArmClaw();
   private final CompilationArm compilationArm =
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
-  private final ManualArm manualArm = new ManualArm(armBase, armShoulder, armExtender, compilationArm);
+  private final ManualArm manualArm = new ManualArm(armBase, armShoulder, compilationArm);
   private final Pose pose = new Pose();
   private RetractArm retractArmCommand = new RetractArm(armExtender);
   private final Plunger plunger = new Plunger();
@@ -210,8 +210,7 @@ public class RobotContainer {
   
 
   public Command getResetCommand() {
-    return new MoveToPose(
-            Constants.Arm.Poses.RESET, armShoulder, armBase, armExtender, compilationArm)
+    return frc.robot.commands.moveToPose.MoveToPose.retractingMoveToPose(Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
         .alongWith(armClaw.openClawCommand());
   }
 
@@ -223,37 +222,52 @@ public class RobotContainer {
     return Math.signum(a) * Math.pow(a, 2);
   }
 
-  public static double getLeftXAxis() {
+  public static double getControllerLeftXAxis() {
     return controller.getLeftX();
   }
 
-  public static double getScaledLeftXAxis() {
-    return scaleAxis(getLeftXAxis());
+  public static double getScaledControllerLeftXAxis() {
+    return scaleAxis(getControllerLeftXAxis());
   }
 
-  public static double getLeftYAxis() {
+  public static double getControllerLeftYAxis() {
     return controller.getLeftY() * -1.0;
   }
 
-  public static double getScaledLeftYAxis() {
-    return scaleAxis(getLeftYAxis());
+  public static double getScaledControllerLeftYAxis() {
+    return scaleAxis(getControllerLeftYAxis());
   }
 
-  public static double getRightXAxis() {
+  public static double getControllerRightXAxis() {
     return controller.getRightX();
   }
 
-  public static double getScaledRightXAxis() {
-    return scaleAxis(getRightXAxis());
+  public static double getScaledControllerRightXAxis() {
+    return scaleAxis(getControllerRightXAxis());
   }
 
-  /* TODO: MAKE THIS NAMED DESCRIPTIVELY */
-  public static double getRightYAxis() {
+  public static double getControllerRightYAxis() {
+    return controller.getRightY() * -1.0;
+  }
+
+  public static double getScaledControllerRightYAxis() {
+    return scaleAxis(getControllerRightYAxis());
+  }
+
+  public static double getJoystickXAxis() {
+    return joystick.getX();
+  }
+
+  public static double getScaledJoystickXAxis() {
+    return scaleAxis(getJoystickXAxis());
+  }
+
+  public static double getJoystickYAxis() {
     return joystick.getY() * -1.0;
   }
 
-  public static double getScaledRightYAxis() {
-    return scaleAxis(getRightYAxis());
+  public static double getScaledJoystickYAxis() {
+    return scaleAxis(getJoystickYAxis());
   }
 
 }

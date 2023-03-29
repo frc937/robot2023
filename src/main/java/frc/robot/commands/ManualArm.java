@@ -9,24 +9,20 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
-import frc.robot.subsystems.arm.ArmExtender;
 
 public class ManualArm extends CommandBase {
   /** Creates a new ManualArm. */
   private final ArmBase armBaseMove;
 
   private final ArmShoulder armShoulderMove;
-  private final ArmExtender armExtenderMove;
 
-  private double armX;
-  private double armY;
-  private double armZ;
+  private double armBaseRotation;
+  private double armShoulderRotation;
 
-  public ManualArm(ArmBase armBaseSubsystem, ArmShoulder armShoulderSubsystem, ArmExtender armExtenderSubsystem, CompilationArm compilationArm) {
+  public ManualArm(ArmBase armBaseSubsystem, ArmShoulder armShoulderSubsystem, CompilationArm compilationArm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armBaseMove = armBaseSubsystem;
     this.armShoulderMove = armShoulderSubsystem;
-    this.armExtenderMove = armExtenderSubsystem;
 
     addRequirements(armBaseSubsystem, armShoulderSubsystem, compilationArm);
   }
@@ -39,12 +35,11 @@ public class ManualArm extends CommandBase {
   @Override
   public void execute() {
 
-    armX = RobotContainer.getScaledRightXAxis();
-    armY = RobotContainer.getScaledRightYAxis();
-    /*armZ = RobotContainer.getScaledLeftYAxis();*/
+    armBaseRotation = RobotContainer.getScaledJoystickXAxis();
+    armShoulderRotation = RobotContainer.getScaledJoystickYAxis();
 
-    //armBaseMove.manualMoveArmBase(armX);
-    armShoulderMove.manualMoveArmShoulder(armY);
+    armBaseMove.manualMoveArmBase(armBaseRotation);
+    armShoulderMove.manualMoveArmShoulder(armShoulderRotation);
   }
 
   // Called once the command ends or is interrupted.
