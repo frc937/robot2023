@@ -79,4 +79,5 @@ public class Balance extends CommandBase {
   @Override
   public boolean isFinished() {
     return false;
+  }
 }
