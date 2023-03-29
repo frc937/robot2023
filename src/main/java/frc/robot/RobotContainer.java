@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
+import frc.robot.commands.CloseClawCone;
+import frc.robot.commands.CloseClawCube;
 import frc.robot.commands.DeployPlunger;
 import frc.robot.commands.DriveFieldOriented;
 import frc.robot.commands.DriveRobotOriented;
@@ -63,6 +65,8 @@ public class RobotContainer {
 
   private final Command openClaw = armClaw.manualOpenClawCommand();
   private final Command closeClaw = armClaw.manualCloseClawCommand();
+  private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
+  private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
 
   private final ExtendArm extend = new ExtendArm(armExtender);
   private final RetractArm retract = new RetractArm(armExtender);
@@ -111,7 +115,10 @@ public class RobotContainer {
     joystick.povDown().whileTrue(retract);
 
     joystick.button(11).whileTrue(openClaw);
-    joystick.trigger().whileTrue(closeClaw);
+    /* TODO: get better buttons with Gabriel */
+    /* Or just get color sensor working */
+    joystick.trigger().whileTrue(closeClawCone);
+    joystick.button(2).whileTrue(closeClawCube);
 
     /*joystick
         .button(2)
