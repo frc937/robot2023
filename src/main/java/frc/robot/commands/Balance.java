@@ -78,12 +78,5 @@ public class Balance extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
-    // stops the command only if autonomous has ended (and balance was the last ran command)
-    if (DriverStation.isTeleop() && !endedInAutonomous && ranInAutonomous) {
-      endedInAutonomous = true;
-      return true;
-    }
     return false;
-  }
 }
