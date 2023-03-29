@@ -12,19 +12,18 @@ public class yourMom extends CommandBase {
   public yourMom() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
-  /**
-   * prints "Your Mom"
-   */
-  public void printYourMom(){
-    System.out.print("Your Mom"); 
+  /** prints "Your Mom" */
+  public void printYourMom() {
+    System.out.print("Your Mom");
   }
 
   /**
    * command to print "Your Mom"
+   *
    * @return command that prints "Your Mom"
    */
-  public PrintCommand commandPrintYourMom(){
-    return new PrintCommand("Your Mom"); 
+  public PrintCommand commandPrintYourMom() {
+    return new PrintCommand("Your Mom");
   }
   // Called when the command is initially scheduled.
   @Override

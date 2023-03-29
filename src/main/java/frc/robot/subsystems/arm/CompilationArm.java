@@ -11,6 +11,7 @@ import frc.robot.positioning.Pose;
 public class CompilationArm extends SubsystemBase {
   @SuppressWarnings("unused")
   private ArmBase armBase;
+
   private ArmClaw armClaw;
   private ArmExtender armExtender;
   private Pose armPose;
@@ -68,8 +69,8 @@ public class CompilationArm extends SubsystemBase {
    * Moves arm to a given pose
    *
    * @param pose the position that the arm is to go to
-   * @deprecated This method has the potential to decapitate the RSL/Limelight tower. 
-   * Use the commands in {@link frc.robot.commands.moveToPose} instead.
+   * @deprecated This method has the potential to decapitate the RSL/Limelight tower. Use the
+   *     commands in {@link frc.robot.commands.moveToPose} instead.
    */
   @Deprecated
   public void moveToPose(Pose pose) {

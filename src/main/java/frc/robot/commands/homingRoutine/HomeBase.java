@@ -38,7 +38,7 @@ public class HomeBase extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(armBase.baseLimitSwitch()) {
+    if (armBase.baseLimitSwitch()) {
       return true;
     } else {
       return false;

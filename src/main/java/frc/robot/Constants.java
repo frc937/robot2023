@@ -38,8 +38,8 @@ public final class Constants {
     public static final int ID_TALON_REAR_RIGHT = 2;
   }
 
-  /* TODO: reorganize this class after Cow Town, make separate classes for each individual 
-   * sub-subsystem 
+  /* TODO: reorganize this class after Cow Town, make separate classes for each individual
+   * sub-subsystem
    */
   public static class Arm {
     /** The pose of the arm's base in robot oriented coordinates */
@@ -107,51 +107,15 @@ public final class Constants {
     }
 
     public static class Poses {
-      public static final Pose RESET =
-          new Pose(
-              0,
-              0,
-              44);
-      public static final Pose SCORE_LOWER =
-          new Pose(
-              0,
-              23,
-              -6);
-      public static final Pose SCORE_MID_CONE =
-          new Pose(
-              0,
-              38,
-              32);
-      public static final Pose SCORE_MID_CUBE =
-          new Pose(
-              0,
-              38,
-              18);
-      public static final Pose SCORE_HIGH_CONE =
-          new Pose(
-              0,
-              55,
-              44);
-      public static final Pose SCORE_HIGH_CUBE =
-          new Pose(
-              0,
-              55,
-              28);
-      public static final Pose PICKUP =
-          new Pose(
-              0,
-              32,
-              -4);
-      public static final Pose HUMAN_SHELF =
-          new Pose(
-              0,
-              27,
-              32);
-      public static final Pose CARRYING =
-          new Pose(
-              0,
-              0,
-              44);
+      public static final Pose RESET = new Pose(0, 0, 44);
+      public static final Pose SCORE_LOWER = new Pose(0, 23, -6);
+      public static final Pose SCORE_MID_CONE = new Pose(0, 38, 32);
+      public static final Pose SCORE_MID_CUBE = new Pose(0, 38, 18);
+      public static final Pose SCORE_HIGH_CONE = new Pose(0, 55, 44);
+      public static final Pose SCORE_HIGH_CUBE = new Pose(0, 55, 28);
+      public static final Pose PICKUP = new Pose(0, 32, -4);
+      public static final Pose HUMAN_SHELF = new Pose(0, 27, 32);
+      public static final Pose CARRYING = new Pose(0, 0, 44);
     }
   }
 
@@ -250,7 +214,7 @@ public final class Constants {
   }
 
   public static class Plunger {
-      public static final int ID_PWMMOTOR_PLUNGER = 1;
-      public static final double SPEED_PLUNGER_DEPLOY = 0.2;
+    public static final int ID_PWMMOTOR_PLUNGER = 1;
+    public static final double SPEED_PLUNGER_DEPLOY = 0.2;
   }
 }

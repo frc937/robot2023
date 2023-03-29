@@ -38,7 +38,7 @@ public class HomeShoulder extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(armShoulder.shoulderLimitSwitch()) {
+    if (armShoulder.shoulderLimitSwitch()) {
       return true;
     } else {
       return false;

@@ -15,12 +15,19 @@ import frc.robot.subsystems.arm.ArmExtender;
 import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
 
-
 public final class Autos {
-  public static CommandBase homingRoutine(ArmShoulder armShoulderSubsystem, ArmBase armBaseSubsystem,ArmExtender armExtenderSubsystem,ArmClaw armClawSubsystem, CompilationArm compilationArmSubsystem) {
-    return Commands.sequence(armExtenderSubsystem.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER), new HomeShoulder(armShoulderSubsystem, compilationArmSubsystem), new HomeBase(armBaseSubsystem, compilationArmSubsystem), armClawSubsystem.openClawCommand());
+  public static CommandBase homingRoutine(
+      ArmShoulder armShoulderSubsystem,
+      ArmBase armBaseSubsystem,
+      ArmExtender armExtenderSubsystem,
+      ArmClaw armClawSubsystem,
+      CompilationArm compilationArmSubsystem) {
+    return Commands.sequence(
+        armExtenderSubsystem.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER),
+        new HomeShoulder(armShoulderSubsystem, compilationArmSubsystem),
+        new HomeBase(armBaseSubsystem, compilationArmSubsystem),
+        armClawSubsystem.openClawCommand());
   }
-  
 
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");

@@ -18,11 +18,27 @@ public final class MoveToPose {
     throw new UnsupportedOperationException("This is a utility class!");
   }
 
-  public static Command extendingMoveToPose(Pose pose, ArmBase armBase, ArmShoulder armShoulder, ArmExtender armExtender, CompilationArm compilationArm) {
-    return Commands.sequence(new MoveBaseToPose(pose, armBase, compilationArm), new MoveShoulderToPose(pose, armShoulder, compilationArm), new MoveExtenderToPose(pose, armExtender, compilationArm));
+  public static Command extendingMoveToPose(
+      Pose pose,
+      ArmBase armBase,
+      ArmShoulder armShoulder,
+      ArmExtender armExtender,
+      CompilationArm compilationArm) {
+    return Commands.sequence(
+        new MoveBaseToPose(pose, armBase, compilationArm),
+        new MoveShoulderToPose(pose, armShoulder, compilationArm),
+        new MoveExtenderToPose(pose, armExtender, compilationArm));
   }
 
-  public static Command retractingMoveToPose(Pose pose, ArmBase armBase, ArmShoulder armShoulder, ArmExtender armExtender, CompilationArm compilationArm) {
-    return Commands.sequence(new MoveExtenderToPose(pose, armExtender, compilationArm), new MoveShoulderToPose(pose, armShoulder, compilationArm), new MoveBaseToPose(pose, armBase, compilationArm));
+  public static Command retractingMoveToPose(
+      Pose pose,
+      ArmBase armBase,
+      ArmShoulder armShoulder,
+      ArmExtender armExtender,
+      CompilationArm compilationArm) {
+    return Commands.sequence(
+        new MoveExtenderToPose(pose, armExtender, compilationArm),
+        new MoveShoulderToPose(pose, armShoulder, compilationArm),
+        new MoveBaseToPose(pose, armBase, compilationArm));
   }
 }

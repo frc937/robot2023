@@ -19,7 +19,8 @@ public class ManualArm extends CommandBase {
   private double armBaseRotation;
   private double armShoulderRotation;
 
-  public ManualArm(ArmBase armBaseSubsystem, ArmShoulder armShoulderSubsystem, CompilationArm compilationArm) {
+  public ManualArm(
+      ArmBase armBaseSubsystem, ArmShoulder armShoulderSubsystem, CompilationArm compilationArm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armBaseMove = armBaseSubsystem;
     this.armShoulderMove = armShoulderSubsystem;

@@ -69,8 +69,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
 
-
-
     // Opens the claw if the arm is close to being overextended
     checkOverexteneded();
   }

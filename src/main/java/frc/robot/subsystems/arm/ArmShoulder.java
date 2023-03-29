@@ -6,12 +6,11 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import com.ctre.phoenix.motorcontrol.SensorCollection;
 
 /**
  * Subsystem that represents the "shoulder" of the arm; that is, the motor which will rotate the arm
@@ -27,8 +26,6 @@ public class ArmShoulder extends SubsystemBase {
     armShoulderMotor = configTalon(Constants.Arm.ID_TALON_ARM_SHOULDER);
     sensorCollection = armShoulderMotor.getSensorCollection();
   }
-
-  
 
   /* TODO: Consider moving this method to a static class. It's not super useful here or in the other arm classes. */
   /**
@@ -76,8 +73,9 @@ public class ArmShoulder extends SubsystemBase {
     /* Takes the degree param and converts it to encoder ticks
      * so the talon knows what we're talking about
      */
-    if(degrees <= 10 && degrees >=0) {
-      DriverStation.reportWarning("Number of degrees passed too small, defaulting to 10 degrees", true);
+    if (degrees <= 10 && degrees >= 0) {
+      DriverStation.reportWarning(
+          "Number of degrees passed too small, defaulting to 10 degrees", true);
     }
     degrees -= 10;
     degrees = (degrees / 360) * 8192;
@@ -85,10 +83,14 @@ public class ArmShoulder extends SubsystemBase {
   }
 
   public boolean isShoulderAtSetpoint() {
-    return Math.abs(armShoulderMotor.getSelectedSensorPosition() - armShoulderMotor.getClosedLoopTarget()) <= Constants.Arm.ShoulderPID.ACCEPTABLE_ERROR;
+    return Math.abs(
+            armShoulderMotor.getSelectedSensorPosition() - armShoulderMotor.getClosedLoopTarget())
+        <= Constants.Arm.ShoulderPID.ACCEPTABLE_ERROR;
   }
 
-  /** Checks if the reverse shoulder limit switch is closed
+  /**
+   * Checks if the reverse shoulder limit switch is closed
+   *
    * @return True if the switch is closed
    */
   public boolean shoulderLimitSwitch() {
@@ -104,7 +106,6 @@ public class ArmShoulder extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
 
   }
 }

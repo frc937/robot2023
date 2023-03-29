@@ -66,7 +66,9 @@ public class ArmClaw extends SubsystemBase {
   /**
    * Sets the pressure-based setpoint for the claw.
    *
-   * @param setpoint How much pressure we want the claw to apply to whatever it's clamping onto. Units are in volts of resistance, least resistance is 5v, most is 0. Least resistence = most pressure.
+   * @param setpoint How much pressure we want the claw to apply to whatever it's clamping onto.
+   *     Units are in volts of resistance, least resistance is 5v, most is 0. Least resistence =
+   *     most pressure.
    */
   public void set(Double setpoint) {
     this.setpoint = setpoint;

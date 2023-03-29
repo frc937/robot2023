@@ -10,21 +10,21 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.subsystems.Plunger;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
 import frc.robot.commands.DeployPlunger;
 import frc.robot.commands.DriveFieldOriented;
+import frc.robot.commands.DriveRobotOriented;
+import frc.robot.commands.ExtendArm;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.StartLeavingCommunity;
 import frc.robot.commands.StopLeavingCommunity;
 import frc.robot.commands.moveToPose.MoveToPose;
 import frc.robot.positioning.Pose;
-import frc.robot.commands.DriveRobotOriented;
-import frc.robot.commands.ExtendArm;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.I2CManager;
+import frc.robot.subsystems.Plunger;
 import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.ArmClaw;
 import frc.robot.subsystems.arm.ArmExtender;
@@ -52,8 +52,10 @@ public class RobotContainer {
   private RetractArm retractArmCommand = new RetractArm(armExtender);
   private final Plunger plunger = new Plunger();
   private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
-  private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
-  private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
+  private final StartLeavingCommunity startLeavingCommunity =
+      new StartLeavingCommunity(driveSubsystem);
+  private final StopLeavingCommunity stopLeavingCommunity =
+      new StopLeavingCommunity(driveSubsystem);
 
   private final Balance balance = new Balance(driveSubsystem);
   private final DriveRobotOriented driveRO = new DriveRobotOriented(driveSubsystem);
@@ -65,26 +67,18 @@ public class RobotContainer {
   private final ExtendArm extend = new ExtendArm(armExtender);
   private final RetractArm retract = new RetractArm(armExtender);
 
-  
-
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
 
   public static CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-
-
-  
-
   public RobotContainer() {
     configureBindings();
 
     compilationArm.setDefaultCommand(manualArm);
     driveSubsystem.setDefaultCommand(driveRO);
   }
-
-  
 
   public Pose containerGetArmPose() {
 
@@ -95,17 +89,14 @@ public class RobotContainer {
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
    * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link
-   * CommandXboxController
-   * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or
-   * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
   private void configureBindings() {
 
-    //controller.y().whileTrue(deployPlunger);
+    // controller.y().whileTrue(deployPlunger);
 
     controller.rightBumper().whileTrue(balance);
 
@@ -113,7 +104,8 @@ public class RobotContainer {
 
     controller.b().whileTrue(deployPlunger);
 
-    //controller.x().whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase, armShoulder, armExtender, compilationArm));
+    // controller.x().whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
+    // armShoulder, armExtender, compilationArm));
 
     joystick.povUp().whileTrue(extend);
     joystick.povDown().whileTrue(retract);
@@ -197,13 +189,15 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return (Autos.homingRoutine(armShoulder, armBase,armExtender,armClaw,compilationArm)).andThen(startLeavingCommunity).andThen(new WaitCommand(2)).andThen(stopLeavingCommunity);
+    return (Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm))
+        .andThen(startLeavingCommunity)
+        .andThen(new WaitCommand(2))
+        .andThen(stopLeavingCommunity);
   }
 
-  
-
   public Command getResetCommand() {
-    return MoveToPose.retractingMoveToPose(Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
+    return MoveToPose.retractingMoveToPose(
+            Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
         .alongWith(armClaw.openClawCommand());
   }
 
@@ -262,5 +256,4 @@ public class RobotContainer {
   public static double getScaledJoystickYAxis() {
     return scaleAxis(getJoystickYAxis());
   }
-
 }
