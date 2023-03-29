@@ -20,11 +20,6 @@ public class ArmClaw extends SubsystemBase {
   private Talon clawMotor;
   private Double setpoint;
 
-  /*
-   * *********************************************************************************
-   * TODO: REPLACE THIS WITH A REAL PRESSURE SENSOR OBJECT BEFORE WE USE IT ON THE BOT
-   * *********************************************************************************
-   */
   private AnalogInput pressure;
 
   /** Creates a new ArmClaw. Should be called once from {@link frc.robot.RobotContainer}. */
@@ -68,7 +63,6 @@ public class ArmClaw extends SubsystemBase {
     return this.runEnd(() -> this.manualCloseClaw(), () -> this.stop());
   }
 
-  /* TODO: Determine what the pressure sensor's gonna be from mechanical, and, therefore, what units it will use. */
   /**
    * Sets the pressure-based setpoint for the claw.
    *
