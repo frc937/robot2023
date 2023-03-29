@@ -52,7 +52,7 @@ public final class Constants {
      * How high above the arm base should we keep the end effector to stop the arm from stabbing the
      * robot? This only matters inside the frame perimeter. Distance in inches.
      */
-    public static final double KEEP_OUT_HEIGHT = 6; // Update this when measured
+    public static final double KEEP_OUT_HEIGHT = 6;
 
     public static final int ID_TALON_ARM_SHOULDER = 6;
     public static final int ID_TALON_ARM_WINCH = 2; /* this is actually a Talon, not a Talon SRX */
@@ -60,6 +60,9 @@ public final class Constants {
     public static final int ID_TALON_ARM_BASE = 5;
 
     public static final int CHANNEL_ANALOG_PRESSURE_SENSOR = 0;
+
+    public static final double SETPOINT_PRESSURE_CONE = 5.7;
+    public static final double SETPOINT_PRESSURE_CUBE = 5.5;
 
     public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = true;
     public static final boolean INVERTED_TALON_SENSOR_ARM_BASE = true;
@@ -76,7 +79,7 @@ public final class Constants {
 
     public static final double DONE_THRESHOLD_ARM_EXTENSION = 1.0;
     /* DONE_THRESHOLD_ARM_CLAW is not tuned yet - update it when implementing pressure sensor */
-    public static final double DONE_THRESHOLD_ARM_CLAW = 1.0;
+    public static final double DONE_THRESHOLD_ARM_CLAW = 0.1;
 
     public static final double SPEED_WINCH_ARM_EXTENSION = 1.0;
 

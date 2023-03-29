@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems.arm;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,6 +19,8 @@ public class ArmClaw extends SubsystemBase {
   private Double setpoint;
 
   private AnalogInput pressure;
+
+  private boolean isAtSetpoint;
 
   /** Creates a new ArmClaw. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmClaw() {
@@ -72,6 +72,11 @@ public class ArmClaw extends SubsystemBase {
     this.setpoint = setpoint;
   }
 
+  public boolean isAtSetpoint() {
+    /* HOPEFULLY THIS WORKS */
+    return isAtSetpoint;
+  }
+
   /**
    * Subsystem periodic; called once per scheduler run.
    *
@@ -90,6 +95,9 @@ public class ArmClaw extends SubsystemBase {
         } else {
           clawMotor.set(Constants.Arm.SPEED_ARM_CLAW);
         }
+      } else {
+        clawMotor.set(0);
+        isAtSetpoint = true;
       }
     }
   }

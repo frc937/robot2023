@@ -4,7 +4,6 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.BalanceConstants;
 import frc.robot.subsystems.Drive;
@@ -12,11 +11,6 @@ import frc.robot.subsystems.Drive;
 public class Balance extends CommandBase {
   private boolean BalanceXMode;
   private boolean BalanceYMode;
-
-  /** Tells if the command has ended itself before */
-  private boolean endedInAutonomous = false;
-  /** Tells if the command has run in autonomous */
-  private boolean ranInAutonomous = false;
 
   private final Drive drive;
 
@@ -28,13 +22,7 @@ public class Balance extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    
-    // tells if the command has run in autonomous
-    if (DriverStation.isAutonomous()) {
-      ranInAutonomous = true;
-    }
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

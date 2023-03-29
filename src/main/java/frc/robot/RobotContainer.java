@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -17,8 +16,6 @@ import frc.robot.commands.Balance;
 import frc.robot.commands.DeployPlunger;
 import frc.robot.commands.DriveFieldOriented;
 import frc.robot.commands.ManualArm;
-import frc.robot.commands.MoveBaseDegrees;
-import frc.robot.commands.MoveShoulderDegrees;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.StartLeavingCommunity;
 import frc.robot.commands.StopLeavingCommunity;
@@ -27,7 +24,6 @@ import frc.robot.positioning.Pose;
 import frc.robot.commands.DriveRobotOriented;
 import frc.robot.commands.ExtendArm;
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.I2CManager;
 import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.ArmClaw;
@@ -43,9 +39,7 @@ import frc.robot.subsystems.arm.CompilationArm;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drive driveSubsystem = new Drive();
-  private Pose armPose;
   /* BIG CHUNGUS ARM CODE */
   private final I2CManager I2CManager = new I2CManager();
   private final ArmBase armBase = new ArmBase();
@@ -55,7 +49,6 @@ public class RobotContainer {
   private final CompilationArm compilationArm =
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
   private final ManualArm manualArm = new ManualArm(armBase, armShoulder, compilationArm);
-  private final Pose pose = new Pose();
   private RetractArm retractArmCommand = new RetractArm(armExtender);
   private final Plunger plunger = new Plunger();
   private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
