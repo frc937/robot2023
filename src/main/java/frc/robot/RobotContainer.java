@@ -19,10 +19,10 @@ import frc.robot.commands.DriveFieldOriented;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.MoveBaseDegrees;
 import frc.robot.commands.MoveShoulderDegrees;
-import frc.robot.commands.MoveToPose;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.StartLeavingCommunity;
 import frc.robot.commands.StopLeavingCommunity;
+import frc.robot.commands.moveToPose.MoveToPose;
 import frc.robot.positioning.Pose;
 import frc.robot.commands.DriveRobotOriented;
 import frc.robot.commands.ExtendArm;
@@ -120,7 +120,7 @@ public class RobotContainer {
 
     controller.b().whileTrue(deployPlunger);
 
-    //controller.x().whileTrue(frc.robot.commands.moveToPose.MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase, armShoulder, armExtender, compilationArm));
+    //controller.x().whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase, armShoulder, armExtender, compilationArm));
 
     joystick.povUp().whileTrue(extend);
     joystick.povDown().whileTrue(retract);
@@ -210,7 +210,7 @@ public class RobotContainer {
   
 
   public Command getResetCommand() {
-    return frc.robot.commands.moveToPose.MoveToPose.retractingMoveToPose(Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
+    return MoveToPose.retractingMoveToPose(Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
         .alongWith(armClaw.openClawCommand());
   }
 
