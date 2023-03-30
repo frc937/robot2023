@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Camera;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.Plunger;
 import frc.robot.commands.Autos;
@@ -52,6 +53,7 @@ public class RobotContainer {
   private final ArmShoulder armShoulder = new ArmShoulder();
   private final ArmExtender armExtender = new ArmExtender(I2CManager);
   private final ArmClaw armClaw = new ArmClaw();
+  private final Camera aimCamera = new Camera(Constants.Camera.PORT_CAMERA_AIM);
   private final CompilationArm compilationArm =
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
   private final ManualArm manualArm = new ManualArm(armBase, armShoulder, armExtender, compilationArm);
@@ -61,6 +63,7 @@ public class RobotContainer {
   private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
   private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
   private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
+  private final InstantCommand displayAimVideo = new InstantCommand(aimCamera::startCamera, aimCamera);
 
   private final Balance balance = new Balance(driveSubsystem);
   private final DriveRobotOriented driveRO = new DriveRobotOriented(driveSubsystem);
@@ -217,6 +220,10 @@ public class RobotContainer {
 
   public RetractArm getRetractCommand() {
     return retractArmCommand;
+  }
+
+  public Command getDisplayAimVideoCommand() {
+    return displayAimVideo;
   }
 
   private static double scaleAxis(double a) {

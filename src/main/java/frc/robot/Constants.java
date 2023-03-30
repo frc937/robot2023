@@ -250,4 +250,8 @@ public final class Constants {
       public static final int ID_PWMMOTOR_PLUNGER = 1;
       public static final double SPEED_PLUNGER_DEPLOY = 0.2;
   }
+
+  public static class Camera {
+    public static final int PORT_CAMERA_AIM = 0;
+  }
 }
