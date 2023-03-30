@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems.arm;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,12 +18,9 @@ public class ArmClaw extends SubsystemBase {
   private Talon clawMotor;
   private Double setpoint;
 
-  /*
-   * *********************************************************************************
-   * TODO: REPLACE THIS WITH A REAL PRESSURE SENSOR OBJECT BEFORE WE USE IT ON THE BOT
-   * *********************************************************************************
-   */
   private AnalogInput pressure;
+
+  private boolean isAtSetpoint;
 
   /** Creates a new ArmClaw. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmClaw() {
@@ -68,14 +63,20 @@ public class ArmClaw extends SubsystemBase {
     return this.runEnd(() -> this.manualCloseClaw(), () -> this.stop());
   }
 
-  /* TODO: Determine what the pressure sensor's gonna be from mechanical, and, therefore, what units it will use. */
   /**
    * Sets the pressure-based setpoint for the claw.
    *
-   * @param setpoint How much pressure we want the claw to apply to whatever it's clamping onto. Units are in volts of resistance, least resistance is 5v, most is 0. Least resistence = most pressure.
+   * @param setpoint How much pressure we want the claw to apply to whatever it's clamping onto.
+   *     Units are in volts of resistance, least resistance is 5v, most is 0. Least resistence =
+   *     most pressure.
    */
   public void set(Double setpoint) {
     this.setpoint = setpoint;
+  }
+
+  public boolean isAtSetpoint() {
+    /* HOPEFULLY THIS WORKS */
+    return isAtSetpoint;
   }
 
   /**
@@ -96,6 +97,9 @@ public class ArmClaw extends SubsystemBase {
         } else {
           clawMotor.set(Constants.Arm.SPEED_ARM_CLAW);
         }
+      } else {
+        clawMotor.set(0);
+        isAtSetpoint = true;
       }
     }
   }

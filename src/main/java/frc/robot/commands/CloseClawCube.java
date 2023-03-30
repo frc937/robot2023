@@ -5,24 +5,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drive;
+import frc.robot.Constants;
+import frc.robot.subsystems.arm.ArmClaw;
 
-/** Leaves the community for the */
-public class StartLeavingCommunity extends CommandBase {
+public class CloseClawCube extends CommandBase {
+  private ArmClaw armClaw;
 
-  private final Drive drivetrain;
-
-  /** Creates a new LeaveCommunity. */
-  public StartLeavingCommunity(Drive driveSubsystem) {
+  /** Creates a new CloseClawCube. */
+  public CloseClawCube(ArmClaw armClaw) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.drivetrain = driveSubsystem;
-    addRequirements(driveSubsystem);
+    this.armClaw = armClaw;
+
+    addRequirements(armClaw);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivetrain.moveMecanumRobot(0, 0.5, 0);
+    armClaw.set(Constants.Arm.SETPOINT_PRESSURE_CUBE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,11 +31,13 @@ public class StartLeavingCommunity extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    armClaw.stop();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return armClaw.isAtSetpoint();
   }
 }

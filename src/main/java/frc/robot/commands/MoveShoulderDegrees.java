@@ -37,7 +37,7 @@ public class MoveShoulderDegrees extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //return armShoulder.isBaseAtSetpoint();
+    // return armShoulder.isBaseAtSetpoint();
     if (armShoulder.isShoulderAtSetpoint()) {
       System.out.println("Shoulder is supposedly at setpoint");
       return true;

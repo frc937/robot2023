@@ -9,7 +9,9 @@ import frc.robot.positioning.ArmKinematics;
 import frc.robot.positioning.Pose;
 
 public class CompilationArm extends SubsystemBase {
+  @SuppressWarnings("unused")
   private ArmBase armBase;
+
   private ArmClaw armClaw;
   private ArmExtender armExtender;
   private Pose armPose;
@@ -44,7 +46,7 @@ public class CompilationArm extends SubsystemBase {
    * end effector is stabbing the frame. If anything is built up above KEEP_OUT_HEIGHT, this will
    * happily run into it.
    */
-  private boolean isStabbingSelf() {
+  public boolean isStabbingSelf() {
     return ArmKinematics.isStabbingSelf(getArmPose());
   }
 
@@ -67,9 +69,10 @@ public class CompilationArm extends SubsystemBase {
    * Moves arm to a given pose
    *
    * @param pose the position that the arm is to go to
-   * @deprecated This method has the potential to decapitate the RSL/Limelight tower. 
-   * Use the commands in {@link frc.robot.commands.moveToPose} instead.
+   * @deprecated This method has the potential to decapitate the RSL/Limelight tower. Use the
+   *     commands in {@link frc.robot.commands.moveToPose} instead.
    */
+  @Deprecated
   public void moveToPose(Pose pose) {
     armBase.moveBase((int) (0.5 + ArmKinematics.getBaseRotation(pose)));
     armShoulder.moveShoulder((int) (0.5 + ArmKinematics.getShoulderRotation(pose)));

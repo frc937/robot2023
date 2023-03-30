@@ -37,7 +37,7 @@ public class MoveBaseDegrees extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //return armBase.isBaseAtSetpoint();
+    // return armBase.isBaseAtSetpoint();
     if (armBase.isBaseAtSetpoint()) {
       System.out.println("Base is supposedly at setpoint");
       return true;

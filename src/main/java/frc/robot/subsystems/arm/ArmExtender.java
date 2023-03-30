@@ -4,14 +4,11 @@
 
 package frc.robot.subsystems.arm;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.I2CManager;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
-import edu.wpi.first.wpilibj2.command.Command;
 
 /** This subsystem represents the climber in a box that extends the arm on the robot. */
 public class ArmExtender extends SubsystemBase {
@@ -30,8 +27,6 @@ public class ArmExtender extends SubsystemBase {
     this.I2CManager = I2CManager;
     extenderAtSetpoint = false;
   }
-
-
 
   public void extend() {
     setpoint = null;
@@ -77,8 +72,6 @@ public class ArmExtender extends SubsystemBase {
   public boolean isExtenderAtSetpoint() {
     return extenderAtSetpoint;
   }
-
-
 
   /**
    * Directs arm towards setpoint. Since this is the periodic method, this is called every time the

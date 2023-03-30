@@ -6,18 +6,11 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.positioning.ArmKinematics;
-import frc.robot.positioning.Pose;
-import edu.wpi.first.wpilibj.Encoder;
-
 
 /**
  * Subsystem that represents the base of the arm, which (if mechanical implements it) will be able
@@ -26,11 +19,7 @@ import edu.wpi.first.wpilibj.Encoder;
 public class ArmBase extends SubsystemBase {
 
   private WPI_TalonSRX armBaseMotor;
-  private double uniBaseDegrees;
-  private double baseRotation;
-  private boolean isTripped;
   private SensorCollection sensorCollection;
-  
 
   /** Creates a new ArmBase. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmBase() {
@@ -62,9 +51,6 @@ public class ArmBase extends SubsystemBase {
     talon.config_kF(0, Constants.Arm.BasePID.kFF);
     talon.config_IntegralZone(0, Constants.Arm.BasePID.kIZone);
     talon.configAllowableClosedloopError(0, Constants.Arm.BasePID.ACCEPTABLE_ERROR);
-
-
-    
 
     return talon;
   }
@@ -100,20 +86,19 @@ public class ArmBase extends SubsystemBase {
     degrees = (degrees / 360) * 8192;
     System.out.println("Final encoder ticks: " + degrees);
     armBaseMotor.set(ControlMode.Position, degrees);
-    uniBaseDegrees = degrees;
   }
 
   public Command moveBaseCommand(int degrees) {
     return this.runOnce(() -> this.moveBase(degrees));
   }
-  
-  /** Checks if the base motor is at the setpoint.
-   */
+
+  /** Checks if the base motor is at the setpoint. */
   public boolean isBaseAtSetpoint() {
     /* For some unknown reason, WPI_TalonSRX.getClosedLoopError() will return the error from the
      * last setpoint briefly after a new setpoint is set, so we have to calculate error manually
      */
-    return Math.abs(armBaseMotor.getSelectedSensorPosition() - armBaseMotor.getClosedLoopTarget()) <= Constants.Arm.BasePID.ACCEPTABLE_ERROR;
+    return Math.abs(armBaseMotor.getSelectedSensorPosition() - armBaseMotor.getClosedLoopTarget())
+        <= Constants.Arm.BasePID.ACCEPTABLE_ERROR;
   }
 
   /** Stops the base from moving. */
