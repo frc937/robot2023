@@ -21,8 +21,6 @@ public class Robot extends TimedRobot {
 
   private Command displayAimVideo;
 
-  private Pose armPose;
-
   private RobotContainer m_robotContainer;
 
   /**
