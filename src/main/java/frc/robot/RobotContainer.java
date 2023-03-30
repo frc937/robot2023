@@ -119,8 +119,8 @@ public class RobotContainer {
     joystick.button(11).whileTrue(openClaw);
     /* TODO: get better buttons with Gabriel */
     /* Or just get color sensor working */
-    joystick.trigger().whileTrue(closeClawCone);
-    joystick.button(2).whileTrue(closeClawCube);
+    joystick.trigger().whileTrue(closeClaw);
+    //joystick.button(2).whileTrue(closeClawCube);
 
     /*joystick
         .button(2)
