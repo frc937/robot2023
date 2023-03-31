@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -85,6 +86,13 @@ public class Drive extends SubsystemBase {
    */
   public void moveMecanumField(double y, double x, double z) {
     drivetrain.driveCartesian(y, x, z, Rotation2d.fromDegrees(gyroscope.getAngle()));
+  }
+
+  public void moveSimple(double leftSpeed, double rightSpeed) {
+    frontLeft.set(ControlMode.PercentOutput, leftSpeed);
+    rearLeft.set(ControlMode.PercentOutput, leftSpeed);
+    frontRight.set(ControlMode.PercentOutput, rightSpeed);
+    rearRight.set(ControlMode.PercentOutput, rightSpeed);
   }
 
   /**

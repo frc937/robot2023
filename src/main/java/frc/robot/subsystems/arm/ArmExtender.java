@@ -23,7 +23,7 @@ public class ArmExtender extends SubsystemBase {
   /** Creates a new ArmExtender. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmExtender(I2CManager I2CManager) {
     winch = new Talon(Constants.Arm.ID_TALON_ARM_WINCH);
-    setpoint = Constants.Arm.MIN_LENGTH_ARM_EXTENDER;
+    setpoint = null;
     this.I2CManager = I2CManager;
     extenderAtSetpoint = false;
   }
@@ -52,7 +52,7 @@ public class ArmExtender extends SubsystemBase {
    * @return The length of the arm from the shoulder to the claw in inches.
    */
   public double getLength() {
-    return I2CManager.getCurrentRange();
+    return I2CManager.getCurrentRange() + Constants.Arm.EXTRA_LENGTH_ARM_EXTENDER;
   }
 
   /**

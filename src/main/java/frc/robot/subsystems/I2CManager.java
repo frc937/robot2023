@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -71,8 +70,5 @@ public class I2CManager extends SubsystemBase {
     currentRange = dist.getRange();
     /*multiplexer.setBus(Constants.I2C.COLOR_SENSOR_MULTIPLEXER_PORT);
     currentColor = color.getColor();*/
-
-    SmartDashboard.putBoolean("current range valid", isCurrentRangeValid());
-    SmartDashboard.putNumber("current range", getCurrentRange());
   }
 }

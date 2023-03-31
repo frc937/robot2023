@@ -18,6 +18,8 @@ import frc.robot.commands.CloseClawCone;
 import frc.robot.commands.CloseClawCube;
 import frc.robot.commands.DeployPlunger;
 import frc.robot.commands.DriveFieldOriented;
+import frc.robot.commands.DriveForwards;
+import frc.robot.commands.DriveReverse;
 import frc.robot.commands.DriveRobotOriented;
 import frc.robot.commands.ExtendArm;
 import frc.robot.commands.ManualArm;
@@ -59,6 +61,8 @@ public class RobotContainer {
   private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
   private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
   private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
+  private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
+  private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
   private final InstantCommand displayAimVideo = new InstantCommand(aimCamera::startCamera, aimCamera);
 
   private final Balance balance = new Balance(driveSubsystem);
@@ -198,10 +202,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
+    //return null;
     return (Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm))
-        .andThen(startLeavingCommunity)
-        .andThen(new WaitCommand(2))
-        .andThen(stopLeavingCommunity);
+        .andThen(driveForwards).withTimeout(0.2)
+        .andThen(driveReverse).withTimeout(0.2)
+        .andThen(driveForwards).withTimeout(2.5);
   }
 
   public Command getResetCommand() {
@@ -255,7 +260,7 @@ public class RobotContainer {
   }
 
   public static double getJoystickXAxis() {
-    return joystick.getX();
+    return joystick.getX()* -1.0;
   }
 
   public static double getScaledJoystickXAxis() {

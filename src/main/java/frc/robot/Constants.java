@@ -73,13 +73,15 @@ public final class Constants {
     public static final boolean AUTO_ZERO_REVERSE_LIMIT_SHOULDER = true;
     public static final boolean AUTO_ZERO_REVERSE_LIMIT_BASE = true;
 
-    public static final double MIN_LENGTH_ARM_EXTENDER = 4.5;
+    public static final double MIN_LENGTH_ARM_EXTENDER = 30.5;
 
     public static final double EXTRA_LENGTH_ARM_EXTENDER = 26;
 
     public static final double DONE_THRESHOLD_ARM_EXTENSION = 1.0;
     /* DONE_THRESHOLD_ARM_CLAW is not tuned yet - update it when implementing pressure sensor */
     public static final double DONE_THRESHOLD_ARM_CLAW = 0.1;
+
+    public static final double CONE_PRESSURE_THRESHOLD = 4.0;
 
     public static final double SPEED_WINCH_ARM_EXTENSION = 1.0;
 
@@ -130,7 +132,7 @@ public final class Constants {
     /** Maximum extended robot height in inches */
     public static final double MAX_EXTENDED_HEIGHT = 78.0;
     /** Minimum distance from overextending we want to keep in inches */
-    public static final double OVEREXTENSION_DANGER_DISTANCE = 2.0;
+    public static final double OVEREXTENSION_DANGER_DISTANCE = 4.0;
   }
 
   /** Holds constants for things not related to the robot */

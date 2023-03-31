@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drive;
 
 /** Leaves the community for the */
-public class StartLeavingCommunity extends CommandBase {
+public class DriveReverse extends CommandBase {
 
   private final Drive drivetrain;
 
   /** Creates a new LeaveCommunity. */
-  public StartLeavingCommunity(Drive driveSubsystem) {
+  public DriveReverse(Drive driveSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = driveSubsystem;
     addRequirements(driveSubsystem);
@@ -21,21 +21,23 @@ public class StartLeavingCommunity extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    drivetrain.moveMecanumRobot(0.5, 0, 0);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    drivetrain.moveSimple(-0.5, -0.5);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drivetrain.stop();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

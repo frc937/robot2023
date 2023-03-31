@@ -6,6 +6,7 @@ package frc.robot.subsystems.arm;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -87,9 +88,7 @@ public class ArmClaw extends SubsystemBase {
   @Override
   public void periodic() {
     /* Allows us to have a way to make this code not run, so we can do things like open the claw. */
-    if (setpoint == null) {
-      return;
-    } else {
+    if (setpoint != null) {
       /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
       if (Math.abs(setpoint - pressure.getVoltage()) >= Constants.Arm.DONE_THRESHOLD_ARM_CLAW) {
         if (pressure.getVoltage() > setpoint) {
@@ -102,5 +101,8 @@ public class ArmClaw extends SubsystemBase {
         isAtSetpoint = true;
       }
     }
+
+    SmartDashboard.putNumber("Pressure Reading", pressure.getVoltage());
+    SmartDashboard.putBoolean("At cone pressure", pressure.getVoltage() >= Constants.Arm.CONE_PRESSURE_THRESHOLD);
   }
 }

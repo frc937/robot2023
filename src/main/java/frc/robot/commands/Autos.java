@@ -26,7 +26,7 @@ public final class Autos {
         armExtenderSubsystem.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER),
         new HomeShoulder(armShoulderSubsystem, compilationArmSubsystem),
         new HomeBase(armBaseSubsystem, compilationArmSubsystem),
-        armClawSubsystem.openClawCommand());
+        armClawSubsystem.openClawCommand()).withTimeout(5.5);
   }
 
   private Autos() {
