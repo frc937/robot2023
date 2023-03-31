@@ -40,10 +40,10 @@ public class Balance extends CommandBase {
     }
 
     if (!BalanceYMode
-        && (Math.abs(pitchAngleDegrees) >= Math.abs(BalanceConstants.OFF_ANGLE_THRESHOLD))) {
+        && (Math.abs(rollAngleDegrees) >= Math.abs(BalanceConstants.OFF_ANGLE_THRESHOLD))) {
       BalanceYMode = true;
     } else if (BalanceYMode
-        && (Math.abs(pitchAngleDegrees) <= Math.abs(BalanceConstants.ON_ANGLE_THRESHOLD))) {
+        && (Math.abs(rollAngleDegrees) <= Math.abs(BalanceConstants.ON_ANGLE_THRESHOLD))) {
       BalanceYMode = false;
     }
     if (BalanceXMode) {
