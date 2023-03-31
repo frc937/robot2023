@@ -93,11 +93,11 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Fling cube + mobility bonus", 
         Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm)
         .andThen(new DriveForwards(driveSubsystem)).withTimeout(0.2)
-        .andThen(driveReverse).withTimeout(0.2)
+        .andThen(new DriveReverse(driveSubsystem)).withTimeout(0.2)
         .andThen(new DriveForwards(driveSubsystem)).withTimeout(2.5));
-    autoChooser.addOption("Do nothing", null);
+    autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
 
-    SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData("Choose auto", autoChooser);
 
     compilationArm.setDefaultCommand(manualArm);
     driveSubsystem.setDefaultCommand(driveRO);
