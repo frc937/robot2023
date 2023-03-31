@@ -53,7 +53,7 @@ public class ArmClaw extends SubsystemBase {
    * @return a command that opens the claw
    */
   public Command openClawCommand() {
-    return this.runOnce(() -> this.openClaw());
+    return this.runEnd(() -> this.openClaw(), () -> this.stop());
   }
 
   public Command manualOpenClawCommand() {
