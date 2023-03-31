@@ -26,6 +26,7 @@ public class MoveExtenderToPose extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Arm extension:" + ArmKinematics.getArmExtension(pose));
     armExtender.set(ArmKinematics.getArmExtension(pose));
   }
 

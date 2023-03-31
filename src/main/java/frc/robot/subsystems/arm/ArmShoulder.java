@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.positioning.ArmKinematics;
 
 /**
  * Subsystem that represents the "shoulder" of the arm; that is, the motor which will rotate the arm
@@ -73,6 +74,7 @@ public class ArmShoulder extends SubsystemBase {
     /* Takes the degree param and converts it to encoder ticks
      * so the talon knows what we're talking about
      */
+    degrees = ArmKinematics.getReferenceAngle(degrees);
     if (degrees <= 10 && degrees >= 0) {
       DriverStation.reportWarning(
           "Number of degrees passed too small, defaulting to 10 degrees", true);

@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.BalanceConstants;
 import frc.robot.subsystems.Drive;
 
@@ -54,7 +55,7 @@ public class Balance extends CommandBase {
       double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
       yAxisRate = Math.sin(rollAngleRadians) * -1;
     }
-    drive.moveMecanumRobot(yAxisRate, xAxisRate, 0);
+    drive.moveMecanumRobot((-xAxisRate * Constants.BalanceConstants.SPEED_MULTIPLIER), (-yAxisRate * Constants.BalanceConstants.SPEED_MULTIPLIER), 0);
   }
 
   // Called once the command ends or is interrupted.

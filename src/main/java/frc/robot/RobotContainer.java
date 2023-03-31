@@ -4,13 +4,13 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.Camera;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
@@ -28,6 +28,7 @@ import frc.robot.commands.StartLeavingCommunity;
 import frc.robot.commands.StopLeavingCommunity;
 import frc.robot.commands.moveToPose.MoveToPose;
 import frc.robot.positioning.Pose;
+import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.I2CManager;
 import frc.robot.subsystems.Plunger;
@@ -82,9 +83,21 @@ public class RobotContainer {
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
 
   public static CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
+
+  private final SendableChooser<Command> autoChooser;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureBindings();
+
+    autoChooser = new SendableChooser<>();
+    autoChooser.setDefaultOption("Fling cube + mobility bonus", 
+        Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm)
+        .andThen(new DriveForwards(driveSubsystem)).withTimeout(0.2)
+        .andThen(driveReverse).withTimeout(0.2)
+        .andThen(new DriveForwards(driveSubsystem)).withTimeout(2.5));
+    autoChooser.addOption("Do nothing", null);
+
+    SmartDashboard.putData(autoChooser);
 
     compilationArm.setDefaultCommand(manualArm);
     driveSubsystem.setDefaultCommand(driveRO);
@@ -114,8 +127,10 @@ public class RobotContainer {
 
     controller.b().whileTrue(deployPlunger);
 
-    // controller.x().whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
-    // armShoulder, armExtender, compilationArm));
+    joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
+    armShoulder, armExtender, compilationArm));
+
+    joystick.button(4).whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
 
     joystick.povUp().whileTrue(extend);
     joystick.povDown().whileTrue(retract);
@@ -202,11 +217,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    //return null;
-    return (Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm))
-        .andThen(driveForwards).withTimeout(0.2)
-        .andThen(driveReverse).withTimeout(0.2)
-        .andThen(driveForwards).withTimeout(2.5);
+    return autoChooser.getSelected();
   }
 
   public Command getResetCommand() {

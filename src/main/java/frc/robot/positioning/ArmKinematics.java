@@ -344,4 +344,20 @@ public final class ArmKinematics {
     final double cosShoulder = Math.cos(Math.toRadians(shoulderRotation));
     return armExtension * cosShoulder + Arm.BASE_TO_SHOULDER_LENGTH;
   }
+
+  public static double getReferenceAngle(double number) {
+    boolean done = false;
+    while (!done) {
+      if (number < 0) {
+        number += 360;
+      }
+      if (number > 360) {
+        number -= 360;
+      }
+      if (number >= 0 && number <= 360) {
+        done = true;
+      }
+    }
+    return number;
+  }
 }

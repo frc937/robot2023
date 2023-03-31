@@ -29,6 +29,10 @@ public final class Autos {
         armClawSubsystem.openClawCommand()).withTimeout(5.5);
   }
 
+  public static CommandBase homingNoOpenClaw(ArmShoulder armShoulder, ArmBase armBase, ArmExtender armExtender, CompilationArm compilationArm) {
+    return Commands.sequence(armExtender.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER), new HomeShoulder(armShoulder, compilationArm), new HomeBase(armBase, compilationArm));
+  }
+
   private Autos() {
     throw new UnsupportedOperationException("This is a utility class!");
   }

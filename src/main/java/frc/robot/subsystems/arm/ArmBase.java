@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.positioning.ArmKinematics;
 
 /**
  * Subsystem that represents the base of the arm, which (if mechanical implements it) will be able
@@ -80,6 +81,7 @@ public class ArmBase extends SubsystemBase {
     /* TODO: account for difference between limit switch position and front of bot
      * doing so will require some funky coding
      */
+    degrees = ArmKinematics.getReferenceAngle(degrees);
     degrees = (degrees + 60) % 360;
     System.out.println("Final degrees: " + degrees);
     degrees = degrees * 3;
