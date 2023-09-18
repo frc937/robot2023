@@ -8,10 +8,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.positioning.ArmKinematics;
 import frc.robot.positioning.Pose;
 
+@SuppressWarnings("unused")
 public class CompilationArm extends SubsystemBase {
-  @SuppressWarnings("unused")
   private ArmBase armBase;
-
   private ArmClaw armClaw;
   private ArmExtender armExtender;
   private Pose armPose;
