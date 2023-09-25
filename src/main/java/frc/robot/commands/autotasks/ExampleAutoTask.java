@@ -6,6 +6,7 @@ import frc.robot.positioning.Pose;
 public class ExampleAutoTask extends AutoTask {
 
   private ExampleCommand exampleCommand;
+
   /**
    * Use the constructor to configure the autotask arrival and init commands The order you run
    * {@link #addArrivedCommand(edu.wpi.first.wpilibj2.command.CommandBase) addArrivedCommand} and
@@ -26,6 +27,7 @@ public class ExampleAutoTask extends AutoTask {
     setTaskPosition(
         new Pose()); // Normaly the pose would not be empty but this is a example so its okay.
   }
+
   /**
    * The methods below this are mainly for updates, like if you wanted to put somthing on smartdash
    * you would put that in initTask.

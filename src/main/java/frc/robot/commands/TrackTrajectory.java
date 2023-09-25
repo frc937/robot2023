@@ -47,8 +47,7 @@ public class TrackTrajectory extends CommandBase {
   /** Called each scheduler run while the command is scheduled. Tracks the trajectory. */
   @Override
   public void execute() {
-    drive.trackTrajectory(
-        trajectory.sample(Timer.getFPGATimestamp() - FPGAOffset));
+    drive.trackTrajectory(trajectory.sample(Timer.getFPGATimestamp() - FPGAOffset));
   }
 
   /** Called once the command ends or is interrupted. Not used in this class. */
