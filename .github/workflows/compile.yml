@@ -20,6 +20,18 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
+    # Download distance sensor library
+    - name: Download distance sensor library
+      run: wget -O distsen.zip https://github.com/REVrobotics/2m-Distance-Sensor/releases/download/v2022.0.4/2m-Distance-Sensor-SDK-2022.0.4.zip
+    # Extract the distance sensor
+    - name: Extract distance sensor library
+      run: unzip distsen.zip
+    # Create /root/wpilib/2023/
+    - name: Create /root/wpilib/2023/ directory
+      run: mkdir -p /root/wpilib/2023/
+    # Copy maven to /root/wpilib/2023/
+    - name: Copy maven to /root/wpilib/2023/
+      run: cp -R 2m-Distance-Sensor-SDK-2022.0.4/maven /root/wpilib/2023/
 
     # Declares the repository safe and not under dubious ownership.
     - name: Add repository to git safe directories

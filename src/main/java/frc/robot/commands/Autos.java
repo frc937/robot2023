@@ -6,12 +6,31 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.Constants;
+import frc.robot.commands.homingRoutine.HomeBase;
+import frc.robot.commands.homingRoutine.HomeShoulder;
+import frc.robot.subsystems.arm.ArmBase;
+import frc.robot.subsystems.arm.ArmClaw;
+import frc.robot.subsystems.arm.ArmExtender;
+import frc.robot.subsystems.arm.ArmShoulder;
+import frc.robot.subsystems.arm.CompilationArm;
 
 public final class Autos {
-  /** Example static factory for an autonomous command. */
-  public static CommandBase exampleAuto(ExampleSubsystem subsystem) {
-    return Commands.sequence(subsystem.exampleMethodCommand(), new ExampleCommand(subsystem));
+  public static CommandBase homingRoutine(
+      ArmShoulder armShoulderSubsystem,
+      ArmBase armBaseSubsystem,
+      ArmExtender armExtenderSubsystem,
+      ArmClaw armClawSubsystem,
+      CompilationArm compilationArmSubsystem) {
+    return Commands.sequence(
+        armExtenderSubsystem.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER),
+        new HomeShoulder(armShoulderSubsystem, compilationArmSubsystem),
+        new HomeBase(armBaseSubsystem, compilationArmSubsystem),
+        armClawSubsystem.openClawCommand()).withTimeout(5.5);
+  }
+
+  public static CommandBase homingNoOpenClaw(ArmShoulder armShoulder, ArmBase armBase, ArmExtender armExtender, CompilationArm compilationArm) {
+    return Commands.sequence(armExtender.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER), new HomeShoulder(armShoulder, compilationArm), new HomeBase(armBase, compilationArm));
   }
 
   private Autos() {

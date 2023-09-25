@@ -154,6 +154,13 @@ public class Drive extends SubsystemBase {
     drivetrain.tankDrive(left, right);
   }
 
+  public void moveSimple(double leftSpeed, double rightSpeed) {
+    frontLeft.set(ControlMode.PercentOutput, leftSpeed);
+    rearLeft.set(ControlMode.PercentOutput, leftSpeed);
+    frontRight.set(ControlMode.PercentOutput, rightSpeed);
+    rearRight.set(ControlMode.PercentOutput, rightSpeed);
+  }
+
   /**
    * Stop.
    *

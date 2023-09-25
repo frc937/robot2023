@@ -5,16 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Constants.BalanceConstants;
 import frc.robot.subsystems.Drive;
 
 public class Balance extends CommandBase {
-  /** Creates a new BalanceAuto. */
-  boolean BalanceXMode;
+  private boolean BalanceXMode;
+  private boolean BalanceYMode;
 
-  boolean BalanceYMode;
   private final Drive drive;
 
+  /** Creates a new BalanceAuto */
   public Balance(Drive drive) {
     this.drive = drive;
     addRequirements(drive);
@@ -40,10 +41,10 @@ public class Balance extends CommandBase {
     }
 
     if (!BalanceYMode
-        && (Math.abs(pitchAngleDegrees) >= Math.abs(BalanceConstants.OFF_ANGLE_THRESHOLD))) {
+        && (Math.abs(rollAngleDegrees) >= Math.abs(BalanceConstants.OFF_ANGLE_THRESHOLD))) {
       BalanceYMode = true;
     } else if (BalanceYMode
-        && (Math.abs(pitchAngleDegrees) <= Math.abs(BalanceConstants.ON_ANGLE_THRESHOLD))) {
+        && (Math.abs(rollAngleDegrees) <= Math.abs(BalanceConstants.ON_ANGLE_THRESHOLD))) {
       BalanceYMode = false;
     }
     if (BalanceXMode) {
@@ -54,7 +55,7 @@ public class Balance extends CommandBase {
       double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
       yAxisRate = Math.sin(rollAngleRadians) * -1;
     }
-    drive.moveMecanumRobot(yAxisRate, xAxisRate, 0);
+    drive.moveMecanumRobot((-xAxisRate * Constants.BalanceConstants.SPEED_MULTIPLIER), (-yAxisRate * Constants.BalanceConstants.SPEED_MULTIPLIER), 0);
   }
 
   // Called once the command ends or is interrupted.
