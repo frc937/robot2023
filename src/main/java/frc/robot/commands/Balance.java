@@ -5,13 +5,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.Constants.BalanceConstants;
 import frc.robot.subsystems.Drive;
 
 public class Balance extends CommandBase {
-  private boolean BalanceXMode;
-  private boolean BalanceYMode;
 
   private final Drive drive;
   private final DriveForwards forwards;
