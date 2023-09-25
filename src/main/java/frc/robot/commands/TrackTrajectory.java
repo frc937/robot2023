@@ -28,9 +28,8 @@ public class TrackTrajectory extends CommandBase {
    * @param desiredRotation The rotation you want the robot at.
    * @param drive Drive subsysem for dependency injection.
    */
-  public TrackTrajectory(Trajectory trajectory, Rotation2d desiredRotation, Drive drive) {
+  public TrackTrajectory(Trajectory trajectory, Drive drive) {
     this.trajectory = trajectory;
-    this.desiredRotation = desiredRotation;
     this.drive = drive;
     addRequirements(drive);
   }
@@ -42,14 +41,14 @@ public class TrackTrajectory extends CommandBase {
   @Override
   public void initialize() {
     FPGAOffset = Timer.getFPGATimestamp();
-    drive.trackTrajectory(trajectory.sample(0), desiredRotation);
+    drive.trackTrajectory(trajectory.sample(0));
   }
 
   /** Called each scheduler run while the command is scheduled. Tracks the trajectory. */
   @Override
   public void execute() {
     drive.trackTrajectory(
-        trajectory.sample(Timer.getFPGATimestamp() - FPGAOffset), desiredRotation);
+        trajectory.sample(Timer.getFPGATimestamp() - FPGAOffset));
   }
 
   /** Called once the command ends or is interrupted. Not used in this class. */

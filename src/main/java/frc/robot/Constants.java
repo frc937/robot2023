@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -33,6 +32,10 @@ public final class Constants {
      * For use with MecanumDriveKinematics
      */
     /* these are real/tuned */
+    /* These can go away now because no more mecanum
+     * All my hard work, gone :(
+     */
+    /*
     public static final Translation2d LOCATION_WHEEL_FRONT_LEFT =
         new Translation2d(Units.feetToMeters(10 + (7 / 8)), Units.feetToMeters(8 + (5 / 8)));
     public static final Translation2d LOCATION_WHEEL_FRONT_RIGHT =
@@ -41,6 +44,13 @@ public final class Constants {
         new Translation2d(Units.feetToMeters(10 + (7 / 8)), Units.feetToMeters(8 + (5 / 8)));
     public static final Translation2d LOCATION_WHEEL_REAR_RIGHT =
         new Translation2d(Units.feetToMeters(10 + (7 / 8)), Units.feetToMeters(8 + (5 / 8)));
+     */
+
+    public static final double TRACK_WIDTH = Units.feetToMeters(20.5);
+
+    public static final double DRIVE_ENCODER_PPR = 4096; // CTRE mag encoders
+
+    public static final double WHEEL_SIZE_INCHES = 8; // I THINK they're 8"
 
     /* pain */
     /* TODO: sysid characterization */

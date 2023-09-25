@@ -8,21 +8,18 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.math.controller.HolonomicDriveController;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.estimator.MecanumDrivePoseEstimator;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
-import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
-import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -32,13 +29,15 @@ public class Drive extends SubsystemBase {
   /* Motor controllers */
   private WPI_TalonSRX frontLeft, frontRight, rearLeft, rearRight;
 
-  private MecanumDriveKinematics kinematics;
+  private MotorControllerGroup left, right;
 
-  private MecanumDrivePoseEstimator whereTheHeckAreWe;
+  private DifferentialDriveKinematics kinematics;
 
-  private HolonomicDriveController holonomicController;
+  private DifferentialDrivePoseEstimator whereTheHeckAreWe;
 
-  private MecanumDrive drivetrain;
+  private RamseteController ramseteController;
+
+  private DifferentialDrive drivetrain;
 
   private AHRS gyroscope;
 
@@ -67,15 +66,14 @@ public class Drive extends SubsystemBase {
     frontRight.setNeutralMode(NeutralMode.Brake);
     rearRight.setNeutralMode(NeutralMode.Brake);
 
+    left = new MotorControllerGroup(frontLeft, rearLeft);
+    right = new MotorControllerGroup(frontRight, rearRight);
+
     /* Instantiates the MecanumDrive drivetrain controller. */
-    drivetrain = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+    drivetrain = new DifferentialDrive(left, right);
 
     kinematics =
-        new MecanumDriveKinematics(
-            Constants.Drive.LOCATION_WHEEL_FRONT_LEFT,
-            Constants.Drive.LOCATION_WHEEL_FRONT_RIGHT,
-            Constants.Drive.LOCATION_WHEEL_REAR_LEFT,
-            Constants.Drive.LOCATION_WHEEL_REAR_RIGHT);
+        new DifferentialDriveKinematics(Constants.Drive.TRACK_WIDTH);
 
     /* Instantiates the gyroscope. */
     gyroscope = new AHRS(SPI.Port.kMXP);
@@ -84,39 +82,23 @@ public class Drive extends SubsystemBase {
 
     /* Odometry, has a funny name because funny */
     whereTheHeckAreWe =
-        new MecanumDrivePoseEstimator(
+        new DifferentialDrivePoseEstimator(
             kinematics,
             gyroscope.getRotation2d(),
-            new MecanumDriveWheelPositions(
-                /* This is proooobably the right way to do this */
-                frontLeft.getSelectedSensorPosition(),
-                frontRight.getSelectedSensorPosition(),
-                rearLeft.getSelectedSensorPosition(),
-                rearRight.getSelectedSensorPosition()),
+            /* Starting encoder dist should be zero always */
+            0,
+            0,
             /* Initial pose can be 0,0 since it should be set by the first AutoTask */
             new Pose2d());
 
-    /* CONSTANTS OUT THE BUTTHOLE */
-    holonomicController =
-        new HolonomicDriveController(
-            new PIDController(
-                Constants.Drive.HolonomicController.XController.P,
-                Constants.Drive.HolonomicController.XController.I,
-                Constants.Drive.HolonomicController.XController.D),
-            new PIDController(
-                Constants.Drive.HolonomicController.YController.P,
-                Constants.Drive.HolonomicController.YController.I,
-                Constants.Drive.HolonomicController.YController.D),
-            new ProfiledPIDController(
-                Constants.Drive.HolonomicController.ThetaController.P,
-                Constants.Drive.HolonomicController.ThetaController.I,
-                Constants.Drive.HolonomicController.ThetaController.D,
-                new TrapezoidProfile.Constraints(
-                    Constants.Drive.HolonomicController.ThetaController.Constraints.MAX_VELOCITY,
-                    Constants.Drive.HolonomicController.ThetaController.Constraints
-                        .MAX_ACCELERATION)));
+    ramseteController = new RamseteController();
   }
 
+
+  /*
+   * *looks at commented-out code*
+   * *cries in programmer*
+   */
   /**
    * Moves the robot in robot-oriented drive mode.
    *
@@ -126,11 +108,11 @@ public class Drive extends SubsystemBase {
    * @param x Robot speed along X axis, which is forward-backward. Forward is positive.
    * @param z Robot rotation speed around Z axis. Counterclockwise is positive.
    */
-  public void moveMecanumRobot(double y, double x, double z) {
-    /* Sets the default drive mode to Cartesian */
+  /*public void moveMecanumRobot(double y, double x, double z) {
+    // Sets the default drive mode to Cartesian
     // drivetrain.driveCartesian(x, y, z, ahrs.getAngle());
     drivetrain.driveCartesian(y, x, z);
-  }
+  }*/
 
   /**
    * Moves the robot in field-oriented drive mode.
@@ -144,8 +126,32 @@ public class Drive extends SubsystemBase {
    * @param x Robot speed along X axis, which is forward-backward. Forward is positive.
    * @param z Robot rotation speed around Z axis. Counterclockwise is positive.
    */
-  public void moveMecanumField(double y, double x, double z) {
+  /*public void moveMecanumField(double y, double x, double z) {
     drivetrain.driveCartesian(y, x, z, Rotation2d.fromDegrees(gyroscope.getAngle()));
+  }*/
+
+  /**
+   * Moves the robot in arcade drive mode.
+   * 
+   * <p>All params are -1.0 to 1.0.
+   * 
+   * @param x Robot speed along X axis, which is forward-backward. Forward is positive.
+   * @param z Robot rotation speed around Z axis. Counterclockwise is positive.
+   */
+  public void moveArcade(double x, double z) {
+    drivetrain.arcadeDrive(x, z);
+  }
+
+  /**
+   * Moves the robot in tank drive mode.
+   * 
+   * <p>All params are -1.0 to 1.0.
+   * 
+   * @param left Speed of left side of robot drivetrain. Forward is positive.
+   * @param right Speed of right side of robot drivetrain. Forward is positive.
+   */
+  public void moveTank(double left, double right) {
+    drivetrain.tankDrive(left, right);
   }
 
   /**
@@ -161,8 +167,33 @@ public class Drive extends SubsystemBase {
   }
 
   /**
-   * Resets the gyroscope, such that whatever direction the robot is pointed at the time is now
-   * deemed "foward" in field-oriented drive mode
+   * Get the average position of the two encoders on the left side of the drivetrain.
+   * 
+   * This should be pretty close to the actual distance travelled, since the motors & encoders should theoretically travel the same or very similar distances
+   * @return Average position of the two encoders on the left side of the drivetrain
+   */
+  private double getAverageLeftPosition() {
+    double averageLeftPosition = (frontLeft.getSelectedSensorPosition() + rearLeft.getSelectedSensorPosition()) / 2;
+    double averageLeftPositionInches = (averageLeftPosition * Constants.Drive.DRIVE_ENCODER_PPR) / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
+    double averageLeftPositionMeters = Units.inchesToMeters(averageLeftPositionInches);
+    return averageLeftPositionMeters;
+  }
+
+  /**
+   * Get the average position of the two encoders on the right side of the drivetrain.
+   * 
+   * This should be pretty close to the actual distance travelled, since the motors & encoders should theoretically travel the same or very similar distances
+   * @return Average position of the two encoders on the right side of the drivetrain
+   */
+  private double getAverageRightPosition() {
+    double averageRightPosition = (frontRight.getSelectedSensorPosition() + rearRight.getSelectedSensorPosition()) / 2;
+    double averageRightPositionInches = (averageRightPosition * Constants.Drive.DRIVE_ENCODER_PPR) / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
+    double averageRightPositionMeters = Units.inchesToMeters(averageRightPositionInches);
+    return averageRightPositionMeters;
+  }
+
+  /**
+   * Resets the gyroscope.
    */
   public void resetGyro() {
     gyroscope.reset();
@@ -201,11 +232,8 @@ public class Drive extends SubsystemBase {
   public void resetPosition(Pose2d currentPose) {
     whereTheHeckAreWe.resetPosition(
         gyroscope.getRotation2d(),
-        new MecanumDriveWheelPositions(
-            frontLeft.getSelectedSensorPosition(),
-            frontRight.getSelectedSensorPosition(),
-            rearLeft.getSelectedSensorPosition(),
-            rearRight.getSelectedSensorPosition()),
+        this.getAverageLeftPosition(), // we miiiiight need to create an offset and zero these, which would be horrible, but doable
+        this.getAverageRightPosition(),
         currentPose);
   }
 
@@ -224,24 +252,24 @@ public class Drive extends SubsystemBase {
    *     Trajectory.sample(Timer.getFPGATimestamp - initialFPGATimestamp)}
    * @param heading The desired heading at the nextState
    */
-  public void trackTrajectory(Trajectory.State nextState, Rotation2d heading) {
+  public void trackTrajectory(Trajectory.State nextState) {
     ChassisSpeeds chassisSpeeds =
-        holonomicController.calculate(whereTheHeckAreWe.getEstimatedPosition(), nextState, heading);
-    MecanumDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
-    frontLeft.set(ControlMode.Velocity, wheelSpeeds.frontLeftMetersPerSecond);
-    frontRight.set(ControlMode.Velocity, wheelSpeeds.frontRightMetersPerSecond);
-    rearLeft.set(ControlMode.Velocity, wheelSpeeds.rearLeftMetersPerSecond);
-    rearRight.set(ControlMode.Velocity, wheelSpeeds.rearRightMetersPerSecond);
+        ramseteController.calculate(whereTheHeckAreWe.getEstimatedPosition(), nextState);
+    DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
+    frontLeft.set(ControlMode.Velocity, wheelSpeeds.leftMetersPerSecond);
+    frontRight.set(ControlMode.Velocity, wheelSpeeds.rightMetersPerSecond);
+    rearLeft.set(ControlMode.Velocity, wheelSpeeds.leftMetersPerSecond);
+    rearRight.set(ControlMode.Velocity, wheelSpeeds.rightMetersPerSecond);
   }
 
   /**
-   * Returns true if the holonomicController is at its reference point, or in other words, done
+   * Returns true if the ramseteController is at its reference point, or in other words, done
    * tracking its trajectory
    *
    * @return A boolean; true if the holonomicController done tracking its trajectory
    */
   public boolean trajectoryDone() {
-    return holonomicController.atReference();
+    return ramseteController.atReference();
   }
 
   /**
@@ -255,11 +283,8 @@ public class Drive extends SubsystemBase {
     whereTheHeckAreWe.updateWithTime(
         Timer.getFPGATimestamp(),
         gyroscope.getRotation2d(),
-        new MecanumDriveWheelPositions(
-            frontLeft.getSelectedSensorPosition(),
-            frontRight.getSelectedSensorPosition(),
-            rearLeft.getSelectedSensorPosition(),
-            rearRight.getSelectedSensorPosition()));
+        this.getAverageLeftPosition(),
+        this.getAverageRightPosition());
     if (limelight.hasValidTarget()) {
       /* This *should* check if the pose from the limelight is within 1m of the current odometry pose,
        * which the odometry recommends we do to prevent us from getting noisy measurements

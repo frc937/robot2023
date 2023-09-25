@@ -23,9 +23,11 @@ public class AStarTrajectoryGenerator {
    * Static method for generating WPILib {@link Trajectory Trajectories} from A* {@link Path Paths}.
    *
    * @param path The Path to generate a Trajectory from
+   * @param startingRotation The rotation the robot should start at (field-oriented)
+   * @param endingRotation The rotation the bot should start in
    * @return The generated Trajectory
    */
-  public static Trajectory generateTrajectory(Path path) {
+  public static Trajectory generateTrajectory(Path path, Rotation2d startingRotation, Rotation2d endingRotation) {
     ArrayList<Double[]> pathList = path.getPathList();
 
     /* stealing max accel and velocity from holonomicController */
