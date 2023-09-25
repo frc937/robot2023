@@ -28,7 +28,6 @@ public class Drive extends SubsystemBase {
 
   /* Motor controllers */
   private WPI_TalonSRX frontLeft, frontRight, rearLeft, rearRight;
-
   private MotorControllerGroup left, right;
 
   private DifferentialDriveKinematics kinematics;
@@ -72,8 +71,7 @@ public class Drive extends SubsystemBase {
     /* Instantiates the MecanumDrive drivetrain controller. */
     drivetrain = new DifferentialDrive(left, right);
 
-    kinematics =
-        new DifferentialDriveKinematics(Constants.Drive.TRACK_WIDTH);
+    kinematics = new DifferentialDriveKinematics(Constants.Drive.TRACK_WIDTH);
 
     /* Instantiates the gyroscope. */
     gyroscope = new AHRS(SPI.Port.kMXP);
@@ -93,7 +91,6 @@ public class Drive extends SubsystemBase {
 
     ramseteController = new RamseteController();
   }
-
 
   /*
    * *looks at commented-out code*
@@ -132,9 +129,9 @@ public class Drive extends SubsystemBase {
 
   /**
    * Moves the robot in arcade drive mode.
-   * 
+   *
    * <p>All params are -1.0 to 1.0.
-   * 
+   *
    * @param x Robot speed along X axis, which is forward-backward. Forward is positive.
    * @param z Robot rotation speed around Z axis. Counterclockwise is positive.
    */
@@ -144,9 +141,9 @@ public class Drive extends SubsystemBase {
 
   /**
    * Moves the robot in tank drive mode.
-   * 
+   *
    * <p>All params are -1.0 to 1.0.
-   * 
+   *
    * @param left Speed of left side of robot drivetrain. Forward is positive.
    * @param right Speed of right side of robot drivetrain. Forward is positive.
    */
@@ -175,36 +172,45 @@ public class Drive extends SubsystemBase {
 
   /**
    * Get the average position of the two encoders on the left side of the drivetrain.
-   * 
-   * This should be pretty close to the actual distance travelled, since the motors & encoders should theoretically travel the same or very similar distances
+   *
+   * <p>This should be pretty close to the actual distance travelled, since the motors & encoders
+   * should theoretically travel the same or very similar distances
+   *
    * @return Average position of the two encoders on the left side of the drivetrain
    */
   private double getAverageLeftPosition() {
-    double averageLeftPosition = (frontLeft.getSelectedSensorPosition() + rearLeft.getSelectedSensorPosition()) / 2;
-    double averageLeftPositionInches = (averageLeftPosition * Constants.Drive.DRIVE_ENCODER_PPR) / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
+    double averageLeftPosition =
+        (frontLeft.getSelectedSensorPosition() + rearLeft.getSelectedSensorPosition()) / 2;
+    double averageLeftPositionInches =
+        (averageLeftPosition * Constants.Drive.DRIVE_ENCODER_PPR)
+            / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
     double averageLeftPositionMeters = Units.inchesToMeters(averageLeftPositionInches);
     return averageLeftPositionMeters;
   }
 
   /**
    * Get the average position of the two encoders on the right side of the drivetrain.
-   * 
-   * This should be pretty close to the actual distance travelled, since the motors & encoders should theoretically travel the same or very similar distances
+   *
+   * <p>This should be pretty close to the actual distance travelled, since the motors & encoders
+   * should theoretically travel the same or very similar distances
+   *
    * @return Average position of the two encoders on the right side of the drivetrain
    */
   private double getAverageRightPosition() {
-    double averageRightPosition = (frontRight.getSelectedSensorPosition() + rearRight.getSelectedSensorPosition()) / 2;
-    double averageRightPositionInches = (averageRightPosition * Constants.Drive.DRIVE_ENCODER_PPR) / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
+    double averageRightPosition =
+        (frontRight.getSelectedSensorPosition() + rearRight.getSelectedSensorPosition()) / 2;
+    double averageRightPositionInches =
+        (averageRightPosition * Constants.Drive.DRIVE_ENCODER_PPR)
+            / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
     double averageRightPositionMeters = Units.inchesToMeters(averageRightPositionInches);
     return averageRightPositionMeters;
   }
 
-  /**
-   * Resets the gyroscope.
-   */
+  /** Resets the gyroscope. */
   public void resetGyro() {
     gyroscope.reset();
   }
+
   /**
    * Gets the roll of the robot in degrees
    *
@@ -213,6 +219,7 @@ public class Drive extends SubsystemBase {
   public double getRoll() {
     return gyroscope.getRoll();
   }
+
   /**
    * Gets the pitch of the robot in degrees
    *
@@ -239,7 +246,9 @@ public class Drive extends SubsystemBase {
   public void resetPosition(Pose2d currentPose) {
     whereTheHeckAreWe.resetPosition(
         gyroscope.getRotation2d(),
-        this.getAverageLeftPosition(), // we miiiiight need to create an offset and zero these, which would be horrible, but doable
+        this
+            .getAverageLeftPosition(), // we miiiiight need to create an offset and zero these,
+                                       // which would be horrible, but doable
         this.getAverageRightPosition(),
         currentPose);
   }

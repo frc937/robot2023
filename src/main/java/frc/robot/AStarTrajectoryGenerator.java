@@ -27,7 +27,8 @@ public class AStarTrajectoryGenerator {
    * @param endingRotation The rotation the bot should start in
    * @return The generated Trajectory
    */
-  public static Trajectory generateTrajectory(Path path, Rotation2d startingRotation, Rotation2d endingRotation) {
+  public static Trajectory generateTrajectory(
+      Path path, Rotation2d startingRotation, Rotation2d endingRotation) {
     ArrayList<Double[]> pathList = path.getPathList();
 
     /* stealing max accel and velocity from holonomicController */

@@ -21,6 +21,7 @@ public abstract class AutoTask {
   private Stack<CommandBase> initCommands = new Stack<CommandBase>();
   private Stack<CommandBase> arrivedCommands = new Stack<CommandBase>();
   private CommandBase runningCommand;
+
   /**
    * Creates a new AutoTask. Dont create instances of commands. Each command should be a parameter
    * instead of created
