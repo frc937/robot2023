@@ -17,19 +17,17 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.autotasks.ExampleAutoTask;
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.TaskScheduler;
 import frc.robot.commands.CloseClawCone;
 import frc.robot.commands.CloseClawCube;
 import frc.robot.commands.DeployPlunger;
-import frc.robot.commands.DriveFieldOriented;
+import frc.robot.commands.DriveTank;
 import frc.robot.commands.DriveForwards;
 import frc.robot.commands.DriveReverse;
-import frc.robot.commands.DriveRobotOriented;
+import frc.robot.commands.DriveArcade;
 import frc.robot.commands.ExtendArm;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.RetractArm;
@@ -56,7 +54,12 @@ import frc.robot.subsystems.arm.CompilationArm;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Drive driveSubsystem = new Drive();
+  /* Messy, ugly commands and subsystems section
+   * TODO: organize later
+   */
+  /* Autotasks are mostly commented out in here for now because I don't care that they exist */
+  private final Limelight limelight = new Limelight();
+  private final Drive driveSubsystem = new Drive(limelight);
   /* BIG CHUNGUS ARM CODE */
   private final I2CManager I2CManager = new I2CManager();
   private final ArmBase armBase = new ArmBase();
@@ -75,31 +78,18 @@ public class RobotContainer {
   private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
   private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
   private final InstantCommand displayAimVideo = new InstantCommand(aimCamera::startCamera, aimCamera);
-
   private final Balance balance = new Balance(driveSubsystem);
-  private final DriveRobotOriented driveRO = new DriveRobotOriented(driveSubsystem);
-  private final DriveFieldOriented driveFO = new DriveFieldOriented(driveSubsystem);
-
+  private final DriveArcade driveRO = new DriveArcade(driveSubsystem);
+  private final DriveTank driveFO = new DriveTank(driveSubsystem);
   private final Command openClaw = armClaw.manualOpenClawCommand();
   private final Command closeClaw = armClaw.manualCloseClawCommand();
   private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
   private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
-
   private final ExtendArm extend = new ExtendArm(armExtender);
   private final RetractArm retract = new RetractArm(armExtender);
-  /* SUBSYSTEMS */
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Limelight limelight = new Limelight();
-  private final Drive driveSubsystem = new Drive(limelight);
   private final TaskScheduler taskScheduler = new TaskScheduler();
-  private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-
-  /* COMMANDS */
-  private final Balance balance = new Balance(driveSubsystem);
-  private final ExampleCommand exampleCommand = new ExampleCommand(exampleSubsystem);
-
   /* AUTO TASKS */
-  private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
+  //private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
@@ -231,7 +221,7 @@ public class RobotContainer {
   }
 
   private void verifyAutoTasks() {
-    exampleAutoTask.verify();
+    //exampleAutoTask.verify();
   }
 
   /**

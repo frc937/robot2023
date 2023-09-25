@@ -5,15 +5,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drive;
 
-public class DriveFieldOriented extends CommandBase {
+public class DriveTank extends CommandBase {
 
   /* Variables */
   private final Drive drivetrain;
-  private double mecanumX;
-  private double mecanumY;
-  private double mecanumZ;
+  private double left;
+  private double right;
 
-  public DriveFieldOriented(Drive driveSubsystem) {
+  public DriveTank(Drive driveSubsystem) {
     drivetrain = driveSubsystem;
     addRequirements(driveSubsystem);
   }
@@ -26,10 +25,9 @@ public class DriveFieldOriented extends CommandBase {
   @Override
   public void execute() {
     /* Gets the left and right axes of the robot and uses that to move */
-    mecanumX = RobotContainer.getScaledControllerLeftXAxis();
-    mecanumY = RobotContainer.getScaledControllerLeftYAxis();
-    mecanumZ = RobotContainer.getScaledControllerRightXAxis();
-    drivetrain.moveMecanumField(mecanumY, mecanumX, mecanumZ);
+    left = RobotContainer.getScaledControllerLeftYAxis();
+    right = RobotContainer.getScaledControllerRightYAxis();
+    drivetrain.moveTank(left, right);
   }
 
   @Override

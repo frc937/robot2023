@@ -55,6 +55,7 @@ public class Balance extends CommandBase {
       double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
       yAxisRate = Math.sin(rollAngleRadians) * -1;
     }
+    /* TODO: quinn fix this */
     drive.moveMecanumRobot((-xAxisRate * Constants.BalanceConstants.SPEED_MULTIPLIER), (-yAxisRate * Constants.BalanceConstants.SPEED_MULTIPLIER), 0);
   }
 
