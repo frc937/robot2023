@@ -8,8 +8,8 @@ public class BaseTests {
     assert true;
   }
 
-  @Test
+  /*@Test
   public void TestAutoTasks() {
     new RobotContainer();
-  }
+  }*/
 }

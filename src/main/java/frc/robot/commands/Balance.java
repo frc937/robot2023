@@ -5,19 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.Constants.BalanceConstants;
 import frc.robot.subsystems.Drive;
 
 public class Balance extends CommandBase {
-  private boolean BalanceXMode;
-  private boolean BalanceYMode;
 
   private final Drive drive;
+  private final DriveForwards forwards;
+  private final DriveReverse reverse;
 
   /** Creates a new BalanceAuto */
   public Balance(Drive drive) {
     this.drive = drive;
+    this.forwards = new DriveForwards(drive);
+    this.reverse = new DriveReverse(drive);
     addRequirements(drive);
   }
 
@@ -28,35 +29,20 @@ public class Balance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double pitchAngleDegrees = drive.getPitch();
-    double rollAngleDegrees = drive.getRoll();
-    double xAxisRate = 0;
-    double yAxisRate = 0;
-    if (!BalanceXMode
-        && (Math.abs(pitchAngleDegrees) >= Math.abs(BalanceConstants.OFF_ANGLE_THRESHOLD))) {
-      BalanceXMode = true;
-    } else if (BalanceXMode
-        && (Math.abs(pitchAngleDegrees) <= Math.abs(BalanceConstants.ON_ANGLE_THRESHOLD))) {
-      BalanceXMode = false;
+    double pitchAngleDegrees = drive.getPitch(); // forward back
+    
+    if (pitchAngleDegrees > BalanceConstants.OFF_ANGLE_THRESHOLD) {
+          this.forwards.execute();
+    } else if (pitchAngleDegrees < -BalanceConstants.OFF_ANGLE_THRESHOLD) {
+          this.reverse.execute();
+    } else {
+          this.reverse.end(true);
+          this.forwards.end(true);
     }
 
-    if (!BalanceYMode
-        && (Math.abs(rollAngleDegrees) >= Math.abs(BalanceConstants.OFF_ANGLE_THRESHOLD))) {
-      BalanceYMode = true;
-    } else if (BalanceYMode
-        && (Math.abs(rollAngleDegrees) <= Math.abs(BalanceConstants.ON_ANGLE_THRESHOLD))) {
-      BalanceYMode = false;
-    }
-    if (BalanceXMode) {
-      double pitchAngleRadians = pitchAngleDegrees * (Math.PI / 180.0);
-      xAxisRate = Math.sin(pitchAngleRadians) * -1;
-    }
-    if (BalanceYMode) {
-      double rollAngleRadians = rollAngleDegrees * (Math.PI / 180.0);
-      yAxisRate = Math.sin(rollAngleRadians) * -1;
-    }
-    /* TODO: quinn fix this */
-    drive.moveMecanumRobot((-xAxisRate * Constants.BalanceConstants.SPEED_MULTIPLIER), (-yAxisRate * Constants.BalanceConstants.SPEED_MULTIPLIER), 0);
+
+    
+    
   }
 
   // Called once the command ends or is interrupted.
