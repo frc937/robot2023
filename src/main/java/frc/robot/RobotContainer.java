@@ -60,16 +60,16 @@ public class RobotContainer {
   private final Limelight limelight = new Limelight();
   private final Drive driveSubsystem = new Drive(limelight);
   /* BIG CHUNGUS ARM CODE */
-  private final I2CManager I2CManager = new I2CManager();
-  private final ArmBase armBase = new ArmBase();
-  private final ArmShoulder armShoulder = new ArmShoulder();
-  private final ArmExtender armExtender = new ArmExtender(I2CManager);
-  private final ArmClaw armClaw = new ArmClaw();
+  //private final I2CManager I2CManager = new I2CManager();
+  //private final ArmBase armBase = new ArmBase();
+  //private final ArmShoulder armShoulder = new ArmShoulder();
+  //private final ArmExtender armExtender = new ArmExtender(I2CManager);
+  //private final ArmClaw armClaw = new ArmClaw();
   private final Camera aimCamera = new Camera(Constants.Camera.PORT_CAMERA_AIM);
-  private final CompilationArm compilationArm =
-      new CompilationArm(armBase, armClaw, armExtender, armShoulder);
-  private final ManualArm manualArm = new ManualArm(armBase, armShoulder, compilationArm);
-  private RetractArm retractArmCommand = new RetractArm(armExtender);
+  //private final CompilationArm compilationArm =
+  //    new CompilationArm(armBase, armClaw, armExtender, armShoulder);
+  //private final ManualArm manualArm = new ManualArm(armBase, armShoulder, compilationArm);
+  //private RetractArm retractArmCommand = new RetractArm(armExtender);
   private final Plunger plunger = new Plunger();
   private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
   private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
@@ -80,15 +80,14 @@ public class RobotContainer {
   private final Balance balance = new Balance(driveSubsystem);
   private final DriveArcade driveRO = new DriveArcade(driveSubsystem);
   private final DriveTank driveFO = new DriveTank(driveSubsystem);
-  private final Command openClaw = armClaw.manualOpenClawCommand();
-  private final Command closeClaw = armClaw.manualCloseClawCommand();
-  private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
-  private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
-  private final ExtendArm extend = new ExtendArm(armExtender);
-  private final RetractArm retract = new RetractArm(armExtender);
-  private final TaskScheduler taskScheduler = new TaskScheduler();
+  //private final Command openClaw = armClaw.manualOpenClawCommand();
+  //private final Command closeClaw = armClaw.manualCloseClawCommand();
+  //private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
+  //private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
+  //private final ExtendArm extend = new ExtendArm(armExtender);
+  //private final RetractArm retract = new RetractArm(armExtender);
+  //private final TaskScheduler taskScheduler = new TaskScheduler();
   /* AUTO TASKS */
-  //private final ExampleAutoTask exampleAutoTask = new ExampleAutoTask(exampleCommand);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
@@ -102,19 +101,20 @@ public class RobotContainer {
     configureBindings();
 
     autoChooser = new SendableChooser<>();
-    autoChooser.setDefaultOption("Fling cube + mobility bonus", 
-        Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
-    autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
+    //autoChooser.setDefaultOption("Fling cube + mobility bonus", 
+    //    Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
+    //autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
 
     SmartDashboard.putData("Choose auto", autoChooser);
 
-    compilationArm.setDefaultCommand(manualArm);
+    //compilationArm.setDefaultCommand(manualArm);
     driveSubsystem.setDefaultCommand(driveRO);
   }
 
   public Pose containerGetArmPose() {
 
-    return compilationArm.getArmPose();
+    //return compilationArm.getArmPose();
+    return new Pose();
   }
 
   /**
@@ -136,18 +136,18 @@ public class RobotContainer {
 
     controller.b().whileTrue(deployPlunger);
 
-    joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
-    armShoulder, armExtender, compilationArm));
+    //joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
+    //armShoulder, armExtender, compilationArm));
 
-    joystick.button(4).whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
+    //joystick.button(4).whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
 
-    joystick.povUp().whileTrue(extend);
-    joystick.povDown().whileTrue(retract);
+    //joystick.povUp().whileTrue(extend);
+    //joystick.povDown().whileTrue(retract);
 
-    joystick.button(11).whileTrue(openClaw);
+    //joystick.button(11).whileTrue(openClaw);
     /* TODO: get better buttons with Gabriel */
     /* Or just get color sensor working */
-    joystick.trigger().whileTrue(closeClaw);
+    //joystick.trigger().whileTrue(closeClaw);
     //joystick.button(2).whileTrue(closeClawCube);
 
     /*joystick
@@ -220,7 +220,6 @@ public class RobotContainer {
   }
 
   private void verifyAutoTasks() {
-    //exampleAutoTask.verify();
   }
 
   /**
@@ -234,13 +233,15 @@ public class RobotContainer {
   }
 
   public Command getResetCommand() {
-    return MoveToPose.retractingMoveToPose(
-            Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
-        .alongWith(armClaw.openClawCommand());
+    //return MoveToPose.retractingMoveToPose(
+    //        Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
+    //    .alongWith(armClaw.openClawCommand());
+    return new InstantCommand();
   }
 
-  public RetractArm getRetractCommand() {
-    return retractArmCommand;
+  public Command getRetractCommand() {
+    //return retractArmCommand;
+    return new InstantCommand();
   }
 
   public Command getDisplayAimVideoCommand() {
