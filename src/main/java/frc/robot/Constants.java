@@ -34,10 +34,10 @@ public final class Constants {
   /** General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}. */
   public static class Drive {
     /* CAN IDs for the drivetrain motor controllers */
-    public static final int ID_TALON_FRONT_LEFT = 0;
+    public static final int ID_TALON_FRONT_LEFT = 3;
     public static final int ID_TALON_FRONT_RIGHT = 1;
-    public static final int ID_TALON_REAR_LEFT = 2;
-    public static final int ID_TALON_REAR_RIGHT = 3;
+    public static final int ID_TALON_REAR_LEFT = 4;
+    public static final int ID_TALON_REAR_RIGHT = 2;
 
     /* Locations of mecanum drive wheels relative to the center of the robot
      * For use with MecanumDriveKinematics
