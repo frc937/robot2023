@@ -25,7 +25,6 @@ public class TrackTrajectory extends CommandBase {
    * want to track.
    *
    * @param trajectory The trajectory to track.
-   * @param desiredRotation The rotation you want the robot at.
    * @param drive Drive subsysem for dependency injection.
    */
   public TrackTrajectory(Trajectory trajectory, Drive drive) {
