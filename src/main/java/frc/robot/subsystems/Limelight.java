@@ -43,17 +43,17 @@ public class Limelight extends SubsystemBase {
 
   /** Creates a new Limelight. Should be run once from {@link frc.robot.RobotContainer}. */
   public Limelight() {
-    tvSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("limelight/tv").subscribe(0.0);
-    txSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("limelight/tx").subscribe(0.0);
-    tySubscriber = NetworkTableInstance.getDefault().getDoubleTopic("limelight/ty").subscribe(0.0);
-    taSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("limelight/ta").subscribe(0.0);
+    tvSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("/limelight-back/tv").subscribe(0.0);
+    txSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("/limelight-back/tx").subscribe(0.0);
+    tySubscriber = NetworkTableInstance.getDefault().getDoubleTopic("/limelight-back/ty").subscribe(0.0);
+    taSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("/limelight-back/ta").subscribe(0.0);
     /* In theory this won't break. It got mad when I tried to insert the array into the
      * method like .subscribe({0.0, 0.0, 0.0, 0.0, 0.0, 0.0}) so ¯\_(ツ)_/¯
      */
     double[] defaultBotpos = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     botposSubscriber =
         NetworkTableInstance.getDefault()
-            .getDoubleArrayTopic("limelight/botpos")
+            .getDoubleArrayTopic("/limelight-back/botpose")
             .subscribe(defaultBotpos);
   }
 
