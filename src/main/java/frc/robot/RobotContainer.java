@@ -32,6 +32,7 @@ import frc.robot.commands.ManualArm;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.StartLeavingCommunity;
 import frc.robot.commands.StopLeavingCommunity;
+import frc.robot.commands.TrackTrajectory;
 import frc.robot.commands.moveToPose.MoveToPose;
 import frc.robot.positioning.Pose;
 import frc.robot.subsystems.Camera;
@@ -87,7 +88,7 @@ public class RobotContainer {
   //private final ExtendArm extend = new ExtendArm(armExtender);
   //private final RetractArm retract = new RetractArm(armExtender);
   //private final TaskScheduler taskScheduler = new TaskScheduler();
-  /* AUTO TASKS */
+  private final TrackTrajectory demoTrajectoryTrackingCommand = new TrackTrajectory(Constants.Drive.Trajectories.DEMO_TRAJECTORY, driveSubsystem);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
@@ -135,6 +136,8 @@ public class RobotContainer {
     controller.y().toggleOnTrue(driveFO);
 
     controller.b().whileTrue(deployPlunger);
+
+    controller.x().whileTrue(demoTrajectoryTrackingCommand);
 
     //joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
     //armShoulder, armExtender, compilationArm));

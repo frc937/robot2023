@@ -5,6 +5,16 @@
 package frc.robot;
 
 import frc.robot.positioning.Pose;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -88,6 +98,13 @@ public final class Constants {
           public static final double MAX_ACCELERATION = 3.0;
         }
       }
+    }
+
+    public static class Trajectories {
+      private static final Pose2d startPose = new Pose2d(5.45, -2.9, new Rotation2d());
+      private static final ArrayList<Translation2d> interiorWaypoints = new ArrayList<>(List.of(new Translation2d(5.26, -3.47)));
+      private static final Pose2d endPose = new Pose2d(4.7, -3.0, new Rotation2d());
+      public static final Trajectory DEMO_TRAJECTORY = TrajectoryGenerator.generateTrajectory(startPose, interiorWaypoints, endPose, new TrajectoryConfig(5.0, 3.0));
     }
   }
 
