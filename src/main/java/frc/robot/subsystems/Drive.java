@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -90,6 +91,11 @@ public class Drive extends SubsystemBase {
             new Pose2d());
 
     ramseteController = new RamseteController();
+
+    SmartDashboard.putString("REMEMBER TO WRITE DOWN YOUR PID VALUES", "I MEAN IT, WRITE THEM DOWN");
+    SmartDashboard.putNumber("Drive P", 0);
+    SmartDashboard.putNumber("Drive I", 0);
+    SmartDashboard.putNumber("Drive D", 0);
   }
 
   /*
@@ -127,6 +133,26 @@ public class Drive extends SubsystemBase {
     drivetrain.driveCartesian(y, x, z, Rotation2d.fromDegrees(gyroscope.getAngle()));
   }*/
 
+  private WPI_TalonSRX configureTalonPID(WPI_TalonSRX talon, double P, double I, double D) {
+    talon.config_kP(0, P);
+    talon.config_kI(0, I);
+    talon.config_kD(0, D);
+
+    return talon;
+  }
+
+  /* For testing ONLY - DO NOT call in production */
+  public void updatePIDValuesFromSmartDash() {
+    double P = SmartDashboard.getNumber("Drive P", 0);
+    double I = SmartDashboard.getNumber("Drive I", 0);
+    double D = SmartDashboard.getNumber("Drive D", 0);
+
+    frontLeft = configureTalonPID(frontLeft, P, I, D);
+    frontRight = configureTalonPID(frontRight, P, I, D);
+    rearLeft = configureTalonPID(rearLeft, P, I, D);
+    rearRight = configureTalonPID(rearRight, P, I, D);
+  }
+
   /**
    * Moves the robot in arcade drive mode.
    *
@@ -156,6 +182,21 @@ public class Drive extends SubsystemBase {
     rearLeft.set(ControlMode.PercentOutput, leftSpeed);
     frontRight.set(ControlMode.PercentOutput, rightSpeed);
     rearRight.set(ControlMode.PercentOutput, rightSpeed);
+  }
+
+  /**
+   * Sets the velocity setpoint of the left and right sides of the drivetrain.
+   * 
+   * <p>These are PID setpoints - they will require the drivetrain to have appropriately-tuned
+   * PID gains.
+   * @param velocityLeft Velocity setpoint for the left side of the drivetrain
+   * @param velocityRight Velocity setpoint for the right side of the drivetrain
+   */
+  public void setVelocity(double velocityLeft, double velocityRight) {
+    frontLeft.set(ControlMode.Velocity, velocityLeft);
+    rearLeft.set(ControlMode.Velocity, velocityLeft);
+    frontRight.set(ControlMode.Velocity, velocityRight);
+    rearRight.set(ControlMode.Velocity, velocityRight);
   }
 
   /**
@@ -314,5 +355,8 @@ public class Drive extends SubsystemBase {
         whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), Timer.getFPGATimestamp());
       }
     }
+
+    /* TODO: REMOVE IN PROD */
+    updatePIDValuesFromSmartDash();
   }
 }

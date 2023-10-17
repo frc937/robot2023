@@ -73,6 +73,8 @@ public final class Constants {
 
     public static final double WHEEL_SIZE_INCHES = 8; // I THINK they're 8"
 
+    public static final double TEST_PID_SETPOINT = 4096; // This will no longer work after I fix the set method
+
     /* pain */
     /* TODO: sysid characterization */
     public static class HolonomicController {
