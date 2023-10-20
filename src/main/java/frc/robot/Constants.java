@@ -75,6 +75,12 @@ public final class Constants {
 
     public static final double TEST_PID_SETPOINT = 4096; // This will no longer work after I fix the set method
 
+    public static class DrivePIDYAY {
+      public static final double P = 0.13939;
+      public static final double I = 0;
+      public static final double D = 0;
+    }
+
     /* pain */
     /* TODO: sysid characterization */
     public static class HolonomicController {
@@ -103,9 +109,9 @@ public final class Constants {
     }
 
     public static class Trajectories {
-      private static final Pose2d startPose = new Pose2d(5.45, -2.9, new Rotation2d());
-      private static final ArrayList<Translation2d> interiorWaypoints = new ArrayList<>(List.of(new Translation2d(5.26, -3.47)));
-      private static final Pose2d endPose = new Pose2d(4.7, -3.0, new Rotation2d());
+      private static final Pose2d startPose = new Pose2d(5.9, -2.8, new Rotation2d());
+      private static final ArrayList<Translation2d> interiorWaypoints = new ArrayList<>(List.of(new Translation2d(5.5, -2.9)));
+      private static final Pose2d endPose = new Pose2d(4.7, -2.3, new Rotation2d());
       public static final Trajectory DEMO_TRAJECTORY = TrajectoryGenerator.generateTrajectory(startPose, interiorWaypoints, endPose, new TrajectoryConfig(5.0, 3.0));
     }
   }

@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FollowerType;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -19,7 +21,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -28,8 +30,8 @@ import frc.robot.Constants;
 public class Drive extends SubsystemBase {
 
   /* Motor controllers */
+  /* TODO: Figure out naming */
   private WPI_TalonSRX frontLeft, frontRight, rearLeft, rearRight;
-  private MotorControllerGroup left, right;
 
   private DifferentialDriveKinematics kinematics;
 
@@ -66,11 +68,13 @@ public class Drive extends SubsystemBase {
     frontRight.setNeutralMode(NeutralMode.Brake);
     rearRight.setNeutralMode(NeutralMode.Brake);
 
-    left = new MotorControllerGroup(frontLeft, rearLeft);
-    right = new MotorControllerGroup(frontRight, rearRight);
+    rearLeft.follow(frontLeft);
+    rearLeft.setInverted(InvertType.FollowMaster);
+    rearRight.follow(frontRight);
+    rearRight.setInverted(InvertType.FollowMaster);
 
     /* Instantiates the MecanumDrive drivetrain controller. */
-    drivetrain = new DifferentialDrive(left, right);
+    drivetrain = new DifferentialDrive(frontLeft, frontRight);
 
     kinematics = new DifferentialDriveKinematics(Constants.Drive.TRACK_WIDTH);
 
@@ -92,10 +96,15 @@ public class Drive extends SubsystemBase {
 
     ramseteController = new RamseteController();
 
-    SmartDashboard.putString("REMEMBER TO WRITE DOWN YOUR PID VALUES", "I MEAN IT, WRITE THEM DOWN");
+    frontLeft = configureTalonPID(frontLeft, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
+    frontRight = configureTalonPID(frontRight, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
+    //rearLeft = configureTalonPID(rearLeft, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
+    //rearRight = configureTalonPID(rearRight, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
+    
+    /*SmartDashboard.putString("REMEMBER TO WRITE DOWN YOUR PID VALUES", "I MEAN IT, WRITE THEM DOWN");
     SmartDashboard.putNumber("Drive P", 0);
     SmartDashboard.putNumber("Drive I", 0);
-    SmartDashboard.putNumber("Drive D", 0);
+    SmartDashboard.putNumber("Drive D", 0);*/
   }
 
   /*
@@ -142,7 +151,7 @@ public class Drive extends SubsystemBase {
   }
 
   /* For testing ONLY - DO NOT call in production */
-  public void updatePIDValuesFromSmartDash() {
+  /* void updatePIDValuesFromSmartDash() {
     double P = SmartDashboard.getNumber("Drive P", 0);
     double I = SmartDashboard.getNumber("Drive I", 0);
     double D = SmartDashboard.getNumber("Drive D", 0);
@@ -151,7 +160,7 @@ public class Drive extends SubsystemBase {
     frontRight = configureTalonPID(frontRight, P, I, D);
     rearLeft = configureTalonPID(rearLeft, P, I, D);
     rearRight = configureTalonPID(rearRight, P, I, D);
-  }
+  }*/
 
   /**
    * Moves the robot in arcade drive mode.
@@ -179,9 +188,7 @@ public class Drive extends SubsystemBase {
 
   public void moveSimple(double leftSpeed, double rightSpeed) {
     frontLeft.set(ControlMode.PercentOutput, leftSpeed);
-    rearLeft.set(ControlMode.PercentOutput, leftSpeed);
     frontRight.set(ControlMode.PercentOutput, rightSpeed);
-    rearRight.set(ControlMode.PercentOutput, rightSpeed);
   }
 
   /**
@@ -194,9 +201,8 @@ public class Drive extends SubsystemBase {
    */
   public void setVelocity(double velocityLeft, double velocityRight) {
     frontLeft.set(ControlMode.Velocity, velocityLeft);
+    System.out.println(frontLeft.get());
     rearLeft.set(ControlMode.Velocity, velocityLeft);
-    frontRight.set(ControlMode.Velocity, velocityRight);
-    rearRight.set(ControlMode.Velocity, velocityRight);
   }
 
   /**
@@ -207,8 +213,6 @@ public class Drive extends SubsystemBase {
   public void stop() {
     frontLeft.stopMotor();
     frontRight.stopMotor();
-    rearLeft.stopMotor();
-    rearRight.stopMotor();
   }
 
   /**
@@ -220,10 +224,8 @@ public class Drive extends SubsystemBase {
    * @return Average position of the two encoders on the left side of the drivetrain
    */
   private double getAverageLeftPosition() {
-    double averageLeftPosition =
-        (frontLeft.getSelectedSensorPosition() + rearLeft.getSelectedSensorPosition()) / 2;
     double averageLeftPositionInches =
-        (averageLeftPosition * Constants.Drive.DRIVE_ENCODER_PPR)
+        (frontLeft.getSelectedSensorPosition() * Constants.Drive.DRIVE_ENCODER_PPR)
             / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
     double averageLeftPositionMeters = Units.inchesToMeters(averageLeftPositionInches);
     return averageLeftPositionMeters;
@@ -238,10 +240,8 @@ public class Drive extends SubsystemBase {
    * @return Average position of the two encoders on the right side of the drivetrain
    */
   private double getAverageRightPosition() {
-    double averageRightPosition =
-        (frontRight.getSelectedSensorPosition() + rearRight.getSelectedSensorPosition()) / 2;
     double averageRightPositionInches =
-        (averageRightPosition * Constants.Drive.DRIVE_ENCODER_PPR)
+        (frontRight.getSelectedSensorPosition() * Constants.Drive.DRIVE_ENCODER_PPR)
             / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
     double averageRightPositionMeters = Units.inchesToMeters(averageRightPositionInches);
     return averageRightPositionMeters;
@@ -313,10 +313,13 @@ public class Drive extends SubsystemBase {
     ChassisSpeeds chassisSpeeds =
         ramseteController.calculate(whereTheHeckAreWe.getEstimatedPosition(), nextState);
     DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
-    frontLeft.set(ControlMode.Velocity, wheelSpeeds.leftMetersPerSecond);
-    frontRight.set(ControlMode.Velocity, wheelSpeeds.rightMetersPerSecond);
-    rearLeft.set(ControlMode.Velocity, wheelSpeeds.leftMetersPerSecond);
-    rearRight.set(ControlMode.Velocity, wheelSpeeds.rightMetersPerSecond);
+    double frontLeftSetpoint = (wheelSpeeds.leftMetersPerSecond / Constants.Drive.DRIVE_ENCODER_PPR) * (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
+    double frontRightSetpoint = (wheelSpeeds.leftMetersPerSecond / Constants.Drive.DRIVE_ENCODER_PPR) * (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
+    System.out.println(whereTheHeckAreWe.getEstimatedPosition());
+    System.out.println(frontLeftSetpoint);
+    System.out.println(frontRightSetpoint);
+    frontLeft.set(ControlMode.Velocity, frontLeftSetpoint);
+    frontRight.set(ControlMode.Velocity, frontRightSetpoint);
   }
 
   /**
@@ -357,6 +360,6 @@ public class Drive extends SubsystemBase {
     }
 
     /* TODO: REMOVE IN PROD */
-    updatePIDValuesFromSmartDash();
+    //updatePIDValuesFromSmartDash();
   }
 }

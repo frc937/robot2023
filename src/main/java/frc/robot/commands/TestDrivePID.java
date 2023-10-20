@@ -19,18 +19,18 @@ public class TestDrivePID extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    drive.setVelocity(Constants.Drive.TEST_PID_SETPOINT, Constants.Drive.TEST_PID_SETPOINT);
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    drive.setVelocity(Constants.Drive.TEST_PID_SETPOINT, Constants.Drive.TEST_PID_SETPOINT);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.stop();
+    drive.setVelocity(0, 0);
   }
 
   // Returns true when the command should end.
