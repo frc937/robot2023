@@ -31,7 +31,7 @@ public class Drive extends SubsystemBase {
 
   /* Motor controllers */
   /* TODO: Figure out naming */
-  private WPI_TalonSRX frontLeft, frontRight, rearLeft, rearRight;
+  private WPI_TalonSRX left, right, frontLeft, frontRight;
 
   private DifferentialDriveKinematics kinematics;
 
@@ -48,36 +48,40 @@ public class Drive extends SubsystemBase {
   /** Creates a new drivetrain using IDs from {@link Constants.Drive}. */
   public Drive(Limelight limelight) {
     /* Instantiates the motor controllers for each mecanum wheel. */
+    /* This is technically the rear left motor controller, but we'll set the front left to follow
+     * it, so commanding this controller will command the whole left side of the drivetrain
+     */
+    left = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_LEFT);
+    /* Same deal as left */
+    right = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_RIGHT);
     frontLeft = new WPI_TalonSRX(Constants.Drive.ID_TALON_FRONT_LEFT);
     frontRight = new WPI_TalonSRX(Constants.Drive.ID_TALON_FRONT_RIGHT);
-    rearLeft = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_LEFT);
-    rearRight = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_RIGHT);
 
-    frontLeft.setSensorPhase(true);
-    frontRight.setSensorPhase(true);
+    left.setSensorPhase(true);
+    right.setSensorPhase(true);
 
     /* "Makes the robot not go whee-whee" - Quinn */
     /* In actuality this inverts the right side of the drivetrain, since WPIlib doesn't do that for us anymore.
      * In fairness, "makes the robot not go whee-whee" might actually be an accurate way to describe that.
      */
+    left.setInverted(false);
     frontLeft.setInverted(false);
-    rearLeft.setInverted(false);
+    right.setInverted(true);
     frontRight.setInverted(true);
-    rearRight.setInverted(true);
 
     /* Set motor controllers to brake mode */
+    left.setNeutralMode(NeutralMode.Brake);
     frontLeft.setNeutralMode(NeutralMode.Brake);
-    rearLeft.setNeutralMode(NeutralMode.Brake);
+    right.setNeutralMode(NeutralMode.Brake);
     frontRight.setNeutralMode(NeutralMode.Brake);
-    rearRight.setNeutralMode(NeutralMode.Brake);
 
-    rearLeft.follow(frontLeft);
-    rearLeft.setInverted(InvertType.FollowMaster);
-    rearRight.follow(frontRight);
-    rearRight.setInverted(InvertType.FollowMaster);
+    frontLeft.follow(left);
+    frontLeft.setInverted(InvertType.FollowMaster);
+    frontRight.follow(right);
+    frontRight.setInverted(InvertType.FollowMaster);
 
     /* Instantiates the MecanumDrive drivetrain controller. */
-    drivetrain = new DifferentialDrive(frontLeft, frontRight);
+    drivetrain = new DifferentialDrive(left, right);
 
     kinematics = new DifferentialDriveKinematics(Constants.Drive.TRACK_WIDTH);
 
@@ -99,10 +103,10 @@ public class Drive extends SubsystemBase {
 
     ramseteController = new RamseteController();
 
-    frontLeft = configureTalonPID(frontLeft, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
-    frontRight = configureTalonPID(frontRight, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
-    //rearLeft = configureTalonPID(rearLeft, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
-    //rearRight = configureTalonPID(rearRight, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
+    left = configureTalonPID(left, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
+    right = configureTalonPID(right, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
+    //frontLeft = configureTalonPID(frontLeft, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
+    //frontRight = configureTalonPID(frontRight, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
     
     /*SmartDashboard.putString("REMEMBER TO WRITE DOWN YOUR PID VALUES", "I MEAN IT, WRITE THEM DOWN");
     SmartDashboard.putNumber("Drive P", 0);
@@ -159,10 +163,10 @@ public class Drive extends SubsystemBase {
     double I = SmartDashboard.getNumber("Drive I", 0);
     double D = SmartDashboard.getNumber("Drive D", 0);
 
+    left = configureTalonPID(left, P, I, D);
+    right = configureTalonPID(right, P, I, D);
     frontLeft = configureTalonPID(frontLeft, P, I, D);
     frontRight = configureTalonPID(frontRight, P, I, D);
-    rearLeft = configureTalonPID(rearLeft, P, I, D);
-    rearRight = configureTalonPID(rearRight, P, I, D);
   }*/
 
   /**
@@ -190,8 +194,8 @@ public class Drive extends SubsystemBase {
   }
 
   public void moveSimple(double leftSpeed, double rightSpeed) {
-    frontLeft.set(ControlMode.PercentOutput, leftSpeed);
-    frontRight.set(ControlMode.PercentOutput, rightSpeed);
+    left.set(ControlMode.PercentOutput, leftSpeed);
+    right.set(ControlMode.PercentOutput, rightSpeed);
   }
 
   /**
@@ -203,9 +207,9 @@ public class Drive extends SubsystemBase {
    * @param velocityRight Velocity setpoint for the right side of the drivetrain
    */
   public void setVelocity(double velocityLeft, double velocityRight) {
-    frontLeft.set(ControlMode.Velocity, velocityLeft);
-    System.out.println(frontLeft.get());
-    frontRight.set(ControlMode.Velocity, velocityRight);
+    left.set(ControlMode.Velocity, velocityLeft);
+    System.out.println(left.get());
+    right.set(ControlMode.Velocity, velocityRight);
   }
 
   /**
@@ -214,8 +218,8 @@ public class Drive extends SubsystemBase {
    * <p>(stops all motors controlled by this subsystem)
    */
   public void stop() {
-    frontLeft.stopMotor();
-    frontRight.stopMotor();
+    left.stopMotor();
+    right.stopMotor();
   }
 
   /**
@@ -228,7 +232,7 @@ public class Drive extends SubsystemBase {
    */
   private double getAverageLeftPosition() {
     double averageLeftPositionInches =
-        (frontLeft.getSelectedSensorPosition() * Constants.Drive.DRIVE_ENCODER_PPR)
+        (left.getSelectedSensorPosition() * Constants.Drive.DRIVE_ENCODER_PPR)
             / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
     double averageLeftPositionMeters = Units.inchesToMeters(averageLeftPositionInches);
     return averageLeftPositionMeters;
@@ -244,7 +248,7 @@ public class Drive extends SubsystemBase {
    */
   private double getAverageRightPosition() {
     double averageRightPositionInches =
-        (frontRight.getSelectedSensorPosition() * Constants.Drive.DRIVE_ENCODER_PPR)
+        (right.getSelectedSensorPosition() * Constants.Drive.DRIVE_ENCODER_PPR)
             / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
     double averageRightPositionMeters = Units.inchesToMeters(averageRightPositionInches);
     return averageRightPositionMeters;
@@ -321,8 +325,8 @@ public class Drive extends SubsystemBase {
     System.out.println(whereTheHeckAreWe.getEstimatedPosition());
     System.out.println(frontLeftSetpoint);
     System.out.println(frontRightSetpoint);
-    frontLeft.set(ControlMode.Velocity, frontLeftSetpoint);
-    frontRight.set(ControlMode.Velocity, frontRightSetpoint);
+    left.set(ControlMode.Velocity, frontLeftSetpoint);
+    right.set(ControlMode.Velocity, frontRightSetpoint);
   }
 
   /**
