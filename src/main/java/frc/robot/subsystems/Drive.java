@@ -43,10 +43,10 @@ public class Drive extends SubsystemBase {
 
   private AHRS gyroscope;
 
-  private Limelight limelight;
+  private LimelightManager limelightManager;
 
   /** Creates a new drivetrain using IDs from {@link Constants.Drive}. */
-  public Drive(Limelight limelight) {
+  public Drive(LimelightManager limelightManager) {
     /* Instantiates the motor controllers for each mecanum wheel. */
     /* This is technically the rear left motor controller, but we'll set the front left to follow
      * it, so commanding this controller will command the whole left side of the drivetrain
@@ -88,7 +88,7 @@ public class Drive extends SubsystemBase {
     /* Instantiates the gyroscope. */
     gyroscope = new AHRS(SPI.Port.kMXP);
 
-    this.limelight = limelight;
+    this.limelightManager = limelightManager;
 
     /* Odometry, has a funny name because funny */
     whereTheHeckAreWe =
@@ -352,17 +352,17 @@ public class Drive extends SubsystemBase {
         gyroscope.getRotation2d(),
         this.getAverageLeftPosition(),
         this.getAverageRightPosition());
-    if (limelight.hasValidTarget()) {
+    if (limelightManager.hasValidTarget()) {
       /* This *should* check if the pose from the limelight is within 1m of the current odometry pose,
        * which the odometry recommends we do to prevent us from getting noisy measurements
        */
       if ((Math.abs(
-                  limelight.getBotpose2d().getX() - whereTheHeckAreWe.getEstimatedPosition().getX())
+                  limelightManager.getBotpose2d().getX() - whereTheHeckAreWe.getEstimatedPosition().getX())
               >= 1)
           && (Math.abs(
-                  limelight.getBotpose2d().getY() - whereTheHeckAreWe.getEstimatedPosition().getY())
+                  limelightManager.getBotpose2d().getY() - whereTheHeckAreWe.getEstimatedPosition().getY())
               >= 1)) {
-        whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), Timer.getFPGATimestamp());
+        whereTheHeckAreWe.addVisionMeasurement(limelightManager.getBotpose2d(), Timer.getFPGATimestamp());
       }
     }
 

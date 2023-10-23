@@ -40,20 +40,28 @@ public class Limelight extends SubsystemBase {
    * to understand what the heck the different indices in this array mean
    */
   private double[] botpos;
+  private String name;
 
-  /** Creates a new Limelight. Should be run once from {@link frc.robot.RobotContainer}. */
-  public Limelight() {
-    tvSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("/limelight-back/tv").subscribe(0.0);
-    txSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("/limelight-back/tx").subscribe(0.0);
-    tySubscriber = NetworkTableInstance.getDefault().getDoubleTopic("/limelight-back/ty").subscribe(0.0);
-    taSubscriber = NetworkTableInstance.getDefault().getDoubleTopic("/limelight-back/ta").subscribe(0.0);
+  private String fmtPath(String end) {
+    return "/" + name + "/" + end;
+  }
+
+  /** Creates a new Limelight. Should be run once from {@link frc.robot.RobotContainer}.
+   * @param name The hostname of the limelight
+   */
+  public Limelight(String name) {
+    this.name = name;
+    tvSubscriber = NetworkTableInstance.getDefault().getDoubleTopic(fmtPath("tv")).subscribe(0.0);
+    txSubscriber = NetworkTableInstance.getDefault().getDoubleTopic(fmtPath("tx")).subscribe(0.0);
+    tySubscriber = NetworkTableInstance.getDefault().getDoubleTopic(fmtPath("ty")).subscribe(0.0);
+    taSubscriber = NetworkTableInstance.getDefault().getDoubleTopic(fmtPath("ta")).subscribe(0.0);
     /* In theory this won't break. It got mad when I tried to insert the array into the
      * method like .subscribe({0.0, 0.0, 0.0, 0.0, 0.0, 0.0}) so ¯\_(ツ)_/¯
      */
     double[] defaultBotpos = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     botposSubscriber =
         NetworkTableInstance.getDefault()
-            .getDoubleArrayTopic("/limelight-back/botpose")
+            .getDoubleArrayTopic(fmtPath("botpose"))
             .subscribe(defaultBotpos);
   }
 
