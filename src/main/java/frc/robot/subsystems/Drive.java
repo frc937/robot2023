@@ -349,17 +349,18 @@ public class Drive extends SubsystemBase {
         gyroscope.getRotation2d(),
         this.getAverageLeftPosition(),
         this.getAverageRightPosition());
-    if (limelightManager.hasValidTarget()) {
+    Limelight limelight = limelightManager.getTargetedLimelight();
+    if (limelight != null) {
       /* This *should* check if the pose from the limelight is within 1m of the current odometry pose,
        * which the odometry recommends we do to prevent us from getting noisy measurements
        */
       if ((Math.abs(
-                  limelightManager.getBotpose2d().getX() - whereTheHeckAreWe.getEstimatedPosition().getX())
+                  limelight.getBotpose2d().getX() - whereTheHeckAreWe.getEstimatedPosition().getX())
               >= 1)
           && (Math.abs(
-                  limelightManager.getBotpose2d().getY() - whereTheHeckAreWe.getEstimatedPosition().getY())
+                  limelight.getBotpose2d().getY() - whereTheHeckAreWe.getEstimatedPosition().getY())
               >= 1)) {
-        whereTheHeckAreWe.addVisionMeasurement(limelightManager.getBotpose2d(), Timer.getFPGATimestamp());
+        whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), Timer.getFPGATimestamp());
       }
     }
 
