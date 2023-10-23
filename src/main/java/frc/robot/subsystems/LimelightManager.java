@@ -31,7 +31,7 @@ public class LimelightManager extends SubsystemBase {
 
   /**
    * Returns a limelight that has a target.
-   * @return the limelight that has a target. Null if none have valid targets.
+   * @return the limelight that has a target. <strong>WILL BE NULL</strong> if none have valid targets.
    */
   public Limelight getTargetedLimelight() {
     return cachedLimelight;
