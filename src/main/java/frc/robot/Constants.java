@@ -5,8 +5,14 @@
 package frc.robot;
 
 import frc.robot.positioning.Pose;
+import frc.robot.positioning.Team937TrajectoryUtils;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.math.trajectory.Trajectory;
+import frc.robot.positioning.Team937TrajectoryUtils;
+
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -296,6 +302,14 @@ public final class Constants {
     public static final int LEFT_STICK_NUMBER = 9;
     public static final int RIGHT_STICK_NUMBER = 10;
   }
+  
+  public static class Trajectories {
+    public static final Trajectory LOWER_COMMUNITY_TO_LOADING_ZONE = Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/LC2LZ.wpilib.json");
+    public static final Trajectory LOADING_ZONE_TO_LOWER_COMMUNITY = Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/LZ2LC.wpilib.json");
+    public static final Trajectory LOADING_ZONE_TO_UPPER_COMMUNITY = Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/LZ2UC.wpilib.json");
+    public static final Trajectory UPPER_COMMUNITY_TO_LOADING_ZONE = Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/UC2LZ.wpilib.json");
+  }
+
   /**
    * General constants for the AStar Subsystem. Primarily used by {@link
    * frc.robot.positioning.AStar}.
