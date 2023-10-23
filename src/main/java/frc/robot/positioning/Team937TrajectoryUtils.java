@@ -4,17 +4,23 @@
 
 package frc.robot.positioning;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.*;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import frc.robot.Constants;
 import frc.robot.Constants.Drive;
 import frc.robot.Constants.Drive.HolonomicController;
 import frc.robot.Constants.Drive.HolonomicController.ThetaController;
 import frc.robot.Constants.Drive.HolonomicController.ThetaController.Constraints;
+
+
 
 import java.util.ArrayList;
 
@@ -53,4 +59,21 @@ public class Team937TrajectoryUtils {
 
     return TrajectoryGenerator.generateTrajectory(start, waypoints, end, config);
   }
+
+  /**
+   * Generates {@link Trajectory} out of Json File intended for pathweaver.
+   * @param jsonFile - A filepath to a JSON file
+   * @return A {@link Trajectory}
+   */
+  public static Trajectory generateTrajectory(String jsonFile) {
+
+    try {
+      return TrajectoryUtil.fromPathweaverJson(Filesystem.getDeployDirectory().toPath().resolve(jsonFile));
+    }
+    catch (java.io.IOException e) {
+      DriverStation.reportError("Unable to open trajectory JSON file: " + jsonFile, e.getStackTrace());
+      return null;
+    }
+  }
+
 }
