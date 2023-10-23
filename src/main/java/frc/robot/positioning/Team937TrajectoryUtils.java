@@ -19,10 +19,9 @@ import frc.robot.Constants.Drive.HolonomicController.ThetaController.Constraints
 import java.util.ArrayList;
 
 /**
- * Static utility class for generating WPILib {@link Trajectory Trajectories} from A* {@link Path
- * Paths}.
+ * Static utility class for generating WPILib {@link Trajectory Trajectories} and more
  */
-public class AStarTrajectoryGenerator {
+public class Team937TrajectoryUtils {
 
   /**
    * Static method for generating WPILib {@link Trajectory Trajectories} from A* {@link Path Paths}.
