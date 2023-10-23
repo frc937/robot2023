@@ -59,8 +59,9 @@ public class RobotContainer {
    * TODO: organize later
    */
   /* Autotasks are mostly commented out in here for now because I don't care that they exist */
-  private final Limelight limelight = new Limelight();
-  private final Drive driveSubsystem = new Drive(limelight);
+  private final Limelight back_limelight = new Limelight("limelight-back");
+  private final Limelight front_limelight = new Limelight("limelight-front");
+  private final Drive driveSubsystem = new Drive(back_limelight);
   /* BIG CHUNGUS ARM CODE */
   //private final I2CManager I2CManager = new I2CManager();
   //private final ArmBase armBase = new ArmBase();
