@@ -53,6 +53,9 @@ public class Drive extends SubsystemBase {
     rearLeft = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_LEFT);
     rearRight = new WPI_TalonSRX(Constants.Drive.ID_TALON_REAR_RIGHT);
 
+    frontLeft.setSensorPhase(true);
+    frontRight.setSensorPhase(true);
+
     /* "Makes the robot not go whee-whee" - Quinn */
     /* In actuality this inverts the right side of the drivetrain, since WPIlib doesn't do that for us anymore.
      * In fairness, "makes the robot not go whee-whee" might actually be an accurate way to describe that.
