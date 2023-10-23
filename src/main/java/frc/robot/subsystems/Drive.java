@@ -205,7 +205,7 @@ public class Drive extends SubsystemBase {
   public void setVelocity(double velocityLeft, double velocityRight) {
     frontLeft.set(ControlMode.Velocity, velocityLeft);
     System.out.println(frontLeft.get());
-    rearLeft.set(ControlMode.Velocity, velocityLeft);
+    frontRight.set(ControlMode.Velocity, velocityRight);
   }
 
   /**
