@@ -19,6 +19,7 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.LimelightManager;
 import frc.robot.subsystems.TaskScheduler;
 import frc.robot.commands.CloseClawCone;
 import frc.robot.commands.CloseClawCube;
@@ -59,9 +60,10 @@ public class RobotContainer {
    * TODO: organize later
    */
   /* Autotasks are mostly commented out in here for now because I don't care that they exist */
-  private final Limelight back_limelight = new Limelight("limelight-back");
-  private final Limelight front_limelight = new Limelight("limelight-front");
-  private final Drive driveSubsystem = new Drive(back_limelight);
+  private final Limelight limelightBack = new Limelight("limelight-back");
+  private final Limelight limelightFront = new Limelight("limelight-front");
+  private final LimelightManager limelightManager = new LimelightManager(limelightBack, limelightFront);
+  private final Drive driveSubsystem = new Drive(limelightManager);
   /* BIG CHUNGUS ARM CODE */
   //private final I2CManager I2CManager = new I2CManager();
   //private final ArmBase armBase = new ArmBase();
