@@ -2,6 +2,7 @@
   "waypoints": [
     {
       "anchorPoint": {
+<<<<<<< HEAD
         "x": 15.57604404792143,
         "y": 6.714890162419213
       },
@@ -9,11 +10,24 @@
       "nextControl": {
         "x": 13.998029939061134,
         "y": 6.714890162419213
+=======
+        "x": 15.0,
+        "y": 7.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 13.08003947861392,
+        "y": 7.000000000000001
+>>>>>>> 71c4dd6 (Created some path JSons)
       },
       "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
+<<<<<<< HEAD
       "isLocked": false,
+=======
+      "isLocked": true,
+>>>>>>> 71c4dd6 (Created some path JSons)
       "isStopPoint": false,
       "stopEvent": {
         "names": [],
@@ -24,6 +38,7 @@
     },
     {
       "anchorPoint": {
+<<<<<<< HEAD
         "x": 8.255759549713543,
         "y": 6.961049066195355
       },
@@ -55,12 +70,24 @@
       "prevControl": {
         "x": 4.17079965789871,
         "y": 4.681368268986539
+=======
+        "x": 2.25,
+        "y": 4.6
+      },
+      "prevControl": {
+        "x": 6.425589831108956,
+        "y": 4.599999999999999
+>>>>>>> 71c4dd6 (Created some path JSons)
       },
       "nextControl": null,
       "holonomicAngle": 0,
       "isReversal": false,
       "velOverride": null,
+<<<<<<< HEAD
       "isLocked": false,
+=======
+      "isLocked": true,
+>>>>>>> 71c4dd6 (Created some path JSons)
       "isStopPoint": false,
       "stopEvent": {
         "names": [],
@@ -72,6 +99,10 @@
   ],
   "maxVelocity": null,
   "maxAcceleration": null,
+<<<<<<< HEAD
   "isReversed": true,
+=======
+  "isReversed": false,
+>>>>>>> 71c4dd6 (Created some path JSons)
   "markers": []
 }

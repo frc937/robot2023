@@ -2,6 +2,7 @@
   "waypoints": [
     {
       "anchorPoint": {
+<<<<<<< HEAD
         "x": 15.57604404792143,
         "y": 6.714890162419213
       },
@@ -9,6 +10,15 @@
       "nextControl": {
         "x": 13.998029939061134,
         "y": 6.714890162419213
+=======
+        "x": 15.0,
+        "y": 7.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 12.054697788584054,
+        "y": 7.0
+>>>>>>> 71c4dd6 (Created some path JSons)
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -24,6 +34,7 @@
     },
     {
       "anchorPoint": {
+<<<<<<< HEAD
         "x": 12.05083978917958,
         "y": 5.96922294365422
       },
@@ -34,6 +45,18 @@
       "nextControl": {
         "x": 11.26781591070965,
         "y": 5.470467920194202
+=======
+        "x": 8.426299116749178,
+        "y": 3.2738100104391115
+      },
+      "prevControl": {
+        "x": 9.812324352728618,
+        "y": 5.495121978035299
+      },
+      "nextControl": {
+        "x": 7.143433474898448,
+        "y": 1.2178266638968833
+>>>>>>> 71c4dd6 (Created some path JSons)
       },
       "holonomicAngle": 0,
       "isReversal": false,
@@ -49,6 +72,7 @@
     },
     {
       "anchorPoint": {
+<<<<<<< HEAD
         "x": 8.96848960538199,
         "y": 2.380753817063189
       },
@@ -105,6 +129,14 @@
       "prevControl": {
         "x": 3.9719291575882685,
         "y": 1.0000000000000002
+=======
+        "x": 2.25,
+        "y": 0.7
+      },
+      "prevControl": {
+        "x": 4.6711060210157225,
+        "y": 0.6999999999999996
+>>>>>>> 71c4dd6 (Created some path JSons)
       },
       "nextControl": null,
       "holonomicAngle": 0,
@@ -120,8 +152,11 @@
       }
     }
   ],
+<<<<<<< HEAD
   "maxVelocity": null,
   "maxAcceleration": null,
   "isReversed": true,
+=======
+>>>>>>> 71c4dd6 (Created some path JSons)
   "markers": []
 }
