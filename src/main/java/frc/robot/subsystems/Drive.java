@@ -23,11 +23,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-/** Subsystem for the drivetrain. Allows both field-oriented and robot-oriented drive. */
+/** Subsystem for the drivetrain. (World's most descriptive JavaDoc, you're welcome) */
 public class Drive extends SubsystemBase {
 
   /* Motor controllers */
-  /* TODO: Figure out naming */
   private WPI_TalonSRX left, right, frontLeft, frontRight;
 
   private DifferentialDriveKinematics kinematics;
@@ -44,7 +43,6 @@ public class Drive extends SubsystemBase {
 
   /** Creates a new drivetrain using IDs from {@link Constants.Drive}. */
   public Drive(LimelightManager limelightManager) {
-    /* Instantiates the motor controllers for each mecanum wheel. */
     /* This is technically the rear left motor controller, but we'll set the front left to follow
      * it, so commanding this controller will command the whole left side of the drivetrain
      */
@@ -72,22 +70,29 @@ public class Drive extends SubsystemBase {
     right.setNeutralMode(NeutralMode.Brake);
     frontRight.setNeutralMode(NeutralMode.Brake);
 
+    /* Front must follow rear, since DifferentialDrive only takes 2 motor controllers as params */
     frontLeft.follow(left);
     frontLeft.setInverted(InvertType.FollowMaster);
     frontRight.follow(right);
     frontRight.setInverted(InvertType.FollowMaster);
 
-    /* Instantiates the MecanumDrive drivetrain controller. */
+    /* Instantiates the DifferentialDrive drivetrain controller. */
     drivetrain = new DifferentialDrive(left, right);
 
+    /* Kinematics, takes chassis speeds and makes them into wheel speeds and vice versa */
     kinematics = new DifferentialDriveKinematics(Constants.Drive.TRACK_WIDTH);
 
     /* Instantiates the gyroscope. */
     gyroscope = new AHRS(SPI.Port.kMXP);
 
+    /* Gives us an instance of the Limelight Manager, which allows us to choose which Limelight we
+     * pull data from, since there are two on the bot
+     */
     this.limelightManager = limelightManager;
 
-    /* Odometry, has a funny name because funny */
+    /* Odometry, has a funny name because funny
+     * (Theoretically) keeps track of where we are on the field
+     */
     whereTheHeckAreWe =
         new DifferentialDrivePoseEstimator(
             kinematics,
@@ -98,8 +103,10 @@ public class Drive extends SubsystemBase {
             /* Initial pose can be 0,0 since it should be set by the first AutoTask */
             new Pose2d());
 
+    /* Ramsete Controller - tracks trajectories */
     ramseteController = new RamseteController();
 
+    /* Configure PID values for both sides */
     left = configureTalonPID(left, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
     right = configureTalonPID(right, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
     //frontLeft = configureTalonPID(frontLeft, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
@@ -146,6 +153,15 @@ public class Drive extends SubsystemBase {
     drivetrain.driveCartesian(y, x, z, Rotation2d.fromDegrees(gyroscope.getAngle()));
   }*/
 
+  /**
+   * Configures a passed WPI_TalonSRX with the passed PID values
+   * @param talon WPI_TalonSRX to configure
+   * @param P kP value to set
+   * @param I kI value to set
+   * @param D kD value to set
+   * @return The configured WPI_TalonSRX. You will NEED to set whatever variable represents your
+   * Talon to this returned value, like so: <code>talon = configureTalonPID(talon, kP, kI, kD);</code>.
+   */
   private WPI_TalonSRX configureTalonPID(WPI_TalonSRX talon, double P, double I, double D) {
     talon.config_kP(0, P);
     talon.config_kI(0, I);
@@ -190,6 +206,11 @@ public class Drive extends SubsystemBase {
     drivetrain.tankDrive(left, right);
   }
 
+  /**
+   * @deprecated Use {@link #moveTank}
+   * 
+   * <p>Will be removed in the future
+   */
   public void moveSimple(double leftSpeed, double rightSpeed) {
     left.set(ControlMode.PercentOutput, leftSpeed);
     right.set(ControlMode.PercentOutput, rightSpeed);
@@ -200,12 +221,12 @@ public class Drive extends SubsystemBase {
    * 
    * <p>These are PID setpoints - they will require the drivetrain to have appropriately-tuned
    * PID gains.
+   * 
    * @param velocityLeft Velocity setpoint for the left side of the drivetrain
    * @param velocityRight Velocity setpoint for the right side of the drivetrain
    */
   public void setVelocity(double velocityLeft, double velocityRight) {
     left.set(ControlMode.Velocity, velocityLeft);
-    System.out.println(left.get());
     right.set(ControlMode.Velocity, velocityRight);
   }
 
@@ -213,6 +234,9 @@ public class Drive extends SubsystemBase {
    * Stop.
    *
    * <p>(stops all motors controlled by this subsystem)
+   * 
+   * <p><strong>WILL NOT stop motors that currently have a PID setpoint. Use {@link #setVelocity} 
+   * and zero their setpoints instead.
    */
   public void stop() {
     left.stopMotor();
@@ -220,38 +244,34 @@ public class Drive extends SubsystemBase {
   }
 
   /**
-   * Get the average position of the two encoders on the left side of the drivetrain.
+   * Get the position of the encoder on the left side of the drivetrain.
    *
-   * <p>This should be pretty close to the actual distance travelled, since the motors & encoders
-   * should theoretically travel the same or very similar distances
-   *
-   * @return Average position of the two encoders on the left side of the drivetrain
+   * @return Position of the encoder on the left side of the drivetrain
    */
-  private double getAverageLeftPosition() {
-    double averageLeftPositionInches =
+  private double getLeftPosition() {
+    /* TODO: unit conversion hell */
+    double leftPositionInches =
         (left.getSelectedSensorPosition() * Constants.Drive.DRIVE_ENCODER_PPR)
             / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
-    double averageLeftPositionMeters = Units.inchesToMeters(averageLeftPositionInches);
-    return averageLeftPositionMeters;
+    double leftPositionMeters = Units.inchesToMeters(leftPositionInches);
+    return leftPositionMeters;
   }
 
   /**
-   * Get the average position of the two encoders on the right side of the drivetrain.
-   *
-   * <p>This should be pretty close to the actual distance travelled, since the motors & encoders
-   * should theoretically travel the same or very similar distances
-   *
-   * @return Average position of the two encoders on the right side of the drivetrain
+   * Get the position of the encoder on the right side of the drivetrain.
+   * 
+   * @return Position of the encoder on the right side of the drivetrain
    */
-  private double getAverageRightPosition() {
-    double averageRightPositionInches =
+  private double getRightPosition() {
+    /* TODO: unit conversion hell */
+    double rightPositionInches =
         (right.getSelectedSensorPosition() * Constants.Drive.DRIVE_ENCODER_PPR)
             / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
-    double averageRightPositionMeters = Units.inchesToMeters(averageRightPositionInches);
-    return averageRightPositionMeters;
+    double rightPositionMeters = Units.inchesToMeters(rightPositionInches);
+    return rightPositionMeters;
   }
 
-  /** Resets the gyroscope. */
+  /** Resets the gyroscope to zero degrees. */
   public void resetGyro() {
     gyroscope.reset();
   }
@@ -292,9 +312,11 @@ public class Drive extends SubsystemBase {
     whereTheHeckAreWe.resetPosition(
         gyroscope.getRotation2d(),
         this
-            .getAverageLeftPosition(), // we miiiiight need to create an offset and zero these,
+            .getLeftPosition(), // we miiiiight need to create an offset and zero these,
                                        // which would be horrible, but doable
-        this.getAverageRightPosition(),
+                                       // I think we can actually just run a method that tells the
+                                       // motor controllers to zero them
+        this.getRightPosition(),
         currentPose);
   }
 
@@ -311,17 +333,14 @@ public class Drive extends SubsystemBase {
    *     <p>One way to do this would be store the value of {@link Timer#getFPGATimestamp()} the
    *     first time this method is called, then to use {@link Trajectory#sample()
    *     Trajectory.sample(Timer.getFPGATimestamp - initialFPGATimestamp)}
-   * @param heading The desired heading at the nextState
    */
   public void trackTrajectory(Trajectory.State nextState) {
     ChassisSpeeds chassisSpeeds =
         ramseteController.calculate(whereTheHeckAreWe.getEstimatedPosition(), nextState);
     DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
+    /* TODO: unit conversion hell */
     double frontLeftSetpoint = (wheelSpeeds.leftMetersPerSecond / Constants.Drive.DRIVE_ENCODER_PPR) * (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
     double frontRightSetpoint = (wheelSpeeds.leftMetersPerSecond / Constants.Drive.DRIVE_ENCODER_PPR) * (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
-    System.out.println(whereTheHeckAreWe.getEstimatedPosition());
-    System.out.println(frontLeftSetpoint);
-    System.out.println(frontRightSetpoint);
     left.set(ControlMode.Velocity, frontLeftSetpoint);
     right.set(ControlMode.Velocity, frontRightSetpoint);
   }
@@ -330,7 +349,7 @@ public class Drive extends SubsystemBase {
    * Returns true if the ramseteController is at its reference point, or in other words, done
    * tracking its trajectory
    *
-   * @return A boolean; true if the holonomicController done tracking its trajectory
+   * @return A boolean; true if the ramseteController done tracking its trajectory
    */
   public boolean trajectoryDone() {
     return ramseteController.atReference();
@@ -347,8 +366,8 @@ public class Drive extends SubsystemBase {
     whereTheHeckAreWe.updateWithTime(
         Timer.getFPGATimestamp(),
         gyroscope.getRotation2d(),
-        this.getAverageLeftPosition(),
-        this.getAverageRightPosition());
+        this.getLeftPosition(),
+        this.getRightPosition());
     Limelight limelight = limelightManager.getTargetedLimelight();
     if (limelight != null) {
       /* This *should* check if the pose from the limelight is within 1m of the current odometry pose,
