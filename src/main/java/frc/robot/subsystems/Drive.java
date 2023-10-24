@@ -208,9 +208,8 @@ public class Drive extends SubsystemBase {
 
   /**
    * @deprecated Use {@link #moveTank}
-   * 
-   * <p>Will be removed in the future
    */
+  @Deprecated(forRemoval = true)
   public void moveSimple(double leftSpeed, double rightSpeed) {
     left.set(ControlMode.PercentOutput, leftSpeed);
     right.set(ControlMode.PercentOutput, rightSpeed);
