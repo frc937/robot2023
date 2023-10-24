@@ -85,8 +85,8 @@ public class Drive extends SubsystemBase {
     /* Instantiates the gyroscope. */
     gyroscope = new AHRS(SPI.Port.kMXP);
 
-    /* Gives us an instance of the Limelight Manager, which allows us to choose which Limelight we
-     * pull data from, since there are two on the bot
+    /* Gives us an instance of the Limelight Manager, which chooses which Limelight we pull data 
+     * from, since there are two on the bot
      */
     this.limelightManager = limelightManager;
 
