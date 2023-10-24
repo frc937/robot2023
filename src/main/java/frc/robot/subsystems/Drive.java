@@ -16,7 +16,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -116,6 +115,36 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Drive P", 0);
     SmartDashboard.putNumber("Drive I", 0);
     SmartDashboard.putNumber("Drive D", 0);*/
+  }
+
+  /**
+   * Class to handle converting m/s across the ground to encoder ticks/100ms
+   */
+  private static class EvilUnitConverter {
+    /**
+     * Convert m/s across the ground to encoder ticks/100ms (around the axle)
+     * @param metersPerSecond m/s across the ground
+     * @return Encoder ticks/100ms (angular momentum around the axle)
+     */
+    public static double metersPerSecondToEncoderTicksPer100ms(double metersPerSecond) {
+      /* This eats memory for breakfast but looks non-gross */
+      double metersPer100ms = metersPerSecond / 10;
+      double rotationsPer100ms = metersPer100ms / (Constants.Drive.WHEEL_DIAMETER_METERS * Math.PI);
+      double ticksPer100ms = rotationsPer100ms * Constants.Drive.DRIVE_ENCODER_PPR;
+      return ticksPer100ms;
+    }
+
+    /**
+     * Convert encoder ticks/100ms (around the axle) to m/s across the ground
+     * @param encoderTicksPer100ms Encoder ticks/100ms (angular momentum around the axle)
+     * @return m/s across the ground
+     */
+    public static double encoderTicksPer100msToMetersPerSecond(double encoderTicksPer100ms) {
+      double rotationsPer100ms = encoderTicksPer100ms / Constants.Drive.DRIVE_ENCODER_PPR;
+      double metersPer100ms = rotationsPer100ms * (Constants.Drive.WHEEL_DIAMETER_METERS * Math.PI);
+      double metersPerSecond = metersPer100ms * 10;
+      return metersPerSecond;
+    }
   }
 
   /*
@@ -248,11 +277,7 @@ public class Drive extends SubsystemBase {
    * @return Position of the encoder on the left side of the drivetrain
    */
   private double getLeftPosition() {
-    /* TODO: unit conversion hell */
-    double leftPositionInches =
-        (left.getSelectedSensorPosition() * Constants.Drive.DRIVE_ENCODER_PPR)
-            / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
-    double leftPositionMeters = Units.inchesToMeters(leftPositionInches);
+    double leftPositionMeters = EvilUnitConverter.encoderTicksPer100msToMetersPerSecond(left.getSelectedSensorPosition());
     return leftPositionMeters;
   }
 
@@ -262,11 +287,7 @@ public class Drive extends SubsystemBase {
    * @return Position of the encoder on the right side of the drivetrain
    */
   private double getRightPosition() {
-    /* TODO: unit conversion hell */
-    double rightPositionInches =
-        (right.getSelectedSensorPosition() * Constants.Drive.DRIVE_ENCODER_PPR)
-            / (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
-    double rightPositionMeters = Units.inchesToMeters(rightPositionInches);
+    double rightPositionMeters = EvilUnitConverter.encoderTicksPer100msToMetersPerSecond(right.getSelectedSensorPosition());
     return rightPositionMeters;
   }
 
@@ -337,11 +358,10 @@ public class Drive extends SubsystemBase {
     ChassisSpeeds chassisSpeeds =
         ramseteController.calculate(whereTheHeckAreWe.getEstimatedPosition(), nextState);
     DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
-    /* TODO: unit conversion hell */
-    double frontLeftSetpoint = (wheelSpeeds.leftMetersPerSecond / Constants.Drive.DRIVE_ENCODER_PPR) * (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
-    double frontRightSetpoint = (wheelSpeeds.leftMetersPerSecond / Constants.Drive.DRIVE_ENCODER_PPR) * (Constants.Drive.WHEEL_SIZE_INCHES * Math.PI);
-    left.set(ControlMode.Velocity, frontLeftSetpoint);
-    right.set(ControlMode.Velocity, frontRightSetpoint);
+    double leftSetpoint = EvilUnitConverter.metersPerSecondToEncoderTicksPer100ms(wheelSpeeds.leftMetersPerSecond);
+    double rightSetpoint = EvilUnitConverter.metersPerSecondToEncoderTicksPer100ms(wheelSpeeds.rightMetersPerSecond);
+    left.set(ControlMode.Velocity, leftSetpoint);
+    right.set(ControlMode.Velocity, rightSetpoint);
   }
 
   /**

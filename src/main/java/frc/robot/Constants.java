@@ -71,7 +71,8 @@ public final class Constants {
 
     public static final double DRIVE_ENCODER_PPR = 4096; // CTRE mag encoders
 
-    public static final double WHEEL_SIZE_INCHES = 8; // I THINK they're 8"
+    public static final double WHEEL_DIAMETER_INCHES = 8; // I THINK they're 8"
+    public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(WHEEL_DIAMETER_INCHES);
 
     public static final double TEST_PID_SETPOINT = 4096; // This will no longer work after I fix the set method
 
