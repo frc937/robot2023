@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -12,6 +11,7 @@ public class yourMom extends CommandBase {
   public yourMom() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
+
   /** prints "Your Mom" */
   public void printYourMom() {
     System.out.print("Your Mom");
@@ -25,6 +25,7 @@ public class yourMom extends CommandBase {
   public PrintCommand commandPrintYourMom() {
     return new PrintCommand("Your Mom");
   }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}

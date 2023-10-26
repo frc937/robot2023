@@ -116,15 +116,23 @@ public class RobotContainer {
   public static CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
 
   private final SendableChooser<Command> autoChooser;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureBindings();
 
     /* TODO: add ResetDrivePose into auto*/
     autoChooser = new SendableChooser<>();
-    autoChooser.setDefaultOption("Fling cube + mobility bonus", 
-        Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
-    autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
+    autoChooser.setDefaultOption(
+        "Fling cube + mobility bonus",
+        Commands.sequence(
+            Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm),
+            new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)),
+            new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)),
+            new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
+    autoChooser.addOption(
+        "Home arm (DOES NOT MOVE)",
+        Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
 
     SmartDashboard.putData("Choose auto", autoChooser);
 
@@ -296,7 +304,7 @@ public class RobotContainer {
   }
 
   public static double getJoystickXAxis() {
-    return joystick.getX()* -1.0;
+    return joystick.getX() * -1.0;
   }
 
   public static double getScaledJoystickXAxis() {
