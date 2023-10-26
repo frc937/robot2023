@@ -50,7 +50,6 @@ import frc.robot.subsystems.arm.ArmExtender;
 import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
 
-// @SuppressWarnings("unused") let me see unused imports >:(
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
