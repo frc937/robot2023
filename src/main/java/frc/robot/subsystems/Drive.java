@@ -247,7 +247,7 @@ public class Drive extends SubsystemBase {
   public void moveTank(double left, double right) {
     drivetrain.tankDrive(left, right);
   }
-  
+
   /**
    * Sets the velocity setpoint of the left and right sides of the drivetrain.
    *
