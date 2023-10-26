@@ -412,8 +412,5 @@ public class Drive extends SubsystemBase {
         whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), Timer.getFPGATimestamp());
       }
     }
-
-    /* TODO: REMOVE IN PROD */
-    // updatePIDValuesFromSmartDash();
   }
 }
