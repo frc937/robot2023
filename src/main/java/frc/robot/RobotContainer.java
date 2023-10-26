@@ -55,7 +55,7 @@ import frc.robot.subsystems.arm.ArmExtender;
 import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
 
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused") let me see unused imports >:(
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -63,46 +63,58 @@ import frc.robot.subsystems.arm.CompilationArm;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  /* Messy, ugly commands and subsystems section
-   * TODO: organize later
+
+  /* ===============================================================
+   * SUBSYSTEMS
+   * ===============================================================
    */
-  /* Autotasks are mostly commented out in here for now because I don't care that they exist */
+
+  /* LIMELIGHT  */
   private final Limelight limelightBack = new Limelight("limelight-back");
   private final Limelight limelightFront = new Limelight("limelight-front");
   private final LimelightManager limelightManager = new LimelightManager(limelightBack, limelightFront);
-  private final Drive driveSubsystem = new Drive(limelightManager);
-  /* BIG CHUNGUS ARM CODE */
-  //private final I2CManager I2CManager = new I2CManager();
-  //private final ArmBase armBase = new ArmBase();
-  //private final ArmShoulder armShoulder = new ArmShoulder();
-  //private final ArmExtender armExtender = new ArmExtender(I2CManager);
-  //private final ArmClaw armClaw = new ArmClaw();
+  /* CAMERA */
   private final Camera aimCamera = new Camera(Constants.Camera.PORT_CAMERA_AIM);
-  //private final CompilationArm compilationArm =
-  //    new CompilationArm(armBase, armClaw, armExtender, armShoulder);
-  //private final ManualArm manualArm = new ManualArm(armBase, armShoulder, compilationArm);
-  //private RetractArm retractArmCommand = new RetractArm(armExtender);
-  private final Plunger plunger = new Plunger();
-  private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
+  /* DRIVE */
+  private final Drive driveSubsystem = new Drive(limelightManager);
+  /* ARM */
+  private final I2CManager I2CManager = new I2CManager();
+  private final ArmBase armBase = new ArmBase();
+  private final ArmShoulder armShoulder = new ArmShoulder();
+  private final ArmExtender armExtender = new ArmExtender(I2CManager);
+  private final ArmClaw armClaw = new ArmClaw();
+  private final CompilationArm compilationArm =
+      new CompilationArm(armBase, armClaw, armExtender, armShoulder);
+  private final ManualArm manualArm = new ManualArm(armBase, armShoulder, compilationArm);
+  private RetractArm retractArmCommand = new RetractArm(armExtender);
+
+  /* ===============================================================
+   * COMMANDS
+   * ===============================================================
+   */
+
+  /* AUTO COMMANDS */
   private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
   private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
-  private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
-  private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
+  /* CAMERA COMMAND */
   private final InstantCommand displayAimVideo = new InstantCommand(aimCamera::startCamera, aimCamera);
+  /* BALANCE COMMAND */
   private final Balance balance = new Balance(driveSubsystem);
+  /* DRIVE COMMANDS*/
   private final DriveArcade driveRO = new DriveArcade(driveSubsystem);
   private final DriveTank driveFO = new DriveTank(driveSubsystem);
-  //private final Command openClaw = armClaw.manualOpenClawCommand();
-  //private final Command closeClaw = armClaw.manualCloseClawCommand();
-  //private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
-  //private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
-  //private final ExtendArm extend = new ExtendArm(armExtender);
-  //private final RetractArm retract = new RetractArm(armExtender);
-  //private final TaskScheduler taskScheduler = new TaskScheduler();
+  private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
+  private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
+  /* ARM COMMANDS */
+  private final Command openClaw = armClaw.manualOpenClawCommand(); 
+  private final Command closeClaw = armClaw.manualCloseClawCommand();
+  private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
+  private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
+  private final ExtendArm extend = new ExtendArm(armExtender);
+  private final RetractArm retract = new RetractArm(armExtender);
+  /* TRAJECTORY COMMAND */
   private final TrackTrajectory demoTrajectoryTrackingCommand = new TrackTrajectory(Constants.Drive.Trajectories.DEMO_TRAJECTORY, driveSubsystem);
-  private final TestDrivePID testDrivePID = new TestDrivePID(driveSubsystem);
-
+  
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
@@ -116,9 +128,9 @@ public class RobotContainer {
 
     /* TODO: add ResetDrivePose into auto*/
     autoChooser = new SendableChooser<>();
-    //autoChooser.setDefaultOption("Fling cube + mobility bonus", 
-    //    Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
-    //autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
+    autoChooser.setDefaultOption("Fling cube + mobility bonus", 
+        Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
+    autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
 
     SmartDashboard.putData("Choose auto", autoChooser);
 
@@ -127,9 +139,7 @@ public class RobotContainer {
   }
 
   public Pose containerGetArmPose() {
-
-    //return compilationArm.getArmPose();
-    return new Pose();
+    return compilationArm.getArmPose();
   }
 
   /**
@@ -143,31 +153,22 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    // controller.y().whileTrue(deployPlunger);
-
     controller.rightBumper().whileTrue(balance);
 
     controller.y().toggleOnTrue(driveFO);
 
-    controller.b().whileTrue(deployPlunger);
-
     controller.x().whileTrue(demoTrajectoryTrackingCommand);
-    
-    controller.a().whileTrue(testDrivePID);
 
-    //joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
-    //armShoulder, armExtender, compilationArm));
+    joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
+    armShoulder, armExtender, compilationArm));
+    joystick.button(4).whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
+    joystick.povUp().whileTrue(extend);
+    joystick.povDown().whileTrue(retract);
 
-    //joystick.button(4).whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
-
-    //joystick.povUp().whileTrue(extend);
-    //joystick.povDown().whileTrue(retract);
-
-    //joystick.button(11).whileTrue(openClaw);
+    joystick.button(11).whileTrue(openClaw);
     /* TODO: get better buttons with Gabriel */
-    /* Or just get color sensor working */
-    //joystick.trigger().whileTrue(closeClaw);
-    //joystick.button(2).whileTrue(closeClawCube);
+    joystick.trigger().whileTrue(closeClaw);
+    joystick.button(2).whileTrue(closeClawCube);
 
     /*joystick
         .button(2)
@@ -235,11 +236,10 @@ public class RobotContainer {
                 compilationArm));
     joystick
         .button(1)
-        .onTrue(armClaw.manualCloseClawCommand());*/
+        .onTrue(armClaw.manualCloseClawCommand());
+        */
   }
-
-  private void verifyAutoTasks() {
-  }
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -252,15 +252,13 @@ public class RobotContainer {
   }
 
   public Command getResetCommand() {
-    //return MoveToPose.retractingMoveToPose(
-    //        Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
-    //    .alongWith(armClaw.openClawCommand());
-    return new InstantCommand();
+    return MoveToPose.retractingMoveToPose(
+            Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
+        .alongWith(armClaw.openClawCommand());
   }
 
   public Command getRetractCommand() {
-    //return retractArmCommand;
-    return new InstantCommand();
+    return retractArmCommand;
   }
 
   public Command getDisplayAimVideoCommand() {
