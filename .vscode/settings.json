@@ -30,4 +30,5 @@
   "editor.detectIndentation": false,
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
+  "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xmleclipse-formatter.xml",
 }
