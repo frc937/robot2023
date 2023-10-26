@@ -8,7 +8,6 @@ permissions:
   contents: write
 
 jobs:
-
   formatting:
     runs-on: ubuntu-latest
     steps:
