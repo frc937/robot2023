@@ -2,7 +2,7 @@ name: Format with Google Style
 
 on:
   schedule:
-  - cron: "0 9 * * *" # 9 am UTC is 3 am CST, which is our timezone
+  - cron: "4 21 * * *" # 9 am UTC is 3 am CST, which is our timezone
   
 permissions:
   contents: write
