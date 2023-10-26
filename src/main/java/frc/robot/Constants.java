@@ -104,7 +104,7 @@ public final class Constants {
 
         public static class Constraints {
           public static final double MAX_VELOCITY = 5.0;
-          public static final double MAX_ACCELERATION = 3.0;
+          public static final double MAX_ACCELERATION = 1.5;
         }
       }
     }
