@@ -13,10 +13,10 @@ import frc.robot.subsystems.I2CManager;
 /** This subsystem represents the climber in a box that extends the arm on the robot. */
 public class ArmExtender extends SubsystemBase {
 
-  private Talon winch;
+  private final Talon winch;
   private boolean extenderAtSetpoint;
 
-  private I2CManager I2CManager;
+  private final I2CManager I2CManager;
 
   private Double setpoint;
 

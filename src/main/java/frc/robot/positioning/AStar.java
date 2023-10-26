@@ -22,11 +22,11 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class AStar {
   private static Node[][] cell;
-  private ArrayList<Node> pathList = new ArrayList<>();
-  private ArrayList<Node> closedList = new ArrayList<>();
-  private static boolean[][] grid =
+  private final ArrayList<Node> pathList = new ArrayList<>();
+  private final ArrayList<Node> closedList = new ArrayList<>();
+  private static final boolean[][] grid =
       new boolean[Constants.AStar.FIELD_X * 2][Constants.AStar.FIELD_Y * 2];
-  private AtomicReference<Path> currPath = new AtomicReference<Path>(new Path());
+  private final AtomicReference<Path> currPath = new AtomicReference<Path>(new Path());
   private Thread genThread;
   public int startY;
   public int startX;
@@ -100,7 +100,7 @@ public class AStar {
 
                 ArrayList<Double[]> pathListInMeters = new ArrayList<Double[]>();
                 for (Node node : pathList) {
-                  Double tempNode[] = {(double) node.getX() / 100, (double) node.getY() / 100};
+                  Double[] tempNode = {(double) node.getX() / 100, (double) node.getY() / 100};
                   pathListInMeters.add(tempNode);
                 }
 
@@ -124,15 +124,15 @@ public class AStar {
    * @param d Cost between 2 cells located Diagonally next to each other
    */
   private ArrayList<Node> generateHValue(
-      boolean matrix[][],
-      int startY,
-      int startX,
-      int endY,
-      int endX,
-      int width,
-      int length,
-      int v,
-      int d) {
+          boolean[][] matrix,
+          int startY,
+          int startX,
+          int endY,
+          int endX,
+          int width,
+          int length,
+          int v,
+          int d) {
 
     for (int i = 0; i < matrix.length; i++) {
       for (int j = 0; j < matrix.length; j++) {
@@ -164,7 +164,7 @@ public class AStar {
    *     path
    */
   private ArrayList<Node> generatePath(
-      Node hValue[][], int startY, int startX, int endY, int endX, int x, int y, int v, int d) {
+          Node[][] hValue, int startY, int startX, int endY, int endX, int x, int y, int v, int d) {
 
     // Creation of a PriorityQueue and the declaration of the Comparator
     PriorityQueue<Node> openList =

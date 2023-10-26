@@ -10,16 +10,18 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.TCA9548A;
+
 // import edu.wpi.first.wpilibj.Notifier;
 // import com.revrobotics.ColorSensorV3;
 
 public class I2CManager extends SubsystemBase {
-  private TCA9548A multiplexer;
-  private Rev2mDistanceSensor dist; /* This is a color sensor, but we only use it for distance */
+  private final TCA9548A multiplexer;
+  private final Rev2mDistanceSensor dist; /* This is a color sensor, but we only use it for distance */
   // private ColorSensorV3 color;
   private boolean currentRangeValid;
   private double currentRange;
   private Color currentColor;
+
   // private Notifier thread;
 
   /** Creates a new I2CManager. */

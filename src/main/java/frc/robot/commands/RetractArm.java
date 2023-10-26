@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.arm.ArmExtender;
 
 public class RetractArm extends CommandBase {
-  private ArmExtender armExtender;
+  private final ArmExtender armExtender;
+
   /** Creates a new RetractArm. */
   public RetractArm(ArmExtender armExtender) {
     // Use addRequirements() here to declare subsystem dependencies.

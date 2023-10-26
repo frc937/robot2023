@@ -5,11 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Drive;
 import frc.robot.Constants;
+import frc.robot.subsystems.Drive;
 
 public class TestDrivePID extends CommandBase {
-  private Drive drive;
+  private final Drive drive;
 
   /** Creates a new TestDrivePID. */
   public TestDrivePID(Drive drive) {

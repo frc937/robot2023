@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /** Return object for {@link positioning.Path.generateAStarPath} */
 public class Path {
   private ArrayList<Double[]> pathList;
-  private boolean generatedPath;
+  private final boolean generatedPath;
 
   public ArrayList<Double[]> getPathList() {
     return this.pathList;

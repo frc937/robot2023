@@ -9,7 +9,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.arm.ArmClaw;
 
 public class CloseClawCube extends CommandBase {
-  private ArmClaw armClaw;
+  private final ArmClaw armClaw;
 
   /** Creates a new CloseClawCube. */
   public CloseClawCube(ArmClaw armClaw) {

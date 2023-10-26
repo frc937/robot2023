@@ -16,10 +16,10 @@ import frc.robot.Constants;
  */
 public class ArmClaw extends SubsystemBase {
 
-  private Talon clawMotor;
+  private final Talon clawMotor;
   private Double setpoint;
 
-  private AnalogInput pressure;
+  private final AnalogInput pressure;
 
   private boolean isAtSetpoint;
 
@@ -103,6 +103,7 @@ public class ArmClaw extends SubsystemBase {
     }
 
     SmartDashboard.putNumber("Pressure Reading", pressure.getVoltage());
-    SmartDashboard.putBoolean("At cone pressure", pressure.getVoltage() >= Constants.Arm.CONE_PRESSURE_THRESHOLD);
+    SmartDashboard.putBoolean(
+        "At cone pressure", pressure.getVoltage() >= Constants.Arm.CONE_PRESSURE_THRESHOLD);
   }
 }

@@ -11,8 +11,8 @@ import frc.robot.subsystems.arm.ArmExtender;
 import frc.robot.subsystems.arm.CompilationArm;
 
 public class MoveExtenderToPose extends CommandBase {
-  private ArmExtender armExtender;
-  private Pose pose;
+  private final ArmExtender armExtender;
+  private final Pose pose;
 
   /** Creates a new moveBaseToPose. */
   public MoveExtenderToPose(Pose pose, ArmExtender armExtender, CompilationArm compilationArm) {

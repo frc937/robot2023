@@ -9,8 +9,9 @@ import frc.robot.subsystems.arm.ArmBase;
 import frc.robot.subsystems.arm.CompilationArm;
 
 public class MoveBaseDegrees extends CommandBase {
-  private int degrees;
-  private ArmBase armBase;
+  private final int degrees;
+  private final ArmBase armBase;
+
   /** Creates a new MoveBaseDegrees. */
   public MoveBaseDegrees(int degrees, ArmBase armBase, CompilationArm compilationArm) {
     // Use addRequirements() here to declare subsystem dependencies.

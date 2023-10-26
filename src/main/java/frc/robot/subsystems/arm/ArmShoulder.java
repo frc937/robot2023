@@ -19,8 +19,8 @@ import frc.robot.positioning.ArmKinematics;
  */
 public class ArmShoulder extends SubsystemBase {
 
-  private WPI_TalonSRX armShoulderMotor;
-  private SensorCollection sensorCollection;
+  private final WPI_TalonSRX armShoulderMotor;
+  private final SensorCollection sensorCollection;
 
   /** Creates a new ArmShoulder. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmShoulder() {

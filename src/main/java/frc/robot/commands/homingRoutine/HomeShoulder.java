@@ -11,6 +11,7 @@ import frc.robot.subsystems.arm.CompilationArm;
 
 public class HomeShoulder extends CommandBase {
   private final ArmShoulder armShoulder;
+
   /** Creates a new HomeShoulder. */
   public HomeShoulder(ArmShoulder armShoulder, CompilationArm compilationArm) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,10 +39,6 @@ public class HomeShoulder extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (armShoulder.shoulderLimitSwitch()) {
-      return true;
-    } else {
-      return false;
-    }
+      return armShoulder.shoulderLimitSwitch();
   }
 }

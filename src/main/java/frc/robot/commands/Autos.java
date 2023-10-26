@@ -23,14 +23,22 @@ public final class Autos {
       ArmClaw armClawSubsystem,
       CompilationArm compilationArmSubsystem) {
     return Commands.sequence(
-        armExtenderSubsystem.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER),
-        new HomeShoulder(armShoulderSubsystem, compilationArmSubsystem),
-        new HomeBase(armBaseSubsystem, compilationArmSubsystem),
-        armClawSubsystem.openClawCommand()).withTimeout(5.5);
+            armExtenderSubsystem.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER),
+            new HomeShoulder(armShoulderSubsystem, compilationArmSubsystem),
+            new HomeBase(armBaseSubsystem, compilationArmSubsystem),
+            armClawSubsystem.openClawCommand())
+        .withTimeout(5.5);
   }
 
-  public static CommandBase homingNoOpenClaw(ArmShoulder armShoulder, ArmBase armBase, ArmExtender armExtender, CompilationArm compilationArm) {
-    return Commands.sequence(armExtender.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER), new HomeShoulder(armShoulder, compilationArm), new HomeBase(armBase, compilationArm));
+  public static CommandBase homingNoOpenClaw(
+      ArmShoulder armShoulder,
+      ArmBase armBase,
+      ArmExtender armExtender,
+      CompilationArm compilationArm) {
+    return Commands.sequence(
+        armExtender.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER),
+        new HomeShoulder(armShoulder, compilationArm),
+        new HomeBase(armBase, compilationArm));
   }
 
   private Autos() {

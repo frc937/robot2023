@@ -5,13 +5,13 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-/**
- * Manages connected limelights.
- */
+
+/** Manages connected limelights. */
 public class LimelightManager extends SubsystemBase {
 
-  private Limelight[] limelights;
+  private final Limelight[] limelights;
   private Limelight cachedLimelight;
+
   /** Creates a new LimelightManager. */
   public LimelightManager(Limelight... limelight) {
     assert limelight != null;
@@ -21,7 +21,7 @@ public class LimelightManager extends SubsystemBase {
   @Override
   public void periodic() {
     cachedLimelight = null; // dont keep stale limelights
-    for (Limelight ll: limelights) {
+    for (Limelight ll : limelights) {
       if (ll.hasValidTarget()) {
         cachedLimelight = ll;
         break;
@@ -31,7 +31,9 @@ public class LimelightManager extends SubsystemBase {
 
   /**
    * Returns a limelight that has a target.
-   * @return the limelight that has a target. <strong>WILL BE NULL</strong> if none have valid targets.
+   *
+   * @return the limelight that has a target. <strong>WILL BE NULL</strong> if none have valid
+   *     targets.
    */
   public Limelight getTargetedLimelight() {
     return cachedLimelight;
