@@ -33,25 +33,20 @@ public class Limelight extends SubsystemBase {
   /* it would be so cool if we just didn't have to do multiple pipelines at all this year */
 
   /* variable chaingun, I promise we use all of these */
-  private final DoubleSubscriber tvSubscriber;
-    private final DoubleSubscriber txSubscriber;
-    private final DoubleSubscriber tySubscriber;
-    private final DoubleSubscriber taSubscriber;
-  private final DoubleArraySubscriber botposSubscriber;
+  private DoubleSubscriber tvSubscriber, txSubscriber, tySubscriber, taSubscriber;
+  private DoubleArraySubscriber botposSubscriber;
   private double tv, tx, ty, ta;
   /* See https://docs.limelightvision.io/en/latest/apriltags_in_3d.html#robot-localization-botpose-and-megatag
    * to understand what the heck the different indices in this array mean
    */
   private double[] botpos;
-  private final String name;
+  private String name;
 
   private String fmtPath(String end) {
     return "/" + name + "/" + end;
   }
 
-  /**
-   * Creates a new Limelight. Should be run once from {@link frc.robot.RobotContainer}.
-   *
+  /** Creates a new Limelight. Should be run once from {@link frc.robot.RobotContainer}.
    * @param name The hostname of the limelight
    */
   public Limelight(String name) {

@@ -9,7 +9,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.arm.ArmClaw;
 
 public class CloseClawCone extends CommandBase {
-  private final ArmClaw armClaw;
+  private ArmClaw armClaw;
 
   /** Creates a new CloseClawCone. */
   public CloseClawCone(ArmClaw armClaw) {

@@ -66,8 +66,7 @@ public class RobotContainer {
   /* LIMELIGHT  */
   private final Limelight limelightBack = new Limelight("limelight-back");
   private final Limelight limelightFront = new Limelight("limelight-front");
-  private final LimelightManager limelightManager =
-      new LimelightManager(limelightBack, limelightFront);
+  private final LimelightManager limelightManager = new LimelightManager(limelightBack, limelightFront);
   /* CAMERA */
   private final Camera aimCamera = new Camera(Constants.Camera.PORT_CAMERA_AIM);
   /* DRIVE */
@@ -81,7 +80,7 @@ public class RobotContainer {
   private final CompilationArm compilationArm =
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
   private final ManualArm manualArm = new ManualArm(armBase, armShoulder, compilationArm);
-  private final RetractArm retractArmCommand = new RetractArm(armExtender);
+  private RetractArm retractArmCommand = new RetractArm(armExtender);
 
   /* ===============================================================
    * COMMANDS
@@ -89,13 +88,10 @@ public class RobotContainer {
    */
 
   /* AUTO COMMANDS */
-  private final StartLeavingCommunity startLeavingCommunity =
-      new StartLeavingCommunity(driveSubsystem);
-  private final StopLeavingCommunity stopLeavingCommunity =
-      new StopLeavingCommunity(driveSubsystem);
+  private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
+  private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
   /* CAMERA COMMAND */
-  private final InstantCommand displayAimVideo =
-      new InstantCommand(aimCamera::startCamera, aimCamera);
+  private final InstantCommand displayAimVideo = new InstantCommand(aimCamera::startCamera, aimCamera);
   /* BALANCE COMMAND */
   private final Balance balance = new Balance(driveSubsystem);
   /* DRIVE COMMANDS*/
@@ -104,16 +100,15 @@ public class RobotContainer {
   private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
   private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
   /* ARM COMMANDS */
-  private final Command openClaw = armClaw.manualOpenClawCommand();
+  private final Command openClaw = armClaw.manualOpenClawCommand(); 
   private final Command closeClaw = armClaw.manualCloseClawCommand();
   private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
   private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
   private final ExtendArm extend = new ExtendArm(armExtender);
   private final RetractArm retract = new RetractArm(armExtender);
   /* TRAJECTORY COMMAND */
-  private final TrackTrajectory demoTrajectoryTrackingCommand =
-      new TrackTrajectory(Constants.Drive.Trajectories.DEMO_TRAJECTORY, driveSubsystem);
-
+  private final TrackTrajectory demoTrajectoryTrackingCommand = new TrackTrajectory(Constants.Drive.Trajectories.DEMO_TRAJECTORY, driveSubsystem);
+  
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
@@ -121,27 +116,19 @@ public class RobotContainer {
   public static CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
 
   private final SendableChooser<Command> autoChooser;
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureBindings();
 
     /* TODO: add ResetDrivePose into auto*/
     autoChooser = new SendableChooser<>();
-    autoChooser.setDefaultOption(
-        "Fling cube + mobility bonus",
-        Commands.sequence(
-            Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm),
-            new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)),
-            new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)),
-            new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
-    autoChooser.addOption(
-        "Home arm (DOES NOT MOVE)",
-        Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
+    autoChooser.setDefaultOption("Fling cube + mobility bonus", 
+        Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
+    autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
 
     SmartDashboard.putData("Choose auto", autoChooser);
 
-    // compilationArm.setDefaultCommand(manualArm);
+    //compilationArm.setDefaultCommand(manualArm);
     driveSubsystem.setDefaultCommand(driveRO);
   }
 
@@ -166,14 +153,9 @@ public class RobotContainer {
 
     controller.x().whileTrue(demoTrajectoryTrackingCommand);
 
-    joystick
-        .button(9)
-        .whileTrue(
-            MoveToPose.extendingMoveToPose(
-                Constants.Arm.Poses.PICKUP, armBase, armShoulder, armExtender, compilationArm));
-    joystick
-        .button(4)
-        .whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
+    joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
+    armShoulder, armExtender, compilationArm));
+    joystick.button(4).whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
     joystick.povUp().whileTrue(extend);
     joystick.povDown().whileTrue(retract);
 
@@ -251,6 +233,7 @@ public class RobotContainer {
         .onTrue(armClaw.manualCloseClawCommand());
         */
   }
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -313,7 +296,7 @@ public class RobotContainer {
   }
 
   public static double getJoystickXAxis() {
-    return joystick.getX() * -1.0;
+    return joystick.getX()* -1.0;
   }
 
   public static double getScaledJoystickXAxis() {

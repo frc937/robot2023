@@ -19,8 +19,8 @@ import frc.robot.positioning.ArmKinematics;
  */
 public class ArmBase extends SubsystemBase {
 
-  private final WPI_TalonSRX armBaseMotor;
-  private final SensorCollection sensorCollection;
+  private WPI_TalonSRX armBaseMotor;
+  private SensorCollection sensorCollection;
 
   /** Creates a new ArmBase. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmBase() {
@@ -55,7 +55,6 @@ public class ArmBase extends SubsystemBase {
 
     return talon;
   }
-
   /** Checks if either base limit switch is closed. */
   public boolean baseLimitSwitch() {
     return sensorCollection.isFwdLimitSwitchClosed() || sensorCollection.isRevLimitSwitchClosed();
@@ -64,7 +63,6 @@ public class ArmBase extends SubsystemBase {
   public void manualMoveArmBase(double x) {
     armBaseMotor.set(ControlMode.PercentOutput, x);
   }
-
   /** Returns the angle of the base CCW from forward in degrees */
   public double getAngle() {
     /* TODO: account for difference between limit switch position and front of bot */

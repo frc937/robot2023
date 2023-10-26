@@ -9,9 +9,8 @@ import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
 
 public class MoveShoulderDegrees extends CommandBase {
-  private final int degrees;
-  private final ArmShoulder armShoulder;
-
+  private int degrees;
+  private ArmShoulder armShoulder;
   /** Creates a new MoveBaseDegrees. */
   public MoveShoulderDegrees(int degrees, ArmShoulder armShoulder, CompilationArm compilationArm) {
     // Use addRequirements() here to declare subsystem dependencies.

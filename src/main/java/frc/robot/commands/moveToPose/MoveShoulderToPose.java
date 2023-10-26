@@ -11,8 +11,8 @@ import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
 
 public class MoveShoulderToPose extends CommandBase {
-  private final ArmShoulder armShoulder;
-  private final Pose pose;
+  private ArmShoulder armShoulder;
+  private Pose pose;
 
   /** Creates a new moveBaseToPose. */
   public MoveShoulderToPose(Pose pose, ArmShoulder armShoulder, CompilationArm compilationArm) {

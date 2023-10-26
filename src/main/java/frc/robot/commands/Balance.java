@@ -30,15 +30,19 @@ public class Balance extends CommandBase {
   @Override
   public void execute() {
     double pitchAngleDegrees = drive.getPitch(); // forward back
-
+    
     if (pitchAngleDegrees > BalanceConstants.OFF_ANGLE_THRESHOLD) {
-      this.forwards.execute();
+          this.forwards.execute();
     } else if (pitchAngleDegrees < -BalanceConstants.OFF_ANGLE_THRESHOLD) {
-      this.reverse.execute();
+          this.reverse.execute();
     } else {
-      this.reverse.end(true);
-      this.forwards.end(true);
+          this.reverse.end(true);
+          this.forwards.end(true);
     }
+
+
+    
+    
   }
 
   // Called once the command ends or is interrupted.
