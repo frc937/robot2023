@@ -37,6 +37,7 @@ import frc.robot.commands.DriveReverse;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.ExtendArm;
 import frc.robot.commands.ManualArm;
+import frc.robot.commands.ResetDrivePose;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.StartLeavingCommunity;
 import frc.robot.commands.StopLeavingCommunity;
@@ -113,6 +114,7 @@ public class RobotContainer {
   public RobotContainer() {
     configureBindings();
 
+    /* TODO: add ResetDrivePose into auto*/
     autoChooser = new SendableChooser<>();
     //autoChooser.setDefaultOption("Fling cube + mobility bonus", 
     //    Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
@@ -315,5 +317,9 @@ public class RobotContainer {
 
   public static double getScaledJoystickYAxis() {
     return scaleAxis(getJoystickYAxis());
+  }
+
+  public ResetDrivePose getResetDrivePoseCommand() {
+    return new ResetDrivePose(limelightManager, driveSubsystem);
   }
 }
