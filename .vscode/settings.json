@@ -31,6 +31,8 @@
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
 
+  "files.eol": "\n",
+
   "[java]": {
     "spotlessGradle.format.enable": true,
     "spotlessGradle.diagnostics.enable": true,
