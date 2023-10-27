@@ -85,8 +85,10 @@ public class RobotContainer {
   //private RetractArm retractArmCommand = new RetractArm(armExtender);
   private final Plunger plunger = new Plunger();
   private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
-  private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
-  private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
+  private final StartLeavingCommunity startLeavingCommunity =
+      new StartLeavingCommunity(driveSubsystem);
+  private final StopLeavingCommunity stopLeavingCommunity =
+      new StopLeavingCommunity(driveSubsystem);
   private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
   private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
   private final InstantCommand displayAimVideo = new InstantCommand(aimCamera::startCamera, aimCamera);
@@ -110,6 +112,7 @@ public class RobotContainer {
   public static CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
 
   private final SendableChooser<Command> autoChooser;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureBindings();
@@ -168,8 +171,6 @@ public class RobotContainer {
     //joystick.button(11).whileTrue(openClaw);
     /* TODO: get better buttons with Gabriel */
     /* Or just get color sensor working */
-    //joystick.trigger().whileTrue(closeClaw);
-    //joystick.button(2).whileTrue(closeClawCube);
 
     /*joystick
         .button(2)
@@ -306,7 +307,7 @@ public class RobotContainer {
   }
 
   public static double getJoystickXAxis() {
-    return joystick.getX()* -1.0;
+    return joystick.getX() * -1.0;
   }
 
   public static double getScaledJoystickXAxis() {
