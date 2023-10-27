@@ -6,12 +6,18 @@ package frc.robot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
+import frc.robot.commands.CloseClawCone;
+import frc.robot.commands.CloseClawCube;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DriveForwards;
 import frc.robot.commands.DriveReverse;
@@ -19,9 +25,11 @@ import frc.robot.commands.DriveTank;
 import frc.robot.commands.ExtendArm;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.ResetDrivePose;
+import frc.robot.commands.RetractArm;
 import frc.robot.commands.StartLeavingCommunity;
 import frc.robot.commands.StopLeavingCommunity;
 import frc.robot.commands.TrackTrajectory;
+import frc.robot.commands.moveToPose.MoveToPose;
 import frc.robot.positioning.Pose;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Drive;
@@ -50,7 +58,8 @@ public class RobotContainer {
   /* LIMELIGHT  */
   private final Limelight limelightBack = new Limelight("limelight-back");
   private final Limelight limelightFront = new Limelight("limelight-front");
-  private final LimelightManager limelightManager = new LimelightManager(limelightBack, limelightFront);
+  private final LimelightManager limelightManager =
+      new LimelightManager(limelightBack, limelightFront);
   /* CAMERA */
   private final Camera aimCamera = new Camera(Constants.Camera.PORT_CAMERA_AIM);
   /* DRIVE */
@@ -72,10 +81,13 @@ public class RobotContainer {
    */
 
   /* AUTO COMMANDS */
-  private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
-  private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
+  private final StartLeavingCommunity startLeavingCommunity =
+      new StartLeavingCommunity(driveSubsystem);
+  private final StopLeavingCommunity stopLeavingCommunity =
+      new StopLeavingCommunity(driveSubsystem);
   /* CAMERA COMMAND */
-  private final InstantCommand displayAimVideo = new InstantCommand(aimCamera::startCamera, aimCamera);
+  private final InstantCommand displayAimVideo =
+      new InstantCommand(aimCamera::startCamera, aimCamera);
   /* BALANCE COMMAND */
   private final Balance balance = new Balance(driveSubsystem);
   /* DRIVE COMMANDS*/
@@ -84,15 +96,16 @@ public class RobotContainer {
   private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
   private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
   /* ARM COMMANDS */
-  private final Command openClaw = armClaw.manualOpenClawCommand(); 
+  private final Command openClaw = armClaw.manualOpenClawCommand();
   private final Command closeClaw = armClaw.manualCloseClawCommand();
   private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
   private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
   private final ExtendArm extend = new ExtendArm(armExtender);
   private final RetractArm retract = new RetractArm(armExtender);
   /* TRAJECTORY COMMAND */
-  private final TrackTrajectory demoTrajectoryTrackingCommand = new TrackTrajectory(Constants.Drive.Trajectories.DEMO_TRAJECTORY, driveSubsystem);
-  
+  private final TrackTrajectory demoTrajectoryTrackingCommand =
+      new TrackTrajectory(Constants.Drive.Trajectories.DEMO_TRAJECTORY, driveSubsystem);
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
@@ -107,9 +120,16 @@ public class RobotContainer {
 
     /* TODO: add ResetDrivePose into auto*/
     autoChooser = new SendableChooser<>();
-    autoChooser.setDefaultOption("Fling cube + mobility bonus", 
-        Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
-    autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
+    autoChooser.setDefaultOption(
+        "Fling cube + mobility bonus",
+        Commands.sequence(
+            Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm),
+            new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)),
+            new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)),
+            new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
+    autoChooser.addOption(
+        "Home arm (DOES NOT MOVE)",
+        Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
 
     SmartDashboard.putData("Choose auto", autoChooser);
 
@@ -140,9 +160,14 @@ public class RobotContainer {
 
     controller.x().whileTrue(demoTrajectoryTrackingCommand);
 
-    joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
-    armShoulder, armExtender, compilationArm));
-    joystick.button(4).whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
+    joystick
+        .button(9)
+        .whileTrue(
+            MoveToPose.extendingMoveToPose(
+                Constants.Arm.Poses.PICKUP, armBase, armShoulder, armExtender, compilationArm));
+    joystick
+        .button(4)
+        .whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
     joystick.povUp().whileTrue(extend);
     joystick.povDown().whileTrue(retract);
 
@@ -220,7 +245,6 @@ public class RobotContainer {
         .onTrue(armClaw.manualCloseClawCommand());
         */
   }
-  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
