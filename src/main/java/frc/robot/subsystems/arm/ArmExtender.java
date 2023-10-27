@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.subsystems.arm;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,7 +18,10 @@ public class ArmExtender extends SubsystemBase {
 
   private I2CManager I2CManager;
 
+  private SlewRateLimiter rateLimiter;
+
   private Double setpoint;
+  private Double percentOutput;
 
   /** Creates a new ArmExtender. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmExtender(I2CManager I2CManager) {
@@ -25,17 +29,19 @@ public class ArmExtender extends SubsystemBase {
     rateLimiter = new SlewRateLimiter(Constants.Arm.RAMP_RATE_WINCH_ARM_EXTENSION);
     winch.setInverted(Constants.Arm.INVERTED_TALON_ARM_EXTENDER);
     setpoint = null;
+    percentOutput = null;
     this.I2CManager = I2CManager;
     extenderAtSetpoint = false;
   }
 
   public void extend() {
     setpoint = null;
-    winch.set(1);
+    percentOutput = Constants.Arm.SPEED_WINCH_ARM_EXTENSION;
   }
 
   public void retract() {
-    winch.set(-1);
+    setpoint = null;
+    percentOutput = Constants.Arm.SPEED_WINCH_ARM_EXTENSION;
   }
 
   public Command extendCommand() {
@@ -62,6 +68,7 @@ public class ArmExtender extends SubsystemBase {
    * @param setpoint How far we want the arm to extend in inches from the shoulder to the claw.
    */
   public void set(double setpoint) {
+    percentOutput = null;
     setpoint -= Constants.Arm.EXTRA_LENGTH_ARM_EXTENDER;
     this.setpoint = setpoint;
   }
@@ -84,19 +91,23 @@ public class ArmExtender extends SubsystemBase {
       /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
       if (Math.abs(setpoint - getLength()) >= Constants.Arm.DONE_THRESHOLD_ARM_EXTENSION) {
         if (getLength() > setpoint) {
-          winch.set(-1 * Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
+          winch.set(rateLimiter.calculate(-1 * Constants.Arm.SPEED_WINCH_ARM_EXTENSION));
         } else {
-          winch.set(Constants.Arm.SPEED_WINCH_ARM_EXTENSION);
+          winch.set(rateLimiter.calculate(Constants.Arm.SPEED_WINCH_ARM_EXTENSION));
         }
       } else {
         winch.stopMotor();
         extenderAtSetpoint = true;
       }
     }
+
+    if (percentOutput != null) {
+      winch.set(rateLimiter.calculate(percentOutput));
+    }
   }
 
   public void setArmSpeed(double speed) {
     setpoint = null;
-    winch.set(speed);
+    percentOutput = speed;
   }
 }

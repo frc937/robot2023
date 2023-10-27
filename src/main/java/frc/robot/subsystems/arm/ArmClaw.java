@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -52,15 +53,18 @@ public class ArmClaw extends SubsystemBase {
    * @return a command that opens the claw
    */
   public Command openClawCommand() {
-    return this.runEnd(() -> this.openClaw(), () -> this.stop());
+    return new InstantCommand();
+    // return this.runEnd(() -> this.openClaw(), () -> this.stop());
   }
 
   public Command manualOpenClawCommand() {
-    return this.runEnd(() -> this.openClaw(), () -> this.stop());
+    return new InstantCommand();
+    // return this.runEnd(() -> this.openClaw(), () -> this.stop());
   }
 
   public Command manualCloseClawCommand() {
-    return this.runEnd(() -> this.manualCloseClaw(), () -> this.stop());
+    return new InstantCommand();
+    // return this.runEnd(() -> this.manualCloseClaw(), () -> this.stop());
   }
 
   /**
@@ -87,8 +91,8 @@ public class ArmClaw extends SubsystemBase {
   @Override
   public void periodic() {
     /* Allows us to have a way to make this code not run, so we can do things like open the claw. */
-    if (setpoint != null) {
-      /* Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism */
+    /*if (setpoint != null) {
+      // Adds a tolerance so we don't vibrate back and forth constantly and destroy the entire mechanism
       if (Math.abs(setpoint - pressure.getVoltage()) >= Constants.Arm.DONE_THRESHOLD_ARM_CLAW) {
         if (pressure.getVoltage() > setpoint) {
           clawMotor.set(-1 * Constants.Arm.SPEED_ARM_CLAW);
@@ -99,7 +103,7 @@ public class ArmClaw extends SubsystemBase {
         clawMotor.set(0);
         isAtSetpoint = true;
       }
-    }
+    }*/
 
     SmartDashboard.putNumber("Pressure Reading", pressure.getVoltage());
     SmartDashboard.putBoolean(

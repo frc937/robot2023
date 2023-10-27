@@ -3,11 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import frc.robot.positioning.Pose;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -15,6 +10,9 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
+import frc.robot.positioning.Pose;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -75,7 +73,8 @@ public final class Constants {
     public static final double WHEEL_DIAMETER_INCHES = 8; // I THINK they're 8"
     public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(WHEEL_DIAMETER_INCHES);
 
-    public static final double TEST_PID_SETPOINT = 4096; // This will no longer work after I fix the set method
+    public static final double TEST_PID_SETPOINT =
+        4096; // This will no longer work after I fix the set method
 
     public static class DrivePIDYAY {
       public static final double P = 0.13939;
@@ -112,9 +111,12 @@ public final class Constants {
 
     public static class Trajectories {
       private static final Pose2d startPose = new Pose2d(5.9, -2.8, new Rotation2d());
-      private static final ArrayList<Translation2d> interiorWaypoints = new ArrayList<>(List.of(new Translation2d(5.5, -2.9)));
+      private static final ArrayList<Translation2d> interiorWaypoints =
+          new ArrayList<>(List.of(new Translation2d(5.5, -2.9)));
       private static final Pose2d endPose = new Pose2d(4.7, -2.3, new Rotation2d());
-      public static final Trajectory DEMO_TRAJECTORY = TrajectoryGenerator.generateTrajectory(startPose, interiorWaypoints, endPose, new TrajectoryConfig(5.0, 3.0));
+      public static final Trajectory DEMO_TRAJECTORY =
+          TrajectoryGenerator.generateTrajectory(
+              startPose, interiorWaypoints, endPose, new TrajectoryConfig(5.0, 3.0));
     }
   }
 
@@ -165,10 +167,10 @@ public final class Constants {
     public static final int ID_TALON_ARM_CLAW = 0; /* This is actually a Spark */
     public static final int ID_TALON_ARM_BASE = 5;
 
-    public static final int CHANNEL_ANALOG_PRESSURE_SENSOR = 0;
+    @Deprecated public static final int CHANNEL_ANALOG_PRESSURE_SENSOR = 0;
 
-    public static final double SETPOINT_PRESSURE_CONE = 5.7;
-    public static final double SETPOINT_PRESSURE_CUBE = 5.5;
+    @Deprecated public static final double SETPOINT_PRESSURE_CONE = 5.7;
+    @Deprecated public static final double SETPOINT_PRESSURE_CUBE = 5.5;
 
     public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = true;
     public static final boolean INVERTED_TALON_SENSOR_ARM_BASE = true;
@@ -180,17 +182,19 @@ public final class Constants {
     public static final boolean AUTO_ZERO_REVERSE_LIMIT_SHOULDER = true;
     public static final boolean AUTO_ZERO_REVERSE_LIMIT_BASE = true;
 
-    public static final double MIN_LENGTH_ARM_EXTENDER = 30.5;
+    public static final double MIN_LENGTH_ARM_EXTENDER = 29;
 
-    public static final double EXTRA_LENGTH_ARM_EXTENDER = 26;
+    public static final double EXTRA_LENGTH_ARM_EXTENDER = 20;
 
     public static final double DONE_THRESHOLD_ARM_EXTENSION = 1.0;
     /* DONE_THRESHOLD_ARM_CLAW is not tuned yet - update it when implementing pressure sensor */
-    public static final double DONE_THRESHOLD_ARM_CLAW = 0.1;
+    @Deprecated public static final double DONE_THRESHOLD_ARM_CLAW = 0.1;
 
-    public static final double CONE_PRESSURE_THRESHOLD = 4.0;
+    @Deprecated public static final double CONE_PRESSURE_THRESHOLD = 4.0;
 
-    public static final double SPEED_WINCH_ARM_EXTENSION = 1.0;
+    public static final double SPEED_WINCH_ARM_EXTENSION = 0.5;
+
+    public static final double RAMP_RATE_WINCH_ARM_EXTENSION = 3;
 
     public static final double SPEED_ARM_CLAW = 1;
 

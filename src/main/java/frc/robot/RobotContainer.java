@@ -66,7 +66,8 @@ public class RobotContainer {
   /* LIMELIGHT  */
   private final Limelight limelightBack = new Limelight("limelight-back");
   private final Limelight limelightFront = new Limelight("limelight-front");
-  private final LimelightManager limelightManager = new LimelightManager(limelightBack, limelightFront);
+  private final LimelightManager limelightManager =
+      new LimelightManager(limelightBack, limelightFront);
   /* CAMERA */
   private final Camera aimCamera = new Camera(Constants.Camera.PORT_CAMERA_AIM);
   /* DRIVE */
@@ -88,10 +89,13 @@ public class RobotContainer {
    */
 
   /* AUTO COMMANDS */
-  private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
-  private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
+  private final StartLeavingCommunity startLeavingCommunity =
+      new StartLeavingCommunity(driveSubsystem);
+  private final StopLeavingCommunity stopLeavingCommunity =
+      new StopLeavingCommunity(driveSubsystem);
   /* CAMERA COMMAND */
-  private final InstantCommand displayAimVideo = new InstantCommand(aimCamera::startCamera, aimCamera);
+  private final InstantCommand displayAimVideo =
+      new InstantCommand(aimCamera::startCamera, aimCamera);
   /* BALANCE COMMAND */
   private final Balance balance = new Balance(driveSubsystem);
   /* DRIVE COMMANDS*/
@@ -100,15 +104,16 @@ public class RobotContainer {
   private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
   private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
   /* ARM COMMANDS */
-  private final Command openClaw = armClaw.manualOpenClawCommand(); 
+  private final Command openClaw = armClaw.manualOpenClawCommand();
   private final Command closeClaw = armClaw.manualCloseClawCommand();
   private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
   private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
   private final ExtendArm extend = new ExtendArm(armExtender);
   private final RetractArm retract = new RetractArm(armExtender);
   /* TRAJECTORY COMMAND */
-  private final TrackTrajectory demoTrajectoryTrackingCommand = new TrackTrajectory(Constants.Drive.Trajectories.DEMO_TRAJECTORY, driveSubsystem);
-  
+  private final TrackTrajectory demoTrajectoryTrackingCommand =
+      new TrackTrajectory(Constants.Drive.Trajectories.DEMO_TRAJECTORY, driveSubsystem);
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public static CommandXboxController controller =
       new CommandXboxController(OperatorConstants.CONTROLLER_NUMBER);
@@ -136,7 +141,7 @@ public class RobotContainer {
 
     SmartDashboard.putData("Choose auto", autoChooser);
 
-    //compilationArm.setDefaultCommand(manualArm);
+    compilationArm.setDefaultCommand(manualArm);
     driveSubsystem.setDefaultCommand(driveRO);
   }
 
@@ -156,6 +161,8 @@ public class RobotContainer {
   private void configureBindings() {
 
     controller.rightBumper().whileTrue(balance);
+
+    controller.leftBumper().whileTrue(new InstantCommand(driveSubsystem::printPoses));
 
     controller.y().toggleOnTrue(driveFO);
 
@@ -241,7 +248,6 @@ public class RobotContainer {
         .onTrue(armClaw.manualCloseClawCommand());
         */
   }
-  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

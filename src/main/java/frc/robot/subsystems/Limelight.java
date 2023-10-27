@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -46,7 +45,9 @@ public class Limelight extends SubsystemBase {
     return "/" + name + "/" + end;
   }
 
-  /** Creates a new Limelight. Should be run once from {@link frc.robot.RobotContainer}.
+  /**
+   * Creates a new Limelight. Should be run once from {@link frc.robot.RobotContainer}.
+   *
    * @param name The hostname of the limelight
    */
   public Limelight(String name) {
@@ -58,7 +59,7 @@ public class Limelight extends SubsystemBase {
     botposSubscriber =
         NetworkTableInstance.getDefault()
             .getDoubleArrayTopic(fmtPath("botpose"))
-            .subscribe(new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+            .subscribe(new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
   }
 
   /* now its time for getter method chaingun, which I have to write manually because VS Code */
