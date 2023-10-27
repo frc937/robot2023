@@ -59,7 +59,7 @@ public class Limelight extends SubsystemBase {
     botposSubscriber =
         NetworkTableInstance.getDefault()
             .getDoubleArrayTopic(fmtPath("botpose"))
-            .subscribe(new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+            .subscribe(new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
   }
 
   /* now its time for getter method chaingun, which I have to write manually because VS Code */
