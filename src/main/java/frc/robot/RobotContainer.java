@@ -133,7 +133,7 @@ public class RobotContainer {
 
     SmartDashboard.putData("Choose auto", autoChooser);
 
-    // compilationArm.setDefaultCommand(manualArm);
+    compilationArm.setDefaultCommand(manualArm);
     driveSubsystem.setDefaultCommand(driveRO);
   }
 
