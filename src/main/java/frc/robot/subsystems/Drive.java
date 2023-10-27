@@ -375,6 +375,16 @@ public class Drive extends SubsystemBase {
   }
 
   /**
+   * @deprecated debug method
+   */
+  @Deprecated
+  public void printPoses() {
+    /* KILL THIS IN PROD */
+    System.out.println("LL pose: " + limelightManager.getTargetedLimelight().getBotpose2d());
+    System.out.println("Odo pose: " + whereTheHeckAreWe.getEstimatedPosition());
+  }
+
+  /**
    * Subsystem periodic, runs every scheduler loop.
    *
    * <p>Updates odometry (aka whereTheHeckAreWe) with wheel positions and gyro heading, and adds the
@@ -401,8 +411,5 @@ public class Drive extends SubsystemBase {
         whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), Timer.getFPGATimestamp());
       }
     }
-
-    /* TODO: REMOVE IN PROD */
-    //updatePIDValuesFromSmartDash();
   }
 }

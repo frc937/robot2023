@@ -147,6 +147,8 @@ public class RobotContainer {
 
     controller.rightBumper().whileTrue(balance);
 
+    controller.leftBumper().whileTrue(new InstantCommand(driveSubsystem::printPoses));
+
     controller.y().toggleOnTrue(driveFO);
 
     controller.b().whileTrue(deployPlunger);
