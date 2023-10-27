@@ -167,29 +167,29 @@ public final class Constants {
     public static final int ID_TALON_ARM_CLAW = 0; /* This is actually a Spark */
     public static final int ID_TALON_ARM_BASE = 5;
 
-    public static final int CHANNEL_ANALOG_PRESSURE_SENSOR = 0;
+    @Deprecated public static final int CHANNEL_ANALOG_PRESSURE_SENSOR = 0;
 
-    public static final double SETPOINT_PRESSURE_CONE = 5.7;
-    public static final double SETPOINT_PRESSURE_CUBE = 5.5;
+    @Deprecated public static final double SETPOINT_PRESSURE_CONE = 5.7;
+    @Deprecated public static final double SETPOINT_PRESSURE_CUBE = 5.5;
 
     public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = true;
     public static final boolean INVERTED_TALON_SENSOR_ARM_BASE = true;
 
-    public static final boolean INVERTED_TALON_ARM_SHOULDER = false;
-    public static final boolean INVERTED_TALON_ARM_BASE = false;
+    public static final boolean INVERTED_TALON_ARM_SHOULDER = true;
+    public static final boolean INVERTED_TALON_ARM_BASE = true;
 
     public static final boolean AUTO_ZERO_REVERSE_LIMIT_SHOULDER = true;
     public static final boolean AUTO_ZERO_REVERSE_LIMIT_BASE = true;
 
-    public static final double MIN_LENGTH_ARM_EXTENDER = 30.5;
+    public static final double MIN_LENGTH_ARM_EXTENDER = 29;
 
-    public static final double EXTRA_LENGTH_ARM_EXTENDER = 26;
+    public static final double EXTRA_LENGTH_ARM_EXTENDER = 20;
 
     public static final double DONE_THRESHOLD_ARM_EXTENSION = 1.0;
     /* DONE_THRESHOLD_ARM_CLAW is not tuned yet - update it when implementing pressure sensor */
-    public static final double DONE_THRESHOLD_ARM_CLAW = 0.1;
+    @Deprecated public static final double DONE_THRESHOLD_ARM_CLAW = 0.1;
 
-    public static final double CONE_PRESSURE_THRESHOLD = 4.0;
+    @Deprecated public static final double CONE_PRESSURE_THRESHOLD = 4.0;
 
     public static final double SPEED_WINCH_ARM_EXTENSION = 0.5;
 
