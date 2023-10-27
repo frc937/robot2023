@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -114,6 +113,7 @@ public class Drive extends SubsystemBase {
   public void resetGyro() {
     gyroscope.reset();
   }
+
   /**
    * Gets the roll of the robot in degrees
    *
@@ -122,6 +122,7 @@ public class Drive extends SubsystemBase {
   public double getRoll() {
     return gyroscope.getRoll();
   }
+
   /**
    * Gets the pitch of the robot in degrees
    *

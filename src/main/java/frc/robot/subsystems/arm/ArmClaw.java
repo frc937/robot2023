@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -103,6 +102,7 @@ public class ArmClaw extends SubsystemBase {
     }
 
     SmartDashboard.putNumber("Pressure Reading", pressure.getVoltage());
-    SmartDashboard.putBoolean("At cone pressure", pressure.getVoltage() >= Constants.Arm.CONE_PRESSURE_THRESHOLD);
+    SmartDashboard.putBoolean(
+        "At cone pressure", pressure.getVoltage() >= Constants.Arm.CONE_PRESSURE_THRESHOLD);
   }
 }

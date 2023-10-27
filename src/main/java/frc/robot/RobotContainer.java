@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -64,11 +63,14 @@ public class RobotContainer {
   private RetractArm retractArmCommand = new RetractArm(armExtender);
   private final Plunger plunger = new Plunger();
   private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
-  private final StartLeavingCommunity startLeavingCommunity = new StartLeavingCommunity(driveSubsystem);
-  private final StopLeavingCommunity stopLeavingCommunity = new StopLeavingCommunity(driveSubsystem);
+  private final StartLeavingCommunity startLeavingCommunity =
+      new StartLeavingCommunity(driveSubsystem);
+  private final StopLeavingCommunity stopLeavingCommunity =
+      new StopLeavingCommunity(driveSubsystem);
   private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
   private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
-  private final InstantCommand displayAimVideo = new InstantCommand(aimCamera::startCamera, aimCamera);
+  private final InstantCommand displayAimVideo =
+      new InstantCommand(aimCamera::startCamera, aimCamera);
 
   private final Balance balance = new Balance(driveSubsystem);
   private final DriveRobotOriented driveRO = new DriveRobotOriented(driveSubsystem);
@@ -89,14 +91,22 @@ public class RobotContainer {
   public static CommandJoystick joystick = new CommandJoystick(OperatorConstants.JOYSTICK_NUMBER);
 
   private final SendableChooser<Command> autoChooser;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureBindings();
 
     autoChooser = new SendableChooser<>();
-    autoChooser.setDefaultOption("Fling cube + mobility bonus", 
-        Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
-    autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
+    autoChooser.setDefaultOption(
+        "Fling cube + mobility bonus",
+        Commands.sequence(
+            Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm),
+            new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)),
+            new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)),
+            new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
+    autoChooser.addOption(
+        "Home arm (DOES NOT MOVE)",
+        Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
 
     SmartDashboard.putData("Choose auto", autoChooser);
 
@@ -128,10 +138,15 @@ public class RobotContainer {
 
     controller.b().whileTrue(deployPlunger);
 
-    joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
-    armShoulder, armExtender, compilationArm));
+    joystick
+        .button(9)
+        .whileTrue(
+            MoveToPose.extendingMoveToPose(
+                Constants.Arm.Poses.PICKUP, armBase, armShoulder, armExtender, compilationArm));
 
-    joystick.button(4).whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
+    joystick
+        .button(4)
+        .whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
 
     joystick.povUp().whileTrue(extend);
     joystick.povDown().whileTrue(retract);
@@ -140,7 +155,7 @@ public class RobotContainer {
     /* TODO: get better buttons with Gabriel */
     /* Or just get color sensor working */
     joystick.trigger().whileTrue(closeClaw);
-    //joystick.button(2).whileTrue(closeClawCube);
+    // joystick.button(2).whileTrue(closeClawCube);
 
     /*joystick
         .button(2)
@@ -272,7 +287,7 @@ public class RobotContainer {
   }
 
   public static double getJoystickXAxis() {
-    return joystick.getX()* -1.0;
+    return joystick.getX() * -1.0;
   }
 
   public static double getScaledJoystickXAxis() {

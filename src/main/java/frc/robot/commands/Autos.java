@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -23,14 +22,22 @@ public final class Autos {
       ArmClaw armClawSubsystem,
       CompilationArm compilationArmSubsystem) {
     return Commands.sequence(
-        armExtenderSubsystem.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER),
-        new HomeShoulder(armShoulderSubsystem, compilationArmSubsystem),
-        new HomeBase(armBaseSubsystem, compilationArmSubsystem),
-        armClawSubsystem.openClawCommand()).withTimeout(5.5);
+            armExtenderSubsystem.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER),
+            new HomeShoulder(armShoulderSubsystem, compilationArmSubsystem),
+            new HomeBase(armBaseSubsystem, compilationArmSubsystem),
+            armClawSubsystem.openClawCommand())
+        .withTimeout(5.5);
   }
 
-  public static CommandBase homingNoOpenClaw(ArmShoulder armShoulder, ArmBase armBase, ArmExtender armExtender, CompilationArm compilationArm) {
-    return Commands.sequence(armExtender.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER), new HomeShoulder(armShoulder, compilationArm), new HomeBase(armBase, compilationArm));
+  public static CommandBase homingNoOpenClaw(
+      ArmShoulder armShoulder,
+      ArmBase armBase,
+      ArmExtender armExtender,
+      CompilationArm compilationArm) {
+    return Commands.sequence(
+        armExtender.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER),
+        new HomeShoulder(armShoulder, compilationArm),
+        new HomeBase(armBase, compilationArm));
   }
 
   private Autos() {

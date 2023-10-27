@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -55,6 +54,7 @@ public class ArmBase extends SubsystemBase {
 
     return talon;
   }
+
   /** Checks if either base limit switch is closed. */
   public boolean baseLimitSwitch() {
     return sensorCollection.isFwdLimitSwitchClosed() || sensorCollection.isRevLimitSwitchClosed();
@@ -63,6 +63,7 @@ public class ArmBase extends SubsystemBase {
   public void manualMoveArmBase(double x) {
     armBaseMotor.set(ControlMode.PercentOutput, x);
   }
+
   /** Returns the angle of the base CCW from forward in degrees */
   public double getAngle() {
     /* TODO: account for difference between limit switch position and front of bot */
