@@ -56,14 +56,10 @@ public class Limelight extends SubsystemBase {
     txSubscriber = NetworkTableInstance.getDefault().getDoubleTopic(fmtPath("tx")).subscribe(0.0);
     tySubscriber = NetworkTableInstance.getDefault().getDoubleTopic(fmtPath("ty")).subscribe(0.0);
     taSubscriber = NetworkTableInstance.getDefault().getDoubleTopic(fmtPath("ta")).subscribe(0.0);
-    /* In theory this won't break. It got mad when I tried to insert the array into the
-     * method like .subscribe({0.0, 0.0, 0.0, 0.0, 0.0, 0.0}) so ¯\_(ツ)_/¯
-     */
-    double[] defaultBotpos = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     botposSubscriber =
         NetworkTableInstance.getDefault()
             .getDoubleArrayTopic(fmtPath("botpose"))
-            .subscribe(defaultBotpos);
+            .subscribe(new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
   }
 
   /* now its time for getter method chaingun, which I have to write manually because VS Code */

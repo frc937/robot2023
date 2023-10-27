@@ -247,16 +247,7 @@ public class Drive extends SubsystemBase {
   public void moveTank(double left, double right) {
     drivetrain.tankDrive(left, right);
   }
-
-  /**
-   * @deprecated Use {@link #moveTank}
-   */
-  @Deprecated(forRemoval = true)
-  public void moveSimple(double leftSpeed, double rightSpeed) {
-    left.set(ControlMode.PercentOutput, leftSpeed);
-    right.set(ControlMode.PercentOutput, rightSpeed);
-  }
-
+  
   /**
    * Sets the velocity setpoint of the left and right sides of the drivetrain.
    *
