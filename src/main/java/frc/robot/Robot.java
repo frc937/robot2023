@@ -103,7 +103,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    m_robotContainer.getResetCommand().schedule();
+    // m_robotContainer.getResetCommand().schedule();
     if (!DriverStation.isFMSAttached()) {
       m_robotContainer.getResetDrivePoseCommand().schedule();
     }
