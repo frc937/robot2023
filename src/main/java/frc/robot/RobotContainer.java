@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
-import frc.robot.commands.CloseClawCone;
-import frc.robot.commands.CloseClawCube;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DriveForwards;
 import frc.robot.commands.DriveReverse;
@@ -37,8 +35,8 @@ import frc.robot.subsystems.I2CManager;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.LimelightManager;
 import frc.robot.subsystems.arm.ArmBase;
-import frc.robot.subsystems.arm.ArmClaw;
 import frc.robot.subsystems.arm.ArmExtender;
+import frc.robot.subsystems.arm.ArmIntake;
 import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
 
@@ -69,7 +67,7 @@ public class RobotContainer {
   private final ArmBase armBase = new ArmBase();
   private final ArmShoulder armShoulder = new ArmShoulder();
   private final ArmExtender armExtender = new ArmExtender(I2CManager);
-  private final ArmClaw armClaw = new ArmClaw();
+  private final ArmIntake armClaw = new ArmIntake();
   private final CompilationArm compilationArm =
       new CompilationArm(armBase, armClaw, armExtender, armShoulder);
   private final ManualArm manualArm = new ManualArm(armBase, armShoulder, compilationArm);
@@ -96,10 +94,9 @@ public class RobotContainer {
   private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
   private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
   /* ARM COMMANDS */
-  private final Command openClaw = armClaw.manualOpenClawCommand();
-  private final Command closeClaw = armClaw.manualCloseClawCommand();
-  private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
-  private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
+  // TODO: THIS
+  // private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
+  // private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
   private final ExtendArm extend = new ExtendArm(armExtender);
   private final RetractArm retract = new RetractArm(armExtender);
   /* TRAJECTORY COMMAND */
@@ -170,11 +167,7 @@ public class RobotContainer {
         .whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
     joystick.povUp().whileTrue(extend);
     joystick.povDown().whileTrue(retract);
-
-    joystick.button(11).whileTrue(openClaw);
-    /* TODO: get better buttons with Gabriel */
-    joystick.trigger().whileTrue(closeClaw);
-    joystick.button(2).whileTrue(closeClawCube);
+    // joystick.button(2).whileTrue(closeClawCube);
 
     /*joystick
         .button(2)
@@ -258,8 +251,7 @@ public class RobotContainer {
 
   public Command getResetCommand() {
     return MoveToPose.retractingMoveToPose(
-            Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
-        .alongWith(armClaw.openClawCommand());
+        Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm);
   }
 
   public Command getRetractCommand() {

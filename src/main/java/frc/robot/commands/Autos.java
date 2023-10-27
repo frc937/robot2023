@@ -9,8 +9,8 @@ import frc.robot.Constants;
 import frc.robot.commands.homingRoutine.HomeBase;
 import frc.robot.commands.homingRoutine.HomeShoulder;
 import frc.robot.subsystems.arm.ArmBase;
-import frc.robot.subsystems.arm.ArmClaw;
 import frc.robot.subsystems.arm.ArmExtender;
+import frc.robot.subsystems.arm.ArmIntake;
 import frc.robot.subsystems.arm.ArmShoulder;
 import frc.robot.subsystems.arm.CompilationArm;
 
@@ -19,13 +19,12 @@ public final class Autos {
       ArmShoulder armShoulderSubsystem,
       ArmBase armBaseSubsystem,
       ArmExtender armExtenderSubsystem,
-      ArmClaw armClawSubsystem,
+      ArmIntake armClawSubsystem,
       CompilationArm compilationArmSubsystem) {
     return Commands.sequence(
             armExtenderSubsystem.setCommand(Constants.Arm.MIN_LENGTH_ARM_EXTENDER),
             new HomeShoulder(armShoulderSubsystem, compilationArmSubsystem),
-            new HomeBase(armBaseSubsystem, compilationArmSubsystem),
-            armClawSubsystem.openClawCommand())
+            new HomeBase(armBaseSubsystem, compilationArmSubsystem))
         .withTimeout(5.5);
   }
 

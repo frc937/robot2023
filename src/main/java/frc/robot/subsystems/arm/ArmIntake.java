@@ -4,8 +4,6 @@
 package frc.robot.subsystems.arm;
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -18,43 +16,22 @@ public class ArmIntake extends SubsystemBase {
 
   /** Creates a new ArmClaw. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmIntake() {
-    clawMotor = new Talon(Constants.Arm.ID_TALON_ARM_CLAW);
+    clawMotor = new Talon(Constants.Arm.Intake.ID_TALON_ARM_CLAW);
   }
 
-  /** Opens the claw. */
-  public void openClaw() {}
-
-  public void manualCloseClaw() {}
-
+  /** Stops the arm intake from spinning */
   public void stop() {
     clawMotor.set(0);
   }
 
   /**
-   * Command factory to open the claw
+   * Sets the speed the intake runs at.
    *
-   * @return a command that opens the claw
+   * @param setpoint the percent power to run the arm at
    */
-  public Command openClawCommand() {
-    return new InstantCommand();
+  public void set(Double setpoint) {
+    clawMotor.set(setpoint);
   }
-
-  public Command manualOpenClawCommand() {
-    return new InstantCommand();
-  }
-
-  public Command manualCloseClawCommand() {
-    return new InstantCommand();
-  }
-
-  /**
-   * Sets the pressure-based setpoint for the claw.
-   *
-   * @param setpoint How much pressure we want the claw to apply to whatever it's clamping onto.
-   *     Units are in volts of resistance, least resistance is 5v, most is 0. Least resistence =
-   *     most pressure.
-   */
-  public void set(Double setpoint) {}
 
   public boolean isAtSetpoint() {
     return true;
