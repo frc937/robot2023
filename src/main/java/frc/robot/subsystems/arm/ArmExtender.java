@@ -22,6 +22,8 @@ public class ArmExtender extends SubsystemBase {
   /** Creates a new ArmExtender. Should be called once from {@link frc.robot.RobotContainer}. */
   public ArmExtender(I2CManager I2CManager) {
     winch = new Talon(Constants.Arm.ID_TALON_ARM_WINCH);
+    rateLimiter = new SlewRateLimiter(Constants.Arm.RAMP_RATE_WINCH_ARM_EXTENSION);
+    winch.setInverted(Constants.Arm.INVERTED_TALON_ARM_EXTENDER);
     setpoint = null;
     this.I2CManager = I2CManager;
     extenderAtSetpoint = false;

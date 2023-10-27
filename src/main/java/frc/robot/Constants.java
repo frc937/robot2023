@@ -173,8 +173,9 @@ public final class Constants {
     public static final boolean INVERTED_TALON_SENSOR_ARM_SHOULDER = true;
     public static final boolean INVERTED_TALON_SENSOR_ARM_BASE = true;
 
-    public static final boolean INVERTED_TALON_ARM_SHOULDER = false;
-    public static final boolean INVERTED_TALON_ARM_BASE = false;
+    public static final boolean INVERTED_TALON_ARM_SHOULDER = true;
+    public static final boolean INVERTED_TALON_ARM_BASE = true;
+    public static final boolean INVERTED_TALON_ARM_EXTENDER = true;
 
     public static final boolean AUTO_ZERO_REVERSE_LIMIT_SHOULDER = true;
     public static final boolean AUTO_ZERO_REVERSE_LIMIT_BASE = true;
