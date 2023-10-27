@@ -21,7 +21,9 @@ import frc.robot.commands.DriveForwards;
 import frc.robot.commands.DriveReverse;
 import frc.robot.commands.DriveTank;
 import frc.robot.commands.ExtendArm;
+import frc.robot.commands.InCubeOutCone;
 import frc.robot.commands.ManualArm;
+import frc.robot.commands.OutCubeInCone;
 import frc.robot.commands.ResetDrivePose;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.StartLeavingCommunity;
@@ -94,9 +96,8 @@ public class RobotContainer {
   private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
   private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
   /* ARM COMMANDS */
-  // TODO: THIS
-  // private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
-  // private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
+  private final InCubeOutCone inCubeOutCone = new InCubeOutCone(armClaw);
+  private final OutCubeInCone outCubeInCone = new OutCubeInCone(armClaw);
   private final ExtendArm extend = new ExtendArm(armExtender);
   private final RetractArm retract = new RetractArm(armExtender);
   /* TRAJECTORY COMMAND */
@@ -167,6 +168,12 @@ public class RobotContainer {
         .whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
     joystick.povUp().whileTrue(extend);
     joystick.povDown().whileTrue(retract);
+    // in cube out cube
+    joystick.button(3).whileTrue(inCubeOutCone);
+    joystick.button(4).whileTrue(outCubeInCone);
+    // in cone out cone
+    joystick.button(5).whileTrue(outCubeInCone);
+    joystick.button(6).whileTrue(inCubeOutCone);
     // joystick.button(2).whileTrue(closeClawCube);
 
     /*joystick
