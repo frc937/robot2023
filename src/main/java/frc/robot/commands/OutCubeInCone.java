@@ -5,23 +5,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.arm.ArmClaw;
+import frc.robot.subsystems.arm.ArmIntake;
 
-public class CloseClawCube extends CommandBase {
-  private ArmClaw armClaw;
+/** Command to intake a cube or throw a cone on the intake. */
+public class OutCubeInCone extends CommandBase {
+  private final ArmIntake intake;
 
-  /** Creates a new CloseClawCube. */
-  public CloseClawCube(ArmClaw armClaw) {
+  /** Creates a new OutCubeInCone. */
+  public OutCubeInCone(ArmIntake intake) {
+    this.intake = intake;
+    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armClaw = armClaw;
-
-    addRequirements(armClaw);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    armClaw.set(Constants.Arm.SETPOINT_PRESSURE_CUBE);
+    this.intake.set(Constants.Arm.Intake.CUBE_OUT_CONE_IN_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -31,12 +31,12 @@ public class CloseClawCube extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armClaw.stop();
+    this.intake.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return armClaw.isAtSetpoint();
+    return false;
   }
 }

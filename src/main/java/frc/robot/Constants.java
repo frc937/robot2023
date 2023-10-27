@@ -164,7 +164,6 @@ public final class Constants {
 
     public static final int ID_TALON_ARM_SHOULDER = 6;
     public static final int ID_TALON_ARM_WINCH = 2; /* this is actually a Talon, not a Talon SRX */
-    public static final int ID_TALON_ARM_CLAW = 0; /* This is actually a Spark */
     public static final int ID_TALON_ARM_BASE = 5;
 
     @Deprecated public static final int CHANNEL_ANALOG_PRESSURE_SENSOR = 0;
@@ -196,10 +195,16 @@ public final class Constants {
 
     public static final double RAMP_RATE_WINCH_ARM_EXTENSION = 3;
 
-    public static final double SPEED_ARM_CLAW = 1;
-
     public static final double SPEED_ARM_SHOULDER_HOMING = 0.5;
     public static final double SPEED_ARM_BASE_HOMING = 0.5;
+
+    public static class Intake {
+      public static final int ID_TALON_ARM_CLAW = 0; /* This is actually a Spark */
+      public static final double SPEED_ARM_CLAW = 1;
+      // TODO: TODO: TODO: this is prob wrong so this needs to be fixed
+      public static final double CUBE_IN_CONE_OUT_SPEED = 0.5;
+      public static final double CUBE_OUT_CONE_IN_SPEED = -0.5;
+    }
 
     public static class ShoulderPID {
       public static final double kP = 1;

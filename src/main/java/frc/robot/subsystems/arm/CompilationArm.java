@@ -10,14 +10,14 @@ import frc.robot.positioning.Pose;
 @SuppressWarnings("unused")
 public class CompilationArm extends SubsystemBase {
   private ArmBase armBase;
-  private ArmClaw armClaw;
+  private ArmIntake armClaw;
   private ArmExtender armExtender;
   private Pose armPose;
   private ArmShoulder armShoulder;
 
   /** Creates a new CompilationArm. */
   public CompilationArm(
-      ArmBase armBase, ArmClaw armClaw, ArmExtender armExtender, ArmShoulder armShoulder) {
+      ArmBase armBase, ArmIntake armClaw, ArmExtender armExtender, ArmShoulder armShoulder) {
     this.armBase = armBase;
     this.armClaw = armClaw;
     this.armExtender = armExtender;
