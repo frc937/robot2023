@@ -83,7 +83,7 @@ public class Drive extends SubsystemBase {
     /* Instantiates the gyroscope. */
     gyroscope = new AHRS(SPI.Port.kMXP);
 
-    /* Gives us an instance of the Limelight Manager, which chooses which Limelight we pull data 
+    /* Gives us an instance of the Limelight Manager, which chooses which Limelight we pull data
      * from, since there are two on the bot
      */
     this.limelightManager = limelightManager;
@@ -105,23 +105,34 @@ public class Drive extends SubsystemBase {
     ramseteController = new RamseteController();
 
     /* Configure PID values for both sides */
-    left = configureTalonPID(left, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
-    right = configureTalonPID(right, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
-    //frontLeft = configureTalonPID(frontLeft, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
-    //frontRight = configureTalonPID(frontRight, Constants.Drive.DrivePIDYAY.P, Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
-    
+    left =
+        configureTalonPID(
+            left,
+            Constants.Drive.DrivePIDYAY.P,
+            Constants.Drive.DrivePIDYAY.I,
+            Constants.Drive.DrivePIDYAY.D);
+    right =
+        configureTalonPID(
+            right,
+            Constants.Drive.DrivePIDYAY.P,
+            Constants.Drive.DrivePIDYAY.I,
+            Constants.Drive.DrivePIDYAY.D);
+    // frontLeft = configureTalonPID(frontLeft, Constants.Drive.DrivePIDYAY.P,
+    // Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
+    // frontRight = configureTalonPID(frontRight, Constants.Drive.DrivePIDYAY.P,
+    // Constants.Drive.DrivePIDYAY.I, Constants.Drive.DrivePIDYAY.D);
+
     /*SmartDashboard.putString("REMEMBER TO WRITE DOWN YOUR PID VALUES", "I MEAN IT, WRITE THEM DOWN");
     SmartDashboard.putNumber("Drive P", 0);
     SmartDashboard.putNumber("Drive I", 0);
     SmartDashboard.putNumber("Drive D", 0);*/
   }
 
-  /**
-   * Class to handle converting m/s across the ground to encoder ticks/100ms
-   */
+  /** Class to handle converting m/s across the ground to encoder ticks/100ms */
   private static class EvilUnitConverter {
     /**
      * Convert m/s across the ground to encoder ticks/100ms (around the axle)
+     *
      * @param metersPerSecond m/s across the ground
      * @return Encoder ticks/100ms (angular momentum around the axle)
      */
@@ -135,6 +146,7 @@ public class Drive extends SubsystemBase {
 
     /**
      * Convert encoder ticks/100ms (around the axle) to m/s across the ground
+     *
      * @param encoderTicksPer100ms Encoder ticks/100ms (angular momentum around the axle)
      * @return m/s across the ground
      */
@@ -183,12 +195,14 @@ public class Drive extends SubsystemBase {
 
   /**
    * Configures a passed WPI_TalonSRX with the passed PID values
+   *
    * @param talon WPI_TalonSRX to configure
    * @param P kP value to set
    * @param I kI value to set
    * @param D kD value to set
    * @return The configured WPI_TalonSRX. You will NEED to set whatever variable represents your
-   * Talon to this returned value, like so: <code>talon = configureTalonPID(talon, kP, kI, kD);</code>.
+   *     Talon to this returned value, like so: <code>talon = configureTalonPID(talon, kP, kI, kD);
+   *     </code>.
    */
   private WPI_TalonSRX configureTalonPID(WPI_TalonSRX talon, double P, double I, double D) {
     talon.config_kP(0, P);
@@ -245,10 +259,10 @@ public class Drive extends SubsystemBase {
 
   /**
    * Sets the velocity setpoint of the left and right sides of the drivetrain.
-   * 
-   * <p>These are PID setpoints - they will require the drivetrain to have appropriately-tuned
-   * PID gains.
-   * 
+   *
+   * <p>These are PID setpoints - they will require the drivetrain to have appropriately-tuned PID
+   * gains.
+   *
    * @param velocityLeft Velocity setpoint for the left side of the drivetrain
    * @param velocityRight Velocity setpoint for the right side of the drivetrain
    */
@@ -261,8 +275,8 @@ public class Drive extends SubsystemBase {
    * Stop.
    *
    * <p>(stops all motors controlled by this subsystem)
-   * 
-   * <p><strong>WILL NOT stop motors that currently have a PID setpoint. Use {@link #setVelocity} 
+   *
+   * <p><strong>WILL NOT stop motors that currently have a PID setpoint. Use {@link #setVelocity}
    * and zero their setpoints instead.
    */
   public void stop() {
@@ -276,17 +290,19 @@ public class Drive extends SubsystemBase {
    * @return Position of the encoder on the left side of the drivetrain
    */
   private double getLeftPosition() {
-    double leftPositionMeters = EvilUnitConverter.encoderTicksPer100msToMetersPerSecond(left.getSelectedSensorPosition());
+    double leftPositionMeters =
+        EvilUnitConverter.encoderTicksPer100msToMetersPerSecond(left.getSelectedSensorPosition());
     return leftPositionMeters;
   }
 
   /**
    * Get the position of the encoder on the right side of the drivetrain.
-   * 
+   *
    * @return Position of the encoder on the right side of the drivetrain
    */
   private double getRightPosition() {
-    double rightPositionMeters = EvilUnitConverter.encoderTicksPer100msToMetersPerSecond(right.getSelectedSensorPosition());
+    double rightPositionMeters =
+        EvilUnitConverter.encoderTicksPer100msToMetersPerSecond(right.getSelectedSensorPosition());
     return rightPositionMeters;
   }
 
@@ -330,11 +346,10 @@ public class Drive extends SubsystemBase {
   public void resetPosition(Pose2d currentPose) {
     whereTheHeckAreWe.resetPosition(
         gyroscope.getRotation2d(),
-        this
-            .getLeftPosition(), // we miiiiight need to create an offset and zero these,
-                                       // which would be horrible, but doable
-                                       // I think we can actually just run a method that tells the
-                                       // motor controllers to zero them
+        this.getLeftPosition(), // we miiiiight need to create an offset and zero these,
+        // which would be horrible, but doable
+        // I think we can actually just run a method that tells the
+        // motor controllers to zero them
         this.getRightPosition(),
         currentPose);
   }
@@ -357,8 +372,10 @@ public class Drive extends SubsystemBase {
     ChassisSpeeds chassisSpeeds =
         ramseteController.calculate(whereTheHeckAreWe.getEstimatedPosition(), nextState);
     DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
-    double leftSetpoint = EvilUnitConverter.metersPerSecondToEncoderTicksPer100ms(wheelSpeeds.leftMetersPerSecond);
-    double rightSetpoint = EvilUnitConverter.metersPerSecondToEncoderTicksPer100ms(wheelSpeeds.rightMetersPerSecond);
+    double leftSetpoint =
+        EvilUnitConverter.metersPerSecondToEncoderTicksPer100ms(wheelSpeeds.leftMetersPerSecond);
+    double rightSetpoint =
+        EvilUnitConverter.metersPerSecondToEncoderTicksPer100ms(wheelSpeeds.rightMetersPerSecond);
     left.set(ControlMode.Velocity, leftSetpoint);
     right.set(ControlMode.Velocity, rightSetpoint);
   }

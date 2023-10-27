@@ -1,59 +1,33 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
-/*
- * Asimov's Three Laws of Robotics:
- * 1: A robot may not injure a human being or, through inaction, allow a human being to come to harm.
- * 2: A robot must obey the orders given to it by human beings except where such orders would conflict with the First Law.
- * 3: A robot must protect its own existence as long as such protection does not conflict with the First or Second Law.
- */
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.Balance;
-import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.LimelightManager;
-import frc.robot.subsystems.TaskScheduler;
-import frc.robot.commands.CloseClawCone;
-import frc.robot.commands.CloseClawCube;
 import frc.robot.commands.DeployPlunger;
-import frc.robot.commands.DriveTank;
+import frc.robot.commands.DriveArcade;
 import frc.robot.commands.DriveForwards;
 import frc.robot.commands.DriveReverse;
-import frc.robot.commands.DriveArcade;
-import frc.robot.commands.ExtendArm;
-import frc.robot.commands.ManualArm;
+import frc.robot.commands.DriveTank;
 import frc.robot.commands.ResetDrivePose;
-import frc.robot.commands.RetractArm;
 import frc.robot.commands.StartLeavingCommunity;
 import frc.robot.commands.StopLeavingCommunity;
 import frc.robot.commands.TestDrivePID;
 import frc.robot.commands.TrackTrajectory;
-import frc.robot.commands.moveToPose.MoveToPose;
 import frc.robot.positioning.Pose;
 import frc.robot.subsystems.Camera;
 import frc.robot.subsystems.Drive;
-import frc.robot.subsystems.I2CManager;
+import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.LimelightManager;
 import frc.robot.subsystems.Plunger;
-import frc.robot.subsystems.arm.ArmBase;
-import frc.robot.subsystems.arm.ArmClaw;
-import frc.robot.subsystems.arm.ArmExtender;
-import frc.robot.subsystems.arm.ArmShoulder;
-import frc.robot.subsystems.arm.CompilationArm;
 
 @SuppressWarnings("unused")
 /**
@@ -70,19 +44,20 @@ public class RobotContainer {
   /* Autotasks are mostly commented out in here for now because I don't care that they exist */
   private final Limelight limelightBack = new Limelight("limelight-back");
   private final Limelight limelightFront = new Limelight("limelight-front");
-  private final LimelightManager limelightManager = new LimelightManager(limelightBack, limelightFront);
+  private final LimelightManager limelightManager =
+      new LimelightManager(limelightBack, limelightFront);
   private final Drive driveSubsystem = new Drive(limelightManager);
   /* BIG CHUNGUS ARM CODE */
-  //private final I2CManager I2CManager = new I2CManager();
-  //private final ArmBase armBase = new ArmBase();
-  //private final ArmShoulder armShoulder = new ArmShoulder();
-  //private final ArmExtender armExtender = new ArmExtender(I2CManager);
-  //private final ArmClaw armClaw = new ArmClaw();
+  // private final I2CManager I2CManager = new I2CManager();
+  // private final ArmBase armBase = new ArmBase();
+  // private final ArmShoulder armShoulder = new ArmShoulder();
+  // private final ArmExtender armExtender = new ArmExtender(I2CManager);
+  // private final ArmClaw armClaw = new ArmClaw();
   private final Camera aimCamera = new Camera(Constants.Camera.PORT_CAMERA_AIM);
-  //private final CompilationArm compilationArm =
+  // private final CompilationArm compilationArm =
   //    new CompilationArm(armBase, armClaw, armExtender, armShoulder);
-  //private final ManualArm manualArm = new ManualArm(armBase, armShoulder, compilationArm);
-  //private RetractArm retractArmCommand = new RetractArm(armExtender);
+  // private final ManualArm manualArm = new ManualArm(armBase, armShoulder, compilationArm);
+  // private RetractArm retractArmCommand = new RetractArm(armExtender);
   private final Plunger plunger = new Plunger();
   private final DeployPlunger deployPlunger = new DeployPlunger(plunger);
   private final StartLeavingCommunity startLeavingCommunity =
@@ -91,18 +66,20 @@ public class RobotContainer {
       new StopLeavingCommunity(driveSubsystem);
   private final DriveForwards driveForwards = new DriveForwards(driveSubsystem);
   private final DriveReverse driveReverse = new DriveReverse(driveSubsystem);
-  private final InstantCommand displayAimVideo = new InstantCommand(aimCamera::startCamera, aimCamera);
+  private final InstantCommand displayAimVideo =
+      new InstantCommand(aimCamera::startCamera, aimCamera);
   private final Balance balance = new Balance(driveSubsystem);
   private final DriveArcade driveRO = new DriveArcade(driveSubsystem);
   private final DriveTank driveFO = new DriveTank(driveSubsystem);
-  //private final Command openClaw = armClaw.manualOpenClawCommand();
-  //private final Command closeClaw = armClaw.manualCloseClawCommand();
-  //private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
-  //private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
-  //private final ExtendArm extend = new ExtendArm(armExtender);
-  //private final RetractArm retract = new RetractArm(armExtender);
-  //private final TaskScheduler taskScheduler = new TaskScheduler();
-  private final TrackTrajectory demoTrajectoryTrackingCommand = new TrackTrajectory(Constants.Drive.Trajectories.DEMO_TRAJECTORY, driveSubsystem);
+  // private final Command openClaw = armClaw.manualOpenClawCommand();
+  // private final Command closeClaw = armClaw.manualCloseClawCommand();
+  // private final CloseClawCone closeClawCone = new CloseClawCone(armClaw);
+  // private final CloseClawCube closeClawCube = new CloseClawCube(armClaw);
+  // private final ExtendArm extend = new ExtendArm(armExtender);
+  // private final RetractArm retract = new RetractArm(armExtender);
+  // private final TaskScheduler taskScheduler = new TaskScheduler();
+  private final TrackTrajectory demoTrajectoryTrackingCommand =
+      new TrackTrajectory(Constants.Drive.Trajectories.DEMO_TRAJECTORY, driveSubsystem);
   private final TestDrivePID testDrivePID = new TestDrivePID(driveSubsystem);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -119,19 +96,24 @@ public class RobotContainer {
 
     /* TODO: add ResetDrivePose into auto*/
     autoChooser = new SendableChooser<>();
-    //autoChooser.setDefaultOption("Fling cube + mobility bonus", 
-    //    Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new WaitCommand(2.5))));
-    //autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw, compilationArm));
+    // autoChooser.setDefaultOption("Fling cube + mobility bonus",
+    //    Commands.sequence(Autos.homingRoutine(armShoulder, armBase, armExtender, armClaw,
+    // compilationArm), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new
+    // WaitCommand(0.5)), new ParallelRaceGroup(new DriveReverse(driveSubsystem), new
+    // WaitCommand(0.8)), new ParallelRaceGroup(new DriveForwards(driveSubsystem), new
+    // WaitCommand(2.5))));
+    // autoChooser.addOption("Home arm (DOES NOT MOVE)", Autos.homingRoutine(armShoulder, armBase,
+    // armExtender, armClaw, compilationArm));
 
     SmartDashboard.putData("Choose auto", autoChooser);
 
-    //compilationArm.setDefaultCommand(manualArm);
+    // compilationArm.setDefaultCommand(manualArm);
     driveSubsystem.setDefaultCommand(driveRO);
   }
 
   public Pose containerGetArmPose() {
 
-    //return compilationArm.getArmPose();
+    // return compilationArm.getArmPose();
     return new Pose();
   }
 
@@ -157,18 +139,20 @@ public class RobotContainer {
     controller.b().whileTrue(deployPlunger);
 
     controller.x().whileTrue(demoTrajectoryTrackingCommand);
-    
+
     controller.a().whileTrue(testDrivePID);
 
-    //joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP, armBase,
-    //armShoulder, armExtender, compilationArm));
+    // joystick.button(9).whileTrue(MoveToPose.extendingMoveToPose(Constants.Arm.Poses.PICKUP,
+    // armBase,
+    // armShoulder, armExtender, compilationArm));
 
-    //joystick.button(4).whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender, compilationArm));
+    // joystick.button(4).whileTrue(Autos.homingNoOpenClaw(armShoulder, armBase, armExtender,
+    // compilationArm));
 
-    //joystick.povUp().whileTrue(extend);
-    //joystick.povDown().whileTrue(retract);
+    // joystick.povUp().whileTrue(extend);
+    // joystick.povDown().whileTrue(retract);
 
-    //joystick.button(11).whileTrue(openClaw);
+    // joystick.button(11).whileTrue(openClaw);
     /* TODO: get better buttons with Gabriel */
     /* Or just get color sensor working */
 
@@ -241,8 +225,7 @@ public class RobotContainer {
         .onTrue(armClaw.manualCloseClawCommand());*/
   }
 
-  private void verifyAutoTasks() {
-  }
+  private void verifyAutoTasks() {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -255,14 +238,14 @@ public class RobotContainer {
   }
 
   public Command getResetCommand() {
-    //return MoveToPose.retractingMoveToPose(
+    // return MoveToPose.retractingMoveToPose(
     //        Constants.Arm.Poses.RESET, armBase, armShoulder, armExtender, compilationArm)
     //    .alongWith(armClaw.openClawCommand());
     return new InstantCommand();
   }
 
   public Command getRetractCommand() {
-    //return retractArmCommand;
+    // return retractArmCommand;
     return new InstantCommand();
   }
 

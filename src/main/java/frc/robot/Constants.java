@@ -3,11 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot;
 
-import frc.robot.positioning.Pose;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -15,6 +10,9 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
+import frc.robot.positioning.Pose;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -75,7 +73,8 @@ public final class Constants {
     public static final double WHEEL_DIAMETER_INCHES = 8; // I THINK they're 8"
     public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(WHEEL_DIAMETER_INCHES);
 
-    public static final double TEST_PID_SETPOINT = 4096; // This will no longer work after I fix the set method
+    public static final double TEST_PID_SETPOINT =
+        4096; // This will no longer work after I fix the set method
 
     public static class DrivePIDYAY {
       public static final double P = 0.13939;
@@ -112,9 +111,12 @@ public final class Constants {
 
     public static class Trajectories {
       private static final Pose2d startPose = new Pose2d(5.9, -2.8, new Rotation2d());
-      private static final ArrayList<Translation2d> interiorWaypoints = new ArrayList<>(List.of(new Translation2d(5.5, -2.9)));
+      private static final ArrayList<Translation2d> interiorWaypoints =
+          new ArrayList<>(List.of(new Translation2d(5.5, -2.9)));
       private static final Pose2d endPose = new Pose2d(4.7, -2.3, new Rotation2d());
-      public static final Trajectory DEMO_TRAJECTORY = TrajectoryGenerator.generateTrajectory(startPose, interiorWaypoints, endPose, new TrajectoryConfig(5.0, 3.0));
+      public static final Trajectory DEMO_TRAJECTORY =
+          TrajectoryGenerator.generateTrajectory(
+              startPose, interiorWaypoints, endPose, new TrajectoryConfig(5.0, 3.0));
     }
   }
 
