@@ -191,7 +191,9 @@ public final class Constants {
 
     public static final double CONE_PRESSURE_THRESHOLD = 4.0;
 
-    public static final double SPEED_WINCH_ARM_EXTENSION = 1.0;
+    public static final double SPEED_WINCH_ARM_EXTENSION = 0.5;
+
+    public static final double RAMP_RATE_WINCH_ARM_EXTENSION = 3;
 
     public static final double SPEED_ARM_CLAW = 1;
 
