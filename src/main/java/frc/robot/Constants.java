@@ -66,6 +66,8 @@ public final class Constants {
         new Translation2d(Units.feetToMeters(10 + (7 / 8)), Units.feetToMeters(8 + (5 / 8)));
      */
 
+    public static final double OPEN_LOOP_RAMP_RATE = 1.0;
+
     public static final double TRACK_WIDTH = Units.feetToMeters(20.5);
 
     public static final double DRIVE_ENCODER_PPR = 4096; // CTRE mag encoders

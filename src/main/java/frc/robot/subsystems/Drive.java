@@ -205,9 +205,12 @@ public class Drive extends SubsystemBase {
    *     </code>.
    */
   private WPI_TalonSRX configureTalonPID(WPI_TalonSRX talon, double P, double I, double D) {
+    /* TODO: change this to configure the whole talon & just use Constants instead of taking params */
     talon.config_kP(0, P);
     talon.config_kI(0, I);
     talon.config_kD(0, D);
+
+    talon.configOpenloopRamp(Constants.Drive.OPEN_LOOP_RAMP_RATE);
 
     return talon;
   }
