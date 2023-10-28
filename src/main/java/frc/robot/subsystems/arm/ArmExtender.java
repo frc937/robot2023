@@ -27,7 +27,7 @@ public class ArmExtender extends SubsystemBase {
   public ArmExtender(I2CManager I2CManager) {
     winch = new Talon(Constants.Arm.ID_TALON_ARM_WINCH);
     rateLimiter = new SlewRateLimiter(Constants.Arm.RAMP_RATE_WINCH_ARM_EXTENSION);
-    winch.setInverted(Constants.Arm.INVERTED_TALON_ARM_EXTENDER);
+    // winch.setInverted(Constants.Arm.INVERTED_TALON_ARM_EXTENDER);
     setpoint = null;
     percentOutput = null;
     this.I2CManager = I2CManager;
@@ -41,7 +41,7 @@ public class ArmExtender extends SubsystemBase {
 
   public void retract() {
     setpoint = null;
-    percentOutput = Constants.Arm.SPEED_WINCH_ARM_EXTENSION;
+    percentOutput = -1 * Constants.Arm.SPEED_WINCH_ARM_EXTENSION;
   }
 
   public Command extendCommand() {
