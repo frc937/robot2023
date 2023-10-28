@@ -5,11 +5,18 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.positioning.Pose;
+import frc.robot.positioning.Team937TrajectoryUtils;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.math.trajectory.Trajectory;
+import frc.robot.positioning.Team937TrajectoryUtils;
+
+
 import frc.robot.positioning.Pose;
 import java.util.ArrayList;
 import java.util.List;
@@ -258,6 +265,18 @@ public final class Constants {
   /** Holds constants for things not related to the robot */
   public static class Game {
     public static class Field {
+      
+      /**
+       * Half the length of the field relative to the origin. Positive for Max, Negative for Min.
+       * Measured in cm.
+       */
+      public static final int FIELD_X = 1654 / 2;
+      /**
+       * Half the width of the field relative to the origin. Positive for Max, Negative for Min.
+       * Measured in cm.
+       */
+      public static final int FIELD_Y = 802 / 2;
+
       public static class Grid {
         public static class ConeNode {
           public static class Top {
@@ -338,6 +357,56 @@ public final class Constants {
         }
       }
     }
+  }
+  /** IDs for the controller buttons. */
+  public static class ContollerButtons {
+    public static final int A_NUMBER = 1;
+    public static final int B_NUMBER = 2;
+    public static final int X_NUMBER = 3;
+    public static final int Y_NUMBER = 4;
+    public static final int LEFT_BUMPER_NUMBER = 5;
+    public static final int RIGHT_BUMPER_NUMBER = 6;
+    public static final int BACK_NUMBER = 7;
+    public static final int START_NUMBER = 8;
+    public static final int LEFT_STICK_NUMBER = 9;
+    public static final int RIGHT_STICK_NUMBER = 10;
+  }
+  
+  public static class Trajectories {
+    public static final Trajectory LOWER_COMMUNITY_TO_LOADING_ZONE = Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/LC2LZ.wpilib.json");
+    public static final Trajectory LOADING_ZONE_TO_LOWER_COMMUNITY = Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/LZ2LC.wpilib.json");
+    public static final Trajectory LOADING_ZONE_TO_UPPER_COMMUNITY = Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/LZ2UC.wpilib.json");
+    public static final Trajectory UPPER_COMMUNITY_TO_LOADING_ZONE = Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/UC2LZ.wpilib.json");
+  }
+
+  /**
+   * General constants for the AStar Subsystem. Primarily used by {@link
+   * frc.robot.positioning.AStar}.
+   */
+  public static class AStar {
+    /* 
+     * Values are *2 as they are accessing half the length of the field
+     * Values are /10 as they are in decimeters (/100 for centi and so on)
+     */
+    /**
+     * The full length of the field.
+     * Measured in decimeters.
+     */
+    public static final int FIELD_X = Game.Field.FIELD_X * 2 / 10;
+    /**
+     * The full length of the field.
+     * Measured in decimeters.
+     */
+    public static final int FIELD_Y = Game.Field.FIELD_Y * 2 / 10;
+  }
+
+  /** General constants for the drivetrain. Primarily used by {@link frc.robot.subsystems.Drive}. */
+  public static class DriveConstants {
+    /* CAN IDs for the drivetrain motor controllers */
+    public static final int ID_TALON_FRONT_LEFT = 0;
+    public static final int ID_TALON_FRONT_RIGHT = 1;
+    public static final int ID_TALON_REAR_LEFT = 2;
+    public static final int ID_TALON_REAR_RIGHT = 3;
   }
 
   /**

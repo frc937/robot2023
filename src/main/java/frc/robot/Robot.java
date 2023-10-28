@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.positioning.ArmKinematics;
+import frc.robot.positioning.Pose;
+import frc.robot.positioning.AStarTrajectoryGenerator;
+import frc.robot.positioning.Path;
+import frc.robot.positioning.AStar;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -24,6 +29,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  //private Path path = new Path();
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -32,6 +39,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+
+    //AStar aStar = new AStar(1,1,10,10);
+    //this.path = aStar.generateAStarPath().get();
+
     m_robotContainer = new RobotContainer();
 
     displayAimVideo = m_robotContainer.getDisplayAimVideoCommand();
@@ -53,6 +64,11 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    //if (this.path!=null) {
+    //System.out.println("datPath " + AStarTrajectoryGenerator.generateTrajectory(path));
+    //SmartDashboard.putString("Traj: ", AStarTrajectoryGenerator.generateTrajectory(path).toString());
+    //}
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
