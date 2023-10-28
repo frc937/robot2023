@@ -5,6 +5,7 @@ package frc.robot.subsystems.arm;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -45,6 +46,7 @@ public class ArmShoulder extends SubsystemBase {
     talon.configClearPositionOnLimitR(Constants.Arm.AUTO_ZERO_REVERSE_LIMIT_SHOULDER, 0);
     talon.setSensorPhase(Constants.Arm.INVERTED_TALON_SENSOR_ARM_SHOULDER);
     talon.setInverted(Constants.Arm.INVERTED_TALON_ARM_SHOULDER);
+    talon.setNeutralMode(NeutralMode.Brake);
     talon.config_kP(0, Constants.Arm.ShoulderPID.kP);
     talon.config_kI(0, Constants.Arm.ShoulderPID.kI);
     talon.config_kD(0, Constants.Arm.ShoulderPID.kD);

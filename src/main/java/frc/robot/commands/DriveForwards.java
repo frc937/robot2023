@@ -25,7 +25,7 @@ public class DriveForwards extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.moveTank(0.5, 0.5);
+    drivetrain.moveTank(0.8, 0.8);
   }
 
   // Called once the command ends or is interrupted.

@@ -132,7 +132,7 @@ public class RobotContainer {
     SmartDashboard.putData("Choose auto", autoChooser);
 
     compilationArm.setDefaultCommand(manualArm);
-    driveSubsystem.setDefaultCommand(driveRO);
+    driveSubsystem.setDefaultCommand(driveFO);
   }
 
   public Pose containerGetArmPose() {
