@@ -372,6 +372,7 @@ public class Drive extends SubsystemBase {
         EvilUnitConverter.metersPerSecondToEncoderTicksPer100ms(wheelSpeeds.rightMetersPerSecond);
     left.set(ControlMode.Velocity, leftSetpoint);
     right.set(ControlMode.Velocity, rightSetpoint);
+    System.out.println("I think I'm at: " + whereTheHeckAreWe.getEstimatedPosition());
   }
 
   /**
