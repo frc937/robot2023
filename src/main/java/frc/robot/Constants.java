@@ -355,13 +355,17 @@ public final class Constants {
 
   public static class Trajectories {
     public static final Trajectory LOWER_COMMUNITY_TO_LOADING_ZONE =
-        Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/LC2LZ.wpilib.json");
+        Team937TrajectoryUtils.generateTrajectory(
+            "/home/lvuser/deploy/pathplanner/generatedJSON/LC2LZ.wpilib.json");
     public static final Trajectory LOADING_ZONE_TO_LOWER_COMMUNITY =
-        Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/LZ2LC.wpilib.json");
+        Team937TrajectoryUtils.generateTrajectory(
+            "/home/lvuser/deploy/pathplanner/generatedJSON/LZ2LC.wpilib.json");
     public static final Trajectory LOADING_ZONE_TO_UPPER_COMMUNITY =
-        Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/LZ2UC.wpilib.json");
+        Team937TrajectoryUtils.generateTrajectory(
+            "/home/lvuser/deploy/pathplanner/generatedJSON/LZ2UC.wpilib.json");
     public static final Trajectory UPPER_COMMUNITY_TO_LOADING_ZONE =
-        Team937TrajectoryUtils.generateTrajectory("/pathplanner/JSON/UC2LZ.wpilib.json");
+        Team937TrajectoryUtils.generateTrajectory(
+            "/home/lvuser/deploy/pathplanner/generatedJSON/UC2LZ.wpilib.json");
   }
 
   /**
