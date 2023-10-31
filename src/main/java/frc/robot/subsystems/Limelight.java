@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.networktables.DoubleArraySubscriber;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.positioning.Pose;
 
@@ -56,10 +58,17 @@ public class Limelight extends SubsystemBase {
     txSubscriber = NetworkTableInstance.getDefault().getDoubleTopic(fmtPath("tx")).subscribe(0.0);
     tySubscriber = NetworkTableInstance.getDefault().getDoubleTopic(fmtPath("ty")).subscribe(0.0);
     taSubscriber = NetworkTableInstance.getDefault().getDoubleTopic(fmtPath("ta")).subscribe(0.0);
-    botposSubscriber =
-        NetworkTableInstance.getDefault()
-            .getDoubleArrayTopic(fmtPath("botpose"))
-            .subscribe(new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+    if (DriverStation.getAlliance() == Alliance.Blue) {
+      botposSubscriber =
+          NetworkTableInstance.getDefault()
+              .getDoubleArrayTopic(fmtPath("botpose_wpiblue"))
+              .subscribe(new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+    } else {
+      botposSubscriber =
+          NetworkTableInstance.getDefault()
+              .getDoubleArrayTopic(fmtPath("botpose_wpired"))
+              .subscribe(new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
+    }
   }
 
   /* now its time for getter method chaingun, which I have to write manually because VS Code */
