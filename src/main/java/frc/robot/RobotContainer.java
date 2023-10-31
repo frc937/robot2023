@@ -154,7 +154,29 @@ public class RobotContainer {
 
     controller.leftBumper().whileTrue(new InstantCommand(driveSubsystem::printPoses));
 
-    controller.y().toggleOnTrue(driveFO);
+    controller
+        .a()
+        .whileTrue(
+            new TrackTrajectory(
+                Constants.Trajectories.LOADING_ZONE_TO_UPPER_COMMUNITY, driveSubsystem));
+
+    controller
+        .b()
+        .whileTrue(
+            new TrackTrajectory(
+                Constants.Trajectories.LOADING_ZONE_TO_LOWER_COMMUNITY, driveSubsystem));
+
+    controller
+        .x()
+        .whileTrue(
+            new TrackTrajectory(
+                Constants.Trajectories.UPPER_COMMUNITY_TO_LOADING_ZONE, driveSubsystem));
+
+    controller
+        .y()
+        .whileTrue(
+            new TrackTrajectory(
+                Constants.Trajectories.LOWER_COMMUNITY_TO_LOADING_ZONE, driveSubsystem));
 
     controller.x().whileTrue(demoTrajectoryTrackingCommand);
 
