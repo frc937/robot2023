@@ -25,6 +25,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -45,6 +47,8 @@ public class Drive extends SubsystemBase {
   private AHRS gyroscope;
 
   private LimelightManager limelightManager;
+
+  private Field2d field;
 
   /** Creates a new drivetrain using IDs from {@link Constants.Drive}. */
   public Drive(LimelightManager limelightManager) {
@@ -133,6 +137,9 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Drive P", 0);
     SmartDashboard.putNumber("Drive I", 0);
     SmartDashboard.putNumber("Drive D", 0);*/
+
+    field = new Field2d();
+    SmartDashboard.putData(field);
   }
 
   /** Class to handle converting m/s across the ground to encoder ticks/100ms */
@@ -430,5 +437,7 @@ public class Drive extends SubsystemBase {
         whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), Timer.getFPGATimestamp());
       }
     }
+
+    field.setRobotPose(whereTheHeckAreWe.getEstimatedPosition());
   }
 }
