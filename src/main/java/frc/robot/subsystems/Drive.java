@@ -390,6 +390,15 @@ public class Drive extends SubsystemBase {
   }
 
   /**
+   * Sets the trajectory that shows on the field widget on SmartDash/Shuffleboard
+   *
+   * @param trajectory The trajectory to show
+   */
+  public void setSmartDashTrajectory(Trajectory trajectory) {
+    field.getObject("traj").setTrajectory(trajectory);
+  }
+
+  /**
    * Returns true if the ramseteController is at its reference point, or in other words, done
    * tracking its trajectory
    *

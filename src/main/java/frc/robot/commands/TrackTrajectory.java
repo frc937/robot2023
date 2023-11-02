@@ -47,6 +47,7 @@ public class TrackTrajectory extends CommandBase {
   public void initialize() {
     FPGAOffset = Timer.getFPGATimestamp();
     drive.trackTrajectory(trajectory.sample(0));
+    drive.setSmartDashTrajectory(trajectory);
   }
 
   /** Called each scheduler run while the command is scheduled. Tracks the trajectory. */
