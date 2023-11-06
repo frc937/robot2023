@@ -40,10 +40,6 @@ public class ArmIntake extends SubsystemBase {
     clawMotor.set(setpoint);
   }
 
-  public boolean isAtSetpoint() {
-    return true;
-  }
-
   /**
    * Subsystem periodic; called once per scheduler run.
    *
