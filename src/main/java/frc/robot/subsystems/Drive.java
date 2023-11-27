@@ -1,6 +1,13 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+
+/*
+ * Asimov's Laws:
+ * The First Law: A robot may not injure a human being or, through inaction, allow a human being to come to harm.
+ * The Second Law: A robot must obey the orders given it by human beings except where such orders would conflict with the First Law.
+ * The Third Law: A robot must protect its own existence as long as such protection does not conflict with the First or Second Law.
+ */
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -18,6 +25,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -38,6 +47,8 @@ public class Drive extends SubsystemBase {
   private AHRS gyroscope;
 
   private LimelightManager limelightManager;
+
+  private Field2d field;
 
   /** Creates a new drivetrain using IDs from {@link Constants.Drive}. */
   public Drive(LimelightManager limelightManager) {
@@ -126,6 +137,9 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Drive P", 0);
     SmartDashboard.putNumber("Drive I", 0);
     SmartDashboard.putNumber("Drive D", 0);*/
+
+    field = new Field2d();
+    SmartDashboard.putData(field);
   }
 
   /** Class to handle converting m/s across the ground to encoder ticks/100ms */
@@ -376,6 +390,15 @@ public class Drive extends SubsystemBase {
   }
 
   /**
+   * Sets the trajectory that shows on the field widget on SmartDash/Shuffleboard
+   *
+   * @param trajectory The trajectory to show
+   */
+  public void setSmartDashTrajectory(Trajectory trajectory) {
+    field.getObject("traj").setTrajectory(trajectory);
+  }
+
+  /**
    * Returns true if the ramseteController is at its reference point, or in other words, done
    * tracking its trajectory
    *
@@ -423,5 +446,7 @@ public class Drive extends SubsystemBase {
         whereTheHeckAreWe.addVisionMeasurement(limelight.getBotpose2d(), Timer.getFPGATimestamp());
       }
     }
+
+    field.setRobotPose(whereTheHeckAreWe.getEstimatedPosition());
   }
 }
