@@ -81,6 +81,10 @@ public class ArmExtender extends SubsystemBase {
     return extenderAtSetpoint;
   }
 
+  private double extenderCompensatedFeedForward(ArmExtender armExtender) {
+    if (armExtender.getLength() >= )
+  }
+
   /**
    * Directs arm towards setpoint. Since this is the periodic method, this is called every time the
    * scheduler runs.
@@ -104,6 +108,8 @@ public class ArmExtender extends SubsystemBase {
     if (percentOutput != null) {
       winch.set(rateLimiter.calculate(percentOutput));
     }
+
+    System.out.println("Extender length: " + getLength());
   }
 
   public void setArmSpeed(double speed) {
