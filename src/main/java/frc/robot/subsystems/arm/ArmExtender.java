@@ -88,9 +88,9 @@ public class ArmExtender extends SubsystemBase {
     return extenderAtSetpoint;
   }
 
-  private double extenderCompensatedFeedForward(ArmExtender armExtender) {
+  /*private double extenderCompensatedFeedForward(ArmExtender armExtender) {
     if (armExtender.getLength() >= )
-  }
+  }*/
 
   /**
    * Directs arm towards setpoint. Since this is the periodic method, this is called every time the
