@@ -208,9 +208,7 @@ public final class Constants {
     public static final double SPEED_ARM_SHOULDER_HOMING = 0.5;
     public static final double SPEED_ARM_BASE_HOMING = 0.5;
 
-    public static class StepThresholds {
-      
-    }
+    public static class StepThresholds {}
 
     public static class Intake {
       public static final int ID_TALON_ARM_CLAW = 0; /* This is actually a Spark */
