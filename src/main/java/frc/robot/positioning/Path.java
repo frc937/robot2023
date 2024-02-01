@@ -8,24 +8,37 @@
  * The Second Law: A robot must obey the orders given it by human beings except where such orders would conflict with the First Law.
  * The Third Law: A robot must protect its own existence as long as such protection does not conflict with the First or Second Law.
  */
-package frc.robot;
+package frc.robot.positioning;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import java.util.ArrayList;
 
-/**
- * Do NOT add any static variables to this class, or any initialization at all. Unless you know what
- * you are doing, do not modify this file except to change the parameter class to the startRobot
- * call.
- */
-public final class Main {
-  private Main() {}
+/** Path object for A star path planning. */
+public class Path {
+  private ArrayList<Double[]> pathList;
+  private boolean generatedPath;
 
   /**
-   * Main initialization function. Do not perform any initialization here.
-   *
-   * <p>If you change your main robot class, change the parameter type.
+   * @return the pathList
    */
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
+  public ArrayList<Double[]> getPathList() {
+    return this.pathList;
+  }
+
+  /**
+   * Checks if the path is generated
+   *
+   * @return (true/false) (path is/isn't generated)
+   */
+  public boolean isPathGenerated() {
+    return this.generatedPath;
+  }
+
+  public Path() {
+    generatedPath = false;
+  }
+
+  public Path(ArrayList<Double[]> pathList) {
+    this.pathList = pathList;
+    this.generatedPath = true;
   }
 }

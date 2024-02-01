@@ -1,0 +1,108 @@
+{
+  "waypoints": [
+    {
+      "anchorPoint": {
+<<<<<<< HEAD
+        "x": 15.57604404792143,
+        "y": 6.714890162419213
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 13.998029939061134,
+        "y": 6.714890162419213
+=======
+        "x": 15.0,
+        "y": 7.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 13.08003947861392,
+        "y": 7.000000000000001
+>>>>>>> 71c4dd6 (Created some path JSons)
+      },
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+<<<<<<< HEAD
+      "isLocked": false,
+=======
+      "isLocked": true,
+>>>>>>> 71c4dd6 (Created some path JSons)
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+<<<<<<< HEAD
+        "x": 8.255759549713543,
+        "y": 6.961049066195355
+      },
+      "prevControl": {
+        "x": 8.339726120424464,
+        "y": 5.716105484294302
+      },
+      "nextControl": {
+        "x": 8.339726120424464,
+        "y": 5.716105484294302
+      },
+      "holonomicAngle": 0,
+      "isReversal": true,
+      "velOverride": null,
+      "isLocked": false,
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    },
+    {
+      "anchorPoint": {
+        "x": 2.238870500310445,
+        "y": 4.681368268986538
+      },
+      "prevControl": {
+        "x": 4.17079965789871,
+        "y": 4.681368268986539
+=======
+        "x": 2.25,
+        "y": 4.6
+      },
+      "prevControl": {
+        "x": 6.425589831108956,
+        "y": 4.599999999999999
+>>>>>>> 71c4dd6 (Created some path JSons)
+      },
+      "nextControl": null,
+      "holonomicAngle": 0,
+      "isReversal": false,
+      "velOverride": null,
+<<<<<<< HEAD
+      "isLocked": false,
+=======
+      "isLocked": true,
+>>>>>>> 71c4dd6 (Created some path JSons)
+      "isStopPoint": false,
+      "stopEvent": {
+        "names": [],
+        "executionBehavior": "parallel",
+        "waitBehavior": "none",
+        "waitTime": 0
+      }
+    }
+  ],
+  "maxVelocity": null,
+  "maxAcceleration": null,
+<<<<<<< HEAD
+  "isReversed": true,
+=======
+  "isReversed": false,
+>>>>>>> 71c4dd6 (Created some path JSons)
+  "markers": []
+}

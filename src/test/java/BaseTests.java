@@ -8,24 +8,17 @@
  * The Second Law: A robot must obey the orders given it by human beings except where such orders would conflict with the First Law.
  * The Third Law: A robot must protect its own existence as long as such protection does not conflict with the First or Second Law.
  */
-package frc.robot;
+import org.junit.jupiter.api.Test;
 
-import edu.wpi.first.wpilibj.RobotBase;
-
-/**
- * Do NOT add any static variables to this class, or any initialization at all. Unless you know what
- * you are doing, do not modify this file except to change the parameter class to the startRobot
- * call.
- */
-public final class Main {
-  private Main() {}
-
-  /**
-   * Main initialization function. Do not perform any initialization here.
-   *
-   * <p>If you change your main robot class, change the parameter type.
-   */
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
+public class BaseTests {
+  @Test
+  public void TestTests() {
+    System.out.println("Test :)");
+    assert true;
   }
+
+  /*@Test
+  public void TestAutoTasks() {
+    new RobotContainer();
+  }*/
 }

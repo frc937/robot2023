@@ -10,22 +10,26 @@
  */
 package frc.robot;
 
-import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.I2C.Port;
 
-/**
- * Do NOT add any static variables to this class, or any initialization at all. Unless you know what
- * you are doing, do not modify this file except to change the parameter class to the startRobot
- * call.
- */
-public final class Main {
-  private Main() {}
+/** Add your docs here. */
+public class TCA9548A {
+  int portNum;
+  I2C multiplexer;
 
-  /**
-   * Main initialization function. Do not perform any initialization here.
-   *
-   * <p>If you change your main robot class, change the parameter type.
-   */
-  public static void main(String... args) {
-    RobotBase.startRobot(Robot::new);
+  public TCA9548A(int portNum) {
+    if (portNum > 7 || portNum < 0) return;
+    this.portNum = 0x70 + portNum;
+    multiplexer = new I2C(Port.kMXP, 0x70 + portNum);
+  }
+
+  public TCA9548A() {
+    this(0); /* Default, this is the port this year's bot uses */
+  }
+
+  public void setBus(int busNumber) {
+    if (busNumber >= 8 || busNumber < 0) return;
+    multiplexer.write(portNum, 1 << busNumber);
   }
 }

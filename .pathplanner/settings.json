@@ -1,0 +1,14 @@
+{
+<<<<<<< HEAD
+  "robotWidth": 0.7366,
+  "robotLength": 0.7366,
+  "holonomicMode": false,
+  "generateJSON": false,
+=======
+  "robotWidth": 0.74,
+  "robotLength": 0.74,
+  "holonomicMode": false,
+  "generateJSON": true,
+>>>>>>> 71c4dd6 (Created some path JSons)
+  "generateCSV": false
+}

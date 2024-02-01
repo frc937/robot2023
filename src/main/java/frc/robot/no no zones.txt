@@ -1,0 +1,73 @@
+no no zones:
+  when on blue alliance:
+    red substation:
+      rect((300, 0), (635, 128))
+      rect((300, 0), (0, 252))
+    red community:
+      rect((1582, 252), (1228, 402))
+      rect((1582, 402), (1127, 800))
+  when on red alliance:
+    blue substation:
+      rect((1282, 0), (947, 128))
+      rect((1282, 0), (1582, 252))
+    blue community:
+      rect((0, 252), (300, 402))
+      rect((0, 402), (455, 800))
+/* the cones/cube stations and human shelves are counted from the top of the map down */ 
+POIs:
+  when on blue alliance:
+    blue charge station:
+      rect((256, 402), (449, 649))
+    blue cone 1:
+      point(176, 498)
+    blue cube 1: 
+      point(176, 442)
+    blue cone 2: 
+      point(176, 387)
+    blue cone 3:
+      point(176, 331)
+    blue cube 2:
+      point(176, 275)
+    blue cone 4:
+      point(176, 219)
+    blue cone 5:
+      point(176, 163)
+    blue cube 3:
+      point(176, 107)
+    blue cone 6:
+      point(176, 51)
+    blue human shelf 1:
+      point(1551, 736)
+    blue human shelf 2:
+      point(1551, 614)
+    blue floor pick-up: 
+      point(1219, 756)
+
+POI
+  when on red alliance:
+    red charge station:
+      rect((1326, 402), (1133, 649))
+    red cone 1:
+      point(1477, 498)
+    red cube 1:
+      point(1477, 442)
+    red cone 2:
+      point(1477, 387)
+    red cone 3:
+      point(1477, 331)
+    red cube 2:
+      point(1477, 176)
+    red cone 4:
+      point(1477, 219)
+    red cone 5:
+      point(1477, 163)
+    red cube 3:
+      point(1477, 107)
+    red cone 6:
+      point(1477, 51)
+    red human shelf 1:
+      point(103, 736)
+    red human shelf 2:
+      point(103, 614)
+    red floor pick-up:
+      point(230, 756)
